@@ -1,0 +1,39 @@
+
+Ieee1609Dot2LaMaError
+{iso(1) identified-organization(3) ieee(111) 
+standards-association-numbered-series-standards(2) wave-stds(1609)  
+dot2(2) scms(2) errors(2) la-ma(9)}
+
+DEFINITIONS AUTOMATIC TAGS ::= BEGIN
+
+EXPORTS ALL;
+
+LaMaError ::= CHOICE {
+  la-ma-base-error          LaMaBaseErrorCode,
+  la-ma-linkage-info-error  LaMaLinkageInfoErrorCode,
+  la-ma-linkage-seed-error  LaMaLinkageSeedErrorCode,
+  ...
+}
+
+LaMaBaseErrorCode ::= ENUMERATED {
+  noMAAuthorizationSignature,
+  invalidMAAuthorizationSignature,
+  numberOfRequestsExceeded,
+  noSecureConnectionToRequestor,
+  ...
+}
+
+LaMaLinkageInfoErrorCode ::= ENUMERATED {
+  atLeastOnePrelinkageValueUnknown,
+  allPrelinkageValuesUnknown,
+  onlyOnePrelinkageValuePresented,
+  ...
+}
+
+LaMaLinkageSeedErrorCode ::= ENUMERATED {
+  linkageChainIdentifierUnknown,
+  ...
+}
+
+
+END

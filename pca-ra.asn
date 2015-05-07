@@ -1,0 +1,327 @@
+--<OSS.UNBOUNDED SEQUENCE OF>--
+--<OSS.UNBOUNDED UTF8String>--
+--<OSS.UNBOUNDED IA5String>--
+--<OSS.UNBOUNDED OCTET STRING>--
+--<OSS.UNBOUNDED BIT STRING>--
+--<OSS.LONG>--
+
+Ieee1609Dot2PcaRaInterface
+{iso(1) identified-organization(3) ieee(111) 
+standards-association-numbered-series-standards(2) wave-stds(1609) dot2(2) 
+scms(2) interfaces(1) pca-ra(15)}
+
+DEFINITIONS AUTOMATIC TAGS ::= BEGIN 
+
+EXPORTS ALL;
+ 
+
+IMPORTS 
+  Duration,
+  EccNistP256CurvePoint,
+  GroupLinkageValue,
+  HashedId8,
+  LinkageValue,
+  Opaque, 
+  SequenceOfPsidSsp,
+  Signature,
+  SubjectAssurance,
+  GeographicRegion,
+  Time32,
+  Uint8,
+  Uint16,
+  Uint32,
+  EccNistP256CurvePrivateKeyReconstruction
+FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111) 
+    standards-association-numbered-series-standards(2) wave-stds(1609) dot2(2)
+    base(1) base-types(2)}
+
+  Certificate,
+  CertificateType,
+  Ieee1609Dot2Data,
+  RecipientInfo,
+  SignedData,
+  SignerIdentifier,
+  SymmetricCiphertext,
+  ToBeSignedCertificate
+FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111) 
+    standards-association-numbered-series-standards(2) wave-stds(1609) dot2(2)
+    base(1) schema(1)}
+
+  EncryptedPLV,
+  EncryptedGPLV,
+  IValue,
+  LaHostnameId,
+  RaHostnameId,
+  PcaHostnameId,
+  SecurityMgmtPsid
+FROM Ieee1609dot2ScmsBaseTypes {iso(1) identified-organization(3) ieee(111)
+    standards-association-numbered-series-standards(2) wave-stds(1609) dot2(2)
+    scms(2) interfaces(1) base-types(2)}
+
+  ScopedPcaRaError
+FROM Ieee1609dot2ScmsError {iso(1) identified-organization(3) ieee(111)
+    standards-association-numbered-series-standards(2) wave-stds(1609) dot2(2)
+    scms(2) errors(2) complete(1)}
+
+;
+
+--
+-- All message types for the PCA-RA interface PDU
+--
+PcaRaInterfacePDU::= CHOICE {
+  raPcaCertRequest   RaPcaCertRequestMsg,
+  pcaRaCertResponse  PcaRaCertResponseMsg,
+  ...
+}
+
+--
+-- Request certificate message sent by RA to PCA
+--
+RaPcaCertRequestMsg ::= SEQUENCE {
+  version           Uint8(1),
+  raId              RaHostnameId,
+  cert-request-info CHOICE {
+    pseudonym-cert-req     PseudonymCertRequestInfo,
+    auth-cert-req          AuthCertRequestInfo,
+    ...
+  }
+}
+
+
+
+
+--
+-- OBE Pseudonym Certificate info sent in the request certificate message
+-- This version is only for implicit certs using butterfly keys. If other
+-- versions of pseudonym cert requests are developed with no butterfly keys
+-- or for explicit certs, that can be handled by defining an additional
+-- CertRequestInfo type within RaPcaCertRequestMsg. In particular, this 
+-- doesn't allow pseudonym certs to have encryption keys, although it would
+-- in principle be possible to support this if the CA added a value to the
+-- encryption key as well as modifying the signing key. It's probably best
+-- for pseudonymous devices that want encrypted responses to do it via a 
+-- response encryption key in the SignedData anyway.
+--
+
+PseudonymCertRequestInfo ::= SEQUENCE {
+
+  --
+  -- these fields go directly into the cert
+  --
+
+  psidSsp                           SequenceOfPsidSsp,
+  performanceAssuranceLevel         SubjectAssurance OPTIONAL,
+  region                            GeographicRegion OPTIONAL,
+  iValue                            IValue,
+
+  --
+  -- used to create material that goes in the cert but not included in the
+  -- cert directly
+  --
+
+  pca-id                 PcaHostnameId,
+  sig-butterfly-key-B    EccNistP256CurvePoint,
+  la1-id                 LaHostnameId,
+  la2-id                 LaHostnameId,
+  enc-plv1               EncryptedPLV,
+  enc-plv2               EncryptedPLV,
+  group-linkage-info     SEQUENCE {
+      gla1-id                LaHostnameId,
+      gla2-id                LaHostnameId,
+      enc-gplv1              EncryptedGPLV,
+      enc-gplv2              EncryptedGPLV 
+  } OPTIONAL,
+
+  -- used to encrypt the response
+  enc-butterfly-key-H    EccNistP256CurvePoint
+}
+
+--
+-- Authorization Certificate info sent in the request certificate message
+--
+AuthCertRequestInfo ::= SEQUENCE {
+  pca-id                 PcaHostnameId,
+  type                   CertificateType,
+  i-value                IValue OPTIONAL, -- if included -> butterfly keys
+
+  to-be-signed-cert   ToBeSignedCertificate( 
+    WITH COMPONENTS { ...,  
+      crlSeries(0), -- PCA inserts crlSeries value
+      appPermissions -- Identification certificate request PSID
+    }
+  ),
+
+  response-encryption-key EccNistP256CurvePoint
+}
+
+
+--
+-- Response to certificate request message sent by PCA to RA
+--
+PcaRaCertResponseMsg ::= SEQUENCE {
+  version     Uint8(1),
+  requestHash HashedId8,  -- hash of the original request
+  pca-id      PcaHostnameId,
+  reply       CHOICE {      
+      success      CHOICE {
+          signed-encrypted  CHOICE {
+              butterfly         SignedEncryptedButterflyCertificateResponse,
+              single-key        SignedEncryptedSingleKeyCertificateResponse
+          },
+          raw               PlaintextCertificateResponse
+      },
+      failure ScopedPcaRaError
+  },
+  ...
+}
+
+--
+-- Since this looks a little complicated, here's some explanation.
+-- 
+-- SignedEncrypted responses are signed 1609.2 data, containing encrypted 
+-- 1609.2 data, which decrypts to a DecryptedCertificateData containing the
+-- PlaintextCertificateResponse.
+--
+-- The difference between the two types of SignedEncrypted*CertificateResponse,
+-- Butterfly and SingleKey, is that the Butterfly response contains i and the
+-- Single-key version doesn't.
+
+-- We implement this as follows.
+
+-- At the Signed level, we:
+-- * Define ToBeSignedEncryptedCertificateResponse, which is all the fields
+--   relevant to both types of response plus optional i-value
+-- * Define ToBeSignedEncrypted*CertificateResponse, with * = "Butterfly" or
+--   "SingleKey", as a profile of ToBeSignedEncryptedCertificateResponse with 
+--   i-value either present or absent.
+-- * Define the SignedEncrypted*CertificateResponse types, which differ only
+--   in the ToBeSignedEncrypted*CertificateResponse they contain.
+
+-- At the Encrypted level, the EncryptedCertificateData type is a 1609.2 data
+-- containing a single recipient info which is encrypted to a response 
+-- encryption key.
+
+-- The EncryptedCertificateData decrypts to a DecryptedCertificateData, which
+-- is an unsecured 1609.2 data containing a PlaintextCertificateResponse. (It's
+-- a 1609.2 data to maintain the convention that all EncryptedData decrypts to
+-- a 1609.2 data).
+
+-- The PlaintextCertificateResponse distinguishes between: (implicit/explicit)
+-- and (butterfly/single-key) as all four combinations are potentially legal 
+-- and a receiver needs to know which combination applies in order to recover 
+-- the correct private key.
+
+SignedEncryptedButterflyCertificateResponse ::= Ieee1609Dot2Data (WITH COMPONENTS {..., 
+  content (WITH COMPONENTS {
+    signedData  (WITH COMPONENTS {..., 
+      tbsData (WITH COMPONENTS {
+        payload (WITH COMPONENTS {..., 
+          data (CONTAINING ToBeSignedEncryptedButterflyCertificateResponse) PRESENT,
+          extDataHash ABSENT
+        }),
+        headerInfo (WITH COMPONENTS {..., 
+          psid (SecurityMgmtPsid),
+          generationTime ABSENT,
+          expiryTime ABSENT,
+          generationLocation ABSENT,
+          missingCertIdentifier ABSENT,
+          missingCrlIdentifier ABSENT,
+          encryptionKey ABSENT
+        })
+      })
+    })
+  })
+})
+
+
+SignedEncryptedSingleKeyCertificateResponse ::= Ieee1609Dot2Data (WITH COMPONENTS {..., 
+  content (WITH COMPONENTS {
+    signedData  (WITH COMPONENTS {..., 
+      tbsData (WITH COMPONENTS {
+        payload (WITH COMPONENTS {..., 
+          data (CONTAINING ToBeSignedEncryptedSingleKeyCertificateResponse) PRESENT,
+          extDataHash ABSENT
+        }),
+        headerInfo (WITH COMPONENTS {..., 
+          psid (SecurityMgmtPsid),
+          generationTime ABSENT,
+          expiryTime ABSENT,
+          generationLocation ABSENT,
+          missingCertIdentifier ABSENT,
+          missingCrlIdentifier ABSENT,
+          encryptionKey ABSENT
+        })
+      })
+    })
+  })
+})
+
+
+ToBeSignedEncryptedCertificateResponse ::= SEQUENCE {
+    psidSsp         SequenceOfPsidSsp,
+    iValue          IValue OPTIONAL,
+    expiration      Time32,     
+    lifetime        Duration,   
+    encrypted-cert  EncryptedCertificateData
+}
+
+ToBeSignedEncryptedSingleKeyCertificateResponse ::= 
+    ToBeSignedEncryptedCertificateResponse (WITH COMPONENTS { ...,
+        iValue ABSENT
+    })
+
+ToBeSignedEncryptedButterflyCertificateResponse ::= 
+    ToBeSignedEncryptedCertificateResponse (WITH COMPONENTS { ...,
+        iValue PRESENT
+    })
+
+
+-- Decrypts to a DecryptedCertificateData
+EncryptedCertificateData ::= Ieee1609Dot2Data (WITH COMPONENTS {
+  content (WITH COMPONENTS {..., 
+    encryptedData (WITH COMPONENTS {
+      ...,
+      recipients (SIZE(1) INTERSECTION (WITH COMPONENT (
+        RecipientInfo (WITH COMPONENTS {rekRecipInfo})
+      )))
+    })
+  })
+})
+
+DecryptedCertificateData ::= Ieee1609Dot2Data (WITH COMPONENTS {
+    content (WITH COMPONENTS {..., 
+      unsecuredData (CONTAINING PlaintextCertificateResponse
+    )
+  })
+})
+
+PlaintextCertificateResponse ::= CHOICE {
+    implicit-butterfly   ImplicitCertResponse,
+    implicit             ImplicitCertResponse,
+    explicit-butterfly   ButterflyExplicitCertResponse,
+    explicit             Certificate
+}
+
+-- Provided certificate and private key reconstruction value 
+ImplicitCertResponse ::= SEQUENCE {
+    certificate             Certificate (WITH COMPONENTS { ...,
+        type(implicit),
+        issuer(WITH COMPONENTS {ecdsaNistP256AndDigest})
+    }),
+    priv-key-reconstruction-s EccNistP256CurvePrivateKeyReconstruction
+}
+
+-- Provided certificate and private key reconstruction value 
+ButterflyExplicitCertResponse ::= SEQUENCE {
+    certificate             Certificate (WITH COMPONENTS { ...,
+        type(explicit),
+        issuer(WITH COMPONENTS {ecdsaNistP256AndDigest})
+    }),
+    priv-key-reconstruction-c EccNistP256CurvePrivateKeyReconstruction
+}
+
+
+
+
+
+END

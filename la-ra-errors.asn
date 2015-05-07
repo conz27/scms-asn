@@ -1,0 +1,27 @@
+
+Ieee1609Dot2LaRaError
+{iso(1) identified-organization(3) ieee(111) 
+standards-association-numbered-series-standards(2) wave-stds(1609)  
+dot2(2) scms(2) errors(2) la-ra(11)}
+
+DEFINITIONS AUTOMATIC TAGS ::= BEGIN
+
+EXPORTS ALL;
+
+LaRaError ::= CHOICE {
+	la-ra	LaRaErrorCode,
+	...
+}
+
+LaRaErrorCode ::= ENUMERATED {
+  invalidPcaKey,        -- no valid key for encryption to PCA available
+  invalidIMin,          -- iMin is invalid
+  invalidIMax,          -- iMax is invalid
+  invalidContinueChain, -- continue chain is neither 0 nor 1
+  invalidLinkagechainId,-- linkagechainId is invalid
+  invalidJMax,          -- invalid jMax value (e.g. too large)
+  ...
+}
+
+
+END

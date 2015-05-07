@@ -1,0 +1,17 @@
+
+Ieee1609Dot2ScmsComponentCertificateManagementError
+{iso(1) identified-organization(3) ieee(111) 
+standards-association-numbered-series-standards(2) wave-stds(1609)  
+dot2(2) scms(2) errors(2) component-certificate-management (3)}
+
+DEFINITIONS AUTOMATIC TAGS ::= BEGIN
+
+EXPORTS ALL;
+
+ComponentCertificateManagementError ::= ENUMERATED {
+  baseline(1),
+  ...
+}
+
+
+END

@@ -1,0 +1,43 @@
+
+Ieee1609Dot2EndEntityRaError
+{iso(1) identified-organization(3) ieee(111) 
+standards-association-numbered-series-standards(2) wave-stds(1609)  
+dot2(2) scms(2) errors(2) ee-ra (8)}
+
+DEFINITIONS AUTOMATIC TAGS ::= BEGIN
+
+EXPORTS ALL;
+
+EndEntityRaError ::= CHOICE {
+  ee-ra-soft-error          EeRaSoftErrorCode,
+  ee-ra-hard-error          EeRaHardErrorCode,
+  ...
+}
+
+EeRaSoftErrorCode ::= ENUMERATED {
+	-- Device policies out of date, soft error
+	policiesOutOfDateSoft,
+	...
+}
+
+EeRaHardErrorCode ::= ENUMERATED {
+	-- Device policies out of date, hard error
+	policiesOutOfDateHard,
+	-- Device enrollment certificate blacklisted, expired, unauthorized
+	invalidCredentials,
+	-- Device signature invalid
+	invalidSignature,
+	-- Unauthorized request permissions invalid
+	invalidPermissions,
+	-- Malformed provisioning request
+	malformedRequest,
+	-- RA does not service this device
+	raDoesNotService,
+	-- Invalid device system time
+	invalidSystemTime,
+	-- Too many provisioning requests by device
+	tooManyRequests,
+	...
+}
+
+END

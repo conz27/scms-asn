@@ -1,0 +1,151 @@
+--<OSS.UNBOUNDED SEQUENCE OF>--
+--<OSS.UNBOUNDED UTF8String>--
+--<OSS.UNBOUNDED IA5String>--
+--<OSS.UNBOUNDED OCTET STRING>--
+--<OSS.UNBOUNDED BIT STRING>--
+--<OSS.LONG>--
+
+Ieee1609Dot2LaMaInterface
+{iso(1) identified-organization(3) ieee(111) 
+standards-association-numbered-series-standards(2) wave-stds(1609)  
+dot2(2) scms(2) interfaces(1) la-ma(9)}
+
+DEFINITIONS AUTOMATIC TAGS ::= BEGIN 
+
+EXPORTS ALL;
+ 
+IMPORTS 
+
+  Uint8,
+  HashedId8
+FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111) 
+    standards-association-numbered-series-standards(2) wave-stds(1609)  
+    dot2(2) base(1) base-types(2)}
+
+  Countersignature
+FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111) 
+    standards-association-numbered-series-standards(2) wave-stds(1609)  
+    dot2(2) base (1) schema (1)}
+
+  LinkageSeedAndLaId,
+  PreLinkageValue,
+  LinkageChainId,
+  MaHostnameId,
+  LaHostnameId
+FROM Ieee1609dot2ScmsBaseTypes {iso(1) identified-organization(3) ieee(111)
+    standards-association-numbered-series-standards(2) wave-stds(1609) dot2(2)
+    scms(2) interfaces(1) base-types (2)}
+
+  ScopedLaMaLIError,
+  ScopedLaMaLSError
+FROM Ieee1609dot2ScmsError {iso(1) identified-organization(3) ieee(111)
+    standards-association-numbered-series-standards(2) wave-stds(1609) dot2(2)
+    scms(2) errors(2) complete(1)}
+;
+
+
+--
+-- All message types for the LA-MA interface PDU
+--
+
+LaMaInterfacePDU::= CHOICE {
+    maLaLinkageInfoRequest  MaLaLinkageInfoRequestMsg,
+    laMaLinkageInfoResponse LaMaLinkageInfoResponseMsg,
+    maLaLinkageSeedRequest  MaLaLinkageSeedRequestMsg,
+    laMaLinkageSeedResponse LaMaLinkageSeedResponseMsg,
+    ...
+}
+
+--
+-- MA requests linkage information from LA
+--
+MaLaLinkageInfoRequestMsg ::= SEQUENCE {
+    version     Uint8(1),
+    tbs         ToBeSignedLIRequestMsg,
+    -- Size 0 is used when MA creates an initial request to be signed by auditors
+    signatures  SEQUENCE (SIZE (0..MAX)) OF Countersignature
+}
+
+
+ToBeSignedLIRequestMsg ::= SEQUENCE {
+    maId                        MaHostnameId,
+    prelinkageValuesAndFlags    SEQUENCE OF PrelinkageValueAndDontCareFlag,
+    expectedReply               ExpectedReply,
+    ...
+}
+
+
+PrelinkageValueAndDontCareFlag ::= SEQUENCE {
+    plv           PreLinkageValue,
+    dontCareFlag  BOOLEAN    
+}
+
+ExpectedReply ::= ENUMERATED {
+    scalarAnswer,
+    indicesLists
+}
+
+--
+-- LA replies with linkage information (Misbehavior Detection)
+--
+LaMaLinkageInfoResponseMsg ::= SEQUENCE {
+    version       Uint8(1),
+    requestHash   HashedId8,  -- hash of the original request
+    laId          LaHostnameId,
+    linkageInfo   CHOICE {
+       success       LinkageInformation,
+       failure       ScopedLaMaLIError
+    }
+}
+
+LinkageInformation ::= CHOICE {
+    scalar SEQUENCE {
+        matches      INTEGER,
+        lowerBound   BOOLEAN  -- lower bound is used or not
+    },
+    --- indices_list should be optional, not yet implemented!
+    indicesList SEQUENCE {
+        unkownPlv    SEQUENCE OF PreLinkageValue,
+        rejectPlv    SEQUENCE OF PreLinkageValue,
+        assocPlv     SEQUENCE OF SEQUENCE OF PreLinkageValue
+    }
+}
+
+--
+-- MA requests linkage seed from LA (Revocation)
+--
+MaLaLinkageSeedRequestMsg ::= SEQUENCE {
+    version       Uint8(1),
+    tbs           ToBeSignedLSRequestMsg,
+    -- Size 0 is used when MA creates an initial request to be signed by auditors
+    signatures    SEQUENCE (SIZE (0..MAX)) OF Countersignature
+}
+
+ToBeSignedLSRequestMsg ::= SEQUENCE {
+    maId          MaHostnameId,
+    lci           SEQUENCE OF LinkageChainId,
+    ...
+}
+
+--
+-- LA replies with linkage seed (Revocation)
+--
+LaMaLinkageSeedResponseMsg ::= SEQUENCE {
+    version     Uint8(1),
+    requestHash HashedId8,
+    laId        LaHostnameId,
+    lsInfo      SEQUENCE OF LCI2LS
+}
+
+LCI2LS ::= SEQUENCE {
+    lci    LinkageChainId,
+    reply  CHOICE {
+        success LinkageSeedAndLaId,
+        failure ScopedLaMaLSError
+    }
+}
+
+
+
+END
+

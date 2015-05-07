@@ -1,0 +1,40 @@
+
+Ieee1609Dot2MaRaError
+{iso(1) identified-organization(3) ieee(111) 
+standards-association-numbered-series-standards(2) wave-stds(1609)  
+dot2(2) scms(2) errors(2) ma-ra(14)}
+
+DEFINITIONS AUTOMATIC TAGS ::= BEGIN
+
+EXPORTS ALL;
+
+
+MaRaError ::= CHOICE {
+  ma-ra-base-error          MaRaBaseErrorCode,
+  ma-ra-blacklist-error     MaRaBlacklistErrorCode,
+  ma-ra-lci-error           MaRaLCIErrorCode,
+  ...
+}
+
+MaRaBaseErrorCode ::= ENUMERATED {
+	noMAAuthorizationSignature,
+	invalidMAAuthorizationSignature,
+	numberOfRequestsExceeded,
+	noSecureConnectionToRequestor,
+	hpcrIsUnknownToRA,
+	...
+}
+
+MaRaBlacklistErrorCode ::= ENUMERATED {
+	-- HPCR points to already blacklisted certificate
+	alreadyBlacklisted,
+	...
+}
+
+MaRaLCIErrorCode ::= ENUMERATED {
+	noLinkageChainIdentifiersKnownForHPCR,
+	...
+}
+
+
+END

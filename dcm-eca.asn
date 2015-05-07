@@ -1,0 +1,24 @@
+
+Ieee1609Dot2DcmEcaInterface
+{iso(1) identified-organization(3) ieee(111) 
+standards-association-numbered-series-standards(2) wave-stds(1609)  
+dot2(2) scms(2) interfaces(1) dcm-eca (4)}
+
+DEFINITIONS AUTOMATIC TAGS ::= BEGIN
+
+EXPORTS ALL;
+
+IMPORTS 
+  Uint8
+FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111) 
+		standards-association-numbered-series-standards(2) wave-stds(1609)  
+		dot2(2) base(1) base-types(2)}
+;
+
+DcmEcaInterfacePDU::= CHOICE {
+    placeholder Uint8(1),
+    ...
+}
+
+
+END

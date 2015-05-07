@@ -1,0 +1,125 @@
+
+Ieee1609dot2ScmsBaseTypes {iso(1) identified-organization(3) ieee(111)
+standards-association-numbered-series-standards(2) wave-stds(1609)  dot2(2)
+scms (2) interfaces(1) base-types (2)}
+
+DEFINITIONS AUTOMATIC TAGS ::= BEGIN 
+
+EXPORTS ALL;
+ 
+IMPORTS 
+  Hostname,
+  Psid,
+  IValue,
+  Opaque, 
+  Signature,
+  Uint8,
+  Uint16,
+  Uint32
+FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111) 
+    standards-association-numbered-series-standards(2) wave-stds(1609)  
+    dot2(2) base(1) base-types(2)}
+
+  RecipientInfo,
+  EncryptedData,
+  SignerIdentifier
+FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111) 
+    standards-association-numbered-series-standards(2) wave-stds(1609)  
+    dot2(2) base(1) schema(1)}
+
+;
+
+SecurityMgmtPsid ::= Psid(35)  -- PSID = 0x23
+
+EncryptedPLV ::= SEQUENCE {
+    version         Uint8(1),  -- version of EncryptedPLV
+    laId            LaId,      -- identifies which LA created PLV
+    encGroupIndex   OCTET STRING (SIZE(16)) OPTIONAL, -- when decrypted, this is a ToBeEncryptedGroupIndex
+    enc-plv         EncryptedData (WITH COMPONENTS {
+      recipients (SIZE (1) INTERSECTION (WITH COMPONENT (
+        RecipientInfo (WITH COMPONENTS {
+            symmRecipInfo -- Pointer to the used encryption key.
+                          -- The encryption key is identified by the 
+                          -- hash of key agreement (PCA’s initial request) 
+      })))),
+      ciphertext -- if decrypted, this is a ToBeEncryptedPLV structure
+    })
+}
+
+zero8 OCTET STRING ::= '0000000000000000'H
+
+ToBeEncryptedGroupIndex ::= SEQUENCE {
+    padding         OCTET STRING (SIZE(8)) (zero8), -- padding of 64 0-bits
+    groupIdentifier OCTET STRING (SIZE(4)),         -- the 32-bit group identifier
+    j               Uint32
+}
+   
+ToBeEncryptedPLV ::= SEQUENCE {
+    iValue     IValue,
+    plv        PreLinkageValue
+} 
+
+-- Similar to EncryptedPLV
+EncryptedGPLV ::= EncryptedPLV
+
+-- Linkage Chain Identifier (LCI)
+LinkageChainId ::= EncryptedData (WITH COMPONENTS {
+    recipients (SIZE (1) INTERSECTION (WITH COMPONENT (
+        RecipientInfo (WITH COMPONENTS {
+            symmRecipInfo
+    })))),
+    ciphertext -- when decrypted it contains LinkageSeed
+  }  
+)
+
+
+LinkageSeed ::= OCTET STRING (SIZE(16))
+LaId ::= OCTET STRING (SIZE(2)) 
+
+PreLinkageValue ::= OCTET STRING (SIZE(9))
+FullSizeHash ::= OCTET STRING (SIZE(32))
+
+-- Review, matching types of all IDs, except for LaId above. YP
+RaHostnameId  ::= Hostname
+PcaHostnameId ::= Hostname
+MaHostnameId  ::= Hostname
+LaHostnameId  ::= Hostname
+
+-- originally in ma-protocols.asn
+
+--- Hash of Pseudonym Certificate Request
+HPCR            ::= FullSizeHash
+
+
+LinkageSeedAndLaId ::= SEQUENCE {
+	linkageSeed	LinkageSeed,
+	laId		    LaId
+}
+
+SignatureAndSignerIdentifier ::= SEQUENCE {
+	signer 		SignerIdentifier,
+	signature	Signature
+}
+
+PlvAndHostInfo ::= SEQUENCE {
+	prelinkageValue PreLinkageValue,
+	hostname	      Hostname
+}
+
+HPCRAndHostInfo ::= SEQUENCE {
+	hpcr		     HPCR,
+	hostname		 Hostname
+}
+
+LCIAndHostInfo ::= SEQUENCE {
+	iMax            OCTET STRING (SIZE (4)),
+	la1-lci         LinkageChainId,
+	la2-lci         LinkageChainId,
+	la1-id          LaHostnameId,
+	la2-id          LaHostnameId
+}
+
+
+
+
+END

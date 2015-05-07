@@ -1,0 +1,174 @@
+--<OSS.UNBOUNDED SEQUENCE OF>--
+--<OSS.UNBOUNDED UTF8String>--
+--<OSS.UNBOUNDED IA5String>--
+--<OSS.UNBOUNDED OCTET STRING>--
+--<OSS.UNBOUNDED BIT STRING>--
+--<OSS.LONG>--
+
+IEEE1609dot2CrlBaseTypes {iso(1) identified-organization(3) ieee(111) 
+standards-association-numbered-series-standards(2) wave-stds(1609)  
+dot2(2) crl(3) base-types(2)}
+
+DEFINITIONS AUTOMATIC TAGS ::= BEGIN 
+
+EXPORTS ALL;
+ 
+IMPORTS 
+  CrlSeries,
+  EccNistP256CurvePoint,
+  EciesNistP256EncryptedKey,
+  GeographicRegion,
+  HashedId8,
+  HashedId10,
+  IValue,
+  Opaque,
+  PKAlgorithm,
+  Signature,
+  ThreeDLocation,
+  Time32,
+  Time64,
+  Time64WithStandardDeviation,
+  Uint3,
+  Uint8,
+  Uint16, 
+  Uint32,
+  ValidityPeriod
+FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111) 
+    standards-association-numbered-series-standards(2) wave-stds(1609)  
+    dot2(2) base(1) base-types(2)}
+
+  LaId,
+  LinkageSeed
+FROM Ieee1609dot2ScmsBaseTypes {iso(1) identified-organization(3) ieee(111)
+standards-association-numbered-series-standards(2) wave-stds(1609)  dot2(2)
+scms (2) interfaces(1) base-types (2)}
+;
+
+--
+--
+--  CRL contents
+--
+--
+
+CrlContents ::= SEQUENCE {
+    version            Uint8 (1),
+    crl-series         CrlSeries,             --already defined in IEEE 1609-2-schema
+    ca-id              HashedId8,             --defined in IEEE1609dot2BaseTypes
+    issue-date         Time32,                --defined in IEEE1609dot2BaseTypes
+    next-crl           Time32,                --defined in IEEE1609dot2BaseTypes
+    type-specific      CHOICE {
+        tbs-crl               ToBeSignedCrl,            
+        tbs-pseudonym-crl     ToBeSignedPseudonymCrl,
+        ...
+    }
+}    
+
+PseudonymCrlContents ::= CrlContents (WITH COMPONENTS { ...,
+    type-specific(WITH COMPONENTS {tbs-pseudonym-crl})
+})
+
+IndividualCrlContents ::= CrlContents (WITH COMPONENTS { ...,
+    type-specific(WITH COMPONENTS {tbs-crl})
+})
+
+ToBeSignedCrl ::= SEQUENCE {  
+    crl-serial         Uint32,                --defined in IEEE1609dot2BaseTypes
+    expiring-entries   SEQUENCE OF SEQUENCE {
+            id         HashedId10,
+            expiry     Time32
+    },
+    ...
+}
+
+ToBeSignedPseudonymCrl ::= SEQUENCE {  
+    iValue             IValue,
+    index-within-i     Uint8,
+    pseudonyms         PseudonymCrlBody OPTIONAL,              --defined here
+    groups             GroupCrlBody OPTIONAL,
+    ...
+}
+(WITH COMPONENTS {..., pseudonyms PRESENT} |
+ WITH COMPONENTS {..., groups PRESENT})
+
+
+PseudonymCrlBody ::= SEQUENCE OF JMaxGroup
+
+
+JMaxGroup ::= SEQUENCE {
+    jmax              Uint8,
+    contents          SEQUENCE OF LAGroup
+}
+
+LAGroup ::= SEQUENCE {
+    la1-id            LaId,
+    la2-id            LaId,
+    contents          SEQUENCE OF IMaxGroup -- WW review this & fix
+}
+
+IMaxGroup ::= SEQUENCE {
+    i-max-offset      Uint8,
+    contents          SEQUENCE OF IndividualRevocation
+}
+
+
+IndividualRevocation ::= SEQUENCE { 
+    linkage-seed1    LinkageSeed,
+    linkage-seed2    LinkageSeed
+}
+
+GroupCrlBody ::= SEQUENCE OF GroupCrlEntry
+
+
+GroupCrlEntry ::= SEQUENCE {
+    la1-id            LaId,
+    la2-id            LaId,
+    i-max-offset      Uint8,
+    linkage-seed1     LinkageSeed,
+    linkage-seed2     LinkageSeed
+}
+
+--
+--
+-- SSP
+--
+--
+
+-- Notes about ca identifier here:
+-- 1. This identifies the CA on behalf of which the CRL signer can issue CRLs.
+-- 2. The CA that issues the CRL signing certificate has to be either the CA
+--    identified by "ca" or  in the chain leading to "ca'.
+--    2a. This means that that issuing CA has to have PSID 0x24 in its 
+--        "all-ssps" field. This is fine even if it's otherwise a pseudonym
+--        CA: it's just one more byte.
+-- 3. There's a slight break in the model here, as in order to check that 
+--    the SSP is valid, the receiving device needs not only the SSP from the 
+--    cert, but also the issuer ID. For other applications it isn't necessary
+--    to output the issuer ID. is this the API we want?
+-- 4. Is HsshedId8 long enough? It's possible for two CAs under the same issuer
+--    to have the same 8-byte hash. A CRL signer could get approved to issue
+--    CRLs for one of the CAs and use it to issue CRLs for the other. Should
+--    we have something more specific? Hostname? 16 or 32-byte hash? Or should
+--    the issuer just take on the responsibility to check that there are no
+--    collisions (but can it? It doesn't issue all certs in its hierarchy 
+--    and doesn't necessarily even know them).
+
+
+  CrlSsp::= SEQUENCE {
+      version         Uint8(1),
+      ca              HashedId8,
+      crls            SEQUENCE OF PermissibleCrls,
+      ...
+  }
+      
+  PermissibleCrls ::= SEQUENCE {
+      type            CrlType,
+      crlSeries       SEQUENCE OF CrlSeries
+  }
+
+  CrlType::= ENUMERATED {
+      pseudonym,
+      non-pseudonym,
+      ...
+   }
+
+END

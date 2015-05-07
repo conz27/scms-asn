@@ -1,0 +1,264 @@
+
+Ieee1609Dot2EndEntityRaInterface
+{iso(1) identified-organization(3) ieee(111) 
+standards-association-numbered-series-standards(2) wave-stds(1609)  
+dot2(2) scms(2) interfaces(1) ee-ra(8)}
+
+DEFINITIONS AUTOMATIC TAGS ::= BEGIN
+
+EXPORTS ALL;
+
+IMPORTS
+  EccNistP256CurvePoint,
+  Hostname,
+  Signature,
+  HashedId8,
+  Time32,
+  Uint8,
+  Uint16,
+  Uint32
+FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111) 
+    standards-association-numbered-series-standards(2) wave-stds(1609) dot2(2)
+    base(1) base-types(2)}
+
+  Certificate,
+  Ieee1609Dot2Data,
+  ImplicitCertificate
+FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111) 
+    standards-association-numbered-series-standards(2) wave-stds(1609) dot2(2)
+    base(1) schema(1)}
+
+  ScopedEndEntityRaSoftError,
+  ScopedEndEntityRaHardError
+FROM Ieee1609dot2ScmsError {iso(1) identified-organization(3) ieee(111)
+    standards-association-numbered-series-standards(2) wave-stds(1609) dot2(2)
+    scms (2) errors(2) complete(1)}
+
+  SecurityMgmtPsid
+FROM Ieee1609dot2ScmsBaseTypes {iso(1) identified-organization(3) ieee(111)
+    standards-association-numbered-series-standards(2) wave-stds(1609)  dot2(2)
+    scms (2) interfaces(1) base-types (2)}
+
+  SecuredCrl
+FROM IEEE1609dot2Crl {iso(1) identified-organization(3) ieee(111) 
+    standards-association-numbered-series-standards(2) wave-stds(1609) dot2(2)
+    crl(3) protocol(1)}
+
+;
+
+
+EndEntityRaInterfacePDU::= CHOICE {
+    eeRaCertRequest                      EeRaCertRequestMsg,
+    raEeCertResponse                     RaEeCertResponseMsg,
+    eeRaPseudonymCertProvisioningRequest 
+                          EeRaPseudonymCertProvisioningRequestMsg,
+    eeRaPseudonymCertProvisioningRequestWithHardware
+                          EeRaPseudonymCertProvisioningRequestWithHardwareMsg,
+    raEePseudonymCertProvisioningAck     RaEePseudonymCertProvisioningAckMsg,
+    eeRaAuthCertProvisioningRequest      EeRaAuthCertProvisioningRequestMsg,
+    eeRaAuthCertProvisioningRequestWithHardware
+                          EeRaAuthCertProvisioningRequestWithHardwareMsg,
+    raEeAuthCertProvisioningAck          RaEeAuthCertProvisioningAckMsg,
+    ...
+}
+
+EeRaCertRequestMsg ::= SEQUENCE {
+    version         Uint8(1),
+    ...
+}
+
+RaEeCertResponseMsg ::= SEQUENCE {
+    version         Uint8(1),
+  	reply           CHOICE {
+        ack           RaEeCertResponseAck,
+        nack          RaEeCertResponseNack
+    },
+    ...
+}
+
+RaEeCertResponseAck ::= SEQUENCE {
+    raCertificate   Certificate,
+    crl             SecuredCrl,
+    ...
+}
+
+RaEeCertResponseNack ::= SEQUENCE {
+    hardError        ScopedEndEntityRaHardError,
+    ...
+}
+
+-- signed and encrypted before sending, see scms-protocol.asn.
+EeRaPseudonymCertProvisioningRequestBase ::= SEQUENCE {
+    version                 Uint8(1),
+    enrollmentCert          EndEntityEnrollmentPseudonymCertificate,
+    sig-butterfly-seed-key  CHOICE {
+        unauthenticated         EccNistP256CurvePoint,
+        hw-authenticated        SignedEccNistP256Point
+    },
+    enc-butterfly-seed-key  EccNistP256CurvePoint,
+    expansionSign           OCTET STRING (SIZE (16)),
+    expansionEnc            OCTET STRING (SIZE (16)),
+    currenttime             Time32,
+    policyID                OCTET STRING (SIZE (0..32)),
+    ...
+}
+
+
+EeRaPseudonymCertProvisioningRequestMsg ::= 
+    EeRaPseudonymCertProvisioningRequestBase (WITH COMPONENTS {...,
+        sig-butterfly-seed-key (WITH COMPONENTS {unauthenticated})
+    })
+
+
+EeRaPseudonymCertProvisioningRequestWithHardwareMsg ::= 
+    EeRaPseudonymCertProvisioningRequestBase (WITH COMPONENTS {...,
+        sig-butterfly-seed-key (WITH COMPONENTS {hw-authenticated})
+    })
+
+
+SignedEccNistP256Point ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {..., 
+      signedData  (WITH COMPONENTS {..., 
+        tbsData (WITH COMPONENTS {..., 
+          payload (WITH COMPONENTS {..., 
+            data (CONTAINING EccNistP256CurvePoint) PRESENT,
+            extDataHash ABSENT
+          }),
+          headerInfo (WITH COMPONENTS {..., 
+            psid (SecurityMgmtPsid),
+            generationTime ABSENT,
+            expiryTime ABSENT,
+            generationLocation ABSENT,
+            missingCertIdentifier ABSENT,
+            missingCrlIdentifier ABSENT,
+            encryptionKey ABSENT
+          })
+        }),
+        signer (WITH COMPONENTS {
+          certificate (SIZE(1))
+        })
+      })
+    })
+  })
+
+
+
+-- enrollment certificate of the end entity, for pseudonym certificate requests
+EndEntityEnrollmentPseudonymCertificate ::= ImplicitCertificate (WITH COMPONENTS {...,
+      toBeSigned(WITH COMPONENTS {..., 
+          explicitCertReqPermissions PRESENT,
+          canRequestRollover PRESENT
+      })
+  })
+
+-- signed and encrypted before sending, see scms-protocol.asn.
+RaEePseudonymCertProvisioningAckMsg ::= SEQUENCE {
+    version     Uint8(1),
+    -- in case when RA can't calculate hash of the original 
+    -- request due to hardError, zero value should be returned
+    requestHash HashedId8,  -- hash of the original request
+    reply       CHOICE {
+        ack        PseudonymCertProvisioningAck,
+        nack       RARequestNAcknowledge
+    },
+    ...
+}
+
+PseudonymCertProvisioningAck ::= SEQUENCE {
+    certDLTime       Time32,
+    certDLURL        Hostname,
+    softError        ScopedEndEntityRaSoftError OPTIONAL,
+    ...
+}
+
+
+RARequestNAcknowledge ::= SEQUENCE {
+    hardError        ScopedEndEntityRaHardError,
+    ...
+}
+
+
+
+
+-- signed and encrypted before sending, see scms-protocol.asn.
+EeRaAuthCertProvisioningRequestBase ::= SEQUENCE {
+    version          Uint8(1),
+    keys             CHOICE {
+        enc-sign-keys  SEQUENCE {
+            keySign        CHOICE {
+                unauthenticated         EccNistP256CurvePoint,
+                hw-authenticated        SignedEccNistP256Point
+            },
+            keyEnc          EccNistP256CurvePoint
+        },
+        ...
+        -- At some point, we might start supporting butterfly keys for
+        -- authorization certificates
+        --
+        -- butterfly-keys SEQUENCE {
+        --  sig-butterfly-seed-key  EccNistP256CurvePoint,
+        --  enc-butterfly-seed-key  EccNistP256CurvePoint,
+        --  expansionSign           OCTET STRING (SIZE (16)),
+        --  expansionEnc            OCTET STRING (SIZE (16))
+        -- }
+    },
+    currenttime      Time32,
+    policyID         OCTET STRING (SIZE (0..32)),
+    ...
+}
+
+
+EeRaAuthCertProvisioningRequestMsg ::= 
+    EeRaAuthCertProvisioningRequestBase (WITH COMPONENTS {...,
+        keys (WITH COMPONENTS { 
+            enc-sign-keys (WITH COMPONENTS { ...,
+                keySign(WITH COMPONENTS {unauthenticated})
+            })
+        })
+    })
+
+EeRaAuthCertProvisioningRequestWithHardwareMsg ::= 
+    EeRaAuthCertProvisioningRequestBase (WITH COMPONENTS {...,
+        keys (WITH COMPONENTS { 
+            enc-sign-keys (WITH COMPONENTS { ...,
+                keySign(WITH COMPONENTS {hw-authenticated})
+            })
+        })
+    })
+
+
+
+
+
+-- enrollment certificate of the end entity, for authorization certificate requests
+EndEntityEnrollmentAuthCertificate ::= Certificate (WITH COMPONENTS {...,
+      toBeSigned(WITH COMPONENTS {..., 
+          explicitCertReqPermissions PRESENT,
+          canRequestRollover PRESENT
+      })
+  })
+
+
+RaEeAuthCertProvisioningAckMsg ::= RaEePseudonymCertProvisioningAckMsg
+
+
+-- auth cert:
+--
+-- Since these may be requested one-at-a-time, we're assuming that
+-- they're downloaded via request-response rather than by the file
+-- download approach for pseudonym certs.
+
+-- auth cert request:
+-- Similar to AuthCertRequestInfo in pca-ra.asn.
+-- Need to have option to include butterfly key parameters
+-- Need to indicate whether response is encrypted or NOT-A-NUMBER
+
+-- auth cert response:
+-- either a PcaRaCertResponseMsg (wrapped in the appropriate 1609.2 
+-- wrapper) or a response from the RA saying "not ready yet"
+
+-- auth cert status request:
+-- includes hash of request, gets auth cert response.
+
+
+END

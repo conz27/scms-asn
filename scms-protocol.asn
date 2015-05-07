@@ -1,0 +1,1271 @@
+
+IEEE1609dot2ScmsProtocol {iso(1) identified-organization(3) ieee(111) 
+standards-association-numbered-series-standards(2) wave-stds(1609)  
+dot2(2) scms(2) interfaces(1) protocol(1)}
+
+DEFINITIONS AUTOMATIC TAGS ::= BEGIN  
+
+EXPORTS ALL;
+
+IMPORTS 
+  HashedId32,
+  SequenceOfPsid,
+  SequenceOfPsidSsp,
+  Uint8
+FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111) 
+standards-association-numbered-series-standards(2) wave-stds(1609)  
+dot2(2) base(1) base-types(2)}
+
+  Ieee1609Dot2Data
+FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111) 
+standards-association-numbered-series-standards(2) wave-stds(1609)  
+dot2(2) base (1) schema (1)}
+
+  SecurityMgmtPsid
+FROM Ieee1609dot2ScmsBaseTypes {iso(1) identified-organization(3) ieee(111)
+standards-association-numbered-series-standards(2) wave-stds(1609)  dot2(2)
+scms (2) interfaces(1) base-types (2)}
+
+  ScmsComponentCertificateManagementPDU
+FROM Ieee1609Dot2ScmsComponentCertificateManagement
+{iso(1) identified-organization(3) ieee(111) 
+standards-association-numbered-series-standards(2) wave-stds(1609)  
+dot2(2) scms(2) interfaces(1) component-certificate-management(3)}
+
+  DcmEcaInterfacePDU
+FROM Ieee1609Dot2DcmEcaInterface
+{iso(1) identified-organization(3) ieee(111) 
+standards-association-numbered-series-standards(2) wave-stds(1609)  
+dot2(2) scms(2) interfaces(1) dcm-eca(4)}
+
+  EcaEndEntityInterfacePDU
+FROM Ieee1609Dot2EcaEndEntityInterface
+{iso(1) identified-organization(3) ieee(111) 
+standards-association-numbered-series-standards(2) wave-stds(1609)  
+dot2(2) scms(2) interfaces(1) eca-ee(5)}
+
+  EndEntityLopInterfacePDU
+FROM Ieee1609Dot2EndEntityLopInterface
+{iso(1) identified-organization(3) ieee(111) 
+standards-association-numbered-series-standards(2) wave-stds(1609)  
+dot2(2) scms(2) interfaces(1) ee-lop(6)}
+
+  EndEntityMaInterfacePDU
+FROM Ieee1609Dot2EndEntityMaInterface
+{iso(1) identified-organization(3) ieee(111) 
+standards-association-numbered-series-standards(2) wave-stds(1609)  
+dot2(2) scms(2) interfaces(1) ee-ma(7)}
+
+  EndEntityRaInterfacePDU
+FROM Ieee1609Dot2EndEntityRaInterface
+{iso(1) identified-organization(3) ieee(111) 
+standards-association-numbered-series-standards(2) wave-stds(1609)  
+dot2(2) scms(2) interfaces(1) ee-ra(8)}
+
+  LaMaInterfacePDU
+FROM Ieee1609Dot2LaMaInterface
+{iso(1) identified-organization(3) ieee(111) 
+standards-association-numbered-series-standards(2) wave-stds(1609)  
+dot2(2) scms(2) interfaces(1) la-ma(9)}
+
+  LaPcaInterfacePDU
+FROM Ieee1609Dot2LaPcaInterface
+{iso(1) identified-organization(3) ieee(111) 
+standards-association-numbered-series-standards(2) wave-stds(1609)  
+dot2(2) scms(2) interfaces(1) la-pca(10)}
+
+  LaRaInterfacePDU
+FROM Ieee1609Dot2LaRaInterface
+{iso(1) identified-organization(3) ieee(111) 
+standards-association-numbered-series-standards(2) wave-stds(1609)  
+dot2(2) scms(2) interfaces(1) la-ra(11)}
+
+  LopMaInterfacePDU
+FROM Ieee1609Dot2LopMaInterface
+{iso(1) identified-organization(3) ieee(111) 
+standards-association-numbered-series-standards(2) wave-stds(1609)  
+dot2(2) scms(2) interfaces(1) lop-ma(12)}
+
+  MaPcaInterfacePDU
+FROM Ieee1609Dot2MaPcaInterface
+{iso(1) identified-organization(3) ieee(111) 
+standards-association-numbered-series-standards(2) wave-stds(1609)  
+dot2(2) scms(2) interfaces(1) ma-pca(13)}
+
+  MaRaInterfacePDU
+FROM Ieee1609Dot2MaRaInterface
+{iso(1) identified-organization(3) ieee(111) 
+standards-association-numbered-series-standards(2) wave-stds(1609)  
+dot2(2) scms(2) interfaces(1) ma-ra(14)}
+
+  PcaRaInterfacePDU
+FROM Ieee1609Dot2PcaRaInterface
+{iso(1) identified-organization(3) ieee(111) 
+standards-association-numbered-series-standards(2) wave-stds(1609)  
+dot2(2) scms(2) interfaces(1) pca-ra(15)}
+
+  DcmEndEntityInterfacePDU
+FROM Ieee1609Dot2DcmEndEntityInterface
+{iso(1) identified-organization(3) ieee(111) 
+standards-association-numbered-series-standards(2) wave-stds(1609)  
+dot2(2) scms(2) interfaces(1) dcm-ee(127)}
+
+;
+
+ScmsPDU ::= SEQUENCE {
+  version  Uint8(1),
+  content  CHOICE {
+    ccm       ScmsComponentCertificateManagementPDU,
+    dcm-eca   DcmEcaInterfacePDU,
+    eca-ee    EcaEndEntityInterfacePDU,
+    ee-lop    EndEntityLopInterfacePDU,
+    ee-ma     EndEntityMaInterfacePDU,
+    ee-ra     EndEntityRaInterfacePDU,
+    la-ma     LaMaInterfacePDU,
+    la-pca    LaPcaInterfacePDU,
+    la-ra     LaRaInterfacePDU,
+    lop-ma    LopMaInterfacePDU,
+    ma-pca    MaPcaInterfacePDU,
+    ma-ra     MaRaInterfacePDU,
+    pca-ra    PcaRaInterfacePDU,
+    dcm-ee    DcmEndEntityInterfacePDU,
+    ...
+ }
+}
+
+-- *************************************************************************
+--
+--             Scoped
+-- 
+-- *************************************************************************
+
+-- *** EE-RA ***************************************************************
+
+ScopedCertRequest ::= 
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      ee-ra (WITH COMPONENTS {
+        eeRaCertRequest
+      })
+    })
+ })
+
+ScopedCertResponse ::= 
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      ee-ra (WITH COMPONENTS {
+        raEeCertResponse
+      })
+    })
+ })
+
+ScopedPseudonymCertProvisioningRequest ::= 
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      ee-ra (WITH COMPONENTS {
+        eeRaPseudonymCertProvisioningRequest
+      })
+    })
+ })
+
+ScopedPseudonymCertProvisioningRequestWithHardware ::= 
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      ee-ra (WITH COMPONENTS {
+        eeRaPseudonymCertProvisioningRequestWithHardware
+      })
+    })
+ })
+
+ScopedPseudonymCertProvisioningAck ::= 
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      ee-ra (WITH COMPONENTS {
+        raEePseudonymCertProvisioningAck
+      })
+    })
+  })
+
+ScopedAuthCertProvisioningRequest ::= 
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      ee-ra (WITH COMPONENTS {
+        eeRaAuthCertProvisioningRequest
+      })
+    })
+ })
+
+ScopedAuthCertProvisioningRequestWithHardware ::= 
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      ee-ra (WITH COMPONENTS {
+        eeRaAuthCertProvisioningRequestWithHardware
+      })
+    })
+ })
+
+ScopedAuthCertProvisioningAck ::= 
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      ee-ra (WITH COMPONENTS {
+        raEeAuthCertProvisioningAck
+      })
+    })
+  })
+
+
+-- *** LA-MA ***************************************************************
+
+ScopedLIRequest ::= 
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      la-ma (WITH COMPONENTS {
+        maLaLinkageInfoRequest
+      })
+    })
+  })
+
+
+ScopedLIReply ::= 
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      la-ma (WITH COMPONENTS {
+        laMaLinkageInfoResponse
+      })
+    })
+  })
+
+ScopedLSRequest ::= 
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      la-ma (WITH COMPONENTS {
+        maLaLinkageSeedRequest
+      })
+    })
+  })
+
+ScopedLSReply ::= 
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      la-ma (WITH COMPONENTS {
+        laMaLinkageSeedResponse
+      })
+    })
+  })
+
+
+-- *** LA-PCA **************************************************************
+
+ScopedPcaLaKeyAgreementRequest ::= 
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      la-pca (WITH COMPONENTS {
+        pcaLaKeyAgreementRequest
+      })
+    })
+  })
+
+ScopedLaPcaKeyAgreementResponse ::= 
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      la-pca (WITH COMPONENTS {
+        laPcaKeyAgreementResponse
+      })
+    })
+  })
+
+ScopedPcaLaKeyAgreementAck ::= 
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      la-pca (WITH COMPONENTS {
+        pcaLaKeyAgreementAck
+      })
+    })
+  })
+
+-- *** LA-RA ***************************************************************
+
+ScopedRaLaPreLinkageValueRequest ::= 
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      la-ra (WITH COMPONENTS {
+        raLaPreLinkageValueRequest
+      })
+    })
+  })
+
+ScopedLaRaPreLinkageValueResponse ::= 
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      la-ra (WITH COMPONENTS {
+        raLaPreLinkageValueRequest
+      })
+    })
+  })
+
+-- *** MA-PCA **************************************************************
+
+
+ScopedMaPcaPreLinkageValueRequest ::= 
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      ma-pca (WITH COMPONENTS {
+        maPcaPreLinkageValueRequest
+      })
+    })
+  })
+
+
+ScopedPcaMaPreLinkageValueResponse ::= 
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      ma-pca (WITH COMPONENTS {
+        pcaMaPreLinkageValueResponse
+      })
+    })
+  })
+
+
+ScopedMaPcaHPCRRequest ::= 
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      ma-pca (WITH COMPONENTS {
+        maPcaHPCRRequest
+      })
+    })
+  })
+
+
+ScopedPcaMaHPCRResponse ::= 
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      ma-pca (WITH COMPONENTS {
+        pcaMaHPCRResponse
+      })
+    })
+  })
+
+-- *** MA-RA **************************************************************
+
+
+ScopedBlacklistRequest ::= 
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      ma-ra (WITH COMPONENTS {
+        maRaBlacklistRequest
+      })
+    })
+  })
+
+ScopedBlacklistResponse ::= 
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      ma-ra (WITH COMPONENTS {
+        raMaBlacklistResponse
+      })
+    })
+  })
+
+ScopedLCIRequest ::= 
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      ma-ra (WITH COMPONENTS {
+        maRaLCIRequest
+      })
+    })
+  })
+
+
+ScopedLCIResponse ::= 
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      ma-ra (WITH COMPONENTS {
+        raMaLCIResponse
+      })
+    })
+  })
+
+-- *** PCA-RA *************************************************************
+
+ScopedCertificateRequest ::= 
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      pca-ra (WITH COMPONENTS {
+        raPcaCertRequest
+      })
+    })
+  })
+
+
+ScopedCertificateRequestReply ::= 
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      pca-ra (WITH COMPONENTS {
+        pcaRaCertResponse
+      })
+    })
+  })
+
+
+-- *************************************************************************
+-- *************************************************************************
+--
+--             Secured
+-- 
+-- *************************************************************************
+-- *************************************************************************
+
+SecuredScmsPDU ::= Ieee1609Dot2Data
+
+-- *************************************************************************
+--
+--             EE-RA
+-- 
+-- *************************************************************************
+
+
+SecuredRACertRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {..., 
+      unsecuredData (CONTAINING
+        ScmsPDU (WITH COMPONENTS { ...,
+          content (WITH COMPONENTS {
+            ee-ra (WITH COMPONENTS {   
+              eeRaCertRequest
+            })
+          })
+        })
+      )
+    })
+  })
+
+SecuredRACertResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {..., 
+      unsecuredData (CONTAINING
+        ScmsPDU (WITH COMPONENTS { ...,
+          content (WITH COMPONENTS {
+            ee-ra (WITH COMPONENTS {   
+              raEeCertResponse
+            })
+          })
+        })
+      )
+    })
+  })
+
+SignedPseudonymCertProvisioningRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {..., 
+    signedData  (WITH COMPONENTS {..., 
+      tbsData (WITH COMPONENTS {..., 
+        payload (WITH COMPONENTS {..., 
+          data (CONTAINING
+            ScopedPseudonymCertProvisioningRequest
+          ) PRESENT,
+          extDataHash ABSENT
+        }),
+        headerInfo (WITH COMPONENTS {..., 
+          psid (SecurityMgmtPsid),
+          generationTime ABSENT,
+          expiryTime ABSENT,
+          generationLocation ABSENT,
+          missingCertIdentifier ABSENT,
+          missingCrlIdentifier ABSENT,
+          encryptionKey (WITH COMPONENTS {
+            public
+          }) PRESENT
+        })
+      })
+    })
+  })
+})
+
+SignedPseudonymCertProvisioningRequestWithHardware ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {..., 
+    signedData  (WITH COMPONENTS {..., 
+      tbsData (WITH COMPONENTS {..., 
+        payload (WITH COMPONENTS {..., 
+          data (CONTAINING
+            ScopedPseudonymCertProvisioningRequestWithHardware
+          ) PRESENT,
+          extDataHash ABSENT
+        }),
+        headerInfo (WITH COMPONENTS {..., 
+          psid (SecurityMgmtPsid),
+          generationTime ABSENT,
+          expiryTime ABSENT,
+          generationLocation ABSENT,
+          missingCertIdentifier ABSENT,
+          missingCrlIdentifier ABSENT,
+          encryptionKey (WITH COMPONENTS {
+            public
+          }) PRESENT
+        })
+      })
+    })
+  })
+})
+
+SecuredPseudonymCertProvisioningRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {..., 
+    encryptedData  -- decrypts to a SignedPseudonymCertProvisioningRequest or
+                   -- SignedPseudonymCertProvisioningRequestWithHardware
+  })
+})
+
+SignedPseudonymCertProvisioningAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {..., 
+    signedData  (WITH COMPONENTS {..., 
+      tbsData (WITH COMPONENTS {..., 
+        payload (WITH COMPONENTS {..., 
+          data ( CONTAINING
+            ScopedPseudonymCertProvisioningAck
+          ) PRESENT,
+          extDataHash ABSENT
+        }),
+        headerInfo (WITH COMPONENTS {..., 
+          psid (SecurityMgmtPsid),
+          generationTime ABSENT,
+          expiryTime ABSENT,
+          generationLocation ABSENT,
+          missingCertIdentifier ABSENT,
+          missingCrlIdentifier ABSENT,
+          encryptionKey ABSENT
+        })
+      })
+    })
+  })
+})
+
+SecuredPseudonymCertProvisioningAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {..., 
+    encryptedData  -- decrypts to a SignedPseudonymCertProvisioningAck
+  })
+})
+
+SignedAuthCertProvisioningRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {..., 
+    signedData  (WITH COMPONENTS {..., 
+      tbsData (WITH COMPONENTS {..., 
+        payload (WITH COMPONENTS {..., 
+          data (CONTAINING
+            ScopedAuthCertProvisioningRequest
+          ) PRESENT,
+          extDataHash ABSENT
+        }),
+        headerInfo (WITH COMPONENTS {..., 
+          psid (SecurityMgmtPsid),
+          generationTime ABSENT,
+          expiryTime ABSENT,
+          generationLocation ABSENT,
+          missingCertIdentifier ABSENT,
+          missingCrlIdentifier ABSENT,
+          encryptionKey (WITH COMPONENTS {
+            public
+          }) PRESENT
+        })
+      })
+    })
+  })
+})
+
+SignedAuthCertProvisioningRequestWithHardware ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {..., 
+    signedData  (WITH COMPONENTS {..., 
+      tbsData (WITH COMPONENTS {..., 
+        payload (WITH COMPONENTS {..., 
+          data (CONTAINING
+            ScopedAuthCertProvisioningRequestWithHardware
+          ) PRESENT,
+          extDataHash ABSENT
+        }),
+        headerInfo (WITH COMPONENTS {..., 
+          psid (SecurityMgmtPsid),
+          generationTime ABSENT,
+          expiryTime ABSENT,
+          generationLocation ABSENT,
+          missingCertIdentifier ABSENT,
+          missingCrlIdentifier ABSENT,
+          encryptionKey (WITH COMPONENTS {
+            public
+          }) PRESENT
+        })
+      })
+    })
+  })
+})
+
+SecuredAuthCertProvisioningRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {..., 
+    encryptedData  -- decrypts to a SignedAuthCertProvisioningRequest or
+                   -- SignedAuthCertProvisioningRequestWithHardware
+  })
+})
+
+SignedAuthCertProvisioningAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {..., 
+    signedData  (WITH COMPONENTS {..., 
+      tbsData (WITH COMPONENTS {..., 
+        payload (WITH COMPONENTS {..., 
+          data ( CONTAINING
+            ScopedAuthCertProvisioningAck
+          ) PRESENT,
+          extDataHash ABSENT
+        }),
+        headerInfo (WITH COMPONENTS {..., 
+          psid (SecurityMgmtPsid),
+          generationTime ABSENT,
+          expiryTime ABSENT,
+          generationLocation ABSENT,
+          missingCertIdentifier ABSENT,
+          missingCrlIdentifier ABSENT,
+          encryptionKey ABSENT
+        })
+      })
+    })
+  })
+})
+
+SecuredAuthCertProvisioningAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {..., 
+    encryptedData  -- decrypts to a SignedAuthCertProvisioningAck
+  })
+})
+
+-- *************************************************************************
+--
+--             LA-MA
+-- 
+-- *************************************************************************
+
+SignedLIRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {..., 
+    signedData  (WITH COMPONENTS {..., 
+      tbsData (WITH COMPONENTS {..., 
+        payload (WITH COMPONENTS {..., 
+          data ( CONTAINING
+            ScopedLIRequest
+          ) PRESENT,
+          extDataHash ABSENT
+        }),
+        headerInfo (WITH COMPONENTS {..., 
+          psid (SecurityMgmtPsid),
+          generationTime ABSENT,
+          expiryTime ABSENT,
+          generationLocation ABSENT,
+          missingCertIdentifier ABSENT,
+          missingCrlIdentifier ABSENT,
+          encryptionKey ABSENT
+        })
+      })
+    })
+  })
+})
+
+SecuredLIRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {..., 
+    encryptedData  -- decrypts to a SignedLIRequest
+  })
+})
+
+SignedLIReply ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {..., 
+    signedData  (WITH COMPONENTS {..., 
+      tbsData (WITH COMPONENTS {..., 
+        payload (WITH COMPONENTS {..., 
+          data ( CONTAINING
+            ScopedLIReply
+          ) PRESENT,
+          extDataHash ABSENT
+        }),
+        headerInfo (WITH COMPONENTS {..., 
+          psid (SecurityMgmtPsid),
+          generationTime ABSENT,
+          expiryTime ABSENT,
+          generationLocation ABSENT,
+          missingCertIdentifier ABSENT,
+          missingCrlIdentifier ABSENT,
+          encryptionKey ABSENT
+        })
+      })
+    })
+  })
+})
+
+SecuredLIReply ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {..., 
+    encryptedData  -- decrypts to a SignedLIReply
+  })
+})
+
+SignedLSRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {..., 
+    signedData  (WITH COMPONENTS {..., 
+      tbsData (WITH COMPONENTS {..., 
+        payload (WITH COMPONENTS {..., 
+          data ( CONTAINING
+            ScopedLSRequest
+          ) PRESENT,
+          extDataHash ABSENT
+        }),
+        headerInfo (WITH COMPONENTS {..., 
+          psid (SecurityMgmtPsid),
+          generationTime ABSENT,
+          expiryTime ABSENT,
+          generationLocation ABSENT,
+          missingCertIdentifier ABSENT,
+          missingCrlIdentifier ABSENT,
+          encryptionKey ABSENT
+        })
+      })
+    })
+  })
+})
+
+SecuredLSRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {..., 
+    encryptedData  -- decrypts to a SignedLSRequest
+  })
+})
+
+SignedLSReply ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {..., 
+    signedData  (WITH COMPONENTS {..., 
+      tbsData (WITH COMPONENTS {..., 
+        payload (WITH COMPONENTS {..., 
+          data ( CONTAINING
+            ScopedLSReply
+          ) PRESENT,
+          extDataHash ABSENT
+        }),
+        headerInfo (WITH COMPONENTS {..., 
+          psid (SecurityMgmtPsid),
+          generationTime ABSENT,
+          expiryTime ABSENT,
+          generationLocation ABSENT,
+          missingCertIdentifier ABSENT,
+          missingCrlIdentifier ABSENT,
+          encryptionKey ABSENT
+        })
+      })
+    })
+  })
+})
+
+SecuredLSReply ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {..., 
+    encryptedData  -- decrypts to a SignedLSReply
+  })
+})
+
+
+
+-- *************************************************************************
+--
+--             LA-PCA
+-- 
+-- *************************************************************************
+
+SignedPcaLaKeyAgreementRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {..., 
+    signedData  (WITH COMPONENTS {..., 
+      tbsData (WITH COMPONENTS {..., 
+        payload (WITH COMPONENTS {..., 
+          data ( CONTAINING
+            ScopedPcaLaKeyAgreementRequest
+          ) PRESENT,
+          extDataHash ABSENT
+        }),
+        headerInfo (WITH COMPONENTS {..., 
+          psid (SecurityMgmtPsid),
+          generationTime ABSENT,
+          expiryTime ABSENT,
+          generationLocation ABSENT,
+          missingCertIdentifier ABSENT,
+          missingCrlIdentifier ABSENT,
+          encryptionKey ABSENT
+        })
+      })
+    })
+  })
+})
+
+SignedLaPcaKeyAgreementResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {..., 
+    signedData  (WITH COMPONENTS {..., 
+      tbsData (WITH COMPONENTS {..., 
+        payload (WITH COMPONENTS {..., 
+          data ( CONTAINING
+            ScopedLaPcaKeyAgreementResponse
+          ) PRESENT,
+          extDataHash ABSENT
+        }),
+        headerInfo (WITH COMPONENTS {..., 
+          psid (SecurityMgmtPsid),
+          generationTime ABSENT,
+          expiryTime ABSENT,
+          generationLocation ABSENT,
+          missingCertIdentifier ABSENT,
+          missingCrlIdentifier ABSENT,
+          encryptionKey ABSENT
+        })
+      })
+    })
+  })
+})
+
+SignedPcaLaKeyAgreementAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {..., 
+    signedData  (WITH COMPONENTS {..., 
+      tbsData (WITH COMPONENTS {..., 
+        payload (WITH COMPONENTS {..., 
+          data ( CONTAINING
+            ScopedPcaLaKeyAgreementAck
+          ) PRESENT,
+          extDataHash ABSENT
+        }),
+        headerInfo (WITH COMPONENTS {..., 
+          psid (SecurityMgmtPsid),
+          generationTime ABSENT,
+          expiryTime ABSENT,
+          generationLocation ABSENT,
+          missingCertIdentifier ABSENT,
+          missingCrlIdentifier ABSENT,
+          encryptionKey ABSENT
+        })
+      })
+    })
+  })
+})
+
+
+-- *************************************************************************
+--
+--             LA-RA
+-- 
+-- *************************************************************************
+
+
+-- Generation time present to prevent replay, keep message for replay check until 
+-- time corresponding to iMin has been reached.
+SignedRaLaPreLinkageValueRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {..., 
+    signedData  (WITH COMPONENTS {..., 
+      tbsData (WITH COMPONENTS {..., 
+        payload (WITH COMPONENTS {..., 
+          data ( CONTAINING
+            ScopedRaLaPreLinkageValueRequest
+          ) PRESENT,
+          extDataHash ABSENT
+        }),
+        headerInfo (WITH COMPONENTS {..., 
+          psid (SecurityMgmtPsid),
+          generationTime PRESENT,
+          expiryTime ABSENT,
+          generationLocation ABSENT,
+          missingCertIdentifier ABSENT,
+          missingCrlIdentifier ABSENT,
+          encryptionKey ABSENT
+        })
+      })
+    })
+  })
+})
+
+
+SignedLaRaPreLinkageValueResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {..., 
+    signedData  (WITH COMPONENTS {..., 
+      tbsData (WITH COMPONENTS {..., 
+        payload (WITH COMPONENTS {..., 
+          data ( CONTAINING
+            ScopedLaRaPreLinkageValueResponse
+          ) PRESENT,
+          extDataHash ABSENT
+        }),
+        headerInfo (WITH COMPONENTS {..., 
+          psid (SecurityMgmtPsid),
+          generationTime PRESENT,
+          expiryTime ABSENT,
+          generationLocation ABSENT,
+          missingCertIdentifier ABSENT,
+          missingCrlIdentifier ABSENT,
+          encryptionKey ABSENT
+        })
+      })
+    })
+  })
+})
+
+
+-- *************************************************************************
+--
+--             MA-PCA
+-- 
+-- *************************************************************************
+
+SignedMaPcaPreLinkageValueRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {..., 
+    signedData  (WITH COMPONENTS {..., 
+      tbsData (WITH COMPONENTS {..., 
+        payload (WITH COMPONENTS {..., 
+          data ( CONTAINING
+            ScopedMaPcaPreLinkageValueRequest
+          ) PRESENT,
+          extDataHash ABSENT
+        }),
+        headerInfo (WITH COMPONENTS {..., 
+          psid (SecurityMgmtPsid),
+          generationTime ABSENT,
+          expiryTime ABSENT,
+          generationLocation ABSENT,
+          missingCertIdentifier ABSENT,
+          missingCrlIdentifier ABSENT,
+          encryptionKey ABSENT
+        })
+      })
+    })
+  })
+})
+
+SecuredMaPcaPreLinkageValueRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {..., 
+    encryptedData  -- decrypts to a SignedMaPcaPreLinkageValueRequest
+  })
+})
+
+
+SignedPcaMaPreLinkageValueResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {..., 
+    signedData  (WITH COMPONENTS {..., 
+      tbsData (WITH COMPONENTS {..., 
+        payload (WITH COMPONENTS {..., 
+          data ( CONTAINING
+            ScopedPcaMaPreLinkageValueResponse
+          ) PRESENT,
+          extDataHash ABSENT
+        }),
+        headerInfo (WITH COMPONENTS {..., 
+          psid (SecurityMgmtPsid),
+          generationTime ABSENT,
+          expiryTime ABSENT,
+          generationLocation ABSENT,
+          missingCertIdentifier ABSENT,
+          missingCrlIdentifier ABSENT,
+          encryptionKey ABSENT
+        })
+      })
+    })
+  })
+})
+
+SecuredPcaMaPreLinkageValueResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {..., 
+    encryptedData  -- decrypts to a SignedPcaMaPreLinkageValueResponse
+  })
+})
+
+
+SignedMaPcaHPCRRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {..., 
+    signedData  (WITH COMPONENTS {..., 
+      tbsData (WITH COMPONENTS {..., 
+        payload (WITH COMPONENTS {..., 
+          data ( CONTAINING
+            ScopedMaPcaHPCRRequest
+          ) PRESENT,
+          extDataHash ABSENT
+        }),
+        headerInfo (WITH COMPONENTS {..., 
+          psid (SecurityMgmtPsid),
+          generationTime ABSENT,
+          expiryTime ABSENT,
+          generationLocation ABSENT,
+          missingCertIdentifier ABSENT,
+          missingCrlIdentifier ABSENT,
+          encryptionKey ABSENT
+        })
+      })
+    })
+  })
+})
+
+SecuredMaPcaHPCRRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {..., 
+    encryptedData  -- decrypts to a SignedMaPcaHPCRRequest
+  })
+})
+
+
+SignedPcaMaHPCRResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {..., 
+    signedData  (WITH COMPONENTS {..., 
+      tbsData (WITH COMPONENTS {..., 
+        payload (WITH COMPONENTS {..., 
+          data ( CONTAINING
+            ScopedPcaMaHPCRResponse
+          ) PRESENT,
+          extDataHash ABSENT
+        }),
+        headerInfo (WITH COMPONENTS {..., 
+          psid (SecurityMgmtPsid),
+          generationTime ABSENT,
+          expiryTime ABSENT,
+          generationLocation ABSENT,
+          missingCertIdentifier ABSENT,
+          missingCrlIdentifier ABSENT,
+          encryptionKey ABSENT
+        })
+      })
+    })
+  })
+})
+
+SecuredPcaMaHPCRResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {..., 
+    encryptedData  -- decrypts to a SignedPcaMaHPCRResponse
+  })
+})
+
+
+-- *************************************************************************
+--
+--             MA-RA
+-- 
+-- *************************************************************************
+
+SignedBlacklistRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {..., 
+    signedData  (WITH COMPONENTS {..., 
+      tbsData (WITH COMPONENTS {..., 
+        payload (WITH COMPONENTS {..., 
+          data ( CONTAINING
+            ScopedBlacklistRequest
+          ) PRESENT,
+          extDataHash ABSENT
+        }),
+        headerInfo (WITH COMPONENTS {..., 
+          psid (SecurityMgmtPsid),
+          generationTime ABSENT,
+          expiryTime ABSENT,
+          generationLocation ABSENT,
+          missingCertIdentifier ABSENT,
+          missingCrlIdentifier ABSENT,
+          encryptionKey ABSENT
+        })
+      })
+    })
+  })
+})
+
+SecuredBlacklistRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {..., 
+    encryptedData  -- decrypts to a SignedBlacklistRequest
+  })
+})
+
+
+SignedBlacklistResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {..., 
+    signedData  (WITH COMPONENTS {..., 
+      tbsData (WITH COMPONENTS {..., 
+        payload (WITH COMPONENTS {..., 
+          data ( CONTAINING
+            ScopedBlacklistResponse
+          ) PRESENT,
+          extDataHash ABSENT
+        }),
+        headerInfo (WITH COMPONENTS {..., 
+          psid (SecurityMgmtPsid),
+          generationTime ABSENT,
+          expiryTime ABSENT,
+          generationLocation ABSENT,
+          missingCertIdentifier ABSENT,
+          missingCrlIdentifier ABSENT,
+          encryptionKey ABSENT
+        })
+      })
+    })
+  })
+})
+
+SecuredBlacklistResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {..., 
+    encryptedData  -- decrypts to a SignedBlacklistResponse
+  })
+})
+
+
+SignedLCIRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {..., 
+    signedData  (WITH COMPONENTS {..., 
+      tbsData (WITH COMPONENTS {..., 
+        payload (WITH COMPONENTS {..., 
+          data ( CONTAINING
+            ScopedLCIRequest
+          ) PRESENT,
+          extDataHash ABSENT
+        }),
+        headerInfo (WITH COMPONENTS {..., 
+          psid (SecurityMgmtPsid),
+          generationTime ABSENT,
+          expiryTime ABSENT,
+          generationLocation ABSENT,
+          missingCertIdentifier ABSENT,
+          missingCrlIdentifier ABSENT,
+          encryptionKey ABSENT
+        })
+      })
+    })
+  })
+})
+
+SecuredLCIRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {..., 
+    encryptedData  -- decrypts to a SignedLCIRequest
+  })
+})
+
+
+
+SignedLCIResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {..., 
+    signedData  (WITH COMPONENTS {..., 
+      tbsData (WITH COMPONENTS {..., 
+        payload (WITH COMPONENTS {..., 
+          data ( CONTAINING
+            ScopedLCIResponse
+          ) PRESENT,
+          extDataHash ABSENT
+        }),
+        headerInfo (WITH COMPONENTS {..., 
+          psid (SecurityMgmtPsid),
+          generationTime ABSENT,
+          expiryTime ABSENT,
+          generationLocation ABSENT,
+          missingCertIdentifier ABSENT,
+          missingCrlIdentifier ABSENT,
+          encryptionKey ABSENT
+        })
+      })
+    })
+  })
+})
+
+SecuredLCIResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {..., 
+    encryptedData  -- decrypts to a SignedLCIResponse
+  })
+})
+
+
+
+-- *************************************************************************
+--
+--             PCA-RA
+-- 
+-- *************************************************************************
+
+SecuredCertificateRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {..., 
+    signedData  (WITH COMPONENTS {..., 
+      tbsData (WITH COMPONENTS {..., 
+        payload (WITH COMPONENTS {..., 
+          data ( CONTAINING
+            ScopedCertificateRequest
+          ) PRESENT,
+          extDataHash ABSENT
+        }),
+        headerInfo (WITH COMPONENTS {..., 
+          psid (SecurityMgmtPsid),
+          generationTime ABSENT,
+          expiryTime ABSENT,
+          generationLocation ABSENT,
+          missingCertIdentifier ABSENT,
+          missingCrlIdentifier ABSENT,
+          encryptionKey ABSENT
+        })
+      })
+    })
+  })
+})
+
+
+
+SecuredCertificateRequestReply ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {..., 
+    signedData  (WITH COMPONENTS {..., 
+      tbsData (WITH COMPONENTS {..., 
+        payload (WITH COMPONENTS {..., 
+          data ( CONTAINING
+            ScopedCertificateRequestReply
+          ) PRESENT,
+          extDataHash ABSENT
+        }),
+        headerInfo (WITH COMPONENTS {..., 
+          psid (SecurityMgmtPsid),
+          generationTime ABSENT,
+          expiryTime ABSENT,
+          generationLocation ABSENT,
+          missingCertIdentifier ABSENT,
+          missingCrlIdentifier ABSENT,
+          encryptionKey ABSENT
+        })
+      })
+    })
+  })
+})
+
+
+-- *************************************************************************
+--
+--             SSP
+-- 
+-- *************************************************************************
+
+
+
+ScmsSsp ::= CHOICE {
+  dcm DcmSsp,
+  la  LaSsp,
+  lop LopSsp,
+  ma  MaSsp,
+  ra  RaSsp,
+  sca ScmsComponentCaSsp,
+  ...
+}
+
+
+DcmSsp ::= SEQUENCE {
+  version Uint8(1),
+  ...
+}
+
+LaSsp ::= SEQUENCE {
+  version Uint8(1),
+  ...
+}
+
+LopSsp ::= SEQUENCE {
+  version Uint8(1),
+  ...
+}
+
+MaSsp ::= SEQUENCE {
+  version        Uint8(1),
+  relevantPsids  SequenceOfPsid,
+  ...
+}
+
+RaSsp ::= SEQUENCE {
+  version  Uint8(1),
+  psid-ssp SequenceOfPsidSsp,
+  policy   OCTET STRING (SIZE(0..31)),
+  ...
+}
+
+-- this is to be developed during POC work.
+ScmsComponentCaSsp ::= SEQUENCE {
+  version                         Uint8(1),
+  ...
+}
+
+END

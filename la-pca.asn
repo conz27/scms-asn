@@ -1,0 +1,109 @@
+
+Ieee1609Dot2LaPcaInterface
+{iso(1) identified-organization(3) ieee(111) 
+standards-association-numbered-series-standards(2) wave-stds(1609)  
+dot2(2) scms(2) interfaces(1) la-pca (10)}
+
+DEFINITIONS AUTOMATIC TAGS ::= BEGIN
+
+EXPORTS ALL;
+
+IMPORTS 
+  HashedId8,
+  PublicKey,
+  Signature,
+  Time32,
+  Uint8,
+  Uint32
+FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111) 
+    standards-association-numbered-series-standards(2) wave-stds(1609) dot2(2)
+    base(1) base-types(2)}
+
+  Certificate,
+  EncryptedData,
+  RecipientInfo
+FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111) 
+    standards-association-numbered-series-standards(2) wave-stds(1609) dot2(2)
+    base(1) schema(1)}
+
+  ScopedLaPcaError
+FROM Ieee1609dot2ScmsError {iso(1) identified-organization(3) ieee(111)
+    standards-association-numbered-series-standards(2) wave-stds(1609) dot2(2)
+    scms(2) errors(2) complete(1)}
+
+  FullSizeHash,
+  LaHostnameId,
+  PcaHostnameId
+FROM Ieee1609dot2ScmsBaseTypes {iso(1) identified-organization(3) ieee(111)
+    standards-association-numbered-series-standards(2) wave-stds(1609) dot2(2)
+    scms(2) interfaces(1) base-types(2)}
+;
+
+--
+-- All message types for the LA-PCA interface PDU
+--
+LaPcaInterfacePDU::= CHOICE {
+  pcaLaKeyAgreementRequest    PcaLaKeyAgreementRequestMsg,
+  laPcaKeyAgreementResponse   LaPcaKeyAgreementResponseMsg,
+  pcaLaKeyAgreementAck        PcaLaKeyAgreementAckMsg,
+  ...
+}
+
+--
+-- Initiate key agreement sent by PCA to LA
+--
+PcaLaKeyAgreementRequestMsg ::= SEQUENCE {
+  version        Uint8(1),
+  pcaId          PcaHostnameId,
+  pcaCertificate Certificate OPTIONAL, -- optional, when LA already has PCA's certificate
+  enc-R-pca      EncryptedData (WITH COMPONENTS {
+    recipients (SIZE (1) INTERSECTION (WITH COMPONENT (
+        RecipientInfo (WITH COMPONENTS {
+            certRecipInfo -- using hash of the LA certificate
+    })))),
+    ciphertext -- when decrypted it contains PcaRandomContribution, R_pca
+  }),
+  startDate      Time32,
+  endDate        Time32
+}
+
+PcaRandomContribution ::= OCTET STRING (SIZE(32))
+
+--
+-- Provide response to key agreement request sent by LA to PCA
+--
+LaPcaKeyAgreementResponseMsg ::= SEQUENCE {
+  version       Uint8(1),
+  requestHash   HashedId8,  -- hash of the original request
+  laId          LaHostnameId,
+  enc-R-la      EncryptedData (WITH COMPONENTS {
+    recipients (SIZE (1) INTERSECTION (WITH COMPONENT (
+        RecipientInfo (WITH COMPONENTS {
+            certRecipInfo -- using hash of the LA certificate
+    })))),
+    ciphertext -- when decrypted it contains LaRandomContribution, R_la
+  }),
+  reply         CHOICE {
+      success FullSizeHash, -- MAC_la computed as HMAC(mac_key, R_pca || R_la || â€œscms-laâ€?)
+      failure ScopedLaPcaError
+  } 
+}
+
+LaRandomContribution ::= OCTET STRING (SIZE(32))
+
+
+--
+-- Key agreement acknowledgement sent by PCA to LA
+--
+PcaLaKeyAgreementAckMsg ::= SEQUENCE {
+  version       Uint8(1),
+  requestHash   HashedId8,  -- hash of the initial request
+  pcaId         PcaHostnameId,
+  reply         CHOICE {
+      success FullSizeHash, -- MAC_pca computed as HMAC(mac_key, R_pca || R_la || â€œscms-pcaâ€?)
+      failure ScopedLaPcaError
+  } 
+}
+
+
+END
