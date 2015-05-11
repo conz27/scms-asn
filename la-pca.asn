@@ -79,12 +79,14 @@ LaPcaKeyAgreementResponseMsg ::= SEQUENCE {
   enc-R-la      EncryptedData (WITH COMPONENTS {
     recipients (SIZE (1) INTERSECTION (WITH COMPONENT (
         RecipientInfo (WITH COMPONENTS {
-            certRecipInfo -- using hash of the LA certificate
+            certRecipInfo -- using hash of the PCA certificate
     })))),
     ciphertext -- when decrypted it contains LaRandomContribution, R_la
   }),
   reply         CHOICE {
       success FullSizeHash, -- MAC_la computed as HMAC(mac_key, R_pca || R_la || "scms-la")
+                            --  where (enc_key, mac_key) = KDF(R_pca || R_la || "scms-la-pca")
+                            --  enc_key is the negotiated symmetric key to be used by LA for PLV encryption
       failure ScopedLaPcaError
   } 
 }
@@ -101,6 +103,8 @@ PcaLaKeyAgreementAckMsg ::= SEQUENCE {
   pcaId         PcaHostnameId,
   reply         CHOICE {
       success FullSizeHash, -- MAC_pca computed as HMAC(mac_key, R_pca || R_la || "scms-pca")
+                            --  where (enc_key, mac_key) = KDF(R_pca || R_la || "scms-la-pca")
+                            --  enc_key is the negotiated symmetric key to be used by PCA for PLV decryption
       failure ScopedLaPcaError
   } 
 }
