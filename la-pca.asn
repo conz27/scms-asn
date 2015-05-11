@@ -84,7 +84,7 @@ LaPcaKeyAgreementResponseMsg ::= SEQUENCE {
     ciphertext -- when decrypted it contains LaRandomContribution, R_la
   }),
   reply         CHOICE {
-      success FullSizeHash, -- MAC_la computed as HMAC(mac_key, R_pca || R_la || â€œscms-laâ€?)
+      success FullSizeHash, -- MAC_la computed as HMAC(mac_key, R_pca || R_la || "scms-la")
       failure ScopedLaPcaError
   } 
 }
@@ -100,7 +100,7 @@ PcaLaKeyAgreementAckMsg ::= SEQUENCE {
   requestHash   HashedId8,  -- hash of the initial request
   pcaId         PcaHostnameId,
   reply         CHOICE {
-      success FullSizeHash, -- MAC_pca computed as HMAC(mac_key, R_pca || R_la || â€œscms-pcaâ€?)
+      success FullSizeHash, -- MAC_pca computed as HMAC(mac_key, R_pca || R_la || "scms-pca")
       failure ScopedLaPcaError
   } 
 }
