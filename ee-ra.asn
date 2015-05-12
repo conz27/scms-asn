@@ -87,6 +87,12 @@ RaEeCertResponseNack ::= SEQUENCE {
     ...
 }
 
+
+--
+-- End Entity Pseudonym certificates
+--
+
+
 -- signed and encrypted before sending, see scms-protocol.asn.
 EeRaPseudonymCertProvisioningRequestBase ::= SEQUENCE {
     version                 Uint8(1),
@@ -95,7 +101,10 @@ EeRaPseudonymCertProvisioningRequestBase ::= SEQUENCE {
         unauthenticated         EccNistP256CurvePoint,
         hw-authenticated        SignedEccNistP256Point
     },
-    enc-butterfly-seed-key  EccNistP256CurvePoint,
+    enc-butterfly-seed-key  CHOICE {
+        unauthenticated         EccNistP256CurvePoint,
+        hw-authenticated        SignedEccNistP256Point
+    },
     expansionSign           OCTET STRING (SIZE (16)),
     expansionEnc            OCTET STRING (SIZE (16)),
     currenttime             Time32,
@@ -178,56 +187,43 @@ RARequestNAcknowledge ::= SEQUENCE {
 }
 
 
-
+--
+-- End Entity Authentication certificates
+--
 
 -- signed and encrypted before sending, see scms-protocol.asn.
 EeRaAuthCertProvisioningRequestBase ::= SEQUENCE {
     version          Uint8(1),
-    keys             CHOICE {
-        enc-sign-keys  SEQUENCE {
-            keySign        CHOICE {
-                unauthenticated         EccNistP256CurvePoint,
-                hw-authenticated        SignedEccNistP256Point
-            },
-            keyEnc          EccNistP256CurvePoint
-        },
-        ...
-        -- At some point, we might start supporting butterfly keys for
-        -- authorization certificates
-        --
-        -- butterfly-keys SEQUENCE {
-        --  sig-butterfly-seed-key  EccNistP256CurvePoint,
-        --  enc-butterfly-seed-key  EccNistP256CurvePoint,
-        --  expansionSign           OCTET STRING (SIZE (16)),
-        --  expansionEnc            OCTET STRING (SIZE (16))
-        -- }
+    enrollmentCert          EndEntityEnrollmentAuthCertificate,
+    sig-butterfly-seed-key  CHOICE {
+        unauthenticated         EccNistP256CurvePoint,
+        hw-authenticated        SignedEccNistP256Point
     },
-    currenttime      Time32,
-    policyID         OCTET STRING (SIZE (0..32)),
+    enc-butterfly-seed-key  CHOICE {
+        unauthenticated         EccNistP256CurvePoint,
+        hw-authenticated        SignedEccNistP256Point
+    },
+    expansionSign           OCTET STRING (SIZE (16)),
+    expansionEnc            OCTET STRING (SIZE (16)),
+    currenttime             Time32,
+    policyID                OCTET STRING (SIZE (0..32)),
     ...
 }
 
 
+
+
 EeRaAuthCertProvisioningRequestMsg ::= 
     EeRaAuthCertProvisioningRequestBase (WITH COMPONENTS {...,
-        keys (WITH COMPONENTS { 
-            enc-sign-keys (WITH COMPONENTS { ...,
-                keySign(WITH COMPONENTS {unauthenticated})
-            })
-        })
+        sig-butterfly-seed-key (WITH COMPONENTS {unauthenticated}),
+        enc-butterfly-seed-key (WITH COMPONENTS {unauthenticated})
     })
 
 EeRaAuthCertProvisioningRequestWithHardwareMsg ::= 
     EeRaAuthCertProvisioningRequestBase (WITH COMPONENTS {...,
-        keys (WITH COMPONENTS { 
-            enc-sign-keys (WITH COMPONENTS { ...,
-                keySign(WITH COMPONENTS {hw-authenticated})
-            })
-        })
+        sig-butterfly-seed-key (WITH COMPONENTS {hw-authenticated}),
+        enc-butterfly-seed-key (WITH COMPONENTS {hw-authenticated})
     })
-
-
-
 
 
 -- enrollment certificate of the end entity, for authorization certificate requests
@@ -242,23 +238,10 @@ EndEntityEnrollmentAuthCertificate ::= Certificate (WITH COMPONENTS {...,
 RaEeAuthCertProvisioningAckMsg ::= RaEePseudonymCertProvisioningAckMsg
 
 
--- auth cert:
+-- Auth cert:
 --
--- Since these may be requested one-at-a-time, we're assuming that
--- they're downloaded via request-response rather than by the file
--- download approach for pseudonym certs.
-
--- auth cert request:
--- Similar to AuthCertRequestInfo in pca-ra.asn.
--- Need to have option to include butterfly key parameters
--- Need to indicate whether response is encrypted or NOT-A-NUMBER
-
--- auth cert response:
--- either a PcaRaCertResponseMsg (wrapped in the appropriate 1609.2 
--- wrapper) or a response from the RA saying "not ready yet"
-
--- auth cert status request:
--- includes hash of request, gets auth cert response.
-
+-- Basically the same as pseudonym certificate requests. Auth certificates
+-- always use Butterfly keys. They are not shuffled, nor do they include a linkage value. 
+-- This differentiation is visible in other interfaces only, in particular RA-PCA.
 
 END
