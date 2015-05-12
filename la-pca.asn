@@ -10,7 +10,6 @@ EXPORTS ALL;
 
 IMPORTS 
   HashedId8,
-  PublicKey,
   Signature,
   Time32,
   Uint8,
