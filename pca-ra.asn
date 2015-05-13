@@ -142,7 +142,7 @@ PseudonymCertRequestInfo ::= SEQUENCE {
 AuthCertRequestInfo ::= SEQUENCE {
   pca-id                 PcaHostnameId,
   type                   CertificateType,
-  i-value                IValue OPTIONAL, -- if included -> butterfly keys
+  i-value                IValue,
 
   to-be-signed-cert   ToBeSignedCertificate( 
     WITH COMPONENTS { ...,  
