@@ -1,0 +1,101 @@
+Ieee1609dot2ScmsPolicyTypes {iso(1) identified-organization(3) ieee(111)
+standards-association-numbered-series-standards(2) wave-stds(1609)  dot2(2)
+scms (2) interfaces(1) policy-types (500)}
+
+DEFINITIONS AUTOMATIC TAGS ::= BEGIN
+
+EXPORTS ALL;
+
+IMPORTS
+    
+    Countersignature,
+    Ieee1609Dot2Data,
+    SequenceOfCertificate
+
+FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111) 
+standards-association-numbered-series-standards(2) wave-stds(1609)  
+dot2(2) base (1) schema (1)}
+
+    Duration,
+    Hostname,
+    Signature,
+    Time64,
+    Uint8,
+    Uint16
+   
+FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111) 
+standards-association-numbered-series-standards(2) wave-stds(1609)  
+dot2(2) base(1) base-types(2)}
+
+    PcaHostnameId,
+    RaHostnameId
+
+FROM Ieee1609dot2ScmsBaseTypes {iso(1) identified-organization(3) ieee(111)
+standards-association-numbered-series-standards(2) wave-stds(1609)  dot2(2)
+scms (2) interfaces(1) base-types (2)}
+
+;
+
+-- ######################################################################
+--   PolicyData or SequenceOfPolicyData is destined to reside within 
+--   the "data" parameter of the Policy structure.
+-- ######################################################################
+
+BasePolicy ::= SEQUENCE {
+    version Uint8(1),
+    policyID OCTET STRING (SIZE (0..32)),
+    generationTime Time64,
+    activeTime Time64,
+    gPolicyData GlobalPolicyData OPTIONAL,
+    lPolicyData LocalPolicyData OPTIONAL,
+    ...
+} 
+
+GlobalPolicy ::= BasePolicy (WITH COMPONENTS {...,
+    gPolicyData PRESENT
+})
+
+LocalPolicy ::= BasePolicy (WITH COMPONENTS {...,
+    gPolicyData ABSENT,
+    lPolicyData PRESENT
+})
+
+GlobalPolicyData ::= SEQUENCE {
+    scmsVersion Uint8 DEFAULT 1,               -- SCMS Version 1 is current
+    sizeOfLinkageSeed Uint8 DEFAULT 16,        -- 16 bytes is current size
+    sizeOfPreLinkageValue Uint8 DEFAULT 9,     -- 9 bytes is current size
+    sizeOfLinkageValue Uint8 DEFAULT 9,        -- 9 bytes is current size
+    sizeOfReqHash Uint8 DEFAULT 8,             -- 8 bytes is current size
+    sizeOfLaId Uint8 DEFAULT 2,                -- 2 bytes is current size
+    sizeOfGroupId Uint8 DEFAULT 4,             -- 4 bytes is current size
+    overdueCrlTolerance Time64 OPTIONAL,
+    rootCerts SequenceOfCertificate OPTIONAL,
+    ...,
+    -- Size 1 is used when one countersignature is necessary
+    signatures SEQUENCE SIZE (1..MAX) OF Countersignature
+}
+
+LocalPolicyData ::= SEQUENCE {
+    certGenTimePeriod Uint8 DEFAULT 3,         -- 3 years is current time period
+    validityModel ValidityModel,
+    pcaHost PcaHostnameId OPTIONAL,
+    raHost RaHostnameId OPTIONAL,
+    dnsInfo DNSInfo OPTIONAL,
+    ...,
+    raSignature Signature
+}
+
+ValidityModel ::= SEQUENCE {
+    multCertsPerWeek Uint16 DEFAULT 20,
+    singleCertsOverlappingInSeconds Uint16 OPTIONAL,
+    ...   
+} 
+    (WITH COMPONENTS {..., multCertsPerWeek PRESENT, singleCertsOverlappingInSeconds ABSENT} |
+     WITH COMPONENTS {..., multCertsPerWeek ABSENT, singleCertsOverlappingInSeconds PRESENT}) 
+
+DNSInfo ::= SEQUENCE {
+    primaryDNS Hostname,
+    secondayDNS Hostname OPTIONAL
+}
+
+END
