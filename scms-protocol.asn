@@ -454,25 +454,11 @@ SecuredRACertResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
 
 SignedPseudonymCertProvisioningRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {..., 
-    signedData  (WITH COMPONENTS {..., 
-      tbsData (WITH COMPONENTS {..., 
-        payload (WITH COMPONENTS {..., 
-          data (CONTAINING
-            ScopedPseudonymCertProvisioningRequest
-          ) PRESENT,
-          extDataHash ABSENT
-        }),
-        headerInfo (WITH COMPONENTS {..., 
-          psid (SecurityMgmtPsid),
-          generationTime ABSENT,
-          expiryTime ABSENT,
-          generationLocation ABSENT,
-          missingCertIdentifier ABSENT,
-          missingCrlIdentifier ABSENT,
-          encryptionKey (WITH COMPONENTS {
-            public
-          }) PRESENT
-        })
+    signedCertificateRequest  (WITH COMPONENTS {..., 
+      tbsRequest (WITH COMPONENTS {..., 
+        data (CONTAINING
+          ScopedPseudonymCertProvisioningRequest
+        ) 
       })
     })
   })
@@ -480,25 +466,11 @@ SignedPseudonymCertProvisioningRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
 
 SignedPseudonymCertProvisioningRequestWithHardware ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {..., 
-    signedData  (WITH COMPONENTS {..., 
-      tbsData (WITH COMPONENTS {..., 
-        payload (WITH COMPONENTS {..., 
-          data (CONTAINING
-            ScopedPseudonymCertProvisioningRequestWithHardware
-          ) PRESENT,
-          extDataHash ABSENT
-        }),
-        headerInfo (WITH COMPONENTS {..., 
-          psid (SecurityMgmtPsid),
-          generationTime ABSENT,
-          expiryTime ABSENT,
-          generationLocation ABSENT,
-          missingCertIdentifier ABSENT,
-          missingCrlIdentifier ABSENT,
-          encryptionKey (WITH COMPONENTS {
-            public
-          }) PRESENT
-        })
+    signedCertificateRequest  (WITH COMPONENTS {..., 
+      tbsRequest (WITH COMPONENTS {..., 
+        data (CONTAINING
+          ScopedPseudonymCertProvisioningRequestWithHardware
+        ) 
       })
     })
   })
@@ -516,10 +488,11 @@ SignedPseudonymCertProvisioningAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {..., 
       tbsData (WITH COMPONENTS {..., 
         payload (WITH COMPONENTS {..., 
-          data ( CONTAINING
-            ScopedPseudonymCertProvisioningAck
-          ) PRESENT,
-          extDataHash ABSENT
+          data (WITH COMPONENTS {...,
+             content (WITH COMPONENTS {
+                unsecuredData (CONTAINING ScopedPseudonymCertProvisioningAck)
+            })
+          })
         }),
         headerInfo (WITH COMPONENTS {..., 
           psid (SecurityMgmtPsid),
@@ -543,25 +516,11 @@ SecuredPseudonymCertProvisioningAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
 
 SignedAuthCertProvisioningRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {..., 
-    signedData  (WITH COMPONENTS {..., 
-      tbsData (WITH COMPONENTS {..., 
-        payload (WITH COMPONENTS {..., 
-          data (CONTAINING
-            ScopedAuthCertProvisioningRequest
-          ) PRESENT,
-          extDataHash ABSENT
-        }),
-        headerInfo (WITH COMPONENTS {..., 
-          psid (SecurityMgmtPsid),
-          generationTime ABSENT,
-          expiryTime ABSENT,
-          generationLocation ABSENT,
-          missingCertIdentifier ABSENT,
-          missingCrlIdentifier ABSENT,
-          encryptionKey (WITH COMPONENTS {
-            public
-          }) PRESENT
-        })
+    signedCertificateRequest  (WITH COMPONENTS {..., 
+      tbsRequest (WITH COMPONENTS {..., 
+        data (CONTAINING
+          ScopedAuthCertProvisioningRequest
+        ) 
       })
     })
   })
@@ -569,25 +528,11 @@ SignedAuthCertProvisioningRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
 
 SignedAuthCertProvisioningRequestWithHardware ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {..., 
-    signedData  (WITH COMPONENTS {..., 
-      tbsData (WITH COMPONENTS {..., 
-        payload (WITH COMPONENTS {..., 
-          data (CONTAINING
-            ScopedAuthCertProvisioningRequestWithHardware
-          ) PRESENT,
-          extDataHash ABSENT
-        }),
-        headerInfo (WITH COMPONENTS {..., 
-          psid (SecurityMgmtPsid),
-          generationTime ABSENT,
-          expiryTime ABSENT,
-          generationLocation ABSENT,
-          missingCertIdentifier ABSENT,
-          missingCrlIdentifier ABSENT,
-          encryptionKey (WITH COMPONENTS {
-            public
-          }) PRESENT
-        })
+    signedCertificateRequest  (WITH COMPONENTS {..., 
+      tbsRequest (WITH COMPONENTS {..., 
+        data (CONTAINING
+          ScopedAuthCertProvisioningRequestWithHardware
+        ) 
       })
     })
   })
@@ -605,10 +550,11 @@ SignedAuthCertProvisioningAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {..., 
       tbsData (WITH COMPONENTS {..., 
         payload (WITH COMPONENTS {..., 
-          data ( CONTAINING
-            ScopedAuthCertProvisioningAck
-          ) PRESENT,
-          extDataHash ABSENT
+          data (WITH COMPONENTS {...,
+             content (WITH COMPONENTS {
+                unsecuredData (CONTAINING ScopedAuthCertProvisioningAck)
+            })
+          })
         }),
         headerInfo (WITH COMPONENTS {..., 
           psid (SecurityMgmtPsid),
@@ -641,10 +587,11 @@ SignedLIRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {..., 
       tbsData (WITH COMPONENTS {..., 
         payload (WITH COMPONENTS {..., 
-          data ( CONTAINING
-            ScopedLIRequest
-          ) PRESENT,
-          extDataHash ABSENT
+          data (WITH COMPONENTS {...,
+             content (WITH COMPONENTS {
+                unsecuredData (CONTAINING ScopedLIRequest)
+            })
+          })
         }),
         headerInfo (WITH COMPONENTS {..., 
           psid (SecurityMgmtPsid),
@@ -671,10 +618,11 @@ SignedLIReply ::= SecuredScmsPDU (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {..., 
       tbsData (WITH COMPONENTS {..., 
         payload (WITH COMPONENTS {..., 
-          data ( CONTAINING
-            ScopedLIReply
-          ) PRESENT,
-          extDataHash ABSENT
+          data (WITH COMPONENTS {...,
+             content (WITH COMPONENTS {
+                unsecuredData (CONTAINING ScopedLIReply)
+            })
+          })
         }),
         headerInfo (WITH COMPONENTS {..., 
           psid (SecurityMgmtPsid),
@@ -701,10 +649,11 @@ SignedLSRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {..., 
       tbsData (WITH COMPONENTS {..., 
         payload (WITH COMPONENTS {..., 
-          data ( CONTAINING
-            ScopedLSRequest
-          ) PRESENT,
-          extDataHash ABSENT
+          data (WITH COMPONENTS {...,
+             content (WITH COMPONENTS {
+                unsecuredData (CONTAINING ScopedLSRequest)
+            })
+          })
         }),
         headerInfo (WITH COMPONENTS {..., 
           psid (SecurityMgmtPsid),
@@ -731,10 +680,11 @@ SignedLSReply ::= SecuredScmsPDU (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {..., 
       tbsData (WITH COMPONENTS {..., 
         payload (WITH COMPONENTS {..., 
-          data ( CONTAINING
-            ScopedLSReply
-          ) PRESENT,
-          extDataHash ABSENT
+          data (WITH COMPONENTS {...,
+             content (WITH COMPONENTS {
+                unsecuredData (CONTAINING ScopedLSReply)
+            })
+          })
         }),
         headerInfo (WITH COMPONENTS {..., 
           psid (SecurityMgmtPsid),
@@ -769,10 +719,11 @@ SignedPcaLaKeyAgreementRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {..., 
       tbsData (WITH COMPONENTS {..., 
         payload (WITH COMPONENTS {..., 
-          data ( CONTAINING
-            ScopedPcaLaKeyAgreementRequest
-          ) PRESENT,
-          extDataHash ABSENT
+          data (WITH COMPONENTS {...,
+             content (WITH COMPONENTS {
+                unsecuredData (CONTAINING ScopedPcaLaKeyAgreementRequest)
+            })
+          })
         }),
         headerInfo (WITH COMPONENTS {..., 
           psid (SecurityMgmtPsid),
@@ -793,10 +744,11 @@ SignedLaPcaKeyAgreementResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {..., 
       tbsData (WITH COMPONENTS {..., 
         payload (WITH COMPONENTS {..., 
-          data ( CONTAINING
-            ScopedLaPcaKeyAgreementResponse
-          ) PRESENT,
-          extDataHash ABSENT
+          data (WITH COMPONENTS {...,
+             content (WITH COMPONENTS {
+                unsecuredData (CONTAINING ScopedLaPcaKeyAgreementResponse)
+            })
+          })
         }),
         headerInfo (WITH COMPONENTS {..., 
           psid (SecurityMgmtPsid),
@@ -817,10 +769,11 @@ SignedPcaLaKeyAgreementAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {..., 
       tbsData (WITH COMPONENTS {..., 
         payload (WITH COMPONENTS {..., 
-          data ( CONTAINING
-            ScopedPcaLaKeyAgreementAck
-          ) PRESENT,
-          extDataHash ABSENT
+          data (WITH COMPONENTS {...,
+             content (WITH COMPONENTS {
+                unsecuredData (CONTAINING ScopedPcaLaKeyAgreementAck)
+            })
+          })
         }),
         headerInfo (WITH COMPONENTS {..., 
           psid (SecurityMgmtPsid),
@@ -851,10 +804,11 @@ SignedRaLaPreLinkageValueRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {..., 
       tbsData (WITH COMPONENTS {..., 
         payload (WITH COMPONENTS {..., 
-          data ( CONTAINING
-            ScopedRaLaPreLinkageValueRequest
-          ) PRESENT,
-          extDataHash ABSENT
+          data (WITH COMPONENTS {...,
+             content (WITH COMPONENTS {
+                unsecuredData (CONTAINING ScopedRaLaPreLinkageValueRequest)
+            })
+          })
         }),
         headerInfo (WITH COMPONENTS {..., 
           psid (SecurityMgmtPsid),
@@ -876,10 +830,11 @@ SignedLaRaPreLinkageValueResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {..., 
       tbsData (WITH COMPONENTS {..., 
         payload (WITH COMPONENTS {..., 
-          data ( CONTAINING
-            ScopedLaRaPreLinkageValueResponse
-          ) PRESENT,
-          extDataHash ABSENT
+          data (WITH COMPONENTS {...,
+             content (WITH COMPONENTS {
+                unsecuredData (CONTAINING ScopedLaRaPreLinkageValueResponse)
+            })
+          })
         }),
         headerInfo (WITH COMPONENTS {..., 
           psid (SecurityMgmtPsid),
@@ -907,10 +862,11 @@ SignedMaPcaPreLinkageValueRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {..., 
       tbsData (WITH COMPONENTS {..., 
         payload (WITH COMPONENTS {..., 
-          data ( CONTAINING
-            ScopedMaPcaPreLinkageValueRequest
-          ) PRESENT,
-          extDataHash ABSENT
+          data (WITH COMPONENTS {...,
+             content (WITH COMPONENTS {
+                unsecuredData (CONTAINING ScopedMaPcaPreLinkageValueRequest)
+            })
+          })
         }),
         headerInfo (WITH COMPONENTS {..., 
           psid (SecurityMgmtPsid),
@@ -938,10 +894,11 @@ SignedPcaMaPreLinkageValueResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {..., 
       tbsData (WITH COMPONENTS {..., 
         payload (WITH COMPONENTS {..., 
-          data ( CONTAINING
-            ScopedPcaMaPreLinkageValueResponse
-          ) PRESENT,
-          extDataHash ABSENT
+          data (WITH COMPONENTS {...,
+             content (WITH COMPONENTS {
+                unsecuredData (CONTAINING ScopedPcaMaPreLinkageValueResponse)
+            })
+          })
         }),
         headerInfo (WITH COMPONENTS {..., 
           psid (SecurityMgmtPsid),
@@ -969,10 +926,11 @@ SignedMaPcaHPCRRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {..., 
       tbsData (WITH COMPONENTS {..., 
         payload (WITH COMPONENTS {..., 
-          data ( CONTAINING
-            ScopedMaPcaHPCRRequest
-          ) PRESENT,
-          extDataHash ABSENT
+          data (WITH COMPONENTS {...,
+             content (WITH COMPONENTS {
+                unsecuredData (CONTAINING ScopedMaPcaHPCRRequest)
+            })
+          })
         }),
         headerInfo (WITH COMPONENTS {..., 
           psid (SecurityMgmtPsid),
@@ -1000,10 +958,11 @@ SignedPcaMaHPCRResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {..., 
       tbsData (WITH COMPONENTS {..., 
         payload (WITH COMPONENTS {..., 
-          data ( CONTAINING
-            ScopedPcaMaHPCRResponse
-          ) PRESENT,
-          extDataHash ABSENT
+          data (WITH COMPONENTS {...,
+             content (WITH COMPONENTS {
+                unsecuredData (CONTAINING ScopedPcaMaHPCRResponse)
+            })
+          })
         }),
         headerInfo (WITH COMPONENTS {..., 
           psid (SecurityMgmtPsid),
@@ -1037,10 +996,11 @@ SignedBlacklistRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {..., 
       tbsData (WITH COMPONENTS {..., 
         payload (WITH COMPONENTS {..., 
-          data ( CONTAINING
-            ScopedBlacklistRequest
-          ) PRESENT,
-          extDataHash ABSENT
+          data (WITH COMPONENTS {...,
+             content (WITH COMPONENTS {
+                unsecuredData (CONTAINING ScopedBlacklistRequest)
+            })
+          })
         }),
         headerInfo (WITH COMPONENTS {..., 
           psid (SecurityMgmtPsid),
@@ -1068,10 +1028,11 @@ SignedBlacklistResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {..., 
       tbsData (WITH COMPONENTS {..., 
         payload (WITH COMPONENTS {..., 
-          data ( CONTAINING
-            ScopedBlacklistResponse
-          ) PRESENT,
-          extDataHash ABSENT
+          data (WITH COMPONENTS {...,
+             content (WITH COMPONENTS {
+                unsecuredData (CONTAINING ScopedBlacklistResponse)
+            })
+          })
         }),
         headerInfo (WITH COMPONENTS {..., 
           psid (SecurityMgmtPsid),
@@ -1099,10 +1060,11 @@ SignedLCIRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {..., 
       tbsData (WITH COMPONENTS {..., 
         payload (WITH COMPONENTS {..., 
-          data ( CONTAINING
-            ScopedLCIRequest
-          ) PRESENT,
-          extDataHash ABSENT
+          data (WITH COMPONENTS {...,
+             content (WITH COMPONENTS {
+                unsecuredData (CONTAINING ScopedLCIRequest)
+            })
+          })
         }),
         headerInfo (WITH COMPONENTS {..., 
           psid (SecurityMgmtPsid),
@@ -1131,10 +1093,11 @@ SignedLCIResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {..., 
       tbsData (WITH COMPONENTS {..., 
         payload (WITH COMPONENTS {..., 
-          data ( CONTAINING
-            ScopedLCIResponse
-          ) PRESENT,
-          extDataHash ABSENT
+          data (WITH COMPONENTS {...,
+             content (WITH COMPONENTS {
+                unsecuredData (CONTAINING ScopedLCIResponse)
+            })
+          })
         }),
         headerInfo (WITH COMPONENTS {..., 
           psid (SecurityMgmtPsid),
@@ -1166,23 +1129,11 @@ SecuredLCIResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
 
 SecuredCertificateRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {..., 
-    signedData  (WITH COMPONENTS {..., 
-      tbsData (WITH COMPONENTS {..., 
-        payload (WITH COMPONENTS {..., 
-          data ( CONTAINING
-            ScopedCertificateRequest
-          ) PRESENT,
-          extDataHash ABSENT
-        }),
-        headerInfo (WITH COMPONENTS {..., 
-          psid (SecurityMgmtPsid),
-          generationTime ABSENT,
-          expiryTime ABSENT,
-          generationLocation ABSENT,
-          missingCertIdentifier ABSENT,
-          missingCrlIdentifier ABSENT,
-          encryptionKey ABSENT
-        })
+    signedCertificateRequest  (WITH COMPONENTS {..., 
+      tbsRequest (WITH COMPONENTS {..., 
+        data (CONTAINING
+          ScopedCertificateRequest
+        ) 
       })
     })
   })
@@ -1195,10 +1146,11 @@ SecuredCertificateRequestReply ::= SecuredScmsPDU (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {..., 
       tbsData (WITH COMPONENTS {..., 
         payload (WITH COMPONENTS {..., 
-          data ( CONTAINING
-            ScopedCertificateRequestReply
-          ) PRESENT,
-          extDataHash ABSENT
+          data (WITH COMPONENTS {...,
+             content (WITH COMPONENTS {
+                unsecuredData (CONTAINING ScopedCertificateRequestReply)
+            })
+          })
         }),
         headerInfo (WITH COMPONENTS {..., 
           psid (SecurityMgmtPsid),

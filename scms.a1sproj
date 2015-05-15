@@ -1,0 +1,55 @@
+<OssGuiProject product="ASN.1 Studio" version="2.0" productVersion="7.1">
+ <Asn1Files>
+  <File>../scms-asn-1/1609dot2-base-types.asn</File>
+  <File>../scms-asn-1/1609dot2-schema.asn</File>
+  <File>../scms-asn-1/component-cert-management.asn</File>
+  <File>../scms-asn-1/component-cert-management-errors.asn</File>
+  <File>../scms-asn-1/crl-base-types.asn</File>
+  <File>../scms-asn-1/crl-protocol.asn</File>
+  <File>../scms-asn-1/dcm-eca.asn</File>
+  <File>../scms-asn-1/dcm-eca-errors.asn</File>
+  <File>../scms-asn-1/dcm-ee.asn</File>
+  <File>../scms-asn-1/dcm-ee-errors.asn</File>
+  <File>../scms-asn-1/eca-ee.asn</File>
+  <File>../scms-asn-1/eca-ee-errors.asn</File>
+  <File>../scms-asn-1/ee-lop.asn</File>
+  <File>../scms-asn-1/ee-lop-errors.asn</File>
+  <File>../scms-asn-1/ee-ma.asn</File>
+  <File>../scms-asn-1/ee-ma-errors.asn</File>
+  <File>../scms-asn-1/ee-ra.asn</File>
+  <File>../scms-asn-1/ee-ra-errors.asn</File>
+  <File>../scms-asn-1/la-ma.asn</File>
+  <File>../scms-asn-1/la-ma-errors.asn</File>
+  <File>../scms-asn-1/la-pca.asn</File>
+  <File>../scms-asn-1/la-pca-errors.asn</File>
+  <File>../scms-asn-1/la-ra.asn</File>
+  <File>../scms-asn-1/la-ra-errors.asn</File>
+  <File>../scms-asn-1/lop-ma.asn</File>
+  <File>../scms-asn-1/lop-ma-errors.asn</File>
+  <File>../scms-asn-1/ma-pca.asn</File>
+  <File>../scms-asn-1/ma-pca-errors.asn</File>
+  <File>../scms-asn-1/ma-ra.asn</File>
+  <File>../scms-asn-1/ma-ra-errors.asn</File>
+  <File>../scms-asn-1/pca-ra.asn</File>
+  <File>../scms-asn-1/pca-ra-errors.asn</File>
+  <File>../scms-asn-1/scms-base-types.asn</File>
+  <File>../scms-asn-1/scms-common-errors.asn</File>
+  <File>../scms-asn-1/scms-error.asn</File>
+  <File>../scms-asn-1/scms-protocol.asn</File>
+ </Asn1Files>
+ <CompilerSettings/>
+ <EncodingFiles/>
+ <Settings>
+  <Setting present="false" name="-noRelaxedMode"/>
+  <Setting name="-root"/>
+  <Setting name="AUTOMATIC_ENCDEC"/>
+  <Setting name="OSS_AUTO_ENCODE_WITHOUT_CHECKING_CONSTRAINT"/>
+  <Setting name="DEBUGPDU"/>
+  <Setting name="OSS_PRINT_TYPE_INFO"/>
+  <Setting name="OSS_PRINT_OFFSET"/>
+  <Setting name="OSS_PRINT_COMMENTS"/>
+  <Setting name="OSS_HEXBYTES"/>
+  <Setting name="-oer"/>
+  <Setting name="-coer"/>
+ </Settings>
+</OssGuiProject>

@@ -216,8 +216,11 @@ SignedEncryptedButterflyCertificateResponse ::= Ieee1609Dot2Data (WITH COMPONENT
     signedData  (WITH COMPONENTS {..., 
       tbsData (WITH COMPONENTS {
         payload (WITH COMPONENTS {..., 
-          data (CONTAINING ToBeSignedEncryptedButterflyCertificateResponse) PRESENT,
-          extDataHash ABSENT
+          data (WITH COMPONENTS {...,
+             content (WITH COMPONENTS {
+                unsecuredData (CONTAINING ToBeSignedEncryptedButterflyCertificateResponse)
+            })
+          })
         }),
         headerInfo (WITH COMPONENTS {..., 
           psid (SecurityMgmtPsid),
@@ -239,8 +242,11 @@ SignedEncryptedSingleKeyCertificateResponse ::= Ieee1609Dot2Data (WITH COMPONENT
     signedData  (WITH COMPONENTS {..., 
       tbsData (WITH COMPONENTS {
         payload (WITH COMPONENTS {..., 
-          data (CONTAINING ToBeSignedEncryptedSingleKeyCertificateResponse) PRESENT,
-          extDataHash ABSENT
+          data (WITH COMPONENTS {...,
+             content (WITH COMPONENTS {
+                unsecuredData (CONTAINING ToBeSignedEncryptedSingleKeyCertificateResponse)
+            })
+          })
         }),
         headerInfo (WITH COMPONENTS {..., 
           psid (SecurityMgmtPsid),

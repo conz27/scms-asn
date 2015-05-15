@@ -63,15 +63,26 @@ FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111)
 -- 
 --*********************************************************************  
 
+  SignedDataPayload ::= SEQUENCE  { 
+      data             Ieee1609Dot2Data OPTIONAL,
+      extDataHash      OCTET STRING (SIZE (32)) OPTIONAL,
+      ...
+  }
+      (WITH COMPONENTS {..., data PRESENT} |
+       WITH COMPONENTS {..., extDataHash PRESENT})
+       -- must include at least one element
+
+
   Ieee1609Dot2Data ::= SEQUENCE  { 
     protocolVersion    Uint8(3),
     content            Ieee1609Dot2Content
   }
 
   Ieee1609Dot2Content ::=  CHOICE  { 
-    unsecuredData      Opaque, 
-    signedData         SignedData,
-    encryptedData      EncryptedData,
+    unsecuredData             Opaque, 
+    signedData                SignedData,
+    encryptedData             EncryptedData,
+    signedCertificateRequest  SignedCertificateRequest,
     ...
   }
 
@@ -106,14 +117,6 @@ FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111)
       ...
   }
 
-  SignedDataPayload ::= SEQUENCE  { 
-      data             OCTET STRING OPTIONAL,
-      extDataHash      OCTET STRING (SIZE (32)) OPTIONAL,
-      ...
-  }
-      (WITH COMPONENTS {..., data PRESENT} |
-       WITH COMPONENTS {..., extDataHash PRESENT})
-       -- must include at least one element
 
   -- NEW, designed to support epidemic distribution in 1609.2 setting.
   MissingCrlIdentifier ::=                  
@@ -190,6 +193,7 @@ FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111)
        eciesNistp256   EciesNistP256EncryptedKey,
        ...
   }
+
   SymmetricCiphertext ::=
         CHOICE  { aes128ccm           AesCcmCiphertext,
                   ...
@@ -199,6 +203,27 @@ FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111)
         SEQUENCE  { nonce           OCTET STRING (SIZE (12)),
                     ccmCiphertext   Opaque -- 16 bytes longer than plaintext
                   }
+
+
+
+--********************************************************************** 
+-- 
+--  Certificate Request
+-- 
+--**********************************************************************  
+
+  SignedCertificateRequest ::= SEQUENCE  { 
+    hashId          HashAlgorithm,
+    tbsRequest      ToBeSignedCertificateRequest,
+    signer          SignerIdentifier,
+    signature       Signature
+  }
+
+  ToBeSignedCertificateRequest ::= SEQUENCE {
+    data            OCTET STRING,
+    encryptionKey   EncryptionKey
+  }
+
 
 
 --********************************************************************** 

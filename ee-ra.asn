@@ -130,8 +130,11 @@ SignedEccNistP256Point ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
       signedData  (WITH COMPONENTS {..., 
         tbsData (WITH COMPONENTS {..., 
           payload (WITH COMPONENTS {..., 
-            data (CONTAINING EccNistP256CurvePoint) PRESENT,
-            extDataHash ABSENT
+            data (WITH COMPONENTS {...,
+               content (WITH COMPONENTS {
+                  unsecuredData (CONTAINING EccNistP256CurvePoint)
+              })
+            })
           }),
           headerInfo (WITH COMPONENTS {..., 
             psid (SecurityMgmtPsid),

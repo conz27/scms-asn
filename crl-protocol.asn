@@ -36,8 +36,11 @@ SecuredCrl ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {..., 
       tbsData (WITH COMPONENTS {
         payload (WITH COMPONENTS {..., 
-          data (CONTAINING IndividualCrlContents) PRESENT,
-          extDataHash ABSENT
+          data (WITH COMPONENTS {...,
+             content (WITH COMPONENTS {
+                unsecuredData (CONTAINING IndividualCrlContents)
+            })
+          })
         }),
         headerInfo (WITH COMPONENTS {..., 
           psid (CrlPsid),
@@ -58,8 +61,11 @@ SecuredPseudonymCrl ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {..., 
       tbsData (WITH COMPONENTS {..., 
         payload (WITH COMPONENTS {..., 
-          data (CONTAINING PseudonymCrlContents) PRESENT,
-          extDataHash ABSENT
+          data (WITH COMPONENTS {...,
+             content (WITH COMPONENTS {
+                unsecuredData (CONTAINING PseudonymCrlContents)
+            })
+          })
         }),
         headerInfo (WITH COMPONENTS {..., 
           psid (CrlPsid),
