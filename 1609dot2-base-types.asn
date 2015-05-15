@@ -290,5 +290,7 @@ GeographicRegion ::=
     jValue  OCTET STRING (SIZE(3)),
     value   OCTET STRING (SIZE(10))
   }
-  
+  LinkageSeed ::= OCTET STRING (SIZE(16))
+  LaId ::= OCTET STRING (SIZE(2)) 
+
 END

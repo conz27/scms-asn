@@ -9,9 +9,11 @@ EXPORTS ALL;
  
 IMPORTS 
   Hostname,
-  Psid,
   IValue,
+  LaId,
+  LinkageSeed,
   Opaque, 
+  Psid,
   Signature,
   Uint8,
   Uint16,
@@ -72,9 +74,6 @@ LinkageChainId ::= EncryptedData (WITH COMPONENTS {
   }  
 )
 
-
-LinkageSeed ::= OCTET STRING (SIZE(16))
-LaId ::= OCTET STRING (SIZE(2)) 
 
 PreLinkageValue ::= OCTET STRING (SIZE(9))
 FullSizeHash ::= OCTET STRING (SIZE(32))
