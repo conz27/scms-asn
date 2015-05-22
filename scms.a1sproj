@@ -1,5 +1,11 @@
-<OssGuiProject productVersion="7.1" product="ASN.1 Studio" version="2.0">
+<OssGuiProject version="2.0" productVersion="7.1" product="ASN.1 Studio">
  <Asn1Files>
+  <File>1609dot2-asn/1609dot2-base-types.asn</File>
+  <File>1609dot2-asn/1609dot2-P2P.asn</File>
+  <File>1609dot2-asn/1609dot2-schema.asn</File>
+  <File>1609dot2-asn/crl-base-types.asn</File>
+  <File>1609dot2-asn/crl-protocol.asn</File>
+  <File>1609dot2-asn/wsa-ssp.asn</File>
   <File>component-cert-management.asn</File>
   <File>component-cert-management-errors.asn</File>
   <File>dcm-eca.asn</File>
@@ -31,10 +37,8 @@
   <File>scms-base-types.asn</File>
   <File>scms-common-errors.asn</File>
   <File>scms-error.asn</File>
+  <File>scms-policy.asn</File>
   <File>scms-protocol.asn</File>
-  <File>1609dot2-asn/1609dot2-base-types.asn</File>
-  <File>1609dot2-asn/1609dot2-schema.asn</File>
-  <File>1609dot2-asn/1609dot2-P2P.asn</File>
  </Asn1Files>
  <CompilerSettings/>
  <EncodingFiles/>
