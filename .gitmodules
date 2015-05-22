@@ -1,0 +1,3 @@
+[submodule "1609dot2-asn"]
+	path = 1609dot2-asn
+	url = https://github.com/wwhyte-si/1609dot2-asn
