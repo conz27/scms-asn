@@ -85,13 +85,11 @@ LocalPolicyData ::= SEQUENCE {
     raSignature Signature
 }
 
-ValidityModel ::= SEQUENCE {
-    multCertsPerWeek Uint16 DEFAULT 20,
-    singleCertsOverlappingInSeconds Uint16 OPTIONAL,
+ValidityModel ::= CHOICE {
+    multCertsPerWeek Uint16, -- default 20
+    singleCertsOverlappingInSeconds Uint16,
     ...   
 } 
-    (WITH COMPONENTS {..., multCertsPerWeek PRESENT, singleCertsOverlappingInSeconds ABSENT} |
-     WITH COMPONENTS {..., multCertsPerWeek ABSENT, singleCertsOverlappingInSeconds PRESENT}) 
 
 DNSInfo ::= SEQUENCE {
     primaryDNS Hostname,

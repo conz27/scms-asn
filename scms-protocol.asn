@@ -285,20 +285,30 @@ ScopedPcaLaKeyAgreementAck ::=
 
 -- *** LA-RA ***************************************************************
 
-ScopedRaLaPreLinkageValueRequest ::= 
+ScopedRaLaIndividualPreLinkageValueRequest ::= 
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
       la-ra (WITH COMPONENTS {
-        raLaPreLinkageValueRequest
+        raLaIndividualPreLinkageValueRequest
       })
     })
   })
+
+ScopedRaLaGroupPreLinkageValueRequest ::= 
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      la-ra (WITH COMPONENTS {
+        raLaGroupPreLinkageValueRequest
+      })
+    })
+  })
+
 
 ScopedLaRaPreLinkageValueResponse ::= 
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
       la-ra (WITH COMPONENTS {
-        raLaPreLinkageValueRequest
+        laRaPreLinkageValueResponse
       })
     })
   })
@@ -799,14 +809,40 @@ SignedPcaLaKeyAgreementAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
 
 -- Generation time present to prevent replay, keep message for replay check until 
 -- time corresponding to iMin has been reached.
-SignedRaLaPreLinkageValueRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
+SignedRaLaIndividualPreLinkageValueRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {..., 
     signedData  (WITH COMPONENTS {..., 
       tbsData (WITH COMPONENTS {..., 
         payload (WITH COMPONENTS {..., 
           data (WITH COMPONENTS {...,
              content (WITH COMPONENTS {
-                unsecuredData (CONTAINING ScopedRaLaPreLinkageValueRequest)
+                unsecuredData (CONTAINING ScopedRaLaIndividualPreLinkageValueRequest)
+            })
+          })
+        }),
+        headerInfo (WITH COMPONENTS {..., 
+          psid (SecurityMgmtPsid),
+          generationTime PRESENT,
+          expiryTime ABSENT,
+          generationLocation ABSENT,
+          missingCertIdentifier ABSENT,
+          missingCrlIdentifier ABSENT,
+          encryptionKey ABSENT
+        })
+      })
+    })
+  })
+})
+
+
+SignedRaLaGroupPreLinkageValueRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {..., 
+    signedData  (WITH COMPONENTS {..., 
+      tbsData (WITH COMPONENTS {..., 
+        payload (WITH COMPONENTS {..., 
+          data (WITH COMPONENTS {...,
+             content (WITH COMPONENTS {
+                unsecuredData (CONTAINING ScopedRaLaGroupPreLinkageValueRequest)
             })
           })
         }),

@@ -46,8 +46,9 @@ FROM Ieee1609dot2ScmsError {iso(1) identified-organization(3) ieee(111)
 -- All message types for the LA-RA interface PDU
 --
 LaRaInterfacePDU::= CHOICE {
-    raLaPreLinkageValueRequest   RaLaPreLinkageValueRequestMsg,
-    laRaPreLinkageValueResponse  LaRaPreLinkageValueResponseMsg,
+    raLaIndividualPreLinkageValueRequest   RaLaIndividualPreLinkageValueRequestMsg,
+    raLaGroupPreLinkageValueRequest        RaLaGroupPreLinkageValueRequestMsg,
+    laRaPreLinkageValueResponse            LaRaPreLinkageValueResponseMsg,
     ...
 }
 
@@ -55,26 +56,33 @@ LaRaInterfacePDU::= CHOICE {
 --
 -- Request pre-linkage values by RA to LA
 --
-RaLaPreLinkageValueRequestMsg ::= SEQUENCE {
+RaLaPreLinkageValueRequestMsgHeader ::= SEQUENCE {
     version             Uint8(1),
     raId                RaHostnameId,
     pcaId               PcaHostnameId,
     iMin                Uint16,
-    iMax                Uint16, 
-    jMaxGroups          SEQUENCE OF PlvRequestJMaxGroup
+    iMax                Uint16
 }
 
-PlvRequestJMaxGroup ::= SEQUENCE {
+
+RaLaIndividualPreLinkageValueRequestMsg ::= SEQUENCE {
+    header              RaLaPreLinkageValueRequestMsgHeader,
     jMax                Uint16, 
     numberOfFreshInd    Uint32 OPTIONAL, -- number of fresh chains for individual certs requested
-    continuationsInd    SEQUENCE OF LinkageChainId OPTIONAL, -- continuation values
-                                                             -- for individual certs
-    groupIdentifier     OCTET STRING (SIZE(4)) OPTIONAL  -- the group identifier to be created
-                                                         -- or continued
+    continuationsInd    SEQUENCE OF LinkageChainId OPTIONAL -- continuation values
+                                                            -- for individual certs
 }
 (WITH COMPONENTS {..., numberOfFreshInd PRESENT} |
- WITH COMPONENTS {..., continuationsInd PRESENT} |
- WITH COMPONENTS {..., groupIdentifier PRESENT})
+ WITH COMPONENTS {..., continuationsInd PRESENT})
+
+
+
+RaLaGroupPreLinkageValueRequestMsg ::= SEQUENCE {
+    header              RaLaPreLinkageValueRequestMsgHeader,
+    jMax                Uint32, 
+    groupIdentifier     OCTET STRING (SIZE(4)) -- the group identifier to be created
+                                               -- or continued
+}
 
 --
 -- Provide pre-linkage values by LA to RA
@@ -92,21 +100,24 @@ LaRaPreLinkageValueResponseMsg ::= SEQUENCE {
 PreLinkageValueRequestResponse ::= SEQUENCE {
     iMin                 Uint16,
     iMax                 Uint16, 
-    iGroup               SEQUENCE OF PlvResponseLinkageChain,
+    individual           SEQUENCE (SIZE (0..MAX)) OF IndividualPlvResponseLinkageChain,
+    group                SEQUENCE (SIZE (0..MAX)) OF GroupPlvResponseLinkageChain,
     ... 
 }
 
 
--- would be nice to require the sequence sizes to be consistent with iMin, iMax, jMax,
--- but I don't see how to do that right now.
-PlvResponseLinkageChain ::= SEQUENCE {
+IndividualPlvResponseLinkageChain ::= SEQUENCE {
     jMax                Uint16, 
     values              SEQUENCE OF -- outer sequence of size iMax - iMin
                           SEQUENCE OF EncryptedPLV, -- inner sequence of size jMax
-    chainId             CHOICE {
-        linkageChainId  LinkageChainId,
-        groupIdentifier OCTET STRING (SIZE(4))
-    }
+    linkageChainId      LinkageChainId
+}
+
+GroupPlvResponseLinkageChain ::= SEQUENCE {
+    jMax                Uint32, 
+    values              SEQUENCE OF -- outer sequence of size iMax - iMin
+                          SEQUENCE OF EncryptedPLV, -- inner sequence of size jMax
+    groupIdentifier OCTET STRING (SIZE(4))
 }
 
 END
