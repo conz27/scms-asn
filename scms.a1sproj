@@ -1,4 +1,4 @@
-<OssGuiProject version="2.0" productVersion="7.1" product="ASN.1 Studio">
+<OssGuiProject product="ASN.1 Studio" productVersion="7.1" version="2.0">
  <Asn1Files>
   <File>1609dot2-asn/1609dot2-base-types.asn</File>
   <File>1609dot2-asn/1609dot2-P2P.asn</File>
@@ -43,16 +43,17 @@
  <CompilerSettings/>
  <EncodingFiles/>
  <Settings>
-  <Setting present="false" name="-noRelaxedMode"/>
+  <Setting name="-coer"/>
+  <Setting name="-noRelaxedMode" present="false"/>
+  <Setting name="-oer"/>
   <Setting name="-root"/>
   <Setting name="AUTOMATIC_ENCDEC"/>
-  <Setting name="OSS_AUTO_ENCODE_WITHOUT_CHECKING_CONSTRAINT"/>
+  <Setting name="Additional Options">-noRelaxedMode -warningMessages</Setting>
   <Setting name="DEBUGPDU"/>
-  <Setting name="OSS_PRINT_TYPE_INFO"/>
-  <Setting name="OSS_PRINT_OFFSET"/>
-  <Setting name="OSS_PRINT_COMMENTS"/>
+  <Setting name="OSS_AUTO_ENCODE_WITHOUT_CHECKING_CONSTRAINT"/>
   <Setting name="OSS_HEXBYTES"/>
-  <Setting name="-oer"/>
-  <Setting name="-coer"/>
+  <Setting name="OSS_PRINT_COMMENTS"/>
+  <Setting name="OSS_PRINT_OFFSET"/>
+  <Setting name="OSS_PRINT_TYPE_INFO"/>
  </Settings>
 </OssGuiProject>
