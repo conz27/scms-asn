@@ -100,8 +100,8 @@ SignatureAndSignerIdentifier ::= SEQUENCE {
 	signature	Signature
 }
 
-PlvAndHostInfo ::= SEQUENCE {
-	prelinkageValue PreLinkageValue,
+EncryptedPlvAndHostInfo ::= SEQUENCE {
+	encryptedPLV      EncryptedPLV,
 	hostname	      Hostname
 }
 

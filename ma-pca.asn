@@ -86,7 +86,7 @@ PcaMaPreLinkageValueResponseMsg ::= SEQUENCE {
 Lv2Plv ::= SEQUENCE {  
 	lv    LinkageValue,
 	reply CHOICE {
-			success  PlvAndHostInfo,
+			success  EncryptedPlvAndHostInfo,
 			failure  ScopedMaPcaError
 	}
 }

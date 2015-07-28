@@ -69,14 +69,13 @@ MaLaLinkageInfoRequestMsg ::= SEQUENCE {
 
 ToBeSignedLIRequestMsg ::= SEQUENCE {
     maId                        MaHostnameId,
-    prelinkageValuesAndFlags    SEQUENCE OF PrelinkageValueAndDontCareFlag,
+    encryptedPrelinkageValuesAndFlags    SEQUENCE OF EncryptedPrelinkageValueAndDontCareFlag,
     expectedReply               ExpectedReply,
     ...
 }
 
-
-PrelinkageValueAndDontCareFlag ::= SEQUENCE {
-    plv           PreLinkageValue,
+EncryptedPrelinkageValueAndDontCareFlag ::= SEQUENCE {
+    encryptedPLV  EncryptedPLV,
     dontCareFlag  BOOLEAN    
 }
 
