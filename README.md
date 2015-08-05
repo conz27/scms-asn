@@ -12,7 +12,8 @@ clone is not enough to pull down the entire repo.
 Instructions to clone the SCMS-ASN repository are as follows:
 
 1. ```git clone http://<username>@stash.campllc.org/scm/scms/scms-asn.git```, where 
-<username> is your CAMP login.
+'<username>' is your CAMP login.
 
-2. ```git submodule update --init --recursive``` to checkout the 1609.2 repository.
+2. Go into the scms-asn folder and run ```git submodule update --init --recursive``` 
+to checkout the 1609.2 repository.
 
