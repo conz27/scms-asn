@@ -1,0 +1,64 @@
+<OssGuiProject compiler="ASN.1/Java" compilerVersionLastComp=" T" compilerVersionLastUsed="6.1 T" productVersion="7.1" version="2.0" compilerSettingsChangeTime="2015-08-06T11:51:19" product="ASN.1 Studio">
+ <Asn1Files>
+  <File>1609dot2-asn/1609dot2-base-types.asn</File>
+  <File>1609dot2-asn/1609dot2-P2P.asn</File>
+  <File>1609dot2-asn/1609dot2-schema.asn</File>
+  <File>1609dot2-asn/crl-base-types.asn</File>
+  <File>1609dot2-asn/crl-protocol.asn</File>
+  <File>1609dot2-asn/wsa-ssp.asn</File>
+  <File>component-cert-management.asn</File>
+  <File>component-cert-management-errors.asn</File>
+  <File>dcm-eca.asn</File>
+  <File>dcm-eca-errors.asn</File>
+  <File>dcm-ee.asn</File>
+  <File>dcm-ee-errors.asn</File>
+  <File>eca-ee.asn</File>
+  <File>eca-ee-errors.asn</File>
+  <File>ee-lop.asn</File>
+  <File>ee-lop-errors.asn</File>
+  <File>ee-ma.asn</File>
+  <File>ee-ma-errors.asn</File>
+  <File>ee-ra.asn</File>
+  <File>ee-ra-errors.asn</File>
+  <File>la-ma.asn</File>
+  <File>la-ma-errors.asn</File>
+  <File>la-pca.asn</File>
+  <File>la-pca-errors.asn</File>
+  <File>la-ra.asn</File>
+  <File>la-ra-errors.asn</File>
+  <File>lop-ma.asn</File>
+  <File>lop-ma-errors.asn</File>
+  <File>ma-pca.asn</File>
+  <File>ma-pca-errors.asn</File>
+  <File>ma-ra.asn</File>
+  <File>ma-ra-errors.asn</File>
+  <File>pca-ra.asn</File>
+  <File>pca-ra-errors.asn</File>
+  <File>scms-base-types.asn</File>
+  <File>scms-common-errors.asn</File>
+  <File>scms-error.asn</File>
+  <File>scms-policy.asn</File>
+  <File>scms-protocol.asn</File>
+ </Asn1Files>
+ <CompilerSettings>
+  <Setting present="true" name="disablCAGLMessagesCheckBox"/>
+  <Setting present="false" name="modListRadioButton"/>
+  <Setting present="true" name="jSampleDefaultRadioButton"/>
+ </CompilerSettings>
+ <EncodingFiles/>
+ <GeneratedFiles/>
+ <Settings>
+  <Setting present="false" name="-noRelaxedMode"/>
+  <Setting name="-root"/>
+  <Setting present="false" name="-relaySafe"/>
+  <Setting name="AUTOMATIC_ENCDEC"/>
+  <Setting name="OSS_AUTO_ENCODE_WITHOUT_CHECKING_CONSTRAINT"/>
+  <Setting name="DEBUGPDU"/>
+  <Setting name="OSS_PRINT_TYPE_INFO"/>
+  <Setting name="OSS_PRINT_OFFSET"/>
+  <Setting name="OSS_PRINT_COMMENTS"/>
+  <Setting name="OSS_HEXBYTES"/>
+  <Setting name="-oer"/>
+ </Settings>
+ <UserFiles/>
+</OssGuiProject>
