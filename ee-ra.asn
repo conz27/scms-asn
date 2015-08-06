@@ -259,6 +259,7 @@ RaEeAuthCertProvisioningAckMsg ::= RaEePseudonymCertProvisioningAckMsg
 -- chain, those certificates will be listed in order between the first and last
 -- certifcates of the sequence.
 
-PcaCertificateChainFile ::= SEQUENCE OF ExplicitCertificate
+SequenceOfExplicitCertifcates ::= SEQUENCE OF ExplicitCertificate
+PcaCertificateChainFile ::= SEQUENCE OF SequenceOfExplicitCertifcates
 
 END
