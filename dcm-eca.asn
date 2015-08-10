@@ -8,13 +8,7 @@ DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 
 EXPORTS ALL;
 
-IMPORTS 
-  
-  Certificate
-
-FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111) 
-		standards-association-numbered-series-standards(2) wave-stds(1609)  
-		dot2(2) base (1) schema (1)}
+IMPORTS
 
   DcmEcaError
 
@@ -22,9 +16,7 @@ FROM Ieee1609Dot2DcmEcaError {iso(1) identified-organization(3) ieee(111)
 		standards-association-numbered-series-standards(2) wave-stds(1609)  
 		dot2(2) scms(2) errors(2) dcm-eca (4)}
 
-  Hostname,
-  Uint8,
-  Uint16
+  Uint8
 
 FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111) 
 		standards-association-numbered-series-standards(2) wave-stds(1609)  
@@ -32,73 +24,9 @@ FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111)
 ;
 
 DcmEcaInterfacePDU::= CHOICE {
-	dcmEcaEnrolCertRequest 	DcmEcaEnrolCertRequestMsg,
-	dcmEcaAck 				DcmEcaACK,
-	ecaDcmEnrolCertResponse	EcaDcmEnrolCertResponseMsg,
+	placeholder Uint8(1),
     ...
 }
-
--------------------------------------------------------------------------------
--- Payloads
--------------------------------------------------------------------------------
-
-Payload ::= CHOICE {
-	enrollmentPayload 		EnrollmentPayload,
-	dcm-eca-error			DcmEcaError,	
-	...
-}
-
--- Enrollment Payload:
--- 
--- Parameters that will be provided to the DCM from the ECA upon a successful
--- enrollment.
-
-EnrollmentPayload ::= SEQUENCE {
-	endEntityPubKey	OCTET STRING OPTIONAL, -- TODO: change to PublicKey type
-	enrollmentCert Certificate OPTIONAL,
-	ecaCert Certificate OPTIONAL,
-	raCert Certificate OPTIONAL,
-	raHostname Hostname OPTIONAL,
-	...
-}
-
--------------------------------------------------------------------------------
--- Requests / Responses
--------------------------------------------------------------------------------
-BaseMsg ::= SEQUENCE {
-	version Uint8(1),
-	seq Uint16,
-	payload Payload OPTIONAL,
-	...
-}
-
--- REQUEST #1: DCM ===> ECA
---
--- The DCM will provide the OBE's public key to the ECA to
--- generate the Enrollment Certificate.
-
-DcmEcaEnrolCertRequestMsg ::= BaseMsg(WITH COMPONENTS {...,
-	payload( WITH COMPONENTS{...,
-		enrollmentPayload(WITH COMPONENTS{...,
-			endEntityPubKey PRESENT
-		})
-	})			
-})
-
--- ACK #1: DCM <=== ECA
---
--- Acknowledgement of received Enrollment Certificate Request
-DcmEcaACK ::= BaseMsg
-
--- Response #1: DCM <=== ECA
---
--- The ECA provides the DCM with the enrollment parameters
--- necessary for contacting the RA and verifying the authenticity
--- of the generated encrollment certificate.
-
-EcaDcmEnrolCertResponseMsg ::= BaseMsg(WITH COMPONENTS{...,
-	payload( WITH COMPONENTS{ enrollmentPayload } | WITH COMPONENTS {dcm-eca-error } )
-})
 
 
 END

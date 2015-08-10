@@ -9,7 +9,10 @@ DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 EXPORTS ALL;
 
 EcaEndEntityError ::= ENUMERATED {
-  start(1),
+  -- ECA failed to process Enrollment 
+  ecaInternalServerError,
+  -- ECA response timeout
+  ecaResponseTimeout,
   ...
 }
 
