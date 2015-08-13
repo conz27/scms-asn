@@ -186,29 +186,29 @@ ScopedPseudonymCertProvisioningAck ::=
     })
   })
 
-ScopedAuthCertProvisioningRequest ::= 
+ScopedIdCertProvisioningRequest ::= 
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
       ee-ra (WITH COMPONENTS {
-        eeRaAuthCertProvisioningRequest
+        eeRaIdCertProvisioningRequest
       })
     })
  })
 
-ScopedAuthCertProvisioningRequestWithHardware ::= 
+ScopedIdCertProvisioningRequestWithHardware ::= 
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
       ee-ra (WITH COMPONENTS {
-        eeRaAuthCertProvisioningRequestWithHardware
+        eeRaIdCertProvisioningRequestWithHardware
       })
     })
  })
 
-ScopedAuthCertProvisioningAck ::= 
+ScopedIdCertProvisioningAck ::= 
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
       ee-ra (WITH COMPONENTS {
-        raEeAuthCertProvisioningAck
+        raEeIdCertProvisioningAck
       })
     })
   })
@@ -524,45 +524,45 @@ SecuredPseudonymCertProvisioningAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
-SignedAuthCertProvisioningRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
+SignedIdCertProvisioningRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {..., 
     signedCertificateRequest  (WITH COMPONENTS {..., 
       tbsRequest (WITH COMPONENTS {..., 
         data (CONTAINING
-          ScopedAuthCertProvisioningRequest
+          ScopedIdCertProvisioningRequest
         ) 
       })
     })
   })
 })
 
-SignedAuthCertProvisioningRequestWithHardware ::= SecuredScmsPDU (WITH COMPONENTS {...,
+SignedIdCertProvisioningRequestWithHardware ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {..., 
     signedCertificateRequest  (WITH COMPONENTS {..., 
       tbsRequest (WITH COMPONENTS {..., 
         data (CONTAINING
-          ScopedAuthCertProvisioningRequestWithHardware
+          ScopedIdCertProvisioningRequestWithHardware
         ) 
       })
     })
   })
 })
 
-SecuredAuthCertProvisioningRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
+SecuredIdCertProvisioningRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {..., 
-    encryptedData  -- decrypts to a SignedAuthCertProvisioningRequest or
-                   -- SignedAuthCertProvisioningRequestWithHardware
+    encryptedData  -- decrypts to a SignedIdCertProvisioningRequest or
+                   -- SignedIdCertProvisioningRequestWithHardware
   })
 })
 
-SignedAuthCertProvisioningAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
+SignedIdCertProvisioningAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {..., 
     signedData  (WITH COMPONENTS {..., 
       tbsData (WITH COMPONENTS {..., 
         payload (WITH COMPONENTS {..., 
           data (WITH COMPONENTS {...,
              content (WITH COMPONENTS {
-                unsecuredData (CONTAINING ScopedAuthCertProvisioningAck)
+                unsecuredData (CONTAINING ScopedIdCertProvisioningAck)
             })
           })
         }),
@@ -580,9 +580,9 @@ SignedAuthCertProvisioningAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
-SecuredAuthCertProvisioningAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
+SecuredIdCertProvisioningAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {..., 
-    encryptedData  -- decrypts to a SignedAuthCertProvisioningAck
+    encryptedData  -- decrypts to a SignedIdCertProvisioningAck
   })
 })
 

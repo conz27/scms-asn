@@ -56,10 +56,10 @@ EndEntityRaInterfacePDU::= CHOICE {
     eeRaPseudonymCertProvisioningRequestWithHardware
                           EeRaPseudonymCertProvisioningRequestWithHardwareMsg,
     raEePseudonymCertProvisioningAck     RaEePseudonymCertProvisioningAckMsg,
-    eeRaAuthCertProvisioningRequest      EeRaAuthCertProvisioningRequestMsg,
-    eeRaAuthCertProvisioningRequestWithHardware
-                          EeRaAuthCertProvisioningRequestWithHardwareMsg,
-    raEeAuthCertProvisioningAck          RaEeAuthCertProvisioningAckMsg,
+    eeRaIdCertProvisioningRequest      EeRaIdCertProvisioningRequestMsg,
+    eeRaIdCertProvisioningRequestWithHardware
+                          EeRaIdCertProvisioningRequestWithHardwareMsg,
+    raEeIdCertProvisioningAck          RaEeIdCertProvisioningAckMsg,
     ...
 }
 
@@ -192,13 +192,14 @@ RARequestNAcknowledge ::= SEQUENCE {
 
 
 --
--- End Entity Authentication certificates
+-- End Entity Identification certificates
 --
 
+
 -- signed and encrypted before sending, see scms-protocol.asn.
-EeRaAuthCertProvisioningRequestBase ::= SEQUENCE {
-    version          Uint8(1),
-    enrollmentCert          EndEntityEnrollmentAuthCertificate,
+EeRaIdCertProvisioningRequestBase ::= SEQUENCE {
+    version                 Uint8(1),
+    enrollmentCert          EndEntityEnrollmentIdCertificate,
     sig-butterfly-seed-key  CHOICE {
         unauthenticated         EccNistP256CurvePoint,
         hw-authenticated        SignedEccNistP256Point
@@ -214,24 +215,21 @@ EeRaAuthCertProvisioningRequestBase ::= SEQUENCE {
     ...
 }
 
-
-
-
-EeRaAuthCertProvisioningRequestMsg ::= 
-    EeRaAuthCertProvisioningRequestBase (WITH COMPONENTS {...,
+EeRaIdCertProvisioningRequestMsg ::= 
+    EeRaIdCertProvisioningRequestBase (WITH COMPONENTS {...,
         sig-butterfly-seed-key (WITH COMPONENTS {unauthenticated}),
         enc-butterfly-seed-key (WITH COMPONENTS {unauthenticated})
     })
 
-EeRaAuthCertProvisioningRequestWithHardwareMsg ::= 
-    EeRaAuthCertProvisioningRequestBase (WITH COMPONENTS {...,
+EeRaIdCertProvisioningRequestWithHardwareMsg ::= 
+    EeRaIdCertProvisioningRequestBase (WITH COMPONENTS {...,
         sig-butterfly-seed-key (WITH COMPONENTS {hw-authenticated}),
         enc-butterfly-seed-key (WITH COMPONENTS {hw-authenticated})
     })
 
 
--- enrollment certificate of the end entity, for authorization certificate requests
-EndEntityEnrollmentAuthCertificate ::= Certificate (WITH COMPONENTS {...,
+-- enrollment certificate of the end entity, for identification certificate requests
+EndEntityEnrollmentIdCertificate ::= Certificate (WITH COMPONENTS {...,
       toBeSigned(WITH COMPONENTS {..., 
           explicitCertReqPermissions PRESENT,
           canRequestRollover PRESENT
@@ -239,12 +237,12 @@ EndEntityEnrollmentAuthCertificate ::= Certificate (WITH COMPONENTS {...,
   })
 
 
-RaEeAuthCertProvisioningAckMsg ::= RaEePseudonymCertProvisioningAckMsg
+RaEeIdCertProvisioningAckMsg ::= RaEePseudonymCertProvisioningAckMsg
 
 
--- Auth cert:
+-- Identification cert:
 --
--- Basically the same as pseudonym certificate requests. Auth certificates
+-- Basically the same as pseudonym certificate requests. Identification certificates
 -- always use Butterfly keys. They are not shuffled, nor do they include a linkage value. 
 -- This differentiation is visible in other interfaces only, in particular RA-PCA.
 
