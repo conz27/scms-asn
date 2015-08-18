@@ -8,18 +8,94 @@ DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 
 EXPORTS ALL;
 
-IMPORTS 
-  Uint8
+IMPORTS
+  
+  Certificate
+
+FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111) 
+		standards-association-numbered-series-standards(2) wave-stds(1609)  
+		dot2(2) base (1) schema (1)}
+
+  EcaEndEntityError
+
+FROM Ieee1609Dot2EcaEndEntityError {iso(1) identified-organization(3) ieee(111) 
+		standards-association-numbered-series-standards(2) wave-stds(1609)  
+		dot2(2) scms(2) errors(2) eca-ee (5)}
+
+  Hostname,
+  Uint8,
+  Uint16
+
 FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111) 
 		standards-association-numbered-series-standards(2) wave-stds(1609)  
 		dot2(2) base(1) base-types(2)}
 ;
 
-
 EcaEndEntityInterfacePDU::= CHOICE {
-    placeholder Uint8(1),
+    ecaEeCertRequestMsg EeEcaEnrolCertRequestMsg,
+	ecaEeCertResponseMsg EcaEeEnrolCertResponseMsg,
     ...
 }
 
+-------------------------------------------------------------------------------
+-- Payloads
+-------------------------------------------------------------------------------
+
+Payload ::= CHOICE {
+	eca-ee-error			EcaEndEntityError,
+    enrollmentPayload		EnrollmentPayload,
+	ack						Ack,	
+	...
+}
+
+-- Enrollment Payload:
+-- 
+-- Parameters that will be provided to the DCM from the ECA upon a successful
+-- enrollment.
+
+EnrollmentPayload ::= SEQUENCE {
+	endEntityPubKey	OCTET STRING OPTIONAL, -- TODO: change to PublicKey type
+	enrollmentCert Certificate OPTIONAL,
+	ecaCert Certificate OPTIONAL,
+	raCert Certificate OPTIONAL,
+	raHostname Hostname OPTIONAL,
+	...
+}
+
+-------------------------------------------------------------------------------
+-- Requests / Responses
+-------------------------------------------------------------------------------
+BaseMsg ::= SEQUENCE {
+	version Uint8(1),
+	seq Uint16,
+	payload Payload OPTIONAL,
+	...
+}
+
+-- REQUEST: EE ===> ECA
+--
+-- The DCM will provide the OBE's public key to the ECA to
+-- generate the Enrollment Certificate.
+
+EeEcaEnrolCertRequestMsg ::= BaseMsg(WITH COMPONENTS {...,
+	payload( WITH COMPONENTS{...,
+		enrollmentPayload(WITH COMPONENTS{...,
+			endEntityPubKey PRESENT
+		})
+	})			
+})
+
+-- Response: EE <=== ECA
+--
+-- The ECA provides the DCM with the enrollment parameters
+-- necessary for contacting the RA and verifying the authenticity
+-- of the generated encrollment certificate.
+
+EcaEeEnrolCertResponseMsg ::= BaseMsg(WITH COMPONENTS{...,
+	payload( WITH COMPONENTS{ enrollmentPayload } | WITH COMPONENTS {eca-ee-error } )
+})
+
+-- ACK: EE <==> ECA
+Ack ::= BaseMsg
 
 END

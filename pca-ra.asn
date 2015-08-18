@@ -81,8 +81,6 @@ RaPcaCertRequestMsg ::= SEQUENCE {
   version           Uint8(1),
   raId              RaHostnameId,
   cert-request-info CHOICE {
-    pseudonym-cert-req     PseudonymCertRequestInfo,
-    auth-cert-req          AuthCertRequestInfo,
     ...
   }
 }
@@ -137,9 +135,10 @@ PseudonymCertRequestInfo ::= SEQUENCE {
 }
 
 --
--- Authorization Certificate info sent in the request certificate message
+-- Identification Certificate info sent in the request certificate message
 --
-AuthCertRequestInfo ::= SEQUENCE {
+
+IdCertRequestInfo ::= SEQUENCE {
   pca-id                 PcaHostnameId,
   type                   CertificateType,
   i-value                IValue,
