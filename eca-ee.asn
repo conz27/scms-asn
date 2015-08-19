@@ -32,8 +32,9 @@ FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111)
 ;
 
 EcaEndEntityInterfacePDU::= CHOICE {
-    ecaEeCertRequestMsg EeEcaEnrolCertRequestMsg,
-	ecaEeCertResponseMsg EcaEeEnrolCertResponseMsg,
+    ecaEeCertRequestMsg     EeEcaEnrolCertRequestMsg,
+    ecaEeCertResponseMsg    EcaEeEnrolCertResponseMsg,
+    ack                     Ack,	
     ...
 }
 
@@ -44,7 +45,6 @@ EcaEndEntityInterfacePDU::= CHOICE {
 Payload ::= CHOICE {
 	eca-ee-error			EcaEndEntityError,
     enrollmentPayload		EnrollmentPayload,
-	ack						Ack,	
 	...
 }
 
