@@ -1212,15 +1212,43 @@ SecuredCertificateRequestReply ::= SecuredScmsPDU (WITH COMPONENTS {...,
 
 
 ScmsSsp ::= CHOICE {
-  dcm DcmSsp,
-  la  LaSsp,
-  lop LopSsp,
-  ma  MaSsp,
-  ra  RaSsp,
-  sca ScmsComponentCaSsp,
+  root RootCaSsp,
+  ica  IcaSsp,
+  eca  EcaSsp,
+  pca  PcaSsp,
+  crl  CrlSignerSsp,
+  dcm  DcmSsp,
+  la   LaSsp,
+  lop  LopSsp,
+  ma   MaSsp,
+  ra   RaSsp,
   ...
 }
 
+RootCaSsp ::= SEQUENCE {
+  version Uint8(1),
+  ...
+}
+
+IcaSsp ::= SEQUENCE {
+  version Uint8(1),
+  ...
+}
+
+EcaSsp ::= SEQUENCE {
+  version Uint8(1),
+  ...
+}
+
+PcaSsp ::= SEQUENCE {
+  version Uint8(1),
+  ...
+}
+
+CrlSignerSsp ::= SEQUENCE {
+  version Uint8(1),
+  ...
+}
 
 DcmSsp ::= SEQUENCE {
   version Uint8(1),
@@ -1250,10 +1278,6 @@ RaSsp ::= SEQUENCE {
   ...
 }
 
--- this is to be developed during POC work.
-ScmsComponentCaSsp ::= SEQUENCE {
-  version                         Uint8(1),
-  ...
-}
+
 
 END

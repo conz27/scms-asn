@@ -81,6 +81,8 @@ RaPcaCertRequestMsg ::= SEQUENCE {
   version           Uint8(1),
   raId              RaHostnameId,
   cert-request-info CHOICE {
+    pseudonym-cert-req     PseudonymCertRequestInfo,
+    auth-cert-req          IdCertRequestInfo,
     ...
   }
 }
@@ -219,7 +221,8 @@ SignedEncryptedButterflyCertificateResponse ::= Ieee1609Dot2Data (WITH COMPONENT
              content (WITH COMPONENTS {
                 unsecuredData (CONTAINING ToBeSignedEncryptedButterflyCertificateResponse)
             })
-          })
+          }) PRESENT,
+          extDataHash ABSENT
         }),
         headerInfo (WITH COMPONENTS {..., 
           psid (SecurityMgmtPsid),
@@ -245,7 +248,8 @@ SignedEncryptedSingleKeyCertificateResponse ::= Ieee1609Dot2Data (WITH COMPONENT
              content (WITH COMPONENTS {
                 unsecuredData (CONTAINING ToBeSignedEncryptedSingleKeyCertificateResponse)
             })
-          })
+          }) PRESENT,
+          extDataHash ABSENT
         }),
         headerInfo (WITH COMPONENTS {..., 
           psid (SecurityMgmtPsid),
