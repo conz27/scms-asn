@@ -1,4 +1,4 @@
-<OssGuiProject product="ASN.1 Studio" productVersion="7.1" version="2.0">
+<OssGuiProject productVersion="7.1" version="2.0" product="ASN.1 Studio">
  <Asn1Files>
   <File>1609dot2-asn/1609dot2-base-types.asn</File>
   <File>1609dot2-asn/1609dot2-P2P.asn</File>
@@ -39,6 +39,7 @@
   <File>scms-error.asn</File>
   <File>scms-policy.asn</File>
   <File>scms-protocol.asn</File>
+  <File>cert-profile.asn</File>
  </Asn1Files>
  <CompilerSettings/>
  <EncodingFiles/>

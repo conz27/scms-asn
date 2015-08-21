@@ -1,0 +1,133 @@
+IEEE1609dot2-profiles {iso(1) identified-organization(3) ieee(111) 
+standards-association-numbered-series-standards(2) wave-stds(1609)  
+dot2(2) base (1) profiles (3)}
+
+DEFINITIONS AUTOMATIC TAGS ::= BEGIN
+
+EXPORTS ALL;
+
+IMPORTS 
+  IdentifiedRegion,
+  SequenceOfIdentifiedRegion
+FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111) 
+    standards-association-numbered-series-standards(2) wave-stds(1609)  
+    dot2(2) base(1) base-types(2)}
+ 
+  Certificate,
+  ImplicitCertificate, 
+  PsidGroupPermissions,
+  SequenceOfPsidGroupPermissions,
+  PsidSsp,
+  SequenceOfPsidSsp,
+  SequenceOfPsidSspRange
+FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111) 
+    standards-association-numbered-series-standards(2) wave-stds(1609)  
+    dot2(2) base(1) schema(1)}
+;
+
+ObeEnrollmentCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
+  issuer (WITH COMPONENTS{ecdsaNistP256AndDigest}),
+  toBeSigned (WITH COMPONENTS { ...,
+    id (WITH COMPONENTS { 
+      name
+    }),
+    -- cracaId set to HashedId3 of the ECA cert
+    crlSeries(3),
+    validityPeriod (WITH COMPONENTS { ...,
+      duration (WITH COMPONENTS { 
+        years(40)
+      })
+    }),
+    region (WITH COMPONENTS {
+      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
+        IdentifiedRegion (WITH COMPONENTS { 
+          countryOnly(124) 
+        }), 
+        IdentifiedRegion (WITH COMPONENTS { 
+          countryOnly(484) 
+        }), 
+        IdentifiedRegion (WITH COMPONENTS { 
+          countryOnly(840) 
+        })
+      }))
+    }),
+    assuranceLevel ABSENT,
+    appPermissions ABSENT,
+    certIssuePermissions ABSENT,
+    explicitCertReqPermissions (SequenceOfPsidGroupPermissions (SIZE(2)) (CONSTRAINED BY {
+      PsidGroupPermissions ( WITH COMPONENTS {..., 
+	    subjectPsids (WITH COMPONENTS { 
+          explicit (SequenceOfPsidSspRange (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS { 
+            psid (32), sspRange ABSENT 
+          })))
+        }),
+        minChainDepth(0)
+        --chainDepthRange omitted
+      }),
+      PsidGroupPermissions ( WITH COMPONENTS {..., 
+	    subjectPsids (WITH COMPONENTS{ 
+          explicit (SequenceOfPsidSspRange (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS {
+            psid (38), sspRange ABSENT 
+          })))
+        })
+        --minChainDepth omitted
+        --chainDepthRange omitted
+      })
+    })),
+    canRequestRollover(NULL),
+    encryptionKey ABSENT
+  })
+})
+
+
+ObePseudonymCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
+  issuer (WITH COMPONENTS {ecdsaNistP256AndDigest}),
+  toBeSigned (WITH COMPONENTS { ...,
+    id (WITH COMPONENTS { 
+      linkageData (WITH COMPONENTS {
+        group-linkage-value PRESENT
+      })
+    }),
+    -- cracaId set to HashedId3 of the PCA cert
+    crlSeries(1), -- we will use this value in POC without prejudice
+      -- as to whether it will be used in all BSM certs
+    validityPeriod (WITH COMPONENTS { ...,
+      duration(WITH COMPONENTS { 
+        hours(169)
+      })
+    }),
+    region (WITH COMPONENTS {
+      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
+        IdentifiedRegion (WITH COMPONENTS { 
+          countryOnly(124) 
+        }), 
+        IdentifiedRegion (WITH COMPONENTS { 
+          countryOnly(484) 
+        }), 
+        IdentifiedRegion (WITH COMPONENTS { 
+          countryOnly(840) 
+        })
+      }))
+    }),
+    assuranceLevel ABSENT,
+    appPermissions (SequenceOfPsidSsp (SIZE(2)) (CONSTRAINED BY {
+      PsidSsp (WITH COMPONENTS {
+        psid(32), 
+        ssp ABSENT
+      }), 
+      PsidSsp (WITH COMPONENTS {
+        psid(38), 
+        ssp ABSENT
+      })
+    })),
+    certIssuePermissions ABSENT,
+    explicitCertReqPermissions ABSENT,
+    canRequestRollover ABSENT,
+    encryptionKey ABSENT
+
+  })
+})
+
+
+
+END
