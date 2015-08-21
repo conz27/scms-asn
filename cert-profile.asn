@@ -26,6 +26,7 @@ FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111)
     dot2(2) base(1) schema(1)}
 ;
 
+
 ObeEnrollmentCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
   issuer (WITH COMPONENTS{ecdsaNistP256AndDigest}),
   toBeSigned (WITH COMPONENTS { ...,
@@ -140,13 +141,82 @@ ObePseudonymCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
   })
 })
 
+
+EcaCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
+  issuer (WITH COMPONENTS {ecdsaNistP256AndDigest}),
+  toBeSigned (WITH COMPONENTS { ...,
+    id (WITH COMPONENTS {
+      name ("eca.poc.campllc.org") -- !!TBD!!
+    }),
+    -- cracaId set to HashedId3 of the ICA cert
+    crlSeries(2),
+    validityPeriod (WITH COMPONENTS { ...,
+      duration(WITH COMPONENTS {
+        years(40)
+      })
+    }),
+    region (WITH COMPONENTS {
+      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
+        IdentifiedRegion (WITH COMPONENTS { 
+          countryOnly(124) 
+        }), 
+        IdentifiedRegion (WITH COMPONENTS { 
+          countryOnly(484) 
+        }), 
+        IdentifiedRegion (WITH COMPONENTS { 
+          countryOnly(840) 
+        })
+      }))
+    }),
+    assuranceLevel ABSENT,
+    appPermissions (SequenceOfPsidSsp (SIZE(1)) (CONSTRAINED BY {
+      PsidSsp (WITH COMPONENTS {
+        psid(35)
+        --ssp(OER encoding of ScmsSsp indicating Ecassp)
+      })
+    })),
+    certIssuePermissions (SequenceOfPsidGroupPermissions (SIZE(2)) (CONSTRAINED BY {
+      PsidGroupPermissions ( WITH COMPONENTS {..., 
+	    subjectPsids (WITH COMPONENTS { 
+          explicit (SequenceOfPsidSspRange (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS { 
+            psid (32), sspRange ABSENT 
+          })))
+        }),
+        minChainDepth(1),
+        chainDepthRange(0),
+        eeType({enrol})
+      }),
+      PsidGroupPermissions ( WITH COMPONENTS {..., 
+	    subjectPsids (WITH COMPONENTS{ 
+          explicit (SequenceOfPsidSspRange (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS {
+            psid (38), sspRange ABSENT 
+          })))
+        }),
+        minChainDepth(1),
+        chainDepthRange(0),
+        eeType({enrol})
+      })
+    })),
+    explicitCertReqPermissions ABSENT,
+    canRequestRollover (NULL),
+    encryptionKey ABSENT,
+    verifyKeyIndicator (WITH COMPONENTS {
+      reconstructionValue (WITH COMPONENTS {
+        compressed-y-0,
+        compressed-y-1
+      })
+    })
+  })
+})
+
+
 PcaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
   issuer (WITH COMPONENTS {ecdsaNistP256AndDigest}),
   toBeSigned (WITH COMPONENTS { ...,
     id (WITH COMPONENTS {
       name ("pca.poc.campllc.org") -- !!TBD!!
     }),
-    -- cracaId
+    -- cracaId set to HashedId3 of the ICA cert
     crlSeries(2),
     validityPeriod (WITH COMPONENTS { ...,
       duration(WITH COMPONENTS {
@@ -173,7 +243,26 @@ PcaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
         --ssp(OER encoding of ScmsSsp indicating Pcassp)
       })
     })),
-    certIssuePermissions PRESENT,
+    certIssuePermissions (SequenceOfPsidGroupPermissions (SIZE(2)) (CONSTRAINED BY {
+      PsidGroupPermissions ( WITH COMPONENTS {..., 
+	    subjectPsids (WITH COMPONENTS { 
+          explicit (SequenceOfPsidSspRange (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS { 
+            psid (32), sspRange ABSENT 
+          })))
+        }),
+        minChainDepth(1),
+        chainDepthRange(0)
+      }),
+      PsidGroupPermissions ( WITH COMPONENTS {..., 
+	    subjectPsids (WITH COMPONENTS{ 
+          explicit (SequenceOfPsidSspRange (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS {
+            psid (38), sspRange ABSENT 
+          })))
+        }),
+        minChainDepth(1),
+        chainDepthRange(0)
+      })
+    })),
     explicitCertReqPermissions ABSENT,
     canRequestRollover (NULL),
     encryptionKey ABSENT,
@@ -187,7 +276,6 @@ PcaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
     })
   })
 })
-
 
 
 END
