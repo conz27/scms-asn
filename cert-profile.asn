@@ -61,17 +61,17 @@ ObeEnrollmentCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
             psid (32), sspRange ABSENT 
           })))
         }),
-        minChainDepth(0)
-        --chainDepthRange omitted
+        minChainDepth(0),
+        chainDepthRange(0)
       }),
       PsidGroupPermissions ( WITH COMPONENTS {..., 
 	    subjectPsids (WITH COMPONENTS{ 
           explicit (SequenceOfPsidSspRange (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS {
             psid (38), sspRange ABSENT 
           })))
-        })
-        --minChainDepth omitted
-        --chainDepthRange omitted
+        }),
+        minChainDepth(1),
+        chainDepthRange(0)
       })
     })),
     canRequestRollover(NULL),
