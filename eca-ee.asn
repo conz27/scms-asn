@@ -16,11 +16,11 @@ FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111)
 		standards-association-numbered-series-standards(2) wave-stds(1609)  
 		dot2(2) base (1) schema (1)}
 
-  EcaEndEntityError
+  ScopedEcaEndEntityError
 
 FROM Ieee1609Dot2EcaEndEntityError {iso(1) identified-organization(3) ieee(111) 
 		standards-association-numbered-series-standards(2) wave-stds(1609)  
-		dot2(2) scms(2) errors(2) eca-ee (5)}
+		dot2(2) scms(2) errors(2) complete (1)}
 
   Hostname,
   Uint8,
@@ -43,7 +43,7 @@ EcaEndEntityInterfacePDU::= CHOICE {
 -------------------------------------------------------------------------------
 
 Payload ::= CHOICE {
-	eca-ee-error			EcaEndEntityError,
+	eca-ee-error			ScopedEcaEndEntityError,
     enrollmentPayload		EnrollmentPayload,
 	...
 }

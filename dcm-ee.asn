@@ -10,11 +10,13 @@ EXPORTS ALL;
 
 IMPORTS 
   
-  DcmEndEntityError
+  ScopedDcmEndEntityError
 
-FROM Ieee1609Dot2DcmEndEntityError {iso(1) identified-organization(3) ieee(111) 
-		standards-association-numbered-series-standards(2) wave-stds(1609)  
-		dot2(2) scms(2) errors(2) dcm-ee (127)}
+
+FROM Ieee1609dot2ScmsError {iso(1) identified-organization(3) ieee(111)
+    standards-association-numbered-series-standards(2) wave-stds(1609)  dot2(2)
+    scms (2) errors(2) complete (1)}
+
 
   Uint8
 

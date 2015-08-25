@@ -58,7 +58,7 @@ ObeEnrollmentCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
     certIssuePermissions ABSENT,
     explicitCertReqPermissions (SequenceOfPsidGroupPermissions (SIZE(2)) (CONSTRAINED BY {
       PsidGroupPermissions ( WITH COMPONENTS {..., 
-	    subjectPsids (WITH COMPONENTS { 
+	    appPermissions (WITH COMPONENTS { 
           explicit (SequenceOfPsidSspRange (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS { 
             psid (32), sspRange ABSENT 
           })))
@@ -67,7 +67,7 @@ ObeEnrollmentCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
         chainDepthRange(0)
       }),
       PsidGroupPermissions ( WITH COMPONENTS {..., 
-	    subjectPsids (WITH COMPONENTS{ 
+	    appPermissions (WITH COMPONENTS{ 
           explicit (SequenceOfPsidSspRange (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS {
             psid (38), sspRange ABSENT 
           })))
@@ -177,7 +177,7 @@ EcaCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
     })),
     certIssuePermissions (SequenceOfPsidGroupPermissions (SIZE(2)) (CONSTRAINED BY {
       PsidGroupPermissions ( WITH COMPONENTS {..., 
-	    subjectPsids (WITH COMPONENTS { 
+	    appPermissions (WITH COMPONENTS { 
           explicit (SequenceOfPsidSspRange (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS { 
             psid (32), sspRange ABSENT 
           })))
@@ -187,7 +187,7 @@ EcaCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
         eeType({enrol})
       }),
       PsidGroupPermissions ( WITH COMPONENTS {..., 
-	    subjectPsids (WITH COMPONENTS{ 
+	    appPermissions (WITH COMPONENTS{ 
           explicit (SequenceOfPsidSspRange (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS {
             psid (38), sspRange ABSENT 
           })))
@@ -245,7 +245,7 @@ PcaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
     })),
     certIssuePermissions (SequenceOfPsidGroupPermissions (SIZE(2)) (CONSTRAINED BY {
       PsidGroupPermissions ( WITH COMPONENTS {..., 
-	    subjectPsids (WITH COMPONENTS { 
+	    appPermissions (WITH COMPONENTS { 
           explicit (SequenceOfPsidSspRange (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS { 
             psid (32), sspRange ABSENT 
           })))
@@ -254,7 +254,7 @@ PcaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
         chainDepthRange(0)
       }),
       PsidGroupPermissions ( WITH COMPONENTS {..., 
-	    subjectPsids (WITH COMPONENTS{ 
+	    appPermissions (WITH COMPONENTS{ 
           explicit (SequenceOfPsidSspRange (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS {
             psid (38), sspRange ABSENT 
           })))
