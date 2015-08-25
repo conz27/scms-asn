@@ -10,6 +10,8 @@ EXPORTS ALL;
 
 IMPORTS
   EccNistP256CurvePoint,
+  EncryptionKey,
+  HashAlgorithm,
   Hostname,
   Signature,
   HashedId8,
@@ -22,9 +24,10 @@ FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111)
     base(1) base-types(2)}
 
   Certificate,
+  ExplicitCertificate,
   Ieee1609Dot2Data,
   ImplicitCertificate,
-  ExplicitCertificate
+  SignerIdentifier
 FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111) 
     standards-association-numbered-series-standards(2) wave-stds(1609) dot2(2)
     base(1) schema(1)}

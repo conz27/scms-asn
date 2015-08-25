@@ -8,6 +8,7 @@ DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 EXPORTS ALL;
 
 IMPORTS 
+  HashAlgorithm,
   HashedId32,
   SequenceOfPsid,
   SequenceOfPsidSsp,
@@ -16,7 +17,9 @@ FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111)
 standards-association-numbered-series-standards(2) wave-stds(1609)  
 dot2(2) base(1) base-types(2)}
 
-  Ieee1609Dot2Data
+  Ieee1609Dot2Data,
+  Signature,
+  SignerIdentifier
 FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111) 
 standards-association-numbered-series-standards(2) wave-stds(1609)  
 dot2(2) base (1) schema (1)}
@@ -141,7 +144,7 @@ ScmsPDU ::= SEQUENCE {
 
 -- *** EE-RA ***************************************************************
 
-ScopedCertRequest ::= 
+ScopedEeRaCertRequest ::= 
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
       ee-ra (WITH COMPONENTS {
@@ -150,7 +153,7 @@ ScopedCertRequest ::=
     })
  })
 
-ScopedCertResponse ::= 
+ScopedRaEeCertResponse ::= 
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
       ee-ra (WITH COMPONENTS {
@@ -397,7 +400,7 @@ ScopedLCIResponse ::=
 
 -- *** PCA-RA *************************************************************
 
-ScopedCertificateRequest ::= 
+ScopedRaPcaCertificateRequest ::= 
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
       pca-ra (WITH COMPONENTS {
@@ -407,7 +410,7 @@ ScopedCertificateRequest ::=
   })
 
 
-ScopedCertificateRequestReply ::= 
+ScopedPcaRaCertificateRequestReply ::= 
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
       pca-ra (WITH COMPONENTS {
@@ -415,6 +418,37 @@ ScopedCertificateRequestReply ::=
       })
     })
   })
+
+-- *** Scoped certificate requests   **************************************
+
+  ScopedCertificateRequest ::= ScmsPDU (
+     ScopedEeRaCertRequest |
+     ScopedPseudonymCertProvisioningRequest |
+     ScopedPseudonymCertProvisioningRequestWithHardware |
+     ScopedIdCertProvisioningRequest  |
+     ScopedIdCertProvisioningRequestWithHardware  |
+     ScopedRaPcaCertificateRequest )
+
+
+
+
+
+
+
+
+--*************************************************************************
+-- 
+--  Certificate Request
+-- 
+--**********************************************************************  
+
+  SignedCertificateRequest ::= SEQUENCE  { 
+    hashId          HashAlgorithm,
+    tbsRequest      ScopedCertificateRequest,
+    signer          SignerIdentifier,
+    signature       Signature
+  }
+
 
 
 -- *************************************************************************
@@ -465,11 +499,7 @@ SecuredRACertResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
 SignedPseudonymCertProvisioningRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {..., 
     signedCertificateRequest  (WITH COMPONENTS {..., 
-      tbsRequest (WITH COMPONENTS {..., 
-        data (CONTAINING
-          ScopedPseudonymCertProvisioningRequest
-        ) 
-      })
+      tbsRequest (ScopedPseudonymCertProvisioningRequest)
     })
   })
 })
@@ -477,11 +507,7 @@ SignedPseudonymCertProvisioningRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
 SignedPseudonymCertProvisioningRequestWithHardware ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {..., 
     signedCertificateRequest  (WITH COMPONENTS {..., 
-      tbsRequest (WITH COMPONENTS {..., 
-        data (CONTAINING
-          ScopedPseudonymCertProvisioningRequestWithHardware
-        ) 
-      })
+      tbsRequest (ScopedPseudonymCertProvisioningRequest)
     })
   })
 })
@@ -527,11 +553,7 @@ SecuredPseudonymCertProvisioningAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
 SignedIdCertProvisioningRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {..., 
     signedCertificateRequest  (WITH COMPONENTS {..., 
-      tbsRequest (WITH COMPONENTS {..., 
-        data (CONTAINING
-          ScopedIdCertProvisioningRequest
-        ) 
-      })
+      tbsRequest (ScopedIdCertProvisioningRequest)
     })
   })
 })
@@ -539,11 +561,7 @@ SignedIdCertProvisioningRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
 SignedIdCertProvisioningRequestWithHardware ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {..., 
     signedCertificateRequest  (WITH COMPONENTS {..., 
-      tbsRequest (WITH COMPONENTS {..., 
-        data (CONTAINING
-          ScopedIdCertProvisioningRequestWithHardware
-        ) 
-      })
+      tbsRequest (ScopedIdCertProvisioningRequestWithHardware) 
     })
   })
 })
@@ -1163,28 +1181,24 @@ SecuredLCIResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
 -- 
 -- *************************************************************************
 
-SecuredCertificateRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
+SecuredRaPcaCertificateRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {..., 
     signedCertificateRequest  (WITH COMPONENTS {..., 
-      tbsRequest (WITH COMPONENTS {..., 
-        data (CONTAINING
-          ScopedCertificateRequest
-        ) 
-      })
+      tbsRequest (ScopedRaPcaCertificateRequest)
     })
   })
 })
 
 
 
-SecuredCertificateRequestReply ::= SecuredScmsPDU (WITH COMPONENTS {...,
+SecuredPcaRaCertificateRequestReply ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {..., 
     signedData  (WITH COMPONENTS {..., 
       tbsData (WITH COMPONENTS {..., 
         payload (WITH COMPONENTS {..., 
           data (WITH COMPONENTS {...,
              content (WITH COMPONENTS {
-                unsecuredData (CONTAINING ScopedCertificateRequestReply)
+                unsecuredData (CONTAINING ScopedPcaRaCertificateRequestReply)
             })
           })
         }),
