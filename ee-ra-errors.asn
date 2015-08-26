@@ -16,7 +16,7 @@ EndEntityRaError ::= CHOICE {
 
 EeRaSoftErrorCode ::= ENUMERATED {
 	-- Device policies out of date, soft error
-	raPoliciesOutOfDateSoft,
+	raPolicyOutOfDateSoft,
 	...
 }
 
@@ -30,7 +30,7 @@ EeRaHardErrorCode ::= ENUMERATED {
         -- EE requests invalid URL 
         raRequestedInvalidURL, 
 	-- Device policies out of date, hard error
-	raPoliciesOutOfDateHard, 
+	raPolicyOutOfDateHard, 
 	-- Device enrollment certificate blacklisted, expired, unauthorized
 	raInvalidCredentials, 
 	-- Device signature invalid
