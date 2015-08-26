@@ -9,7 +9,7 @@ DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 EXPORTS ALL;
 
 LopMaError ::= ENUMERATED {
-  start(1),
+  start(1), --not used yet
   ...
 }
 

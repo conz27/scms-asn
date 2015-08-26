@@ -15,12 +15,16 @@ MaPcaError ::= CHOICE {
 
 MaPcaErrorCode ::= ENUMERATED {
     pcaInternalTimeout,
-	pcaNoMAAuthorizationSignature,
-	pcaInvalidMAAuthorizationSignature, 
+	pcaNoMaAuthorizationSignature,
+	pcaInvalidMaAuthorizationSignature,
 	numberofRequestsExceeded, -- not used yet
+    pcaNumberOfLinkageValuesExceeded,
 	noSecureConnectiontoRequestor, -- not used yet
 	tooManyUsers, -- not used yet
 	linkageValueUnknown, -- not used yet
+    pcaInvalidLinkageValue,
+    pcaInternalTimeout,
+    pcaInvalidInputValueFormat,
   ...
 }
 

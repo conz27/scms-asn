@@ -10,9 +10,9 @@ EXPORTS ALL;
 
 EcaEndEntityError ::= ENUMERATED {
   -- ECA failed to process Enrollment 
-  ecaInternalServerError,
+  ecaInternalServerError, -- not used yet
   -- ECA response timeout
-  ecaResponseTimeout,
+  ecaResponseTimeout, -- not used yet
   ...
 }
 
