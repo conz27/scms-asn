@@ -24,7 +24,6 @@ MaPcaErrorCode ::= ENUMERATED {
     tooManyUsers, -- not used yet
     linkageValueUnknown, -- not used yet
     pcaInvalidLinkageValue,
-    pcaInternalTimeout,
     pcaInvalidInputValueFormat,
   ...
 }
