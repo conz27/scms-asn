@@ -16,22 +16,27 @@ LaMaError ::= CHOICE {
 }
 
 LaMaBaseErrorCode ::= ENUMERATED {
-  noMAAuthorizationSignature,
-  invalidMAAuthorizationSignature,
-  numberOfRequestsExceeded,
-  noSecureConnectionToRequestor,
+  laNoMaAuthorizationSignature, 
+  laInvalidMaAuthorizationSignature,
+  numberOfRequestsExceeded, -- not used yet
+  noSecureConnectionToRequestor, -- not used yet
+  laInternalTimeout,
+  laInvalidInputValueFormat, 
   ...
 }
 
 LaMaLinkageInfoErrorCode ::= ENUMERATED {
-  atLeastOnePrelinkageValueUnknown,
-  allPrelinkageValuesUnknown,
-  onlyOnePrelinkageValuePresented,
+  atLeastOnePrelinkageValueUnknown, -- not used yet
+  allPrelinkageValuesUnknown, -- not used yet
+  onlyOnePrelinkageValuePresented, -- not used yet
+  laInvalidPrelinkageValuePresented,
   ...
 }
 
 LaMaLinkageSeedErrorCode ::= ENUMERATED {
-  linkageChainIdentifierUnknown,
+  linkageChainIdentifierUnknown, -- not used yet
+  laInvalidLinkageValue,
+  laNumberOfLinkageValuesExceeded,
   ...
 }
 

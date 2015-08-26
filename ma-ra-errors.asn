@@ -17,22 +17,25 @@ MaRaError ::= CHOICE {
 }
 
 MaRaBaseErrorCode ::= ENUMERATED {
-	noMAAuthorizationSignature,
-	invalidMAAuthorizationSignature,
-	numberOfRequestsExceeded,
-	noSecureConnectionToRequestor,
-	hpcrIsUnknownToRA,
+        raInvalidInputValueFormat,
+	raInternalTimeout,
+        raNoMaAuthorizationSignature, 
+	raInvalidMaAuthorizationSignature,
+        raInvalidLinkageValue, 
+	raNumberOfRequestsExceeded,
+	noSecureConnectionToRequestor, -- not used yet
+	hpcrIsUnknownToRA, -- not used yet
 	...
 }
 
 MaRaBlacklistErrorCode ::= ENUMERATED {
 	-- HPCR points to already blacklisted certificate
-	alreadyBlacklisted,
+	raCertificateAlreadyBlacklisted,
 	...
 }
 
 MaRaLCIErrorCode ::= ENUMERATED {
-	noLinkageChainIdentifiersKnownForHPCR,
+	noLinkageChainIdentifiersKnownForHPCR, -- not used yet
 	...
 }
 

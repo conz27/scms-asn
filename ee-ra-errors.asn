@@ -16,27 +16,37 @@ EndEntityRaError ::= CHOICE {
 
 EeRaSoftErrorCode ::= ENUMERATED {
 	-- Device policies out of date, soft error
-	policiesOutOfDateSoft,
+	raPoliciesOutOfDateSoft,
 	...
 }
 
 EeRaHardErrorCode ::= ENUMERATED {
+        -- EE-to-RA authentication fails
+        raAuthenticationFails,
 	-- Device policies out of date, hard error
-	policiesOutOfDateHard,
+	raPoliciesOutOfDateHard, 
 	-- Device enrollment certificate blacklisted, expired, unauthorized
-	invalidCredentials,
+	raInvalidCredentials, 
 	-- Device signature invalid
-	invalidSignature,
+	raInvalidSignature,
 	-- Unauthorized request permissions invalid
-	invalidPermissions,
+	raInvalidPermissions,
 	-- Malformed provisioning request
-	malformedRequest,
+	raMalformedRequest,
 	-- RA does not service this device
 	raDoesNotService,
 	-- Invalid device system time
-	invalidSystemTime,
+	raInvalidSystemTime,
 	-- Too many provisioning requests by device
-	tooManyRequests,
+	raTooManyRequests,
+        -- Device sent duplicate request
+        raDuplicateRequest,
+        -- Requested certificate batch not available
+        raCertificateBatchNotAvailable,
+        -- RA not able to provide .info file
+        raNoCurrentDotInfoFile,
+        -- RA not able to provide PCA Certificate Chain file
+        raNoPCACertificateChainFile, 
 	...
 }
 
