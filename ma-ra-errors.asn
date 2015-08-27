@@ -19,8 +19,12 @@ MaRaError ::= CHOICE {
 MaRaBaseErrorCode ::= ENUMERATED {
         raInvalidInputValueFormat,
 	raInternalTimeout,
+        maRequestTimeout,
         raNoMaAuthorizationSignature, 
 	raInvalidMaAuthorizationSignature,
+        raInvalidInputValueFormat,
+        raInvalidHashRequest,
+        raInvalidRIFValue,
         raInvalidLinkageValue, 
 	raNumberOfRequestsExceeded,
 	noSecureConnectionToRequestor, -- not used yet

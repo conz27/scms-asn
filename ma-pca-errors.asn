@@ -15,6 +15,7 @@ MaPcaError ::= CHOICE {
 
 MaPcaErrorCode ::= ENUMERATED {
     pcaInternalTimeout,
+    maRequestTimeout,
     pcaNoMaAuthorizationSignature,
     pcaInvalidMaAuthorizationSignature,
     numberofRequestsExceeded, -- not used yet

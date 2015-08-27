@@ -21,6 +21,7 @@ LaMaBaseErrorCode ::= ENUMERATED {
   numberOfRequestsExceeded, -- not used yet
   noSecureConnectionToRequestor, -- not used yet
   laInternalTimeout,
+  maRequestTimeout,
   laInvalidInputValueFormat, 
   ...
 }
@@ -36,7 +37,7 @@ LaMaLinkageInfoErrorCode ::= ENUMERATED {
 LaMaLinkageSeedErrorCode ::= ENUMERATED {
   linkageChainIdentifierUnknown, -- not used yet
   laInvalidLinkageValue,
-  laNumberOfLinkageValuesExceeded,
+  laNumberOfLciValuesExceeded,
   ...
 }
 

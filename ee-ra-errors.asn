@@ -16,15 +16,21 @@ EndEntityRaError ::= CHOICE {
 
 EeRaSoftErrorCode ::= ENUMERATED {
 	-- Device policies out of date, soft error
-	raPoliciesOutOfDateSoft,
+	raPolicyOutOfDateSoft,
 	...
 }
 
 EeRaHardErrorCode ::= ENUMERATED {
-        -- EE-to-RA authentication fails
-        raAuthenticationFails,
+        -- EE-to-RA authentication failed
+        raAuthenticationFailed,
+        -- RA-to-EE authentication failed
+        eeAuthenticationFailed,
+        -- EE tries to communicate without TLS protection
+        raNoTLS, 
+        -- EE requests invalid URL 
+        raRequestedInvalidURL, 
 	-- Device policies out of date, hard error
-	raPoliciesOutOfDateHard, 
+	raPolicyOutOfDateHard, 
 	-- Device enrollment certificate blacklisted, expired, unauthorized
 	raInvalidCredentials, 
 	-- Device signature invalid
@@ -42,11 +48,13 @@ EeRaHardErrorCode ::= ENUMERATED {
         -- Device sent duplicate request
         raDuplicateRequest,
         -- Requested certificate batch not available
-        raCertificateBatchNotAvailable,
+        raNoCertFileAvailable,
         -- RA not able to provide .info file
-        raNoCurrentDotInfoFile,
+        raNoInfoFileAvailable,
         -- RA not able to provide PCA Certificate Chain file
-        raNoPCACertificateChainFile, 
+        raNoPcaCertificateChainFileAvailable,
+        -- RA is not able to provide a current Global Certificate Chain file
+        raNoGlobalCertificateChainFileAvailable, 
 	...
 }
 
