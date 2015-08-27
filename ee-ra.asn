@@ -242,25 +242,10 @@ EndEntityEnrollmentIdCertificate ::= Certificate (WITH COMPONENTS {...,
 
 RaEeIdCertProvisioningAckMsg ::= RaEePseudonymCertProvisioningAckMsg
 
-
 -- Identification cert:
 --
 -- Basically the same as pseudonym certificate requests. Identification certificates
 -- always use Butterfly keys. They are not shuffled, nor do they include a linkage value. 
 -- This differentiation is visible in other interfaces only, in particular RA-PCA.
-
-
--- PCA Certificate Chain File:
---
--- Contains the full PCA certificate chain of each PCA that has issued a pseudonym
--- certificate currently availble for download by EE from the RA.
---
--- The first certificate in the sequence is the PCA certificate. The last certificate
--- in the sequence will be the root certificate. If intermediate CAs exist in the
--- chain, those certificates will be listed in order between the first and last
--- certifcates of the sequence.
-
-SequenceOfExplicitCertifcates ::= SEQUENCE OF ExplicitCertificate
-PcaCertificateChainFile ::= SEQUENCE OF SequenceOfExplicitCertifcates
 
 END

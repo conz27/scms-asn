@@ -60,6 +60,8 @@ LocalPolicy ::= BasePolicy (WITH COMPONENTS {...,
     lPolicyData PRESENT
 })
 
+Signatures ::= SEQUENCE SIZE(1..MAX) OF Countersignature
+
 GlobalPolicyData ::= SEQUENCE {
     scmsVersion Uint8 DEFAULT 1,               -- SCMS Version 1 is current
     sizeOfLinkageSeed Uint8 DEFAULT 16,        -- 16 bytes is current size
@@ -69,10 +71,10 @@ GlobalPolicyData ::= SEQUENCE {
     sizeOfLaId Uint8 DEFAULT 2,                -- 2 bytes is current size
     sizeOfGroupId Uint8 DEFAULT 4,             -- 4 bytes is current size
     overdueCrlTolerance Time64 OPTIONAL,
-    rootCerts SequenceOfCertificate OPTIONAL,
+    certChainFileId Uint16,                    -- must match version in GlobalCertificateChainFile
     ...,
     -- Size 1 is used when one countersignature is necessary
-    signatures SEQUENCE SIZE (1..MAX) OF Countersignature
+    signatures Signatures
 }
 
 LocalPolicyData ::= SEQUENCE {
@@ -95,5 +97,41 @@ DNSInfo ::= SEQUENCE {
     primaryDNS Hostname,
     secondayDNS Hostname OPTIONAL
 }
+
+-- Global Certificate Chain File:
+--
+-- Contains the full certificate chains of each valid Root, ICA, or PCA that has been issued a
+-- certificate.
+--
+
+GlobalCertificateChainFile ::= SEQUENCE {
+    version Uint16(0), -- version must match certChainFileId in Global Policy
+    certStore CertificateStore,
+    ...,
+    signatures Signatures   -- TODO: Figure out who signs the Global Certificate Chain File
+                            --       and type of signature to use.
+}
+
+CertificateStore ::= SEQUENCE {
+    rootCAs RootCerts,
+    icaCertChains IcaCertChains,
+    pcaCertChains PcaCertChains,
+    ...
+}
+
+-- Each certificate in the sequence is a Root CA.
+RootCerts ::= SEQUENCE OF ExplicitCertificate
+
+CertificateChain ::= SEQUENCE OF ExplicitCertificate
+
+-- The first certificate in the sequence is the ICA certificate. The last certificate
+-- in the sequence will be the Root certificate. 0 or more ICAs can be listed in
+-- order between the first and last certificate of the sequence.
+IcaCertChains ::= SEQUENCE OF CertificateChain
+
+-- The first certificate in the sequence is the PCA certificate. The last certificate
+-- in the sequence will be the Root certificate. One or more ICAs should be listed in
+-- order between the first and last certifcates of the sequence.
+PcaCertChains ::= SEQUENCE OF CertificateChain
 
 END
