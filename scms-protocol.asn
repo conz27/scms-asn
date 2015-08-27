@@ -470,45 +470,33 @@ SecuredScmsPDU ::= Ieee1609Dot2Data
 
 SecuredRACertRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
     content (WITH COMPONENTS {..., 
-      unsecuredData (CONTAINING
-        ScmsPDU (WITH COMPONENTS { ...,
-          content (WITH COMPONENTS {
-            ee-ra (WITH COMPONENTS {   
-              eeRaCertRequest
-            })
-          })
-        })
-      )
+      unsecuredData (CONTAINING ScopedEeRaCertRequest)
     })
   })
 
 SecuredRACertResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
     content (WITH COMPONENTS {..., 
-      unsecuredData (CONTAINING
-        ScmsPDU (WITH COMPONENTS { ...,
-          content (WITH COMPONENTS {
-            ee-ra (WITH COMPONENTS {   
-              raEeCertResponse
-            })
-          })
-        })
-      )
+      unsecuredData (CONTAINING ScopedRaEeCertResponse)
     })
   })
 
 SignedPseudonymCertProvisioningRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {..., 
-    signedCertificateRequest  (WITH COMPONENTS {..., 
-      tbsRequest (ScopedPseudonymCertProvisioningRequest)
-    })
+    signedCertificateRequest  (CONTAINING
+      SignedCertificateRequest (WITH COMPONENTS {..., 
+        tbsRequest (ScopedPseudonymCertProvisioningRequest)
+      })
+    )
   })
 })
 
 SignedPseudonymCertProvisioningRequestWithHardware ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {..., 
-    signedCertificateRequest  (WITH COMPONENTS {..., 
-      tbsRequest (ScopedPseudonymCertProvisioningRequest)
-    })
+    signedCertificateRequest  (CONTAINING
+      SignedCertificateRequest (WITH COMPONENTS {..., 
+        tbsRequest (ScopedPseudonymCertProvisioningRequestWithHardware)
+      })
+    )
   })
 })
 
@@ -552,17 +540,21 @@ SecuredPseudonymCertProvisioningAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
 
 SignedIdCertProvisioningRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {..., 
-    signedCertificateRequest  (WITH COMPONENTS {..., 
-      tbsRequest (ScopedIdCertProvisioningRequest)
-    })
+    signedCertificateRequest  (CONTAINING
+      SignedCertificateRequest (WITH COMPONENTS {..., 
+        tbsRequest (ScopedIdCertProvisioningRequest)
+      })
+    )
   })
 })
 
 SignedIdCertProvisioningRequestWithHardware ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {..., 
-    signedCertificateRequest  (WITH COMPONENTS {..., 
-      tbsRequest (ScopedIdCertProvisioningRequestWithHardware) 
-    })
+    signedCertificateRequest  (CONTAINING
+      SignedCertificateRequest (WITH COMPONENTS {..., 
+        tbsRequest (ScopedIdCertProvisioningRequestWithHardware) 
+      })
+    )
   })
 })
 
@@ -1183,9 +1175,11 @@ SecuredLCIResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
 
 SecuredRaPcaCertificateRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {..., 
-    signedCertificateRequest  (WITH COMPONENTS {..., 
-      tbsRequest (ScopedRaPcaCertificateRequest)
-    })
+    signedCertificateRequest  (CONTAINING
+      SignedCertificateRequest (WITH COMPONENTS {..., 
+        tbsRequest (ScopedRaPcaCertificateRequest)
+      })
+    )
   })
 })
 
