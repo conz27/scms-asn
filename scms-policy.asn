@@ -9,6 +9,7 @@ EXPORTS ALL;
 IMPORTS
     
     Countersignature,
+    ExplicitCertificate,
     Ieee1609Dot2Data,
     SequenceOfCertificate
 
