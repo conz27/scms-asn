@@ -9,7 +9,6 @@ DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 EXPORTS ALL;
 
 EndEntityLopError ::= ENUMERATED {
-  start(1), -- not used yet
   ...
 }
 
