@@ -107,18 +107,61 @@ DNSInfo ::= SEQUENCE {
 
 GlobalCertificateChainFile ::= SEQUENCE {
     version Uint16(0), -- version must match certChainFileId in Global Policy
+    rootMgmtCmds SignedManagementCommands OPTIONAL,
     certStore CertificateStore,
     ...,
     signatures Signatures   -- TODO: Figure out who signs the Global Certificate Chain File
                             --       and type of signature to use.
 }
 
+SignedManagementCommands ::= SEQUENCE OF SignedManagementCommand
+
 CertificateStore ::= SEQUENCE {
     rootCAs RootCerts,
     icaCertChains IcaCertChains,
+    ecaCertChains EcaCertChains,
     pcaCertChains PcaCertChains,
     ...
 }
+
+-- Backend Management Commands
+
+ManagementCommand ::= ENUMERATED {
+    addRootCA       (1),
+    revokeRootCA    (2),
+    ...
+}
+
+ManagementContext ::= CHOICE {
+    rootInfo RootInfo,
+    ...
+}
+
+SignedManagementCommand ::= SEQUENCE {
+    command ManagementCommand,
+    context ManagementContext OPTIONAL,
+    generationTime Time64,
+    activeTime Time64,
+    ...,
+    signatures Signatures -- TODO: Figure out type of signature needed for group of Root CAs.
+}
+
+RootInfo ::= SEQUENCE {
+    certificate ExplicitCertificate,
+    ...
+}
+
+CommandAddRootCA ::= SignedManagementCommand (WITH COMPONENTS {...,
+    command(addRootCA),
+    context(WITH COMPONENTS{rootInfo})
+})
+
+CommandRevokeRootCA ::= SignedManagementCommand (WITH COMPONENTS {...,
+    command(revokeRootCA),
+    context(WITH COMPONENTS{rootInfo})
+})
+
+-- Certificate Store
 
 -- Each certificate in the sequence is a Root CA.
 RootCerts ::= SEQUENCE OF ExplicitCertificate
@@ -129,6 +172,11 @@ CertificateChain ::= SEQUENCE OF ExplicitCertificate
 -- in the sequence will be the Root certificate. 0 or more ICAs can be listed in
 -- order between the first and last certificate of the sequence.
 IcaCertChains ::= SEQUENCE OF CertificateChain
+
+-- The first certificate in the sequence is the ECA certificate. The last certificate
+-- in the sequence will be the Root certificate. One or more ICAs should be listed in
+-- order between the first and last certifcates of the sequence.
+EcaCertChains ::= SEQUENCE OF CertificateChain
 
 -- The first certificate in the sequence is the PCA certificate. The last certificate
 -- in the sequence will be the Root certificate. One or more ICAs should be listed in
