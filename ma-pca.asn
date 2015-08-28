@@ -1,9 +1,3 @@
---<OSS.UNBOUNDED SEQUENCE OF>--
---<OSS.UNBOUNDED UTF8String>--
---<OSS.UNBOUNDED IA5String>--
---<OSS.UNBOUNDED OCTET STRING>--
---<OSS.UNBOUNDED BIT STRING>--
---<OSS.LONG>--
 
 Ieee1609Dot2MaPcaInterface
 {iso(1) identified-organization(3) ieee(111) 
