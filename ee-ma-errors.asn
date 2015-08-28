@@ -9,7 +9,7 @@ DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 EXPORTS ALL;
 
 EndEntityMaError ::= ENUMERATED {
-  maMalformedRequest,
+  start(1), -- not used yet
   ...
 }
 

@@ -9,6 +9,7 @@ DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 EXPORTS ALL;
 
 DcmEcaError ::= ENUMERATED {
+  start(1),
   ...
 }
 
