@@ -10,6 +10,8 @@ EXPORTS ALL;
 
 EndEntityMaError ::= ENUMERATED {
   maMalformedRequest,
+  maDecryptionFailed,
+  eeEncryptionFailed,
   ...
 }
 
