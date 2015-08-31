@@ -21,41 +21,66 @@ EeRaSoftErrorCode ::= ENUMERATED {
 }
 
 EeRaHardErrorCode ::= ENUMERATED {
-        -- EE-to-RA authentication failed
-        raAuthenticationFailed,
-        -- RA-to-EE authentication failed
-        eeAuthenticationFailed,
-        -- EE tries to communicate without TLS protection
-        raNoTLS, 
-        -- EE requests invalid URL 
-        raRequestedInvalidURL, 
-	-- Device policies out of date, hard error
-	raPolicyOutOfDateHard, 
-	-- Device enrollment certificate blacklisted, expired, unauthorized
-	raInvalidCredentials, 
-	-- Device signature invalid
-	raInvalidSignature,
-	-- Unauthorized request permissions invalid
-	raInvalidPermissions,
-	-- Malformed provisioning request
-	raMalformedRequest,
-	-- RA does not service this device
-	raDoesNotService,
-	-- Invalid device system time
-	raInvalidSystemTime,
-	-- Too many provisioning requests by device
-	raTooManyRequests,
-        -- Device sent duplicate request
-        raDuplicateRequest,
-        -- Requested certificate batch not available
-        raNoCertFileAvailable,
-        -- RA not able to provide .info file
-        raNoInfoFileAvailable,
-        -- RA not able to provide PCA Certificate Chain file
-        raNoPcaCertificateChainFileAvailable,
-        -- RA is not able to provide a current Global Certificate Chain file
-        raNoGlobalCertificateChainFileAvailable, 
-	...
+    -- RA Triggered Error Codes
+
+    -- EE-to-RA authentication failed
+    raAuthenticationFailed,
+    -- EE tries to communicate without TLS protection
+    raNoTLS, 
+    -- EE requests invalid URL 
+    raRequestedInvalidURL, 
+    -- Device policies out of date, hard error
+    raPolicyOutOfDateHard, 
+    -- Device enrollment certificate blacklisted, expired, unauthorized
+    raInvalidCredentials, 
+    -- Device signature invalid
+    raInvalidSignature,
+    -- Unauthorized request permissions invalid
+    raInvalidPermissions,
+    -- Malformed provisioning request
+    raMalformedRequest,
+    -- RA does not service this device
+    raDoesNotService,
+    -- Invalid device system time
+    raInvalidSystemTime,
+    -- Too many provisioning requests by device
+    raTooManyRequests,
+    -- Device sent duplicate request
+    raDuplicateRequest,
+    -- Requested certificate batch not available
+    raNoCertFileAvailable,
+    -- RA not able to provide .info file
+    raNoInfoFileAvailable,
+    -- RA is not able to provide a current Global Certificate Chain file
+    raNoGlobalCertificateChainFileAvailable, 
+    
+    -- EE Triggered Error Codes
+    
+    -- RA-to-EE authentication failed
+    eeAuthenticationFailed,
+    -- EE failed to download 
+    eeGlobalPolicyFileDownloadFailed,
+    -- EE failed to verify the downloaded Global Policy File
+    eeGlobalPolicyVerificationFailed,
+    -- EE failed to parse the Global Policy File
+    eeGlobalPolicyFileParsingFailed,
+    -- EE failed to connect to the RA
+    eeConnectionFailed,
+    -- EE failed to download the pseudonym certificate batch file
+    eeCertFileDownloadFailed,
+    -- EE failed to verify the digital signature of an encrypted certificate
+    eeCertFileVerificationFailed,
+    -- EE failed to decrypt an encrypted certificate
+    eeCertFileDecryptionFailed,
+    -- EE failed to verify a certificate
+    eeCertVerificationFailed,
+    -- EE failed to parse certificate or content is incorrect
+    eeCertContentFalse,
+    -- TODO: Missing description in Camp Wiki (Andre?)
+    eeInfoFileDownloadFailed,
+    -- EE failed to donwload the Global Certificate Chain File
+    eeGlobalCertifcateChainFileDownloadFailed,
+    ...
 }
 
 END

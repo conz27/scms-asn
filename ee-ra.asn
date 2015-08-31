@@ -16,6 +16,7 @@ IMPORTS
   Signature,
   HashedId8,
   Time32,
+  Time64,
   Uint8,
   Uint16,
   Uint32
@@ -247,5 +248,21 @@ RaEeIdCertProvisioningAckMsg ::= RaEePseudonymCertProvisioningAckMsg
 -- Basically the same as pseudonym certificate requests. Identification certificates
 -- always use Butterfly keys. They are not shuffled, nor do they include a linkage value. 
 -- This differentiation is visible in other interfaces only, in particular RA-PCA.
+
+
+-- EE Error Log File
+
+EeErrorLogFile ::= SEQUENCE {
+    version Uint8(1),                           --version of the log file, starts with 1
+    logEntries SEQUENCE OF ErrorLogEntries,
+    ...
+}
+
+ErrorLogEntries ::= SEQUENCE {
+    timeStamp Time64,                           -- each log entry has a time stamp (UTC),
+    hashOfRequest HashedId8,                    -- the hash of the corresponding request EE-RA,
+    errorCode ScopedEndEntityRaHardError,       -- and one error code per line item
+    ...
+}
 
 END
