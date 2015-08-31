@@ -76,7 +76,7 @@ EeRaHardErrorCode ::= ENUMERATED {
     eeCertVerificationFailed,
     -- EE failed to parse certificate or content is incorrect
     eeCertContentFalse,
-    -- TODO: Missing description in Camp Wiki (Andre?)
+    -- EE failed to download the *.info file (Misbehaviour Reporting)
     eeInfoFileDownloadFailed,
     -- EE failed to donwload the Global Certificate Chain File
     eeGlobalCertifcateChainFileDownloadFailed,
