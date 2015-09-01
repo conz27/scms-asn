@@ -106,7 +106,8 @@ RseError ::= ENUMERATED {
     -- RSE makes a request to an RA that doesn't service it
     rseRaMismatch,
     -- RSE has invalid system time
-    rseInvalidTime
+    rseInvalidTime,
+    ...
 }
 
 
