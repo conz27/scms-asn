@@ -8,7 +8,10 @@ DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 
 EXPORTS ALL;
 
+-- RA Triggered Error Codes
+
 EndEntityRaError ::= CHOICE {
+  ee-error                  EndEntityError,
   ee-ra-soft-error          EeRaSoftErrorCode,
   ee-ra-hard-error          EeRaHardErrorCode,
   ...
@@ -21,8 +24,6 @@ EeRaSoftErrorCode ::= ENUMERATED {
 }
 
 EeRaHardErrorCode ::= ENUMERATED {
-    -- RA Triggered Error Codes
-
     -- EE-to-RA authentication failed
     raAuthenticationFailed,
     -- EE tries to communicate without TLS protection
@@ -53,9 +54,12 @@ EeRaHardErrorCode ::= ENUMERATED {
     raNoInfoFileAvailable,
     -- RA is not able to provide a current Global Certificate Chain file
     raNoGlobalCertificateChainFileAvailable, 
-    
-    -- EE Triggered Error Codes
-    
+    ...
+}
+
+-- EE Triggered Error Codes for Error Logging
+
+EndEntityError ::= ENUMERATED {
     -- RA-to-EE authentication failed
     eeAuthenticationFailed,
     -- EE failed to download 
@@ -82,5 +86,6 @@ EeRaHardErrorCode ::= ENUMERATED {
     eeGlobalCertifcateChainFileDownloadFailed,
     ...
 }
+
 
 END

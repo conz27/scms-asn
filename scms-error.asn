@@ -45,6 +45,7 @@ FROM Ieee1609Dot2EndEntityMaErrorEndEntityMaError
     standards-association-numbered-series-standards(2) wave-stds(1609)  
     dot2(2) scms(2) errors(2) ee-ma(7)}
 
+  EndEntityError,
   EndEntityRaError
 FROM Ieee1609Dot2EndEntityRaErrorEndEntityRaError
     {iso(1) identified-organization(3) ieee(111) 
@@ -141,6 +142,14 @@ ScopedEndEntityMaError ::=
 
 ScopedEndEntityRaError ::= 
   ScmsError (WITH COMPONENTS {common} | WITH COMPONENTS {ee-ra})
+
+-- End-Entity errors
+ScopedEndEntityError ::=
+  ScmsError (WITH COMPONENTS {common} | 
+             WITH COMPONENTS {ee-ra
+                (WITH COMPONENTS{ee-error})}
+             )
+
 -- Soft errors
 ScopedEndEntityRaSoftError ::=
   ScmsError (WITH COMPONENTS {common} | 
