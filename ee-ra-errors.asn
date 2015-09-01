@@ -12,6 +12,7 @@ EXPORTS ALL;
 
 EndEntityRaError ::= CHOICE {
   ee-error                  EndEntityError,
+  rse-error                 RseError,
   ee-ra-soft-error          EeRaSoftErrorCode,
   ee-ra-hard-error          EeRaHardErrorCode,
   ...
@@ -85,6 +86,27 @@ EndEntityError ::= ENUMERATED {
     -- EE failed to donwload the Global Certificate Chain File
     eeGlobalCertifcateChainFileDownloadFailed,
     ...
+}
+
+-- RSE Triggered Error Codes
+
+RseError ::= ENUMERATED {
+    -- RSE retries within 2 seconds
+    rseRetries,
+    -- RSE makes more than 10 retries in 60 minutes
+    rseMaxRetries,
+    -- RSE request is not signed or signature is invalid
+    rseInvalidSignature,
+    -- RSE has invalid credentials
+    rseInvalidCredentials,
+    -- RSE makes an unauthorized request / invalid permissions
+    rseInvalidRequest,
+    -- RSE makes a malformed request
+    rseMalformedRequest,
+    -- RSE makes a request to an RA that doesn't service it
+    rseRaMismatch,
+    -- RSE has invalid system time
+    rseInvalidTime
 }
 
 

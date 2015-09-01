@@ -148,6 +148,13 @@ ScopedEndEntityError ::=
   ScmsError (WITH COMPONENTS {common} | 
              WITH COMPONENTS {ee-ra
                 (WITH COMPONENTS{ee-error})}
+            )
+
+-- RSE errors
+ScopedRseError ::=
+  ScmsError (WITH COMPONENTS {common} | 
+             WITH COMPONENTS {ee-ra
+                (WITH COMPONENTS{rse-error})}
              )
 
 -- Soft errors
