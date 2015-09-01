@@ -19,15 +19,19 @@ dot2(2) base (1) schema (1)}
 
     Duration,
     Hostname,
+    Opaque,
     Signature,
+    Time32,
     Time64,
     Uint8,
-    Uint16
+    Uint16,
+    Uint32
    
 FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111) 
 standards-association-numbered-series-standards(2) wave-stds(1609)  
 dot2(2) base(1) base-types(2)}
 
+    LaHostnameId,
     PcaHostnameId,
     RaHostnameId
 
@@ -64,40 +68,46 @@ LocalPolicy ::= BasePolicy (WITH COMPONENTS {...,
 Signatures ::= SEQUENCE SIZE(1..MAX) OF Countersignature
 
 GlobalPolicyData ::= SEQUENCE {
-    scmsVersion Uint8 DEFAULT 1,               -- SCMS Version 1 is current
-    sizeOfLinkageSeed Uint8 DEFAULT 16,        -- 16 bytes is current size
-    sizeOfPreLinkageValue Uint8 DEFAULT 9,     -- 9 bytes is current size
-    sizeOfLinkageValue Uint8 DEFAULT 9,        -- 9 bytes is current size
-    sizeOfReqHash Uint8 DEFAULT 8,             -- 8 bytes is current size
-    sizeOfLaId Uint8 DEFAULT 2,                -- 2 bytes is current size
-    sizeOfGroupId Uint8 DEFAULT 4,             -- 4 bytes is current size
-    overdueCrlTolerance Time64 OPTIONAL,
-    certChainFileId Uint16,                    -- must match version in GlobalCertificateChainFile
+    scmsVersion Uint8 DEFAULT 1,                                -- SCMS Version 1 is current
+    sizeLaOneId Uint16 OPTIONAL,                                -- LA 1 Identifier (2 bytes)
+    sizeLaTwoId Uint16 OPTIONAL,                                -- LA 2 Identifier (2 bytes)
+    overdueCrlTolerance Time32 OPTIONAL,                        -- Overdue CRL Tolerance (4 bytes)
+    iPeriod Time32 DEFAULT 604800,                              -- i-value / i-period (in seconds); default: 1 week
+    minCertsPerIPeriod Uint8 DEFAULT 20,                        -- minimum certs per i-period; default: 20 certs
+    certValidityModel ValidityModel OPTIONAL,                   -- certificate validity model (concurrent or non-concurent)
+    maxDurationPerSuperBatch Time64 DEFAULT 94608000,           -- maximum cert validity time period (in seconds); default: 3 years
+    bytesLinkageSeed Uint8 DEFAULT 16,                          -- bytes in linkage seed; default 16 max: 32
+    bytesLinkageValue Uint8 DEFAULT 9,                          -- bytes in linkage value; default: 9 max: 32
+    bytesGroupLinkageSeed Uint8 DEFAULT 16,                     -- bytes in group linkage value; default: 16 max: 32
+    bytesGroupLinkageValue Uint8 DEFAULT 9,                     -- bytes in group linkage value; default: 9 max: 32
+    maxGroupSize Uint32 OPTIONAL,                               -- maximum number of EEs per group; range: 0 to 2^32-1
+    maxCertRequestAge Time32 DEFAULT 172800,                    -- maximum time for Individual Cert Request to remain in aggregator(in seconds); default: 2 days
+    shuffleThreshold Uint32 OPTIONAL,                           -- minimum number of Individual Cert Request before shuffle/send to PCA
+    hashOfRequestSize Uint8 DEFAULT 32,                         -- bytes in "hash of request" between PCA & RA for individual cert requests; default: 32
+    certChainFileId Uint16 OPTIONAL,                            -- must match version in GlobalCertificateChainFile
     ...,
     -- Size 1 is used when one countersignature is necessary
     signatures Signatures
 }
 
 LocalPolicyData ::= SEQUENCE {
-    certGenTimePeriod Uint8 DEFAULT 3,         -- 3 years is current time period
-    validityModel ValidityModel,
+    shuffleThreshold Uint32 OPTIONAL,                           -- minimum number of Individual Cert Request before shuffle/send to PCA
+    minCertsPerIPeriod Uint8 DEFAULT 20,                        -- minimum certs per i-period; default: 20 certs
+    laOneHost LaHostnameId OPTIONAL,
+    laTwoHost LaHostnameId OPTIONAL,
     pcaHost PcaHostnameId OPTIONAL,
     raHost RaHostnameId OPTIONAL,
-    dnsInfo DNSInfo OPTIONAL,
+    x509TlsCert Opaque OPTIONAL,                           		-- TODO: verify that this is suitable for representing a X509 certificate
+    sharedKeyUpdateInterval Time32 OPTIONAL,                    -- maximum time between changes to pre-linkage value enc/dec key
     ...,
     raSignature Signature
 }
 
-ValidityModel ::= CHOICE {
-    multCertsPerWeek Uint16, -- default 20
-    singleCertsOverlappingInSeconds Uint16,
+ValidityModel ::= ENUMERATED {
+    concurrent      (1),
+    non-concurrent  (2),
     ...   
 } 
-
-DNSInfo ::= SEQUENCE {
-    primaryDNS Hostname,
-    secondayDNS Hostname OPTIONAL
-}
 
 -- Global Certificate Chain File:
 --
