@@ -11,80 +11,80 @@ EXPORTS ALL;
 -- RA Triggered Error Codes
 
 EndEntityRaError ::= CHOICE {
-  ee-error                  EndEntityError,
+  obe-error                 ObeError,
   rse-error                 RseError,
-  ee-ra-soft-error          EeRaSoftErrorCode,
-  ee-ra-hard-error          EeRaHardErrorCode,
+  ra-soft-error             RaSoftError,
+  ra-hard-error             RaHardError,
   ...
 }
 
-EeRaSoftErrorCode ::= ENUMERATED {
+RaSoftError ::= ENUMERATED {
 	-- Device policies out of date, soft error
-	raPolicyOutOfDateSoft,
+	policyOutOfDate,
 	...
 }
 
-EeRaHardErrorCode ::= ENUMERATED {
+RaHardError ::= ENUMERATED {
     -- EE-to-RA authentication failed
-    raAuthenticationFailed,
+    authenticationFailed,
     -- EE tries to communicate without TLS protection
-    raNoTLS, 
+    noTLS, 
     -- EE requests invalid URL 
-    raRequestedInvalidURL, 
+    requestedInvalidURL, 
     -- Device policies out of date, hard error
-    raPolicyOutOfDateHard, 
+    policyOutOfDate, 
     -- Device enrollment certificate blacklisted, expired, unauthorized
-    raInvalidCredentials, 
+    invalidCredentials, 
     -- Device signature invalid
-    raInvalidSignature,
+    invalidSignature,
     -- Unauthorized request permissions invalid
-    raInvalidPermissions,
+    invalidPermissions,
     -- Malformed provisioning request
-    raMalformedRequest,
+    malformedRequest,
     -- RA does not service this device
-    raDoesNotService,
+    doesNotService,
     -- Invalid device system time
-    raInvalidSystemTime,
+    invalidSystemTime,
     -- Too many provisioning requests by device
-    raTooManyRequests,
+    tooManyRequests,
     -- Device sent duplicate request
-    raDuplicateRequest,
+    duplicateRequest,
     -- Requested certificate batch not available
-    raNoCertFileAvailable,
+    noCertFileAvailable,
     -- RA not able to provide .info file
-    raNoInfoFileAvailable,
+    noInfoFileAvailable,
     -- RA is not able to provide a current Global Certificate Chain file
-    raNoGlobalCertificateChainFileAvailable, 
+    noGlobalCertificateChainFileAvailable, 
     ...
 }
 
--- EE Triggered Error Codes for Error Logging
+-- OBE Triggered Error Codes for Error Logging
 
-EndEntityError ::= ENUMERATED {
+ObeError ::= ENUMERATED {
     -- RA-to-EE authentication failed
-    eeAuthenticationFailed,
+    authenticationFailed,
     -- EE failed to download 
-    eeGlobalPolicyFileDownloadFailed,
+    globalPolicyFileDownloadFailed,
     -- EE failed to verify the downloaded Global Policy File
-    eeGlobalPolicyVerificationFailed,
+    globalPolicyVerificationFailed,
     -- EE failed to parse the Global Policy File
-    eeGlobalPolicyFileParsingFailed,
+    globalPolicyFileParsingFailed,
     -- EE failed to connect to the RA
-    eeConnectionFailed,
+    connectionFailed,
     -- EE failed to download the pseudonym certificate batch file
-    eeCertFileDownloadFailed,
+    certFileDownloadFailed,
     -- EE failed to verify the digital signature of an encrypted certificate
-    eeCertFileVerificationFailed,
+    certFileVerificationFailed,
     -- EE failed to decrypt an encrypted certificate
-    eeCertFileDecryptionFailed,
+    certFileDecryptionFailed,
     -- EE failed to verify a certificate
-    eeCertVerificationFailed,
+    certVerificationFailed,
     -- EE failed to parse certificate or content is incorrect
-    eeCertContentFalse,
+    certContentFalse,
     -- EE failed to download the *.info file (Misbehaviour Reporting)
-    eeInfoFileDownloadFailed,
+    infoFileDownloadFailed,
     -- EE failed to donwload the Global Certificate Chain File
-    eeGlobalCertifcateChainFileDownloadFailed,
+    globalCertifcateChainFileDownloadFailed,
     ...
 }
 
@@ -92,21 +92,21 @@ EndEntityError ::= ENUMERATED {
 
 RseError ::= ENUMERATED {
     -- RSE retries within 2 seconds
-    rseRetries,
+    retries,
     -- RSE makes more than 10 retries in 60 minutes
-    rseMaxRetries,
+    maxRetries,
     -- RSE request is not signed or signature is invalid
-    rseInvalidSignature,
+    invalidSignature,
     -- RSE has invalid credentials
-    rseInvalidCredentials,
+    invalidCredentials,
     -- RSE makes an unauthorized request / invalid permissions
-    rseInvalidRequest,
+    invalidRequest,
     -- RSE makes a malformed request
-    rseMalformedRequest,
+    malformedRequest,
     -- RSE makes a request to an RA that doesn't service it
-    rseRaMismatch,
+    raMismatch,
     -- RSE has invalid system time
-    rseInvalidTime,
+    invalidTime,
     ...
 }
 

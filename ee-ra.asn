@@ -33,9 +33,9 @@ FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111)
     standards-association-numbered-series-standards(2) wave-stds(1609) dot2(2)
     base(1) schema(1)}
 
-  ScopedEndEntityError,
-  ScopedEndEntityRaSoftError,
-  ScopedEndEntityRaHardError
+  ScopedObeError,
+  ScopedRaSoftError,
+  ScopedRaHardError
 FROM Ieee1609dot2ScmsError {iso(1) identified-organization(3) ieee(111)
     standards-association-numbered-series-standards(2) wave-stds(1609) dot2(2)
     scms (2) errors(2) complete(1)}
@@ -89,7 +89,7 @@ RaEeCertResponseAck ::= SEQUENCE {
 }
 
 RaEeCertResponseNack ::= SEQUENCE {
-    hardError        ScopedEndEntityRaHardError,
+    hardError        ScopedRaHardError,
     ...
 }
 
@@ -185,13 +185,13 @@ RaEePseudonymCertProvisioningAckMsg ::= SEQUENCE {
 PseudonymCertProvisioningAck ::= SEQUENCE {
     certDLTime       Time32,
     certDLURL        Hostname,
-    softError        ScopedEndEntityRaSoftError OPTIONAL,
+    softError        ScopedRaSoftError OPTIONAL,
     ...
 }
 
 
 RARequestNAcknowledge ::= SEQUENCE {
-    hardError        ScopedEndEntityRaHardError,
+    hardError        ScopedRaHardError,
     ...
 }
 
@@ -262,7 +262,7 @@ EeErrorLogFile ::= SEQUENCE {
 ErrorLogEntries ::= SEQUENCE {
     timeStamp Time64,                           -- each log entry has a time stamp (UTC),
     hashOfRequest HashedId8,                    -- the hash of the corresponding request EE-RA,
-    errorCode ScopedEndEntityError,             -- and one error code per line item
+    errorCode ScopedObeError,                   -- and one error code per line item
     ...
 }
 
