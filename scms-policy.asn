@@ -21,7 +21,6 @@ dot2(2) base (1) schema (1)}
     Hostname,
     Opaque,
     Signature,
-    Time32,
     Time64,
     Uint8,
     Uint16,
@@ -71,17 +70,17 @@ GlobalPolicyData ::= SEQUENCE {
     scmsVersion Uint8 DEFAULT 1,                                -- SCMS Version 1 is current
     sizeLaOneId Uint16 OPTIONAL,                                -- LA 1 Identifier (2 bytes)
     sizeLaTwoId Uint16 OPTIONAL,                                -- LA 2 Identifier (2 bytes)
-    overdueCrlTolerance Time32 OPTIONAL,                        -- Overdue CRL Tolerance (4 bytes)
-    iPeriod Time32 DEFAULT 604800,                              -- i-value / i-period (in seconds); default: 1 week
+    overdueCrlTolerance Duration OPTIONAL,                      -- Overdue CRL Tolerance (4 bytes)
+    iPeriod Duration OPTIONAL,                                  -- i-value / i-period ; default: 1 week
     minCertsPerIPeriod Uint8 DEFAULT 20,                        -- minimum certs per i-period; default: 20 certs
     certValidityModel ValidityModel OPTIONAL,                   -- certificate validity model (concurrent or non-concurent)
-    maxDurationPerSuperBatch Time64 DEFAULT 94608000,           -- maximum cert validity time period (in seconds); default: 3 years
+    maxDurationPerSuperBatch Duration OPTIONAL,                 -- maximum cert validity time period ; default: 3 years
     bytesLinkageSeed Uint8 DEFAULT 16,                          -- bytes in linkage seed; default 16 max: 32
     bytesLinkageValue Uint8 DEFAULT 9,                          -- bytes in linkage value; default: 9 max: 32
     bytesGroupLinkageSeed Uint8 DEFAULT 16,                     -- bytes in group linkage value; default: 16 max: 32
     bytesGroupLinkageValue Uint8 DEFAULT 9,                     -- bytes in group linkage value; default: 9 max: 32
     maxGroupSize Uint32 OPTIONAL,                               -- maximum number of EEs per group; range: 0 to 2^32-1
-    maxCertRequestAge Time32 DEFAULT 172800,                    -- maximum time for Individual Cert Request to remain in aggregator(in seconds); default: 2 days
+    maxCertRequestAge Duration OPTIONAL,                        -- maximum time for Individual Cert Request to remain in aggregator; default: 2 days
     shuffleThreshold Uint32 OPTIONAL,                           -- minimum number of Individual Cert Request before shuffle/send to PCA
     hashOfRequestSize Uint8 DEFAULT 32,                         -- bytes in "hash of request" between PCA & RA for individual cert requests; default: 32
     certChainFileId Uint16 OPTIONAL,                            -- must match version in GlobalCertificateChainFile
@@ -98,7 +97,7 @@ LocalPolicyData ::= SEQUENCE {
     pcaHost PcaHostnameId OPTIONAL,
     raHost RaHostnameId OPTIONAL,
     x509TlsCert Opaque OPTIONAL,                           		-- TODO: verify that this is suitable for representing a X509 certificate
-    sharedKeyUpdateInterval Time32 OPTIONAL,                    -- maximum time between changes to pre-linkage value enc/dec key
+    sharedKeyUpdateInterval Duration OPTIONAL,                    -- maximum time between changes to pre-linkage value enc/dec key
     ...,
     raSignature Signature
 }
