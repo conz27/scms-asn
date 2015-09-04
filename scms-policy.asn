@@ -23,7 +23,8 @@ dot2(2) base (1) schema (1)}
     Time64,
     Uint8,
     Uint16,
-    Uint32
+    Uint32,
+    Uint64
    
 FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111) 
 standards-association-numbered-series-standards(2) wave-stds(1609)  
@@ -131,6 +132,7 @@ GlobalPolicyData ::= SEQUENCE {
     bytesGroupLinkageSeed Uint8 DEFAULT 16,                     -- bytes in group linkage value; default: 16 max: 32
     bytesGroupLinkageValue Uint8 DEFAULT 9,                     -- bytes in group linkage value; default: 9 max: 32
     maxGroupSize Uint32 OPTIONAL,                               -- maximum number of EEs per group; range: 0 to 2^32-1
+    maxNumGroups Uint32 OPTIONAL,                               -- maximum number of groups supported; range: 0 to 2^32-1
     maxCertRequestAge Duration OPTIONAL,                        -- maximum time for Individual Cert Request to remain in aggregator; default: 2 days
     shuffleThreshold Uint32 OPTIONAL,                           -- minimum number of Individual Cert Request before shuffle/send to PCA
     hashOfRequestSize Uint8 DEFAULT 32,                         -- bytes in "hash of request" between PCA & RA for individual cert requests; default: 32
@@ -139,13 +141,14 @@ GlobalPolicyData ::= SEQUENCE {
 }
 
 LocalPolicyData ::= SEQUENCE {
-    shuffleThreshold Uint32 OPTIONAL,                           -- minimum number of Individual Cert Request before shuffle/send to PCA
-    minCertsPerIPeriod Uint8 DEFAULT 20,                        -- minimum certs per i-period; default: 20 certs
+    shuffleThreshold Uint64 OPTIONAL,                           -- minimum number of Individual Cert Request before shuffle/send to PCA
+    certsPerIPeriod Uint8 DEFAULT 20,                           -- certs per i-period; default: 20 certs
     laOneHost LaHostnameId OPTIONAL,
     laTwoHost LaHostnameId OPTIONAL,
     pcaHost PcaHostnameId OPTIONAL,
-    raHost RaHostnameId OPTIONAL,
-    x509TlsCert Opaque OPTIONAL,                           		-- TODO: verify that this is suitable for representing a X509 certificate
+    raX509TlsCert Opaque OPTIONAL,                              
+    laX509TlsCert Opaque OPTIONAL,                              
+    pcaX509TlsCert Opaque OPTIONAL,
     sharedKeyUpdateInterval Duration OPTIONAL,                  -- maximum time between changes to pre-linkage value enc/dec key
     ...
 }
@@ -153,7 +156,7 @@ LocalPolicyData ::= SEQUENCE {
 ValidityModel ::= ENUMERATED {
     concurrent      (1),
     non-concurrent  (2),
-    ...   
+    ...
 } 
 
 ----
