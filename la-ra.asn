@@ -63,7 +63,7 @@ RaLaPreLinkageValueRequestMsgHeader ::= SEQUENCE {
 
 RaLaIndividualPreLinkageValueRequestMsg ::= SEQUENCE {
     header              RaLaPreLinkageValueRequestMsgHeader,
-    jMax                Uint16, 
+    jMax                Uint8, 
     numberOfFreshInd    Uint32 OPTIONAL, -- number of fresh chains for individual certs requested
     continuationsInd    SEQUENCE OF LinkageChainId OPTIONAL -- continuation values
                                                             -- for individual certs
@@ -104,7 +104,7 @@ PreLinkageValueRequestResponse ::= SEQUENCE {
 
 
 IndividualPlvResponseLinkageChain ::= SEQUENCE {
-    jMax                Uint16, 
+    jMax                Uint8, 
     values              SEQUENCE OF -- outer sequence of size iMax - iMin
                           SEQUENCE OF EncryptedIndividualPLV, -- inner sequence of size jMax
     linkageChainId      LinkageChainId
