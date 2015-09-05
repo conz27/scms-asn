@@ -43,10 +43,20 @@ EncryptedPLV ::= SEQUENCE {
             symmRecipInfo -- Pointer to the used encryption key.
                           -- The encryption key is identified by the 
                           -- hash of key agreement (PCA’s initial request) 
-      })))),
-      ciphertext -- if decrypted, this is a ToBeEncryptedPLV structure
+      }))))
     })
 }
+
+EncryptedIndividualPLV ::= EncryptedPLV (WITH COMPONENTS{...,
+    encGroupIndex ABSENT
+    -- the ciphertext field in enc-plv decrypts to a ToBeEncryptedIndividualPLV.
+})
+
+EncryptedGroupPLV ::= EncryptedPLV  (WITH COMPONENTS{...,
+    encGroupIndex PRESENT
+    -- the ciphertext field in enc-plv decrypts to a ToBeEncryptedGroupPLV.
+})
+
 
 zero8 OCTET STRING ::= '0000000000000000'H
 
@@ -56,13 +66,16 @@ ToBeEncryptedGroupIndex ::= SEQUENCE {
     j               Uint32
 }
    
-ToBeEncryptedPLV ::= SEQUENCE {
+ToBeEncryptedIndividualPLV ::= SEQUENCE {
     iValue     IValue,
     plv        PreLinkageValue
 } 
 
--- Similar to EncryptedPLV
-EncryptedGPLV ::= EncryptedPLV
+ToBeEncryptedGPLV ::= SEQUENCE {
+   iValue      IValue,
+   j           Uint32,
+   plv         PreLinkageValue
+}
 
 -- Linkage Chain Identifier (LCI)
 LinkageChainId ::= EncryptedData (WITH COMPONENTS {

@@ -11,6 +11,7 @@ EXPORTS ALL;
 IMPORTS 
   GroupLinkageValue,
   HashedId8,
+  LaId,
   LinkageValue,
   Uint8,
   Uint16,
@@ -20,7 +21,8 @@ FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111)
     dot2(2) base(1) base-types(2)}
 
   EncryptedPLV,
-  EncryptedGPLV,
+  EncryptedGroupPLV,
+  EncryptedIndividualPLV,
   LinkageChainId,
   PcaHostnameId,
   RaHostnameId,
@@ -74,6 +76,7 @@ RaLaIndividualPreLinkageValueRequestMsg ::= SEQUENCE {
 RaLaGroupPreLinkageValueRequestMsg ::= SEQUENCE {
     header              RaLaPreLinkageValueRequestMsgHeader,
     jMax                Uint32, 
+    otherLa             LaId,
     groupIdentifier     OCTET STRING (SIZE(4)) -- the group identifier to be created
                                                -- or continued
 }
@@ -103,14 +106,15 @@ PreLinkageValueRequestResponse ::= SEQUENCE {
 IndividualPlvResponseLinkageChain ::= SEQUENCE {
     jMax                Uint16, 
     values              SEQUENCE OF -- outer sequence of size iMax - iMin
-                          SEQUENCE OF EncryptedPLV, -- inner sequence of size jMax
+                          SEQUENCE OF EncryptedIndividualPLV, -- inner sequence of size jMax
     linkageChainId      LinkageChainId
 }
 
 GroupPlvResponseLinkageChain ::= SEQUENCE {
-    jMax                Uint32, 
+    jMax                Uint32,
+    otherLa             LaId, 
     values              SEQUENCE OF -- outer sequence of size iMax - iMin
-                          SEQUENCE OF EncryptedPLV, -- inner sequence of size jMax
+                          SEQUENCE OF EncryptedGroupPLV, -- inner sequence of size jMax
     groupIdentifier OCTET STRING (SIZE(4))
 }
 

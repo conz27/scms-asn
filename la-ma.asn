@@ -26,6 +26,8 @@ FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111)
   LinkageChainId,
   MaHostnameId,
   LaHostnameId,
+  EncryptedGroupPLV,
+  EncryptedIndividualPLV,
   EncryptedPLV,
   EncryptedPlvAndHostInfo
 FROM Ieee1609dot2ScmsBaseTypes {iso(1) identified-organization(3) ieee(111)

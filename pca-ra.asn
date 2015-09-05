@@ -41,8 +41,8 @@ FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111)
     standards-association-numbered-series-standards(2) wave-stds(1609) dot2(2)
     base(1) schema(1)}
 
-  EncryptedPLV,
-  EncryptedGPLV,
+  EncryptedIndividualPLV,
+  EncryptedGroupPLV,
   IValue,
   LaHostnameId,
   RaHostnameId,
@@ -117,13 +117,13 @@ PseudonymCertRequestInfo ::= SEQUENCE {
   sig-butterfly-key-B    EccNistP256CurvePoint,
   la1-id                 LaHostnameId,
   la2-id                 LaHostnameId,
-  enc-plv1               EncryptedPLV,
-  enc-plv2               EncryptedPLV,
+  enc-plv1               EncryptedIndividualPLV,
+  enc-plv2               EncryptedIndividualPLV,
   group-linkage-info     SEQUENCE {
       gla1-id                LaHostnameId,
       gla2-id                LaHostnameId,
-      enc-gplv1              EncryptedGPLV,
-      enc-gplv2              EncryptedGPLV 
+      enc-gplv1              EncryptedGroupPLV,
+      enc-gplv2              EncryptedGroupPLV 
   } OPTIONAL,
 
   -- used to encrypt the response
