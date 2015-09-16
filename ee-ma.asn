@@ -9,6 +9,10 @@ DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 EXPORTS ALL;
 
 IMPORTS 
+  Opaque,
+  Signature,
+  Time32,
+  ThreeDLocation,
   Uint8
 FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111) 
 		standards-association-numbered-series-standards(2) wave-stds(1609)  
@@ -23,10 +27,18 @@ FROM Ieee1609dot2ScmsError {iso(1) identified-organization(3) ieee(111)
 ;
 
 EndEntityMaInterfacePDU::= CHOICE {
-    placeholder Uint8(1),
+    misbehaviorReport   MisbehaviorReportContents,
     ...
 }
 
+MisbehaviorReportContents ::= SEQUENCE {
+    version Uint8(1),
+    misbehavingDeviceInfo Opaque, -- placeholder
+    misbehavingDeviceBSMs OCTET STRING OPTIONAL, -- non-OER encoded ASN.1 messages
+    reporterDeviceBSMs OCTET STRING OPTIONAL, -- non-OER encoded ASN.1 messages
+    sensorInfo Opaque OPTIONAL, -- placeholder: non-V2V related sensor information, if available
+    ...
+}
 
 
 
