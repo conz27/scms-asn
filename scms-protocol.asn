@@ -142,6 +142,17 @@ ScmsPDU ::= SEQUENCE {
 -- 
 -- *************************************************************************
 
+-- *** EE-MA ***************************************************************
+
+ScopedMisbehaviorReport ::= 
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      ee-ma (WITH COMPONENTS {
+        misbehaviorReport
+      })
+    })
+ })
+
 -- *** EE-RA ***************************************************************
 
 ScopedEeRaCertRequest ::= 
@@ -460,6 +471,37 @@ ScopedPcaRaCertificateRequestReply ::=
 -- *************************************************************************
 
 SecuredScmsPDU ::= Ieee1609Dot2Data
+
+-- *************************************************************************
+--
+--             EE-MA
+-- 
+-- *************************************************************************
+
+SignedMisbehaviorReport ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {..., 
+    signedData  (WITH COMPONENTS {..., 
+      tbsData (WITH COMPONENTS {..., 
+        payload (WITH COMPONENTS {..., 
+          data (WITH COMPONENTS {...,
+             content (WITH COMPONENTS {
+                unsecuredData (CONTAINING ScopedMisbehaviorReport)
+            })
+          })
+        }),
+        headerInfo (WITH COMPONENTS {..., 
+          psid (SecurityMgmtPsid),
+          generationTime PRESENT,
+          expiryTime ABSENT,
+          generationLocation PRESENT,
+          p2pcdLearningRequest ABSENT,
+          missingCrlIdentifier ABSENT,
+          encryptionKey ABSENT
+        })
+      })
+    })
+  })
+})
 
 -- *************************************************************************
 --
