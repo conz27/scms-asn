@@ -121,13 +121,15 @@ EeRaPseudonymCertProvisioningRequestBase ::= SEQUENCE {
 
 EeRaPseudonymCertProvisioningRequestMsg ::= 
     EeRaPseudonymCertProvisioningRequestBase (WITH COMPONENTS {...,
-        sig-butterfly-seed-key (WITH COMPONENTS {unauthenticated})
+        sig-butterfly-seed-key (WITH COMPONENTS {unauthenticated}),
+        enc-butterfly-seed-key (WITH COMPONENTS {unauthenticated})
     })
 
 
 EeRaPseudonymCertProvisioningRequestWithHardwareMsg ::= 
     EeRaPseudonymCertProvisioningRequestBase (WITH COMPONENTS {...,
-        sig-butterfly-seed-key (WITH COMPONENTS {hw-authenticated})
+        sig-butterfly-seed-key (WITH COMPONENTS {hw-authenticated}),
+        enc-butterfly-seed-key (WITH COMPONENTS {hw-authenticated})
     })
 
 
