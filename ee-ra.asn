@@ -9,7 +9,7 @@ DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 EXPORTS ALL;
 
 IMPORTS
-  EccNistP256CurvePoint,
+  EccP256CurvePoint,
   EncryptionKey,
   HashAlgorithm,
   Hostname,
@@ -104,11 +104,11 @@ EeRaPseudonymCertProvisioningRequestBase ::= SEQUENCE {
     version                 Uint8(1),
     enrollmentCert          EndEntityEnrollmentPseudonymCertificate,
     sig-butterfly-seed-key  CHOICE {
-        unauthenticated         EccNistP256CurvePoint,
+        unauthenticated         EccP256CurvePoint,
         hw-authenticated        SignedEccNistP256Point
     },
     enc-butterfly-seed-key  CHOICE {
-        unauthenticated         EccNistP256CurvePoint,
+        unauthenticated         EccP256CurvePoint,
         hw-authenticated        SignedEccNistP256Point
     },
     expansionSign           OCTET STRING (SIZE (16)),
@@ -138,7 +138,7 @@ SignedEccNistP256Point ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
           payload (WITH COMPONENTS {..., 
             data (WITH COMPONENTS {...,
                content (WITH COMPONENTS {
-                  unsecuredData (CONTAINING EccNistP256CurvePoint)
+                  unsecuredData (CONTAINING EccP256CurvePoint)
               })
             })
           }),
@@ -206,11 +206,11 @@ EeRaIdCertProvisioningRequestBase ::= SEQUENCE {
     version                 Uint8(1),
     enrollmentCert          EndEntityEnrollmentIdCertificate,
     sig-butterfly-seed-key  CHOICE {
-        unauthenticated         EccNistP256CurvePoint,
+        unauthenticated         EccP256CurvePoint,
         hw-authenticated        SignedEccNistP256Point
     },
     enc-butterfly-seed-key  CHOICE {
-        unauthenticated         EccNistP256CurvePoint,
+        unauthenticated         EccP256CurvePoint,
         hw-authenticated        SignedEccNistP256Point
     },
     expansionSign           OCTET STRING (SIZE (16)),

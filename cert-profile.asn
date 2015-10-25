@@ -28,7 +28,7 @@ FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111)
 
 
 ObeEnrollmentCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
-  issuer (WITH COMPONENTS{ecdsaNistP256AndDigest}),
+  issuer (WITH COMPONENTS{sha256AndDigest}),
   toBeSigned (WITH COMPONENTS { ...,
     id (WITH COMPONENTS { 
       name
@@ -89,7 +89,7 @@ ObeEnrollmentCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
 
 
 ObePseudonymCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
-  issuer (WITH COMPONENTS {ecdsaNistP256AndDigest}),
+  issuer (WITH COMPONENTS {sha256AndDigest}),
   toBeSigned (WITH COMPONENTS { ...,
     id (WITH COMPONENTS { 
       linkageData (WITH COMPONENTS {
@@ -143,7 +143,7 @@ ObePseudonymCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
 
 
 EcaCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
-  issuer (WITH COMPONENTS {ecdsaNistP256AndDigest}),
+  issuer (WITH COMPONENTS {sha256AndDigest}),
   toBeSigned (WITH COMPONENTS { ...,
     id (WITH COMPONENTS {
       name ("eca.poc.campllc.org") -- !!TBD!!
@@ -211,7 +211,7 @@ EcaCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
 
 
 PcaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
-  issuer (WITH COMPONENTS {ecdsaNistP256AndDigest}),
+  issuer (WITH COMPONENTS {sha256AndDigest}),
   toBeSigned (WITH COMPONENTS { ...,
     id (WITH COMPONENTS {
       name ("pca.poc.campllc.org") -- !!TBD!!

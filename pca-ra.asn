@@ -11,7 +11,7 @@ EXPORTS ALL;
 
 IMPORTS 
   Duration,
-  EccNistP256CurvePoint,
+  EccP256CurvePoint,
   GroupLinkageValue,
   HashedId8,
   LinkageValue,
@@ -23,8 +23,7 @@ IMPORTS
   Time32,
   Uint8,
   Uint16,
-  Uint32,
-  EccNistP256CurvePrivateKeyReconstruction
+  Uint32
 FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111) 
     standards-association-numbered-series-standards(2) wave-stds(1609) dot2(2)
     base(1) base-types(2)}
@@ -114,7 +113,7 @@ PseudonymCertRequestInfo ::= SEQUENCE {
   --
 
   pca-id                 PcaHostnameId,
-  sig-butterfly-key-B    EccNistP256CurvePoint,
+  sig-butterfly-key-B    EccP256CurvePoint,
   la1-id                 LaHostnameId,
   la2-id                 LaHostnameId,
   enc-plv1               EncryptedIndividualPLV,
@@ -127,7 +126,7 @@ PseudonymCertRequestInfo ::= SEQUENCE {
   } OPTIONAL,
 
   -- used to encrypt the response
-  enc-butterfly-key-H    EccNistP256CurvePoint
+  enc-butterfly-key-H    EccP256CurvePoint
 }
 
 --
@@ -146,7 +145,7 @@ IdCertRequestInfo ::= SEQUENCE {
     }
   ),
 
-  response-encryption-key EccNistP256CurvePoint
+  response-encryption-key EccP256CurvePoint
 }
 
 
@@ -306,21 +305,25 @@ PlaintextCertificateResponse ::= CHOICE {
 }
 
 -- Provided certificate and private key reconstruction value 
+
+EccP256PrivateKeyReconstruction ::= OCTET STRING(SIZE(32))
+
+
 ImplicitCertResponse ::= SEQUENCE {
     certificate             Certificate (WITH COMPONENTS { ...,
         type(implicit),
-        issuer(WITH COMPONENTS {ecdsaNistP256AndDigest})
+        issuer(WITH COMPONENTS {sha256AndDigest})
     }),
-    priv-key-reconstruction-s EccNistP256CurvePrivateKeyReconstruction
+    priv-key-reconstruction-s EccP256PrivateKeyReconstruction
 }
 
 -- Provided certificate and private key reconstruction value 
 ButterflyExplicitCertResponse ::= SEQUENCE {
     certificate             Certificate (WITH COMPONENTS { ...,
         type(explicit),
-        issuer(WITH COMPONENTS {ecdsaNistP256AndDigest})
+        issuer(WITH COMPONENTS {sha256AndDigest})
     }),
-    priv-key-reconstruction-c EccNistP256CurvePrivateKeyReconstruction
+    priv-key-reconstruction-c EccP256PrivateKeyReconstruction
 }
 
 
