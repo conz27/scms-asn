@@ -44,6 +44,7 @@ FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111)
   EncryptedIndividualPLV,
   EncryptedGroupPLV,
   IValue,
+  JValue,
   LaHostnameId,
   RaHostnameId,
   PcaHostnameId,
@@ -263,6 +264,7 @@ SignedEncryptedSingleKeyCertificateResponse ::= Ieee1609Dot2Data (WITH COMPONENT
 ToBeSignedEncryptedCertificateResponse ::= SEQUENCE {
     psidSsp         SequenceOfPsidSsp,
     iValue          IValue OPTIONAL,
+	jValue			JValue OPTIONAL,
     expiration      Time32,     
     lifetime        Duration,   
     encrypted-cert  EncryptedCertificateData
@@ -270,12 +272,14 @@ ToBeSignedEncryptedCertificateResponse ::= SEQUENCE {
 
 ToBeSignedEncryptedSingleKeyCertificateResponse ::= 
     ToBeSignedEncryptedCertificateResponse (WITH COMPONENTS { ...,
-        iValue ABSENT
+        iValue ABSENT,
+		jValue ABSENT
     })
 
 ToBeSignedEncryptedButterflyCertificateResponse ::= 
     ToBeSignedEncryptedCertificateResponse (WITH COMPONENTS { ...,
-        iValue PRESENT
+        iValue PRESENT,
+		jValue PRESENT
     })
 
 
