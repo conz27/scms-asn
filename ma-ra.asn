@@ -124,7 +124,7 @@ HPCR2LCI ::= SEQUENCE {
     reply   CHOICE {
       success   SEQUENCE {
         groupIdentifier OCTET STRING (SIZE(4)),
-        info            SEQUENCE (SIZE(1..MAX)) OF LCIAndHostInfo
+        info            LCIAndHostInfo
       },
       failure   ScopedMaRaLCIError
     }
