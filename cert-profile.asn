@@ -199,7 +199,7 @@ EcaCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
     })),
     explicitCertReqPermissions ABSENT,
     canRequestRollover (NULL),
-    encryptionKey ABSENT,
+    encryptionKey PRESENT,
     verifyKeyIndicator (WITH COMPONENTS {
       reconstructionValue (WITH COMPONENTS {
         compressed-y-0,
@@ -265,7 +265,7 @@ PcaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
     })),
     explicitCertReqPermissions ABSENT,
     canRequestRollover (NULL),
-    encryptionKey ABSENT,
+    encryptionKey PRESENT,
     verifyKeyIndicator (WITH COMPONENTS {
       verificationKey (WITH COMPONENTS {
         ecdsaNistP256 (WITH COMPONENTS {
@@ -335,7 +335,7 @@ RootCaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
     })),--??
     explicitCertReqPermissions PRESENT,--??
     canRequestRollover ABSENT,
-    encryptionKey ABSENT,
+    encryptionKey PRESENT,
     verifyKeyIndicator (WITH COMPONENTS {
       verificationKey (WITH COMPONENTS {
         ecdsaNistP256 (WITH COMPONENTS {
@@ -425,7 +425,7 @@ IcaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
     })),
     explicitCertReqPermissions ABSENT,
     canRequestRollover (NULL),
-    encryptionKey ABSENT,
+    encryptionKey PRESENT,
     verifyKeyIndicator (WITH COMPONENTS {
       verificationKey (WITH COMPONENTS {
         ecdsaNistP256 (WITH COMPONENTS {
@@ -493,7 +493,7 @@ RaCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
       })
     })),
     canRequestRollover(NULL),
-    encryptionKey ABSENT,
+    encryptionKey PRESENT,
     verifyKeyIndicator (WITH COMPONENTS {
       reconstructionValue (WITH COMPONENTS {
         compressed-y-0,
@@ -540,7 +540,7 @@ LaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
     certIssuePermissions ABSENT,
     explicitCertReqPermissions ABSENT,
     canRequestRollover (NULL),
-    encryptionKey ABSENT,
+    encryptionKey PRESENT,
     verifyKeyIndicator (WITH COMPONENTS {
       verificationKey (WITH COMPONENTS {
         ecdsaNistP256 (WITH COMPONENTS {
