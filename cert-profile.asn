@@ -56,7 +56,7 @@ ObeEnrollmentCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
     assuranceLevel ABSENT,
     appPermissions ABSENT,
     certIssuePermissions ABSENT,
-    explicitCertReqPermissions (SequenceOfPsidGroupPermissions (SIZE(2)) (CONSTRAINED BY {
+    certRequestPermissions (SequenceOfPsidGroupPermissions (SIZE(2)) (CONSTRAINED BY {
       PsidGroupPermissions ( WITH COMPONENTS {..., 
 	    appPermissions (WITH COMPONENTS { 
           explicit (SequenceOfPsidSspRange (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS { 
@@ -129,7 +129,7 @@ ObePseudonymCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
       })
     })),
     certIssuePermissions ABSENT,
-    explicitCertReqPermissions ABSENT,
+    certRequestPermissions ABSENT,
     canRequestRollover ABSENT,
     encryptionKey ABSENT,
     verifyKeyIndicator (WITH COMPONENTS {
@@ -197,7 +197,7 @@ EcaCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
         eeType({enrol})
       })
     })),
-    explicitCertReqPermissions ABSENT,
+    certRequestPermissions ABSENT,
     canRequestRollover (NULL),
     encryptionKey PRESENT,
     verifyKeyIndicator (WITH COMPONENTS {
@@ -263,7 +263,7 @@ PcaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
         chainDepthRange(0)
       })
     })),
-    explicitCertReqPermissions ABSENT,
+    certRequestPermissions ABSENT,
     canRequestRollover (NULL),
     encryptionKey PRESENT,
     verifyKeyIndicator (WITH COMPONENTS {
@@ -333,7 +333,7 @@ RootCaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
         chainDepthRange(0)
       })
     })),--??
-    explicitCertReqPermissions PRESENT,--??
+    certRequestPermissions PRESENT,--??
     canRequestRollover ABSENT,
     encryptionKey PRESENT,
     verifyKeyIndicator (WITH COMPONENTS {
@@ -349,7 +349,7 @@ RootCaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
 
 
 IcaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
-  issuer (WITH COMPONENTS {ecdsaNistP256AndDigest}),
+  issuer (WITH COMPONENTS {sha256AndDigest}),
   toBeSigned (WITH COMPONENTS { ...,
     id (WITH COMPONENTS {
       name ("ica.poc.campllc.org") -- !!TBD!!
@@ -423,7 +423,7 @@ IcaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
         eeType ({app, enrol})
       })
     })),
-    explicitCertReqPermissions ABSENT,
+    certRequestPermissions ABSENT,
     canRequestRollover (NULL),
     encryptionKey PRESENT,
     verifyKeyIndicator (WITH COMPONENTS {
@@ -439,7 +439,7 @@ IcaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
 
 
 RaCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
-  issuer (WITH COMPONENTS{ecdsaNistP256AndDigest}),
+  issuer (WITH COMPONENTS{sha256AndDigest}),
   toBeSigned (WITH COMPONENTS { ...,
     id (WITH COMPONENTS {
       name ("ra.poc.campllc.org") -- !!TBD!!
@@ -472,7 +472,7 @@ RaCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
       })
     })),
     certIssuePermissions ABSENT,
-    explicitCertReqPermissions (SequenceOfPsidGroupPermissions (SIZE(2)) (CONSTRAINED BY {
+    certRequestPermissions (SequenceOfPsidGroupPermissions (SIZE(2)) (CONSTRAINED BY {
       PsidGroupPermissions ( WITH COMPONENTS {..., 
 	    appPermissions (WITH COMPONENTS { 
           explicit (SequenceOfPsidSspRange (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS { 
@@ -505,7 +505,7 @@ RaCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
 
 
 LaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
-  issuer (WITH COMPONENTS {ecdsaNistP256AndDigest}),
+  issuer (WITH COMPONENTS {sha256AndDigest}),
   toBeSigned (WITH COMPONENTS { ...,
     id (WITH COMPONENTS {
       name ("la.poc.campllc.org") -- !!TBD!!
@@ -538,7 +538,7 @@ LaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
       })
     })),
     certIssuePermissions ABSENT,
-    explicitCertReqPermissions ABSENT,
+    certRequestPermissions ABSENT,
     canRequestRollover (NULL),
     encryptionKey PRESENT,
     verifyKeyIndicator (WITH COMPONENTS {

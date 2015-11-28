@@ -164,7 +164,7 @@ SignedEccNistP256Point ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
 -- enrollment certificate of the end entity, for pseudonym certificate requests
 EndEntityEnrollmentPseudonymCertificate ::= ImplicitCertificate (WITH COMPONENTS {...,
       toBeSigned(WITH COMPONENTS {..., 
-          explicitCertReqPermissions PRESENT,
+          certRequestPermissions PRESENT,
           canRequestRollover PRESENT
       })
   })
@@ -236,7 +236,7 @@ EeRaIdCertProvisioningRequestWithHardwareMsg ::=
 -- enrollment certificate of the end entity, for identification certificate requests
 EndEntityEnrollmentIdCertificate ::= Certificate (WITH COMPONENTS {...,
       toBeSigned(WITH COMPONENTS {..., 
-          explicitCertReqPermissions PRESENT,
+          certRequestPermissions PRESENT,
           canRequestRollover PRESENT
       })
   })
