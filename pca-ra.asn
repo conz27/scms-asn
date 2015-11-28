@@ -222,7 +222,7 @@ SignedEncryptedButterflyCertificateResponse ::= Ieee1609Dot2Data (WITH COMPONENT
           generationTime ABSENT,
           expiryTime ABSENT,
           generationLocation ABSENT,
-          certLearningRequest ABSENT,
+          p2pcdLearningRequest ABSENT,
           missingCrlIdentifier ABSENT,
           encryptionKey ABSENT
         })
@@ -249,7 +249,7 @@ SignedEncryptedSingleKeyCertificateResponse ::= Ieee1609Dot2Data (WITH COMPONENT
           generationTime ABSENT,
           expiryTime ABSENT,
           generationLocation ABSENT,
-          certLearningRequest ABSENT,
+          p2pcdLearningRequest ABSENT,
           missingCrlIdentifier ABSENT,
           encryptionKey ABSENT
         })

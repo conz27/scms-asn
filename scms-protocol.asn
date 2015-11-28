@@ -523,7 +523,7 @@ SignedPseudonymCertProvisioningAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
           generationTime ABSENT,
           expiryTime ABSENT,
           generationLocation ABSENT,
-          certLearningRequest ABSENT,
+          p2pcdLearningRequest ABSENT,
           missingCrlIdentifier ABSENT,
           encryptionKey ABSENT
         })
@@ -581,7 +581,7 @@ SignedIdCertProvisioningAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
           generationTime ABSENT,
           expiryTime ABSENT,
           generationLocation ABSENT,
-          certLearningRequest ABSENT,
+          p2pcdLearningRequest ABSENT,
           missingCrlIdentifier ABSENT,
           encryptionKey ABSENT
         })
@@ -618,7 +618,7 @@ SignedLIRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
           generationTime ABSENT,
           expiryTime ABSENT,
           generationLocation ABSENT,
-          certLearningRequest ABSENT,
+          p2pcdLearningRequest ABSENT,
           missingCrlIdentifier ABSENT,
           encryptionKey ABSENT
         })
@@ -649,7 +649,7 @@ SignedLIReply ::= SecuredScmsPDU (WITH COMPONENTS {...,
           generationTime ABSENT,
           expiryTime ABSENT,
           generationLocation ABSENT,
-          certLearningRequest ABSENT,
+          p2pcdLearningRequest ABSENT,
           missingCrlIdentifier ABSENT,
           encryptionKey ABSENT
         })
@@ -680,7 +680,7 @@ SignedLSRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
           generationTime ABSENT,
           expiryTime ABSENT,
           generationLocation ABSENT,
-          certLearningRequest ABSENT,
+          p2pcdLearningRequest ABSENT,
           missingCrlIdentifier ABSENT,
           encryptionKey ABSENT
         })
@@ -711,7 +711,7 @@ SignedLSReply ::= SecuredScmsPDU (WITH COMPONENTS {...,
           generationTime ABSENT,
           expiryTime ABSENT,
           generationLocation ABSENT,
-          certLearningRequest ABSENT,
+          p2pcdLearningRequest ABSENT,
           missingCrlIdentifier ABSENT,
           encryptionKey ABSENT
         })
@@ -750,7 +750,7 @@ SignedPcaLaKeyAgreementRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
           generationTime ABSENT,
           expiryTime ABSENT,
           generationLocation ABSENT,
-          certLearningRequest ABSENT,
+          p2pcdLearningRequest ABSENT,
           missingCrlIdentifier ABSENT,
           encryptionKey ABSENT
         })
@@ -775,7 +775,7 @@ SignedLaPcaKeyAgreementResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
           generationTime ABSENT,
           expiryTime ABSENT,
           generationLocation ABSENT,
-          certLearningRequest ABSENT,
+          p2pcdLearningRequest ABSENT,
           missingCrlIdentifier ABSENT,
           encryptionKey ABSENT
         })
@@ -800,7 +800,7 @@ SignedPcaLaKeyAgreementAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
           generationTime ABSENT,
           expiryTime ABSENT,
           generationLocation ABSENT,
-          certLearningRequest ABSENT,
+          p2pcdLearningRequest ABSENT,
           missingCrlIdentifier ABSENT,
           encryptionKey ABSENT
         })
@@ -835,7 +835,7 @@ SignedRaLaIndividualPreLinkageValueRequest ::= SecuredScmsPDU (WITH COMPONENTS {
           generationTime PRESENT,
           expiryTime ABSENT,
           generationLocation ABSENT,
-          certLearningRequest ABSENT,
+          p2pcdLearningRequest ABSENT,
           missingCrlIdentifier ABSENT,
           encryptionKey ABSENT
         })
@@ -861,7 +861,7 @@ SignedRaLaGroupPreLinkageValueRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
           generationTime PRESENT,
           expiryTime ABSENT,
           generationLocation ABSENT,
-          certLearningRequest ABSENT,
+          p2pcdLearningRequest ABSENT,
           missingCrlIdentifier ABSENT,
           encryptionKey ABSENT
         })
@@ -887,7 +887,7 @@ SignedLaRaPreLinkageValueResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
           generationTime PRESENT,
           expiryTime ABSENT,
           generationLocation ABSENT,
-          certLearningRequest ABSENT,
+          p2pcdLearningRequest ABSENT,
           missingCrlIdentifier ABSENT,
           encryptionKey ABSENT
         })
@@ -919,7 +919,7 @@ SignedMaPcaPreLinkageValueRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
           generationTime ABSENT,
           expiryTime ABSENT,
           generationLocation ABSENT,
-          certLearningRequest ABSENT,
+          p2pcdLearningRequest ABSENT,
           missingCrlIdentifier ABSENT,
           encryptionKey ABSENT
         })
@@ -951,7 +951,7 @@ SignedPcaMaPreLinkageValueResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
           generationTime ABSENT,
           expiryTime ABSENT,
           generationLocation ABSENT,
-          certLearningRequest ABSENT,
+          p2pcdLearningRequest ABSENT,
           missingCrlIdentifier ABSENT,
           encryptionKey ABSENT
         })
@@ -983,7 +983,7 @@ SignedMaPcaHPCRRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
           generationTime ABSENT,
           expiryTime ABSENT,
           generationLocation ABSENT,
-          certLearningRequest ABSENT,
+          p2pcdLearningRequest ABSENT,
           missingCrlIdentifier ABSENT,
           encryptionKey ABSENT
         })
@@ -1015,7 +1015,7 @@ SignedPcaMaHPCRResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
           generationTime ABSENT,
           expiryTime ABSENT,
           generationLocation ABSENT,
-          certLearningRequest ABSENT,
+          p2pcdLearningRequest ABSENT,
           missingCrlIdentifier ABSENT,
           encryptionKey ABSENT
         })
@@ -1053,7 +1053,7 @@ SignedBlacklistRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
           generationTime ABSENT,
           expiryTime ABSENT,
           generationLocation ABSENT,
-          certLearningRequest ABSENT,
+          p2pcdLearningRequest ABSENT,
           missingCrlIdentifier ABSENT,
           encryptionKey ABSENT
         })
@@ -1085,7 +1085,7 @@ SignedBlacklistResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
           generationTime ABSENT,
           expiryTime ABSENT,
           generationLocation ABSENT,
-          certLearningRequest ABSENT,
+          p2pcdLearningRequest ABSENT,
           missingCrlIdentifier ABSENT,
           encryptionKey ABSENT
         })
@@ -1117,7 +1117,7 @@ SignedLCIRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
           generationTime ABSENT,
           expiryTime ABSENT,
           generationLocation ABSENT,
-          certLearningRequest ABSENT,
+          p2pcdLearningRequest ABSENT,
           missingCrlIdentifier ABSENT,
           encryptionKey ABSENT
         })
@@ -1150,7 +1150,7 @@ SignedLCIResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
           generationTime ABSENT,
           expiryTime ABSENT,
           generationLocation ABSENT,
-          certLearningRequest ABSENT,
+          p2pcdLearningRequest ABSENT,
           missingCrlIdentifier ABSENT,
           encryptionKey ABSENT
         })
@@ -1201,7 +1201,7 @@ SecuredPcaRaCertificateRequestReply ::= SecuredScmsPDU (WITH COMPONENTS {...,
           generationTime ABSENT,
           expiryTime ABSENT,
           generationLocation ABSENT,
-          certLearningRequest ABSENT,
+          p2pcdLearningRequest ABSENT,
           missingCrlIdentifier ABSENT,
           encryptionKey ABSENT
         })
