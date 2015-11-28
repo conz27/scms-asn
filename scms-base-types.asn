@@ -10,6 +10,7 @@ EXPORTS ALL;
 IMPORTS 
   Hostname,
   IValue,
+  JValue,
   LaId,
   LinkageSeed,
   Opaque, 
