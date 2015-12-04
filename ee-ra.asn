@@ -9,7 +9,7 @@ DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 EXPORTS ALL;
 
 IMPORTS
-  EccNistP256CurvePoint,
+  EccP256CurvePoint,
   EncryptionKey,
   HashAlgorithm,
   Hostname,
@@ -104,11 +104,11 @@ EeRaPseudonymCertProvisioningRequestBase ::= SEQUENCE {
     version                 Uint8(1),
     enrollmentCert          EndEntityEnrollmentPseudonymCertificate,
     sig-butterfly-seed-key  CHOICE {
-        unauthenticated         EccNistP256CurvePoint,
+        unauthenticated         EccP256CurvePoint,
         hw-authenticated        SignedEccNistP256Point
     },
     enc-butterfly-seed-key  CHOICE {
-        unauthenticated         EccNistP256CurvePoint,
+        unauthenticated         EccP256CurvePoint,
         hw-authenticated        SignedEccNistP256Point
     },
     expansionSign           OCTET STRING (SIZE (16)),
@@ -140,7 +140,7 @@ SignedEccNistP256Point ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
           payload (WITH COMPONENTS {..., 
             data (WITH COMPONENTS {...,
                content (WITH COMPONENTS {
-                  unsecuredData (CONTAINING EccNistP256CurvePoint)
+                  unsecuredData (CONTAINING EccP256CurvePoint)
               })
             })
           }),
@@ -149,7 +149,7 @@ SignedEccNistP256Point ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
             generationTime ABSENT,
             expiryTime ABSENT,
             generationLocation ABSENT,
-            certLearningRequest ABSENT,
+            p2pcdLearningRequest ABSENT,
             missingCrlIdentifier ABSENT,
             encryptionKey ABSENT
           })
@@ -166,7 +166,7 @@ SignedEccNistP256Point ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
 -- enrollment certificate of the end entity, for pseudonym certificate requests
 EndEntityEnrollmentPseudonymCertificate ::= ImplicitCertificate (WITH COMPONENTS {...,
       toBeSigned(WITH COMPONENTS {..., 
-          explicitCertReqPermissions PRESENT,
+          certRequestPermissions PRESENT,
           canRequestRollover PRESENT
       })
   })
@@ -208,11 +208,11 @@ EeRaIdCertProvisioningRequestBase ::= SEQUENCE {
     version                 Uint8(1),
     enrollmentCert          EndEntityEnrollmentIdCertificate,
     sig-butterfly-seed-key  CHOICE {
-        unauthenticated         EccNistP256CurvePoint,
+        unauthenticated         EccP256CurvePoint,
         hw-authenticated        SignedEccNistP256Point
     },
     enc-butterfly-seed-key  CHOICE {
-        unauthenticated         EccNistP256CurvePoint,
+        unauthenticated         EccP256CurvePoint,
         hw-authenticated        SignedEccNistP256Point
     },
     expansionSign           OCTET STRING (SIZE (16)),
@@ -238,7 +238,7 @@ EeRaIdCertProvisioningRequestWithHardwareMsg ::=
 -- enrollment certificate of the end entity, for identification certificate requests
 EndEntityEnrollmentIdCertificate ::= Certificate (WITH COMPONENTS {...,
       toBeSigned(WITH COMPONENTS {..., 
-          explicitCertReqPermissions PRESENT,
+          certRequestPermissions PRESENT,
           canRequestRollover PRESENT
       })
   })
