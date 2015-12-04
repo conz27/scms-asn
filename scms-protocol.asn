@@ -494,7 +494,7 @@ SignedMisbehaviorReport ::= SecuredScmsPDU (WITH COMPONENTS {...,
           generationTime PRESENT,
           expiryTime ABSENT,
           generationLocation PRESENT,
-          certLearningRequest ABSENT,
+          p2pcdLearningRequest ABSENT,
           missingCrlIdentifier ABSENT,
           encryptionKey ABSENT
         })
