@@ -113,6 +113,11 @@ FROM Ieee1609Dot2DcmEndEntityInterface
 standards-association-numbered-series-standards(2) wave-stds(1609)  
 dot2(2) scms(2) interfaces(1) dcm-ee(127)}
 
+  CertificateChainFiles
+FROM IEEE1609dot2-cert-chains {iso(1) identified-organization(3) ieee(111) 
+standards-association-numbered-series-standards(2) wave-stds(1609)  
+dot2(2) base (1) cert-chains (4)}
+
 ;
 
 ScmsPDU ::= SEQUENCE {
@@ -134,6 +139,14 @@ ScmsPDU ::= SEQUENCE {
     dcm-ee    DcmEndEntityInterfacePDU,
     ...
  }
+}
+
+ScmsFile ::= SEQUENCE {
+  version Uint8(1),
+  content CHOICE {
+    cert-chains CertificateChainFiles,
+    ...
+  }
 }
 
 -- *************************************************************************
@@ -227,6 +240,23 @@ ScopedIdCertProvisioningAck ::=
     })
   })
 
+ScopedGlobalCertificateChainFile ::=
+  ScmsFile (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      cert-chains( WITH COMPONENTS {
+        globalCertificateChainFile
+      })
+    })
+  })
+      
+ScopedLocalCertificateChainFile ::=
+  ScmsFile (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      cert-chains( WITH COMPONENTS {
+        localCertificateChainFile
+      })
+    })
+  })
 
 -- *** LA-MA ***************************************************************
 
@@ -636,6 +666,38 @@ SecuredIdCertProvisioningAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {..., 
     encryptedData  -- decrypts to a SignedIdCertProvisioningAck
   })
+})
+
+SignedGlobeCertificateChainFile ::= Ieee1609Dot2Data( WITH COMPONENTS{...,
+    content( WITH COMPONENTS{...,
+      signedData( WITH COMPONENTS{...,
+        tbsData( WITH COMPONENTS{...,
+          payload( WITH COMPONENTS{...,
+            data( WITH COMPONENTS{...,
+              content( WITH COMPONENTS{...,
+                unsecuredData( CONTAINING ScopedGlobalCertificateChainFile )
+              })
+            })
+          })
+        })
+      })
+   })
+})
+
+SignedLocalCertificateChainFile ::= Ieee1609Dot2Data( WITH COMPONENTS{...,
+    content( WITH COMPONENTS{...,
+      signedData( WITH COMPONENTS{...,
+        tbsData( WITH COMPONENTS{...,
+          payload( WITH COMPONENTS{...,
+            data( WITH COMPONENTS{...,
+              content( WITH COMPONENTS{...,
+                unsecuredData( CONTAINING ScopedLocalCertificateChainFile )
+              })
+            })
+          })
+        })
+      })
+   })
 })
 
 -- *************************************************************************
