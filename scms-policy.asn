@@ -49,6 +49,12 @@ scms (2) interfaces(1) base-types (2)}
 --
 ----
 
+PolicyFiles ::= CHOICE {
+    globalPolicyFile GlobalPolicyFile,
+    localPolicyFile LocalPolicyFile,
+    ...
+}
+
 BasePolicyFile ::= SEQUENCE {
     version Uint8(1),
     tbsData ToBeSignedPolicyData,
@@ -73,22 +79,6 @@ GlobalPolicyFile ::= BasePolicyFile (WITH COMPONENTS {...,
     })
 })
 
-SignedGlobalPolicyFile ::= Ieee1609Dot2Data( WITH COMPONENTS{...,
-    content( WITH COMPONENTS{...,
-      signedData( WITH COMPONENTS{...,
-        tbsData( WITH COMPONENTS{...,
-          payload( WITH COMPONENTS{...,
-            data( WITH COMPONENTS{...,
-              content( WITH COMPONENTS{...,
-                unsecuredData( CONTAINING GlobalPolicyFile)
-              })
-            })
-          })
-        })
-      })
-   })
-})
-
 LocalPolicyFile ::= BasePolicyFile (WITH COMPONENTS {...,
     tbsData( WITH COMPONENTS {...,
         policy( WITH COMPONENTS {...,
@@ -97,27 +87,12 @@ LocalPolicyFile ::= BasePolicyFile (WITH COMPONENTS {...,
     })
 })
 
-SignedLocalPolicyFile ::= Ieee1609Dot2Data( WITH COMPONENTS{...,
-    content( WITH COMPONENTS{...,
-      signedData( WITH COMPONENTS{...,
-        tbsData( WITH COMPONENTS{...,
-          payload( WITH COMPONENTS{...,
-            data( WITH COMPONENTS{...,
-              content( WITH COMPONENTS{...,
-                unsecuredData( CONTAINING LocalPolicyFile)
-              })
-            })
-          })
-        })
-      })
-   })
-})
-
 Policy ::= CHOICE {
     global  GlobalPolicyData,
     local   LocalPolicyData,
     ...
 }
+
 GlobalPolicyData ::= SEQUENCE {
     scmsVersion Uint8 DEFAULT 1,                                -- SCMS Version 1 is current
     sizeLaOneId Uint16 OPTIONAL,                                -- LA 1 Identifier (2 bytes)
