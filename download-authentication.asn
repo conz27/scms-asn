@@ -12,10 +12,12 @@ IMPORTS
   FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111) 
     standards-association-numbered-series-standards(2) wave-stds(1609) dot2(2)
     base(1) base-types(2)}
+
   SecurityMgmtPsid
   FROM Ieee1609dot2ScmsBaseTypes {iso(1) identified-organization(3) ieee(111)
 	standards-association-numbered-series-standards(2) wave-stds(1609)  dot2(2)
 	scms (2) interfaces(1) base-types (2)}
+
   ScmsPDU,
   SecuredScmsPDU
   FROM
@@ -57,7 +59,7 @@ SignedAuthenticatedDownloadRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
           generationTime ABSENT,
           expiryTime ABSENT,
           generationLocation ABSENT,
-          certLearningRequest ABSENT,
+          p2pcdLearningRequest ABSENT,
           missingCrlIdentifier ABSENT,
           encryptionKey ABSENT
         })
