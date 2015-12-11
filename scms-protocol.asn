@@ -118,6 +118,10 @@ FROM IEEE1609dot2-cert-chains {iso(1) identified-organization(3) ieee(111)
 standards-association-numbered-series-standards(2) wave-stds(1609)  
 dot2(2) base (1) cert-chains (4)}
 
+  PolicyFiles
+FROM Ieee1609dot2ScmsPolicyTypes {iso(1) identified-organization(3) ieee(111)
+standards-association-numbered-series-standards(2) wave-stds(1609)  dot2(2)
+scms (2) interfaces(1) policy-types (500)}
 ;
 
 ScmsPDU ::= SEQUENCE {
@@ -144,7 +148,8 @@ ScmsPDU ::= SEQUENCE {
 ScmsFile ::= SEQUENCE {
   version Uint8(1),
   content CHOICE {
-    cert-chains CertificateChainFiles,
+    cert-chain CertificateChainFiles,
+    policy PolicyFiles,
     ...
   }
 }
@@ -243,7 +248,7 @@ ScopedIdCertProvisioningAck ::=
 ScopedGlobalCertificateChainFile ::=
   ScmsFile (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
-      cert-chains( WITH COMPONENTS {
+      cert-chain( WITH COMPONENTS {
         globalCertificateChainFile
       })
     })
@@ -252,8 +257,26 @@ ScopedGlobalCertificateChainFile ::=
 ScopedLocalCertificateChainFile ::=
   ScmsFile (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
-      cert-chains( WITH COMPONENTS {
+      cert-chain( WITH COMPONENTS {
         localCertificateChainFile
+      })
+    })
+  })
+
+ScopedGlobalPolicyFile ::=
+  ScmsFile (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      policy( WITH COMPONENTS {
+        globalPolicyFile
+      })
+    })
+  })
+      
+ScopedLocalPolicyFile ::=
+  ScmsFile (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      policy( WITH COMPONENTS {
+        localPolicyFile
       })
     })
   })
@@ -668,14 +691,14 @@ SecuredIdCertProvisioningAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
-SignedGlobeCertificateChainFile ::= Ieee1609Dot2Data( WITH COMPONENTS{...,
+SignedGlobalPolicyFile ::= Ieee1609Dot2Data( WITH COMPONENTS{...,
     content( WITH COMPONENTS{...,
       signedData( WITH COMPONENTS{...,
         tbsData( WITH COMPONENTS{...,
           payload( WITH COMPONENTS{...,
             data( WITH COMPONENTS{...,
               content( WITH COMPONENTS{...,
-                unsecuredData( CONTAINING ScopedGlobalCertificateChainFile )
+                unsecuredData( CONTAINING ScopedGlobalPolicyFile )
               })
             })
           })
@@ -684,14 +707,14 @@ SignedGlobeCertificateChainFile ::= Ieee1609Dot2Data( WITH COMPONENTS{...,
    })
 })
 
-SignedLocalCertificateChainFile ::= Ieee1609Dot2Data( WITH COMPONENTS{...,
+SignedLocalPolicyFile ::= Ieee1609Dot2Data( WITH COMPONENTS{...,
     content( WITH COMPONENTS{...,
       signedData( WITH COMPONENTS{...,
         tbsData( WITH COMPONENTS{...,
           payload( WITH COMPONENTS{...,
             data( WITH COMPONENTS{...,
               content( WITH COMPONENTS{...,
-                unsecuredData( CONTAINING ScopedLocalCertificateChainFile )
+                unsecuredData( CONTAINING ScopedLocalPolicyFile )
               })
             })
           })
