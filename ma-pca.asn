@@ -10,6 +10,7 @@ DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 EXPORTS ALL;
  
 IMPORTS 
+  GroupLinkageValue,
   HashedId8,
   LinkageValue,
   Uint8
@@ -62,8 +63,9 @@ MaPcaPreLinkageValueRequestMsg ::= SEQUENCE {
 }
 
 ToBeSignedMaPcaPreLinkageValueRequestMsg ::= SEQUENCE {
-    maId            MaHostnameId,
-    linkageValues   SEQUENCE OF LinkageValue,
+    maId                MaHostnameId,
+    linkageValues       SEQUENCE (SIZE (0..MAX)) OF LinkageValue,
+    groupLinkageValues  SEQUENCE (SIZE (0..MAX)) OF GroupLinkageValue,
     ...
 }
 
