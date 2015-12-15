@@ -65,6 +65,7 @@ EndEntityRaInterfacePDU::= CHOICE {
     eeRaIdCertProvisioningRequestWithHardware
                           EeRaIdCertProvisioningRequestWithHardwareMsg,
     raEeIdCertProvisioningAck          RaEeIdCertProvisioningAckMsg,
+    eeRaAuthenticatedDownloadRequest AuthenticatedDownloadRequest,
     ...
 }
 
@@ -265,6 +266,14 @@ ErrorLogEntries ::= SEQUENCE {
     timeStamp Time64,                           -- each log entry has a time stamp (UTC),
     hashOfRequest HashedId8,                    -- the hash of the corresponding request EE-RA,
     errorCode ScopedObeError,                   -- and one error code per line item
+    ...
+}
+
+-- Authenticated Downloads
+
+AuthenticatedDownloadRequest ::= SEQUENCE {
+    timestamp      Time32,
+    filename       UTF8String (SIZE(0..255)),
     ...
 }
 
