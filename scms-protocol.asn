@@ -245,6 +245,15 @@ ScopedIdCertProvisioningAck ::=
     })
   })
 
+ScopedAuthenticatedDownloadRequest ::= 
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      ee-ra (WITH COMPONENTS {
+        eeRaAuthenticatedDownloadRequest
+      })
+    })
+  })
+
 ScopedGlobalCertificateChainFile ::=
   ScmsFile (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
@@ -688,6 +697,31 @@ SignedIdCertProvisioningAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
 SecuredIdCertProvisioningAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {..., 
     encryptedData  -- decrypts to a SignedIdCertProvisioningAck
+  })
+})
+
+SignedAuthenticatedDownloadRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {..., 
+    signedData  (WITH COMPONENTS {..., 
+      tbsData (WITH COMPONENTS {..., 
+        payload (WITH COMPONENTS {..., 
+          data (WITH COMPONENTS {...,
+             content (WITH COMPONENTS {
+                unsecuredData (CONTAINING ScopedAuthenticatedDownloadRequest)
+            })
+          })
+        }),
+        headerInfo (WITH COMPONENTS {..., 
+          psid (SecurityMgmtPsid),
+          generationTime ABSENT,
+          expiryTime ABSENT,
+          generationLocation ABSENT,
+          p2pcdLearningRequest ABSENT,
+          missingCrlIdentifier ABSENT,
+          encryptionKey ABSENT
+        })
+      })
+    })
   })
 })
 
