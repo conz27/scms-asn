@@ -29,16 +29,6 @@ CertificateChainFiles ::= CHOICE {
 }
 
 ----
--- Common Certificate Chain File Structure
-----
-
-CertificateChainFileBase ::= SEQUENCE {
-    version Uint16(0),
-    certStore CertificateStore,
-    ...
-}
-
-----
 --
 -- Global Certificate Chain File:
 --
@@ -47,7 +37,11 @@ CertificateChainFileBase ::= SEQUENCE {
 --
 ----
 
-GlobalCertificateChainFile ::= CertificateChainFileBase
+GlobalCertificateChainFile ::= SEQUENCE {
+    version Uint16(0),
+    certStore CertificateStore,
+    ...
+}
 
 ----
 --
@@ -58,16 +52,16 @@ GlobalCertificateChainFile ::= CertificateChainFileBase
 --
 ----
 
+LocalCertificateChainFile ::= SEQUENCE {
+    version CompositeVersion,
+    requiredCertStore CertificateStore,
+    optionalCertStore CertificateStore OPTIONAL,
+    ...
+}
+
 CompositeVersion ::= SEQUENCE {
 	gccfVersion Uint16(0),
 	lccfVersion Uint16(0)
-}
-
-LocalCertificateChainFile ::= SEQUENCE {
-	version CompositeVersion,
-	required CertificateChainFileBase,
-	optional CertificateChainFileBase OPTIONAL,
-    ...
 }
 
 --
@@ -80,6 +74,5 @@ CertificateStore ::= SEQUENCE {
     pcaCertChains SEQUENCE SIZE(0..MAX) OF ExplicitCertificate,
     ...
 }
-
 
 END
