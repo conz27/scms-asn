@@ -1,4 +1,4 @@
-<OssGuiProject compilerVersionLastUsed="6.1 T" compilerSettingsChangeTime="2015-12-14T21:45:16" version="2.0" product="ASN.1 Studio" productVersion="7.1" compiler="ASN.1/Java">
+<OssGuiProject version="2.0" compiler="ASN.1/Java" product="ASN.1 Studio" compilerSettingsChangeTime="2015-12-14T22:20:12" productVersion="7.1" compilerVersionLastUsed="6.1 T">
  <Asn1Files>
   <File>1609dot2-asn/1609dot2-base-types.asn</File>
   <File>1609dot2-asn/1609dot2-P2P.asn</File>
@@ -41,6 +41,7 @@
   <File>scms-protocol.asn</File>
   <File>cert-chain-files.asn</File>
   <File>cert-profile.asn</File>
+  <File>1609dot2-asn/crl-ssp.asn</File>
  </Asn1Files>
  <CompilerSettings>
   <Setting name="disablCAGLMessagesCheckBox" present="true"/>
