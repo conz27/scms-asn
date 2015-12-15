@@ -1,4 +1,4 @@
-<OssGuiProject compiler="ASN.1/Java" compilerVersionLastUsed="6.1 T" version="2.0" product="ASN.1 Studio" productVersion="7.1" compilerSettingsChangeTime="2015-12-11T10:14:08">
+<OssGuiProject compilerVersionLastUsed="6.1 T" compilerSettingsChangeTime="2015-12-14T21:45:16" version="2.0" product="ASN.1 Studio" productVersion="7.1" compiler="ASN.1/Java">
  <Asn1Files>
   <File>1609dot2-asn/1609dot2-base-types.asn</File>
   <File>1609dot2-asn/1609dot2-P2P.asn</File>
@@ -43,17 +43,18 @@
   <File>cert-profile.asn</File>
  </Asn1Files>
  <CompilerSettings>
-  <Setting present="true" name="disablCAGLMessagesCheckBox"/>
-  <Setting present="true" name="jSampleDefaultRadioButton"/>
-  <Setting present="true" name="jToedRadioButton"/>
-  <Setting present="false" name="modListRadioButton"/>
+  <Setting name="disablCAGLMessagesCheckBox" present="true"/>
+  <Setting name="jOutputLineEdit">org.campllc.scms.protocols</Setting>
+  <Setting name="jSampleDefaultRadioButton" present="true"/>
+  <Setting name="jToedRadioButton" present="true"/>
+  <Setting name="modListRadioButton" present="false"/>
  </CompilerSettings>
  <EncodingFiles/>
  <GeneratedFiles/>
  <Settings>
-  <Setting present="false" name="-noRelaxedMode"/>
+  <Setting name="-noRelaxedMode" present="false"/>
   <Setting name="-root"/>
-  <Setting present="false" name="-relaySafe"/>
+  <Setting name="-relaySafe" present="false"/>
   <Setting name="AUTOMATIC_ENCDEC"/>
   <Setting name="OSS_AUTO_ENCODE_WITHOUT_CHECKING_CONSTRAINT"/>
   <Setting name="DEBUGPDU"/>
