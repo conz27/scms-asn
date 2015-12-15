@@ -33,10 +33,11 @@ FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111)
 
 SecurityMgmtPsid ::= Psid(35)  -- PSID = 0x23
 
-EncryptedPLV ::= SEQUENCE {
+
+
+EncryptedIndividualPLV ::= SEQUENCE {
     version         Uint8(1),  -- version of EncryptedPLV
     laId            LaId,      -- identifies which LA created PLV
-    encGroupIndex   OCTET STRING (SIZE(16)) OPTIONAL, -- when decrypted, this is a ToBeEncryptedGroupIndex
     enc-plv         EncryptedData (WITH COMPONENTS {
       recipients (SIZE (1) INTERSECTION (WITH COMPONENT (
         RecipientInfo (WITH COMPONENTS {
@@ -45,17 +46,23 @@ EncryptedPLV ::= SEQUENCE {
                           -- hash of key agreement (PCA’s initial request) 
       }))))
     })
+    -- the ciphertext field in enc-plv decrypts to a ToBeEncryptedIndividualPLV.
 }
 
-EncryptedIndividualPLV ::= EncryptedPLV (WITH COMPONENTS{...,
-    encGroupIndex ABSENT
-    -- the ciphertext field in enc-plv decrypts to a ToBeEncryptedIndividualPLV.
-})
-
-EncryptedGroupPLV ::= EncryptedPLV  (WITH COMPONENTS{...,
-    encGroupIndex PRESENT
+EncryptedGroupPLV ::= SEQUENCE {
+    version         Uint8(1),  -- version of EncryptedPLV
+    laId            LaId,      -- identifies which LA created PLV
+    encGroupIndex   OCTET STRING (SIZE(16)), -- when decrypted, this is a ToBeEncryptedGroupIndex
+    enc-group-plv   EncryptedData (WITH COMPONENTS {
+      recipients (SIZE (1) INTERSECTION (WITH COMPONENT (
+        RecipientInfo (WITH COMPONENTS {
+            symmRecipInfo -- Pointer to the used encryption key.
+                          -- The encryption key is identified by the 
+                          -- hash of key agreement (PCA’s initial request) 
+      }))))
+    })
     -- the ciphertext field in enc-plv decrypts to a ToBeEncryptedGroupPLV.
-})
+}
 
 
 zero8 OCTET STRING ::= '0000000000000000'H
@@ -71,7 +78,7 @@ ToBeEncryptedIndividualPLV ::= SEQUENCE {
     plv        PreLinkageValue
 } 
 
-ToBeEncryptedGPLV ::= SEQUENCE {
+ToBeEncryptedGroupPLV ::= SEQUENCE {
    iValue      IValue,
    j           Uint32,
    plv         PreLinkageValue
@@ -114,9 +121,16 @@ SignatureAndSignerIdentifier ::= SEQUENCE {
 }
 
 EncryptedPlvAndHostInfo ::= SEQUENCE {
-	encryptedPLV      EncryptedPLV,
+	encryptedPLV      EncryptedIndividualPLV,
 	hostname	      Hostname
 }
+
+EncryptedGroupPlvAndHostInfo ::= SEQUENCE {
+	encryptedGPLV     EncryptedGroupPLV,
+	hostname	      Hostname
+}
+
+
 
 HPCRAndHostInfo ::= SEQUENCE {
 	hpcr		     HPCR,
