@@ -518,13 +518,8 @@ RaCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
 })
 
 
-<<<<<<< HEAD
 LaCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
-  issuer (WITH COMPONENTS {ecdsaNistP256AndDigest}),
-=======
-LaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
-  issuer (WITH COMPONENTS {sha256AndDigest}),
->>>>>>> 2f76f73af0a905f84f337ce69067f13f35612c01
+  issuer (WITH COMPONENTS{sha256AndDigest}),
   toBeSigned (WITH COMPONENTS { ...,
     id (WITH COMPONENTS {
       name ("la.poc.campllc.org") -- !!TBD!!
