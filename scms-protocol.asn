@@ -556,6 +556,7 @@ SignedMisbehaviorReport ::= SecuredScmsPDU (WITH COMPONENTS {...,
 
 SecuredRACertRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
     content (WITH COMPONENTS {...,
+      unsecuredData (CONTAINING ScopedEeRaCertRequest)
     })
   })
 
