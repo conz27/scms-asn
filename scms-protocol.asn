@@ -61,7 +61,6 @@ FROM Ieee1609Dot2EndEntityMaInterface
 standards-association-numbered-series-standards(2) wave-stds(1609)
 dot2(2) scms(2) interfaces(1) ee-ma(7)}
 
-  EndEntityEnrollmentPseudonymCertificate,
   EndEntityRaInterfacePDU
 FROM Ieee1609Dot2EndEntityRaInterface
 {iso(1) identified-organization(3) ieee(111)
@@ -177,6 +176,24 @@ ScopedMisbehaviorReport ::=
 
 -- *** EE-RA ***************************************************************
 
+ScopedEeRaCertRequest ::=
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      ee-ra (WITH COMPONENTS {
+        eeRaCertRequest
+      })
+    })
+ })
+
+ScopedRaEeCertResponse ::=
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      ee-ra (WITH COMPONENTS {
+        raEeCertResponse
+      })
+    })
+ })
+
 ScopedPseudonymCertProvisioningRequest ::=
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
@@ -184,7 +201,7 @@ ScopedPseudonymCertProvisioningRequest ::=
         eeRaPseudonymCertProvisioningRequest
       })
     })
- })
+  })
 
 ScopedPseudonymCertProvisioningAck ::=
   ScmsPDU  (WITH COMPONENTS {...,
@@ -202,7 +219,7 @@ ScopedIdCertProvisioningRequest ::=
         eeRaIdCertProvisioningRequest
       })
     })
- })
+  })
 
 ScopedIdCertProvisioningAck ::=
   ScmsPDU  (WITH COMPONENTS {...,
@@ -218,7 +235,7 @@ ScopedGlobalCertificateChainFile ::=
     content (WITH COMPONENTS {
       cert-chain( WITH COMPONENTS {
         globalCertificateChainFile
-      })
+       })
     })
   })
 
@@ -463,6 +480,7 @@ ScopedPcaRaCertificateRequestReply ::=
 -- *** Scoped certificate requests   **************************************
 
   ScopedCertificateRequest ::= ScmsPDU (
+     ScopedEeRaCertRequest |
      ScopedPseudonymCertProvisioningRequest |
      ScopedIdCertProvisioningRequest  |
      ScopedRaPcaCertificateRequest )
@@ -536,6 +554,16 @@ SignedMisbehaviorReport ::= SecuredScmsPDU (WITH COMPONENTS {...,
 --
 -- *************************************************************************
 
+SecuredRACertRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {...,
+    })
+  })
+
+SecuredRACertResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {...,
+      unsecuredData (CONTAINING ScopedRaEeCertResponse)
+    })
+  })
 
 SignedPseudonymCertProvisioningRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,

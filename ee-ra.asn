@@ -56,6 +56,8 @@ FROM IEEE1609dot2Crl {iso(1) identified-organization(3) ieee(111)
 
 
 EndEntityRaInterfacePDU::= CHOICE {
+    eeRaCertRequest                      EeRaCertRequestMsg,
+    raEeCertResponse                     RaEeCertResponseMsg,
     eeRaPseudonymCertProvisioningRequest
                           EeRaPseudonymCertProvisioningRequest,
     raEePseudonymCertProvisioningAck     RaEePseudonymCertProvisioningAck,
@@ -65,7 +67,30 @@ EndEntityRaInterfacePDU::= CHOICE {
     ...
 }
 
+EeRaCertRequestMsg ::= SEQUENCE {
+    version         Uint8(1),
+    ...
+}
 
+RaEeCertResponseMsg ::= SEQUENCE {
+    version         Uint8(1),
+  	reply           CHOICE {
+        ack           RaEeCertResponseAck,
+        nack          RaEeCertResponseNack
+    },
+    ...
+}
+
+RaEeCertResponseAck ::= SEQUENCE {
+    raCertificate   Certificate,
+    crl             SecuredCrl,
+    ...
+}
+
+RaEeCertResponseNack ::= SEQUENCE {
+    hardError        ScopedRaHardError,
+    ...
+}
 
 --
 -- End Entity Pseudonym certificates
