@@ -1,7 +1,7 @@
 
 Ieee1609Dot2EndEntityRaInterface
-{iso(1) identified-organization(3) ieee(111) 
-standards-association-numbered-series-standards(2) wave-stds(1609)  
+{iso(1) identified-organization(3) ieee(111)
+standards-association-numbered-series-standards(2) wave-stds(1609)
 dot2(2) scms(2) interfaces(1) ee-ra(8)}
 
 DEFINITIONS AUTOMATIC TAGS ::= BEGIN
@@ -15,12 +15,14 @@ IMPORTS
   Hostname,
   Signature,
   HashedId8,
+  PublicEncryptionKey,
+  PublicVerificationKey,
   Time32,
   Time64,
   Uint8,
   Uint16,
   Uint32
-FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111) 
+FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111)
     standards-association-numbered-series-standards(2) wave-stds(1609) dot2(2)
     base(1) base-types(2)}
 
@@ -29,7 +31,7 @@ FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111)
   Ieee1609Dot2Data,
   ImplicitCertificate,
   SignerIdentifier
-FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111) 
+FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111)
     standards-association-numbered-series-standards(2) wave-stds(1609) dot2(2)
     base(1) schema(1)}
 
@@ -46,7 +48,7 @@ FROM Ieee1609dot2ScmsBaseTypes {iso(1) identified-organization(3) ieee(111)
     scms (2) interfaces(1) base-types (2)}
 
   SecuredCrl
-FROM IEEE1609dot2Crl {iso(1) identified-organization(3) ieee(111) 
+FROM IEEE1609dot2Crl {iso(1) identified-organization(3) ieee(111)
     standards-association-numbered-series-standards(2) wave-stds(1609) dot2(2)
     crl(3) protocol(2)}
 
@@ -54,98 +56,145 @@ FROM IEEE1609dot2Crl {iso(1) identified-organization(3) ieee(111)
 
 
 EndEntityRaInterfacePDU::= CHOICE {
-    eeRaCertRequest                      EeRaCertRequestMsg,
-    raEeCertResponse                     RaEeCertResponseMsg,
-    eeRaPseudonymCertProvisioningRequest 
-                          EeRaPseudonymCertProvisioningRequestMsg,
-    eeRaPseudonymCertProvisioningRequestWithHardware
-                          EeRaPseudonymCertProvisioningRequestWithHardwareMsg,
-    raEePseudonymCertProvisioningAck     RaEePseudonymCertProvisioningAckMsg,
-    eeRaIdCertProvisioningRequest      EeRaIdCertProvisioningRequestMsg,
-    eeRaIdCertProvisioningRequestWithHardware
-                          EeRaIdCertProvisioningRequestWithHardwareMsg,
-    raEeIdCertProvisioningAck          RaEeIdCertProvisioningAckMsg,
+    eeRaPseudonymCertProvisioningRequest
+                          EeRaPseudonymCertProvisioningRequest,
+    raEePseudonymCertProvisioningAck     RaEePseudonymCertProvisioningAck,
+    eeRaIdCertProvisioningRequest      EeRaIdCertProvisioningRequest,
+    raEeIdCertProvisioningAck          RaEeIdCertProvisioningAck,
     eeRaAuthenticatedDownloadRequest AuthenticatedDownloadRequest,
     ...
 }
 
-EeRaCertRequestMsg ::= SEQUENCE {
-    version         Uint8(1),
-    ...
-}
-
-RaEeCertResponseMsg ::= SEQUENCE {
-    version         Uint8(1),
-  	reply           CHOICE {
-        ack           RaEeCertResponseAck,
-        nack          RaEeCertResponseNack
-    },
-    ...
-}
-
-RaEeCertResponseAck ::= SEQUENCE {
-    raCertificate   Certificate,
-    crl             SecuredCrl,
-    ...
-}
-
-RaEeCertResponseNack ::= SEQUENCE {
-    hardError        ScopedRaHardError,
-    ...
-}
 
 
 --
 -- End Entity Pseudonym certificates
 --
 
+-- BACKGROUND
+--
+-- The design is intended to accommodate the C2C approach where keys are
+-- signed by the HSM that generates them on generation. In our version of
+-- this approach, there are two types of keys, type 1 and type 2.
+--
+-- Type 1 keys are *only* used to sign just-generated keys. The
+-- HSM generates type 1 keys either unsigned, or signed by themselves, or
+-- signed by some other type 1 key.
+--
+-- Type 2 keys are used to sign data. The HSM generates type 2 keys either
+-- unsigned or signed by a type 1 key.
+--
+-- The expected flow for OBEs is:
+--
+-- 1.  An OBE generates a type 1 keypair, self-signed. This will be the keypair
+--     for the enrolment cert.
+-- 2.  The OBE generates an enrolment cert request containing the requested
+--     permissions and the public key from step 1. This is NOT SIGNED because
+--     the type 1 key cannot sign data. However, note that even if it were
+--     signed, all the signature would provide is proof of possession of the
+--     private key and an integrity check on the request. Since the contents
+--     of the request need to be validated by the SCMS anyway, the integrity
+--     check is of little value; and since the keypair is self-signed it
+--     provides proof of possession.
+--  2a. The enrolment cert request is sent in a secure environment which
+--      provides a guarantee that the key is in fact a type 1 key and that
+--      the device is entitled to the requested permissions; the SCMS
+--      carries out all
+-- 3.  After receiving the enrolment cert back containing the public key from
+--     the keypair generated in step 1, the OBE generates a type 2 keypair,
+--     signed by the enrolment private key.
+-- 4.  The OBE generates a cert request containing the public key from the
+--     type 2 keypair generated in step 3 and signs it with the private key
+--     from that keypair. This has the following properties:
+--     * The key is shown to have been generated in hardware (assuming the
+--       RA is confident that the enrolment private key is a type 1 key)
+--     * The sender is shown to have the requested permissions (because the
+--       to-be-signed key is signed with the enrolment cert)
+--     * The OBE has proved possession of the to-be-signed private key
+--       (because the cert request as a whole is signed with that key)
+--
+-- (NOTE on this: We should coordinate this with C2C as this is slightly
+-- different from their approach)
+--
+-- The expected flow for RSEs is identical, except that butterfly keys
+-- aren't included.
+--
+-- On reception of an enrolment cert request, the ECA:
+-- * Checks that the signature on the key verifies with the key itself
+-- * Checks out-of-band that the OBE is entitled to the relevant enrolment
+--   cert
+-- * Issues the cert.
+--
+-- On reception of a pseudonym cert request, the RA:
+-- * Checks that the signature on the key verifies with the enrolment cert
+-- * Checks that the signature on the request verifies with the to-be-signed
+--   key
+-- * Checks on the internal blacklist that the enrolment cert hasn't been
+--   revoked
+-- * Collects the information necessary for the individual cert request:
+--   o The permissions being requested (from the enrolment cert)
+--   o The lifetime and whether the cert is implicit or explicit (from the
+--     profile for that PSID - the requester has no control over whether the
+--     issued cert is implicit or explicit or what the lifetime is)
+--   o The number of pseudonym certs to be requested per time period (also
+--     from the profile for that PSID)
+--   o The encryption key, if any (from the request)
+--   o The requested start time (from the request)
+-- * Creates a series of individual cert requests for the OBE (see
+--   pca-ra.asn) and sends them to the PCA
+--
+--
+-- QUESTIONS:
+--
+-- 1. This pretty much ignores encryption keys in the certs. In particular,
+--    it leaves use with no way to sign the encryption key in a request for
+--    an enrolment cert. Is that okay? I think so because the enrolment cert
+--    is never encrypted to directly, it signs cert requests that contain
+--    response encryption keys
+-- 2. The pseudonym cert request doesn't include a field for an encryption
+--    key to appear in the cert - is that okay?
+-- 3. Do we need requested-start-time in the pseudonym cert request?
+
 
 -- signed and encrypted before sending, see scms-protocol.asn.
-EeRaPseudonymCertProvisioningRequestBase ::= SEQUENCE {
+
+EeRaPseudonymCertProvisioningRequest ::= SEQUENCE {
     version                 Uint8(1),
-    enrollmentCert          EndEntityEnrollmentPseudonymCertificate,
-    sig-butterfly-seed-key  CHOICE {
-        unauthenticated         EccP256CurvePoint,
-        hw-authenticated        SignedEccNistP256Point
-    },
-    enc-butterfly-seed-key  CHOICE {
-        unauthenticated         EccP256CurvePoint,
-        hw-authenticated        SignedEccNistP256Point
-    },
+    sig-butterfly-seed-key  SignedEccNistP256Point,
+      -- signer field contains the enrolment cert
+    enc-butterfly-seed-key  EccP256CurvePoint,
     expansionSign           OCTET STRING (SIZE (16)),
     expansionEnc            OCTET STRING (SIZE (16)),
-    currenttime             Time32,
+    current-time            Time32,
+    requested-start-time    Time32,
     policyID                OCTET STRING (SIZE (0..32)),
     ...
 }
 
-
-EeRaPseudonymCertProvisioningRequestMsg ::= 
-    EeRaPseudonymCertProvisioningRequestBase (WITH COMPONENTS {...,
-        sig-butterfly-seed-key (WITH COMPONENTS {unauthenticated}),
-        enc-butterfly-seed-key (WITH COMPONENTS {unauthenticated})
-    })
-
-
-EeRaPseudonymCertProvisioningRequestWithHardwareMsg ::= 
-    EeRaPseudonymCertProvisioningRequestBase (WITH COMPONENTS {...,
-        sig-butterfly-seed-key (WITH COMPONENTS {hw-authenticated}),
-        enc-butterfly-seed-key (WITH COMPONENTS {hw-authenticated})
-    })
-
+EeRaIdCertProvisioningRequest ::= SEQUENCE {
+    version                 Uint8(1),
+    verify-key              SignedEccNistP256Point,
+      -- signer field contains the enrolment cert
+    cert-encryption-key     PublicEncryptionKey OPTIONAL,
+    response-encryption-key PublicEncryptionKey,
+    current-time            Time32,
+    requested-start-time    Time32,
+    policyID                OCTET STRING (SIZE (0..32)),
+    ...
+}
 
 SignedEccNistP256Point ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
-    content (WITH COMPONENTS {..., 
-      signedData  (WITH COMPONENTS {..., 
-        tbsData (WITH COMPONENTS {..., 
-          payload (WITH COMPONENTS {..., 
+    content (WITH COMPONENTS {...,
+      signedData  (WITH COMPONENTS {...,
+        tbsData (WITH COMPONENTS {...,
+          payload (WITH COMPONENTS {...,
             data (WITH COMPONENTS {...,
                content (WITH COMPONENTS {
                   unsecuredData (CONTAINING EccP256CurvePoint)
               })
             })
           }),
-          headerInfo (WITH COMPONENTS {..., 
+          headerInfo (WITH COMPONENTS {...,
             psid (SecurityMgmtPsid),
             generationTime ABSENT,
             expiryTime ABSENT,
@@ -166,16 +215,15 @@ SignedEccNistP256Point ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
 
 -- enrollment certificate of the end entity, for pseudonym certificate requests
 EndEntityEnrollmentPseudonymCertificate ::= ImplicitCertificate (WITH COMPONENTS {...,
-      toBeSigned(WITH COMPONENTS {..., 
-          certRequestPermissions PRESENT,
-          canRequestRollover PRESENT
+      toBeSigned(WITH COMPONENTS {...,
+          certRequestPermissions PRESENT
       })
   })
 
 -- signed and encrypted before sending, see scms-protocol.asn.
-RaEePseudonymCertProvisioningAckMsg ::= SEQUENCE {
+RaEePseudonymCertProvisioningAck ::= SEQUENCE {
     version     Uint8(1),
-    -- in case when RA can't calculate hash of the original 
+    -- in case when RA can't calculate hash of the original
     -- request due to hardError, zero value should be returned
     requestHash HashedId8,  -- hash of the original request
     reply       CHOICE {
@@ -199,58 +247,13 @@ RARequestNAcknowledge ::= SEQUENCE {
 }
 
 
---
--- End Entity Identification certificates
---
 
-
--- signed and encrypted before sending, see scms-protocol.asn.
-EeRaIdCertProvisioningRequestBase ::= SEQUENCE {
-    version                 Uint8(1),
-    enrollmentCert          EndEntityEnrollmentIdCertificate,
-    sig-butterfly-seed-key  CHOICE {
-        unauthenticated         EccP256CurvePoint,
-        hw-authenticated        SignedEccNistP256Point
-    },
-    enc-butterfly-seed-key  CHOICE {
-        unauthenticated         EccP256CurvePoint,
-        hw-authenticated        SignedEccNistP256Point
-    },
-    expansionSign           OCTET STRING (SIZE (16)),
-    expansionEnc            OCTET STRING (SIZE (16)),
-    currenttime             Time32,
-    policyID                OCTET STRING (SIZE (0..32)),
-    ...
-}
-
-EeRaIdCertProvisioningRequestMsg ::= 
-    EeRaIdCertProvisioningRequestBase (WITH COMPONENTS {...,
-        sig-butterfly-seed-key (WITH COMPONENTS {unauthenticated}),
-        enc-butterfly-seed-key (WITH COMPONENTS {unauthenticated})
-    })
-
-EeRaIdCertProvisioningRequestWithHardwareMsg ::= 
-    EeRaIdCertProvisioningRequestBase (WITH COMPONENTS {...,
-        sig-butterfly-seed-key (WITH COMPONENTS {hw-authenticated}),
-        enc-butterfly-seed-key (WITH COMPONENTS {hw-authenticated})
-    })
-
-
--- enrollment certificate of the end entity, for identification certificate requests
-EndEntityEnrollmentIdCertificate ::= Certificate (WITH COMPONENTS {...,
-      toBeSigned(WITH COMPONENTS {..., 
-          certRequestPermissions PRESENT,
-          canRequestRollover PRESENT
-      })
-  })
-
-
-RaEeIdCertProvisioningAckMsg ::= RaEePseudonymCertProvisioningAckMsg
+RaEeIdCertProvisioningAck ::= RaEePseudonymCertProvisioningAck
 
 -- Identification cert:
 --
 -- Basically the same as pseudonym certificate requests. Identification certificates
--- always use Butterfly keys. They are not shuffled, nor do they include a linkage value. 
+-- always use Butterfly keys. They are not shuffled, nor do they include a linkage value.
 -- This differentiation is visible in other interfaces only, in particular RA-PCA.
 
 

@@ -518,8 +518,8 @@ RaCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
 })
 
 
-LaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
-  issuer (WITH COMPONENTS {sha256AndDigest}),
+LaCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
+  issuer (WITH COMPONENTS{sha256AndDigest}),
   toBeSigned (WITH COMPONENTS { ...,
     id (WITH COMPONENTS {
       name ("la.poc.campllc.org") -- !!TBD!!
@@ -556,11 +556,9 @@ LaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
     canRequestRollover (NULL),
     encryptionKey PRESENT,
     verifyKeyIndicator (WITH COMPONENTS {
-      verificationKey (WITH COMPONENTS {
-        ecdsaNistP256 (WITH COMPONENTS {
-          compressed-y-0,
-          compressed-y-1
-        })
+      reconstructionValue (WITH COMPONENTS {
+        compressed-y-0,
+        compressed-y-1
       })
     })
   })

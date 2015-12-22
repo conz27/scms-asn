@@ -17,7 +17,9 @@ FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111)
 standards-association-numbered-series-standards(2) wave-stds(1609)
 dot2(2) base(1) base-types(2)}
 
+  Certificate,
   Ieee1609Dot2Data,
+  SequenceOfCertificate,
   Signature,
   SignerIdentifier
 FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111)
@@ -59,6 +61,7 @@ FROM Ieee1609Dot2EndEntityMaInterface
 standards-association-numbered-series-standards(2) wave-stds(1609)
 dot2(2) scms(2) interfaces(1) ee-ma(7)}
 
+  EndEntityEnrollmentPseudonymCertificate,
   EndEntityRaInterfacePDU
 FROM Ieee1609Dot2EndEntityRaInterface
 {iso(1) identified-organization(3) ieee(111)
@@ -164,7 +167,7 @@ ScmsFile ::= SEQUENCE {
 -- *** EE-MA ***************************************************************
 
 ScopedMisbehaviorReport ::=
-  ScmsPDU  (WITH COMPONENTS {...,
+  ScmsPDU (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
       ee-ma (WITH COMPONENTS {
         misbehaviorReport
@@ -174,38 +177,11 @@ ScopedMisbehaviorReport ::=
 
 -- *** EE-RA ***************************************************************
 
-ScopedEeRaCertRequest ::=
-  ScmsPDU  (WITH COMPONENTS {...,
-    content (WITH COMPONENTS {
-      ee-ra (WITH COMPONENTS {
-        eeRaCertRequest
-      })
-    })
- })
-
-ScopedRaEeCertResponse ::=
-  ScmsPDU  (WITH COMPONENTS {...,
-    content (WITH COMPONENTS {
-      ee-ra (WITH COMPONENTS {
-        raEeCertResponse
-      })
-    })
- })
-
 ScopedPseudonymCertProvisioningRequest ::=
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
       ee-ra (WITH COMPONENTS {
         eeRaPseudonymCertProvisioningRequest
-      })
-    })
- })
-
-ScopedPseudonymCertProvisioningRequestWithHardware ::=
-  ScmsPDU  (WITH COMPONENTS {...,
-    content (WITH COMPONENTS {
-      ee-ra (WITH COMPONENTS {
-        eeRaPseudonymCertProvisioningRequestWithHardware
       })
     })
  })
@@ -228,29 +204,11 @@ ScopedIdCertProvisioningRequest ::=
     })
  })
 
-ScopedIdCertProvisioningRequestWithHardware ::=
-  ScmsPDU  (WITH COMPONENTS {...,
-    content (WITH COMPONENTS {
-      ee-ra (WITH COMPONENTS {
-        eeRaIdCertProvisioningRequestWithHardware
-      })
-    })
- })
-
 ScopedIdCertProvisioningAck ::=
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
       ee-ra (WITH COMPONENTS {
         raEeIdCertProvisioningAck
-      })
-    })
-  })
-
-ScopedAuthenticatedDownloadRequest ::=
-  ScmsPDU  (WITH COMPONENTS {...,
-    content (WITH COMPONENTS {
-      ee-ra (WITH COMPONENTS {
-        eeRaAuthenticatedDownloadRequest
       })
     })
   })
@@ -287,6 +245,15 @@ ScopedLocalPolicyFile ::=
     content (WITH COMPONENTS {
       policy( WITH COMPONENTS {
         localPolicyFile
+      })
+    })
+  })
+
+ScopedAuthenticatedDownloadRequest ::=
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      ee-ra (WITH COMPONENTS {
+        eeRaAuthenticatedDownloadRequest
       })
     })
   })
@@ -496,11 +463,8 @@ ScopedPcaRaCertificateRequestReply ::=
 -- *** Scoped certificate requests   **************************************
 
   ScopedCertificateRequest ::= ScmsPDU (
-     ScopedEeRaCertRequest |
      ScopedPseudonymCertProvisioningRequest |
-     ScopedPseudonymCertProvisioningRequestWithHardware |
      ScopedIdCertProvisioningRequest  |
-     ScopedIdCertProvisioningRequestWithHardware  |
      ScopedRaPcaCertificateRequest )
 
 
@@ -573,33 +537,14 @@ SignedMisbehaviorReport ::= SecuredScmsPDU (WITH COMPONENTS {...,
 -- *************************************************************************
 
 
-SecuredRACertRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
-    content (WITH COMPONENTS {...,
-      unsecuredData (CONTAINING ScopedEeRaCertRequest)
-    })
-  })
-
-SecuredRACertResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
-    content (WITH COMPONENTS {...,
-      unsecuredData (CONTAINING ScopedRaEeCertResponse)
-    })
-  })
-
 SignedPseudonymCertProvisioningRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedCertificateRequest  (CONTAINING
       SignedCertificateRequest (WITH COMPONENTS {...,
-        tbsRequest (ScopedPseudonymCertProvisioningRequest)
-      })
-    )
-  })
-})
-
-SignedPseudonymCertProvisioningRequestWithHardware ::= SecuredScmsPDU (WITH COMPONENTS {...,
-  content (WITH COMPONENTS {...,
-    signedCertificateRequest  (CONTAINING
-      SignedCertificateRequest (WITH COMPONENTS {...,
-        tbsRequest (ScopedPseudonymCertProvisioningRequestWithHardware)
+        tbsRequest (ScopedPseudonymCertProvisioningRequest),
+        signer (WITH COMPONENTS {
+          self
+        })
       })
     )
   })
@@ -607,8 +552,7 @@ SignedPseudonymCertProvisioningRequestWithHardware ::= SecuredScmsPDU (WITH COMP
 
 SecuredPseudonymCertProvisioningRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
-    encryptedData  -- decrypts to a SignedPseudonymCertProvisioningRequest or
-                   -- SignedPseudonymCertProvisioningRequestWithHardware
+    encryptedData  -- XXX decrypts to a SignedPseudonymCertProvisioningRequest or
   })
 })
 
@@ -647,17 +591,10 @@ SignedIdCertProvisioningRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedCertificateRequest  (CONTAINING
       SignedCertificateRequest (WITH COMPONENTS {...,
-        tbsRequest (ScopedIdCertProvisioningRequest)
-      })
-    )
-  })
-})
-
-SignedIdCertProvisioningRequestWithHardware ::= SecuredScmsPDU (WITH COMPONENTS {...,
-  content (WITH COMPONENTS {...,
-    signedCertificateRequest  (CONTAINING
-      SignedCertificateRequest (WITH COMPONENTS {...,
-        tbsRequest (ScopedIdCertProvisioningRequestWithHardware)
+        tbsRequest (ScopedIdCertProvisioningRequest),
+        signer (WITH COMPONENTS {
+          self
+        })
       })
     )
   })
@@ -665,8 +602,7 @@ SignedIdCertProvisioningRequestWithHardware ::= SecuredScmsPDU (WITH COMPONENTS 
 
 SecuredIdCertProvisioningRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
-    encryptedData  -- decrypts to a SignedIdCertProvisioningRequest or
-                   -- SignedIdCertProvisioningRequestWithHardware
+    encryptedData  -- decrypts to a SignedIdCertProvisioningRequest or XXX
   })
 })
 
@@ -1339,7 +1275,14 @@ SecuredRaPcaCertificateRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedCertificateRequest  (CONTAINING
       SignedCertificateRequest (WITH COMPONENTS {...,
-        tbsRequest (ScopedRaPcaCertificateRequest)
+        tbsRequest (ScopedRaPcaCertificateRequest),
+        signer (WITH COMPONENTS {
+          certificate (SequenceOfCertificate (SIZE(1)) -- RA 1609.2 cert
+          )
+--          certificate (SequenceOfCertificate (SIZE(1)) (CONSTRAINED BY {
+--              Certificate(EndEntityEnrollmentPseudonymCertificate)
+--          }))
+        })
       })
     )
   })
