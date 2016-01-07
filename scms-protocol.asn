@@ -230,6 +230,24 @@ ScopedIdCertProvisioningAck ::=
     })
   })
 
+ScopedAppCertProvisioningRequest ::=
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      ee-ra (WITH COMPONENTS {
+        eeRaAppCertProvisioningRequest
+      })
+    })
+  })
+
+ScopedAppCertProvisioningAck ::=
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      ee-ra (WITH COMPONENTS {
+        raEeAppCertProvisioningAck
+      })
+    })
+  })
+
 ScopedGlobalCertificateChainFile ::=
   ScmsFile (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
@@ -483,11 +501,8 @@ ScopedPcaRaCertificateRequestReply ::=
      ScopedEeRaCertRequest |
      ScopedPseudonymCertProvisioningRequest |
      ScopedIdCertProvisioningRequest  |
+     ScopedAppCertProvisioningRequest  |
      ScopedRaPcaCertificateRequest )
-
-
-
-
 
 
 
@@ -663,6 +678,56 @@ SignedIdCertProvisioningAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
 SecuredIdCertProvisioningAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     encryptedData  -- decrypts to a SignedIdCertProvisioningAck
+  })
+})
+
+SignedAppCertProvisioningRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {...,
+    signedCertificateRequest  (CONTAINING
+      SignedCertificateRequest (WITH COMPONENTS {...,
+        tbsRequest (ScopedAppCertProvisioningRequest),
+        signer (WITH COMPONENTS {
+          self
+        })
+      })
+    )
+  })
+})
+
+SecuredAppCertProvisioningRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {...,
+    encryptedData  -- decrypts to a SignedAppCertProvisioningRequest or XXX
+  })
+})
+
+SignedAppCertProvisioningAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {...,
+    signedData  (WITH COMPONENTS {...,
+      tbsData (WITH COMPONENTS {...,
+        payload (WITH COMPONENTS {...,
+          data (WITH COMPONENTS {...,
+             content (WITH COMPONENTS {
+                unsecuredData (CONTAINING ScopedAppCertProvisioningAck)
+            })
+          })
+        }),
+        headerInfo (WITH COMPONENTS {...,
+          psid (SecurityMgmtPsid),
+          generationTime ABSENT,
+          expiryTime ABSENT,
+          generationLocation ABSENT,
+          p2pcdLearningRequest ABSENT,
+          missingCrlIdentifier ABSENT,
+          encryptionKey ABSENT
+        })
+      })
+    })
+  })
+})
+
+SecuredAppCertProvisioningAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {...,
+    encryptedData  -- decrypts to a SignedAppCertProvisioningAck
   })
 })
 

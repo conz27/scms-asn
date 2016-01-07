@@ -58,12 +58,13 @@ FROM IEEE1609dot2Crl {iso(1) identified-organization(3) ieee(111)
 EndEntityRaInterfacePDU::= CHOICE {
     eeRaCertRequest                      EeRaCertRequestMsg,
     raEeCertResponse                     RaEeCertResponseMsg,
-    eeRaPseudonymCertProvisioningRequest
-                          EeRaPseudonymCertProvisioningRequest,
+    eeRaPseudonymCertProvisioningRequest EeRaPseudonymCertProvisioningRequest,
     raEePseudonymCertProvisioningAck     RaEePseudonymCertProvisioningAck,
-    eeRaIdCertProvisioningRequest      EeRaIdCertProvisioningRequest,
-    raEeIdCertProvisioningAck          RaEeIdCertProvisioningAck,
-    eeRaAuthenticatedDownloadRequest AuthenticatedDownloadRequest,
+    eeRaIdCertProvisioningRequest        EeRaIdCertProvisioningRequest,
+    raEeIdCertProvisioningAck            RaEeIdCertProvisioningAck,
+    eeRaAppCertProvisioningRequest       EeRaAppCertProvisioningRequest,
+    raEeAppCertProvisioningAck           RaEeAppCertProvisioningAck,
+    eeRaAuthenticatedDownloadRequest     AuthenticatedDownloadRequest,
     ...
 }
 
@@ -184,19 +185,36 @@ RaEeCertResponseNack ::= SEQUENCE {
 -- signed and encrypted before sending, see scms-protocol.asn.
 
 EeRaPseudonymCertProvisioningRequest ::= SEQUENCE {
-    version                 Uint8(1),
-    sig-butterfly-seed-key  SignedEccNistP256Point,
+    version                      Uint8(1),
+    sig-butterfly-seed-key       SignedEccNistP256Point,
       -- signer field contains the enrolment cert
-    enc-butterfly-seed-key  EccP256CurvePoint,
-    expansionSign           OCTET STRING (SIZE (16)),
-    expansionEnc            OCTET STRING (SIZE (16)),
-    current-time            Time32,
-    requested-start-time    Time32,
-    policyID                OCTET STRING (SIZE (0..32)),
+    enc-butterfly-seed-key  EccP256CurvePoint, -- to be removed 
+    expansionSign                OCTET STRING (SIZE (16)),
+    expansionEnc                 OCTET STRING (SIZE (16)),
+    -- resp-enc-butterfly-seed-key  EccP256CurvePoint, to be added
+    -- expansionRespEnc             OCTET STRING (SIZE (16)), to be added
+    current-time                 Time32,
+    requested-start-time         Time32,
+    policyID                     OCTET STRING (SIZE (0..32)),
     ...
 }
 
 EeRaIdCertProvisioningRequest ::= SEQUENCE {
+    version                      Uint8(1),
+    sig-butterfly-seed-key       SignedEccNistP256Point,
+      -- signer field contains the enrolment cert
+    expansionSign                OCTET STRING (SIZE (16)),
+    cert-enc-butterfly-seed-key  EccP256CurvePoint,
+    expansionCertEnc             OCTET STRING (SIZE (16)),
+    resp-enc-butterfly-seed-key  EccP256CurvePoint,
+    expansionRespEnc             OCTET STRING (SIZE (16)),
+    current-time                 Time32,
+    requested-start-time         Time32,
+    policyID                     OCTET STRING (SIZE (0..32)),
+    ...
+}
+
+EeRaAppCertProvisioningRequest ::= SEQUENCE {
     version                 Uint8(1),
     verify-key              SignedEccNistP256Point,
       -- signer field contains the enrolment cert
@@ -272,8 +290,9 @@ RARequestNAcknowledge ::= SEQUENCE {
 }
 
 
-
 RaEeIdCertProvisioningAck ::= RaEePseudonymCertProvisioningAck
+
+RaEeAppCertProvisioningAck ::= RaEePseudonymCertProvisioningAck
 
 -- Identification cert:
 --
