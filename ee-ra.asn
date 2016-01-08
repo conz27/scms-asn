@@ -182,49 +182,71 @@ RaEeCertResponseNack ::= SEQUENCE {
 -- 3. Do we need requested-start-time in the pseudonym cert request?
 
 
--- signed and encrypted before sending, see scms-protocol.asn.
-
-EeRaPseudonymCertProvisioningRequest ::= SEQUENCE {
-    version                      Uint8(1),
-    sig-butterfly-seed-key       SignedEccNistP256Point,
-      -- signer field contains the enrolment cert
-    enc-butterfly-seed-key  EccP256CurvePoint, -- to be removed 
-    expansionSign                OCTET STRING (SIZE (16)),
-    expansionEnc                 OCTET STRING (SIZE (16)),
-    -- resp-enc-butterfly-seed-key  EccP256CurvePoint, to be added
-    -- expansionRespEnc             OCTET STRING (SIZE (16)), to be added
+CommonProvisioningRequestFields ::= SEQUENCE {
     current-time                 Time32,
     requested-start-time         Time32,
     policyID                     OCTET STRING (SIZE (0..32)),
     ...
 }
+
+SignedButterflyParams ::= SEQUENCE {
+    seed-key        SignedEccNistP256Point,
+    expansion       OCTET STRING (SIZE (16)),
+}
+
+UnsignedButterflyParams ::= SEQUENCE {
+    seed-key              EccP256CurvePoint,
+    expansion             OCTET STRING (SIZE (16)),
+}
+
+-- these are signed and encrypted before sending, see scms-protocol.asn.
+
+-- signer field in verify-key-info.seed-key contains the enrolment cert
 
 EeRaIdCertProvisioningRequest ::= SEQUENCE {
     version                      Uint8(1),
-    sig-butterfly-seed-key       SignedEccNistP256Point,
-      -- signer field contains the enrolment cert
-    expansionSign                OCTET STRING (SIZE (16)),
-    cert-enc-butterfly-seed-key  EccP256CurvePoint,
-    expansionCertEnc             OCTET STRING (SIZE (16)),
-    resp-enc-butterfly-seed-key  EccP256CurvePoint,
-    expansionRespEnc             OCTET STRING (SIZE (16)),
-    current-time                 Time32,
-    requested-start-time         Time32,
-    policyID                     OCTET STRING (SIZE (0..32)),
+    verify-key-info              SignedButterflyParams,
+    cert-enc-key-info            UnsignedButterflyParams OPTIONAL
+    resp-enc-key-info            UnsignedButterflyParams,
+    common                       CommonProvisioningRequestFields,
     ...
 }
+
+-- signer field in verify-key contains the enrolment cert
 
 EeRaAppCertProvisioningRequest ::= SEQUENCE {
     version                 Uint8(1),
     verify-key              SignedEccNistP256Point,
-      -- signer field contains the enrolment cert
     cert-encryption-key     PublicEncryptionKey OPTIONAL,
     response-encryption-key PublicEncryptionKey,
-    current-time            Time32,
-    requested-start-time    Time32,
-    policyID                OCTET STRING (SIZE (0..32)),
+    common                  CommonProvisioningRequestFields
     ...
 }
+
+-- replace the current version, below, with this after release 1.0
+
+-- EeRaPseudonymCertProvisioningRequest ::= SEQUENCE {
+--     version                      Uint8(1),
+--     verify-key-info              SignedButterflyParams,
+--     resp-enc-key-info            UnsignedButterflyParams,
+--     common                       CommonProvisioningRequestFields,
+--     ...
+-- }
+
+-- signer field in sig-butterfly-seed-key contains the enrollment cert
+
+EeRaPseudonymCertProvisioningRequest ::= SEQUENCE {
+    version                      Uint8(1),
+    sig-butterfly-seed-key       SignedEccNistP256Point,
+    enc-butterfly-seed-key  EccP256CurvePoint,
+    expansionSign                OCTET STRING (SIZE (16)),
+    expansionEnc                 OCTET STRING (SIZE (16)),
+    current-time                 Time32,
+    requested-start-time         Time32,
+    policyID                     OCTET STRING (SIZE (0..32)),
+    ...
+}
+
 
 SignedEccNistP256Point ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
     content (WITH COMPONENTS {...,
