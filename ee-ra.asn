@@ -206,8 +206,8 @@ UnsignedButterflyParams ::= SEQUENCE {
 EeRaIdCertProvisioningRequest ::= SEQUENCE {
     version                      Uint8(1),
     verify-key-info              SignedButterflyParams,
-    cert-enc-key-info            UnsignedButterflyParams OPTIONAL
-    resp-enc-key-info            UnsignedButterflyParams,
+    cert-enc-key-info            UnsignedButterflyParams OPTIONAL,
+    resp-enc-key-info            UnsignedButterflyParams OPTIONAL,
     common                       CommonProvisioningRequestFields,
     ...
 }
@@ -218,8 +218,8 @@ EeRaAppCertProvisioningRequest ::= SEQUENCE {
     version                 Uint8(1),
     verify-key              SignedEccNistP256Point,
     cert-encryption-key     PublicEncryptionKey OPTIONAL,
-    response-encryption-key PublicEncryptionKey,
-    common                  CommonProvisioningRequestFields
+    response-encryption-key PublicEncryptionKey OPTIONAL,
+    common                  CommonProvisioningRequestFields,
     ...
 }
 
