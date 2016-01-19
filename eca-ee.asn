@@ -53,9 +53,12 @@ Payload ::= CHOICE {
 -- Parameters that will be provided to the DCM from the ECA upon a successful
 -- enrollment.
 
+EccP256PrivateKeyReconstruction ::= OCTET STRING(SIZE(32))
+
 EnrollmentPayload ::= SEQUENCE {
 	endEntityPubKey	OCTET STRING OPTIONAL, -- TODO: change to PublicKey type
 	enrollmentCert Certificate OPTIONAL,
+    enrollmentPrivKeyRecons EccP256PrivateKeyReconstruction OPTIONAL,
 	ecaCert Certificate OPTIONAL,
 	raCert Certificate OPTIONAL,
 	raHostname Hostname OPTIONAL,
