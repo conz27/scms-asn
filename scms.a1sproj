@@ -41,6 +41,7 @@
   <File>scms-protocol.asn</File>
   <File>cert-profile.asn</File>
   <File>1609dot2-asn/crl-ssp.asn</File>
+  <File>cert-chain-files.asn</File>
  </Asn1Files>
  <CompilerSettings/>
  <EncodingFiles>
