@@ -191,12 +191,12 @@ CommonProvisioningRequestFields ::= SEQUENCE {
 
 SignedButterflyParams ::= SEQUENCE {
     seed-key        SignedEccNistP256Point,
-    expansion       OCTET STRING (SIZE (16)),
+    expansion       OCTET STRING (SIZE (16))
 }
 
 UnsignedButterflyParams ::= SEQUENCE {
     seed-key              EccP256CurvePoint,
-    expansion             OCTET STRING (SIZE (16)),
+    expansion             OCTET STRING (SIZE (16))
 }
 
 -- these are signed and encrypted before sending, see scms-protocol.asn.
