@@ -94,50 +94,50 @@ Policy ::= CHOICE {
 }
 
 GlobalPolicyData ::= SEQUENCE {
-    temporalSeriesOfScmsVersions SEQUENCE {
-        initialScmsVersion ScmsVersion DEFAULT 1,
+    temporalSeriesOfScmsVersion SEQUENCE {
+        initialScmsVersion ScmsVersion DEFAULT 1,           -- SCMS Version 1 is current
         intervals SEQUENCE SIZE(0..MAX) OF SEQUENCE {
             startTime Time64,
             scmsVersion ScmsVersion
         }
     } OPTIONAL,
     temporalSeriesOfSizeLaOneId SEQUENCE {
-        initialSizeofLaOneId SizeLaOneId,
+        initialSizeofLaOneId SizeLaId,                      -- LA Identifier (2 bytes)
         intervals SEQUENCE SIZE(0..MAX) OF SEQUENCE {
             startTime Time64,
-            sizeOfLaOneId SizeLaOneId
+            sizeOfLaOneId SizeLaId
         }
     } OPTIONAL,
     temporalSeriesOfSizeLaTwoId SEQUENCE {
-        initialSizeLaTwoId SizeLaTwoId,
+        initialSizeLaTwoId SizeLaId,                        -- LA Identifier (2 bytes)
         intervals SEQUENCE SIZE(0..MAX) OF SEQUENCE {
             startTime Time64,
-            sizeLaTwoId SizeLaTwoId
+            sizeLaTwoId SizeLaId
         }
     } OPTIONAL,
     temporalSeriesOfOverdueCrlTolerance SEQUENCE {
-        initialOverdueCrlTolerance OverdueCrlTolerance,
+        initialOverdueCrlTolerance OverdueCrlTolerance,     -- overdue CRL Tolerance (4 bytes)
         intervals SEQUENCE SIZE(0..MAX) OF SEQUENCE {
             startTime Time64,
             overdueCrlTolerance OverdueCrlTolerance
         }
     } OPTIONAL,
     temporalSeriesOfIPeriod SEQUENCE {
-        initialIPeriod IPeriod,
+        initialIPeriod IPeriod,                             -- i-value / i-period; default: 1 week
         intervals SEQUENCE SIZE(0..MAX) OF SEQUENCE {
             startTime Time64,
             iPeriod IPeriod
         }
     } OPTIONAL,
     temporalSeriesOfMinCertsPerIPeriod SEQUENCE {
-        initialMinCertsPerIPeriod MinCertsPerIPeriod DEFAULT 20,
+        initialMinCertsPerIPeriod MinCertsPerIPeriod DEFAULT 20,    -- minimum certs per i-period; default: 20
         intervals SEQUENCE SIZE(0..MAX) OF SEQUENCE {
             startTime Time64,
             minCertsPerIPeriod MinCertsPerIPeriod
         }
     } OPTIONAL,
     temporalSeriesOfCertValidityModel SEQUENCE {
-        initialCertValidityModel CertValidityModel,
+        initialCertValidityModel CertValidityModel,         -- maximum cert validity period; default 3 years
         intervals SEQUENCE SIZE(0..MAX) OF SEQUENCE {
             startTime Time64,
             certValidityModel CertValidityModel
@@ -151,77 +151,78 @@ GlobalPolicyData ::= SEQUENCE {
         }
     } OPTIONAL,
     temporalSeriesOfBytesLinkageSeed SEQUENCE {
-        initialBytesLinkageSeed BytesLinkageSeed DEFAULT 16,
+        initialBytesLinkageSeed BytesLinkageSeed DEFAULT 16,    -- bytes in linkage seed; default: 16, max: 32
         intervals SEQUENCE SIZE(0..MAX) OF SEQUENCE {
             startTime Time64,
             bytesLinkageSeed BytesLinkageSeed
         }
     } OPTIONAL,
     temporalSeriesOfBytesLinkageValue SEQUENCE {
-        initialBytesLinkageValue BytesLinkageValue DEFAULT 9,
+        initialBytesLinkageValue BytesLinkageValue DEFAULT 9,   -- bytes in linkage value; default: 9, max: 32
         intervals SEQUENCE SIZE(0..MAX) OF SEQUENCE {
             startTime Time64,
             bytesLinkageSeed BytesLinkageValue
         }
     } OPTIONAL,
     temporalSeriesOfBytesGroupLinkageSeed SEQUENCE {
-        initialBytesGroupLinkageSeed BytesGroupLinkageSeed DEFAULT 16,
+        initialBytesGroupLinkageSeed BytesGroupLinkageSeed DEFAULT 16,  -- bytes in group linkage seed; default: 16, max: 32
         intervals SEQUENCE SIZE(0..MAX) OF SEQUENCE {
             startTime Time64,
             bytesGroupLinkageSeed BytesGroupLinkageSeed
         }
     } OPTIONAL,
     temporalSeriesOfGroupBytesLinkageValue SEQUENCE {
-        initialGroupBytesLinkageValue BytesGroupLinkageValue DEFAULT 9,
+        initialGroupBytesLinkageValue BytesGroupLinkageValue DEFAULT 9, -- bytes in group linkage value; default: 9, max: 32
         intervals SEQUENCE SIZE(0..MAX) OF SEQUENCE {
             startTime Time64,
             bytesGroupLinkageSeed BytesGroupLinkageValue
         }
     } OPTIONAL,
     temporalSeriesOfMaxGroupSize SEQUENCE {
-        initialMaxGroupSize MaxGroupSize,
+        initialMaxGroupSize MaxGroupSize,               -- maximum # of EEs per group: [0, 2^32-1]
         intervals SEQUENCE SIZE(0..MAX) OF SEQUENCE {
             startTime Time64,
             maxGroupSize MaxGroupSize
         }
     } OPTIONAL,
     temporalSeriesOfMaxNumGroups SEQUENCE {
-        initialMaxNumGroups MaxNumGroups,
+        initialMaxNumGroups MaxNumGroups,               -- maximum # of groups suppported: [0, 2^32-1]
         intervals SEQUENCE SIZE(0..MAX) OF SEQUENCE {
             startTime Time64,
             maxNumGroups MaxNumGroups
         }
     } OPTIONAL,
     temporalSeriesOfMaxCertRequestAge SEQUENCE {
-        initialMaxCertRequestAge MaxCertRequestAge,
+        initialMaxCertRequestAge MaxCertRequestAge,     -- maximum time for individual cert request; to remain in aggregator; default: 2 days
         intervals SEQUENCE SIZE(0..MAX) OF SEQUENCE {
             startTime Time64,
             maxCertRequestAge MaxCertRequestAge
         }
     } OPTIONAL,
     temporalSeriesOfShuffleThreshold SEQUENCE {
-        initialShuffleThreshold ShuffleThreshold,
+        initialShuffleThreshold ShuffleThreshold,       -- minimum # of individual cert requests before shuffle/send to PCA
         intervals SEQUENCE SIZE(0..MAX) OF SEQUENCE {
             startTime Time64,
             shuffleThreshold ShuffleThreshold
         }
     } OPTIONAL,
     temporalSeriesOfHashOfRequestSize SEQUENCE {
-        initialHashOfRequestSize HashOfRequestSize DEFAULT 32,
+        initialHashOfRequestSize HashOfRequestSize DEFAULT 32,   -- bytes in "hash of request" between PCA and RA for inividual
+                                                                 -- cert requests; default: 32
         intervals SEQUENCE SIZE(0..MAX) OF SEQUENCE {
             startTime Time64,
             hashOfRequestSize HashOfRequestSize
         }
     } OPTIONAL,
     temporalSeriesOfCertChainFileId SEQUENCE {
-        initialCertChainFileId CertChainFileId,
+        initialCertChainFileId CertChainFileId,         -- must match version in Global Certificate Chain File
         intervals SEQUENCE SIZE(0..MAX) OF SEQUENCE {
             startTime Time64,
             certChainFileId CertChainFileId
         }
     } OPTIONAL,
     temporalSeriesOfTrustManagementCommands SEQUENCE {
-        initialTrustManagementCommands TrustManagementCommands,
+        initialTrustManagementCommands TrustManagementCommands,     -- commands for Root / Elector management
         intervals SEQUENCE SIZE(0..MAX) OF SEQUENCE {
             startTime Time64,
             trustManagementCommands TrustManagementCommands 
@@ -230,37 +231,33 @@ GlobalPolicyData ::= SEQUENCE {
     ...
 }
 
-ScmsVersion ::= Uint8                   -- SCMS Version 1 is current
-SizeLaOneId ::= Uint16                  -- LA 1 Identifier (2 bytes)
-SizeLaTwoId ::= Uint16                  -- LA 2 Identifier (2 bytes)
-OverdueCrlTolerance ::= Duration        -- overdue CRL Tolerance (4 bytes)
-IPeriod ::= Duration                    -- i-value / i-period; default: 1 week
-MinCertsPerIPeriod ::= Uint8            -- minimum certs per i-period; default: 20
-MaxDurationPerSuperBatch ::= Uint8      -- maximum cert validity period; default 3 years
-BytesLinkageSeed ::= Uint8              -- bytes in linkage seed; default: 16, max: 32
-BytesLinkageValue ::= Uint8             -- bytes in linkage value; default: 9, max: 32
-BytesGroupLinkageSeed ::= Uint8         -- bytes in group linkage seed; default: 16, max 32
-BytesGroupLinkageValue ::= Uint8        -- bytes in group linkdage value; default: 9, max 32
-MaxGroupSize ::= Uint32                 -- maximum # of EEs per group: [0, 2^32-1]
-MaxNumGroups ::= Uint32                 -- maximum # of groups suppported: [0, 2^32-1]
-MaxCertRequestAge ::= Duration          -- maximum time for individual cert request
-                                        -- to remain in aggregator; default: 2 days
-ShuffleThreshold ::= Uint32             -- minimum # of individual cert requests before shuffle/send
-                                        -- to PCA
-HashOfRequestSize ::= Uint8             -- bytes in "hash of request" between PCA and RA for inividual
-                                        -- cert requests; default: 32
-CertChainFileId ::= Uint16              -- must match version in Global Certificate Chain File
+ScmsVersion ::= Uint8                   
+SizeLaId ::= Uint16                     
+OverdueCrlTolerance ::= Duration        
+IPeriod ::= Duration                    
+MinCertsPerIPeriod ::= Uint8            
+MaxDurationPerSuperBatch ::= Uint8      
+BytesLinkageSeed ::= Uint8              
+BytesLinkageValue ::= Uint8             
+BytesGroupLinkageSeed ::= Uint8         
+BytesGroupLinkageValue ::= Uint8        
+MaxGroupSize ::= Uint32                 
+MaxNumGroups ::= Uint32                 
+MaxCertRequestAge ::= Duration          
+ShuffleThreshold ::= Uint32             
+HashOfRequestSize ::= Uint8            
+CertChainFileId ::= Uint16              
 
 LocalPolicyData ::= SEQUENCE {
     temporalSeriesOfShuffleThreshold SEQUENCE {
-        initialShuffleThreshold ShuffleThreshold,
+        initialShuffleThreshold ShuffleThreshold,           -- minimum # of individual cert requests before shuffle/send to PCA
         intervals SEQUENCE SIZE(0..MAX) OF SEQUENCE {
             startTime Time64,
             shuffleThreshold ShuffleThreshold
         }
     } OPTIONAL,
     temporalSeriesOfCertsPerIPeriod SEQUENCE {
-        initialCertsPerIPeriod CertsPerIPeriod DEFAULT 20,
+        initialCertsPerIPeriod CertsPerIPeriod DEFAULT 20,  -- certs per i-period (overrides global value); default: 20
         intervals SEQUENCE SIZE(0..MAX) OF SEQUENCE {
             startTime Time64,
             certsPerIPeriod CertsPerIPeriod
@@ -288,28 +285,28 @@ LocalPolicyData ::= SEQUENCE {
         }
     } OPTIONAL,
     temporalSeriesOfRaX509TlsCert SEQUENCE {
-        initialRaX509TlsCert RaX509TlsCert,
+        initialRaX509TlsCert X509TlsCert,
         intervals SEQUENCE SIZE(0..MAX) OF SEQUENCE {
             startTime Time64,
-            raX509TlsCert RaX509TlsCert
+            raX509TlsCert X509TlsCert
         }
     } OPTIONAL,
     temporalSeriesOfLaX509TlsCert SEQUENCE {
-        initialLaX509TlsCert LaX509TlsCert,
+        initialLaX509TlsCert X509TlsCert,
         intervals SEQUENCE SIZE(0..MAX) OF SEQUENCE {
             startTime Time64,
-            laX509TlsCert LaX509TlsCert
+            laX509TlsCert X509TlsCert
         }
     } OPTIONAL,
     temporalSeriesOfPcaX509TlsCert SEQUENCE {
-        initialRaX509TlsCert PcaX509TlsCert,
+        initialRaX509TlsCert X509TlsCert,
         intervals SEQUENCE SIZE(0..MAX) OF SEQUENCE {
             startTime Time64,
-            pcaX509TlsCert PcaX509TlsCert
+            pcaX509TlsCert X509TlsCert
         }
     } OPTIONAL, 
     temporalSeriesOfSharedKeyUpdateInterval SEQUENCE {
-        initialSharedKeyUpdateInterval SharedKeyUpdateInterval,
+        initialSharedKeyUpdateInterval SharedKeyUpdateInterval,     -- maximum time between changes to pre-linkage value enc/dec key
         intervals SEQUENCE SIZE(0..MAX) OF SEQUENCE {
             startTime Time64,
             sharedKeyUpdateInterval SharedKeyUpdateInterval
@@ -318,11 +315,9 @@ LocalPolicyData ::= SEQUENCE {
     ...
 }
 
-CertsPerIPeriod ::= Uint8               -- certs per i-period (overrides global value); default: 20 
-RaX509TlsCert ::= Opaque
-LaX509TlsCert ::= Opaque
-PcaX509TlsCert ::= Opaque
-SharedKeyUpdateInterval ::= Duration    -- maximum time between changes to pre-linkage value enc/dec key
+CertsPerIPeriod ::= Uint8                
+X509TlsCert ::= Opaque
+SharedKeyUpdateInterval ::= Duration    
 
 
 CertValidityModel ::= ENUMERATED {
