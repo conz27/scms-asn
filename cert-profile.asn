@@ -37,13 +37,13 @@ ObeEnrollmentCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
   issuer (WITH COMPONENTS{sha256AndDigest}),
   toBeSigned (WITH COMPONENTS { ...,
     id (WITH COMPONENTS { 
-      name
+      name("")
     }),
-    -- cracaId set to HashedId3 of the ECA cert
+    -- cracaId set to HashedId3 of the Root CA cert
     crlSeries(3),
     validityPeriod (WITH COMPONENTS { ...,
       duration (WITH COMPONENTS { 
-        years(40)
+        years(30)
       })
     }),
     region (WITH COMPONENTS {
