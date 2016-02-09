@@ -102,7 +102,7 @@ ObePseudonymCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
         group-linkage-value PRESENT
       })
     }),
-    -- cracaId set to HashedId3 of the PCA cert
+    -- cracaId set to HashedId3 of the Root CA cert
     crlSeries(1), -- we will use this value in POC without prejudice
       -- as to whether it will be used in all BSM certs
     validityPeriod (WITH COMPONENTS { ...,
@@ -134,6 +134,132 @@ ObePseudonymCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
         ssp ABSENT
       })
     })),
+    certIssuePermissions ABSENT,
+    certRequestPermissions ABSENT,
+    canRequestRollover ABSENT,
+    encryptionKey ABSENT,
+    verifyKeyIndicator (WITH COMPONENTS {
+      reconstructionValue (WITH COMPONENTS {
+        compressed-y-0,
+        compressed-y-1
+      })
+    })
+  })
+})
+
+
+ObeIdentificationCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
+  issuer (WITH COMPONENTS {sha256AndDigest}),
+  toBeSigned (WITH COMPONENTS { ...,
+    id (WITH COMPONENTS { 
+      name("") -- OBE's ID to be put here
+    }),
+   -- cracaId set to HashedId3 of the Root CA cert
+    crlSeries(3),
+    validityPeriod (WITH COMPONENTS { ...,
+      duration(WITH COMPONENTS { 
+        hours(169)
+      })
+    }),
+    region (WITH COMPONENTS {
+      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
+        IdentifiedRegion (WITH COMPONENTS { 
+          countryOnly(124) 
+        }), 
+        IdentifiedRegion (WITH COMPONENTS { 
+          countryOnly(484) 
+        }), 
+        IdentifiedRegion (WITH COMPONENTS { 
+          countryOnly(840) 
+        })
+      }))
+    }),
+    assuranceLevel ABSENT,
+    --appPermissions TO BE ADDED LATER,
+    certIssuePermissions ABSENT,
+    certRequestPermissions ABSENT,
+    canRequestRollover ABSENT,
+    encryptionKey ABSENT,
+    verifyKeyIndicator (WITH COMPONENTS {
+      reconstructionValue (WITH COMPONENTS {
+        compressed-y-0,
+        compressed-y-1
+      })
+    })
+  })
+})
+
+
+RseEnrollmentCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
+  issuer (WITH COMPONENTS{sha256AndDigest}),
+  toBeSigned (WITH COMPONENTS { ...,
+    id (WITH COMPONENTS { 
+      name("")
+    }),
+    -- cracaId set to HashedId3 of the Root CA cert
+    crlSeries(3),
+    validityPeriod (WITH COMPONENTS { ...,
+      duration (WITH COMPONENTS { 
+        years(30)
+      })
+    }),
+    region (WITH COMPONENTS {
+      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
+        IdentifiedRegion (WITH COMPONENTS { 
+          countryOnly(124) 
+        }), 
+        IdentifiedRegion (WITH COMPONENTS { 
+          countryOnly(484) 
+        }), 
+        IdentifiedRegion (WITH COMPONENTS { 
+          countryOnly(840) 
+        })
+      }))
+    }),
+    assuranceLevel ABSENT,
+    appPermissions ABSENT,
+    certIssuePermissions ABSENT,
+    --certRequestPermissions TO BE ADDED LATER,
+    canRequestRollover(NULL),
+    encryptionKey ABSENT,
+    verifyKeyIndicator (WITH COMPONENTS {
+      reconstructionValue (WITH COMPONENTS {
+        compressed-y-0,
+        compressed-y-1
+      })
+    })
+  })
+})
+
+
+RseApplicationCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
+  issuer (WITH COMPONENTS {sha256AndDigest}),
+  toBeSigned (WITH COMPONENTS { ...,
+    id (WITH COMPONENTS { 
+      name("") -- RSE's ID to be put here
+    }),
+    -- cracaId set to HashedId3 of the Root CA cert
+    crlSeries(3),
+    validityPeriod (WITH COMPONENTS { ...,
+      duration(WITH COMPONENTS { 
+        hours(169)
+      })
+    }),
+    region (WITH COMPONENTS {
+      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
+        IdentifiedRegion (WITH COMPONENTS { 
+          countryOnly(124) 
+        }), 
+        IdentifiedRegion (WITH COMPONENTS { 
+          countryOnly(484) 
+        }), 
+        IdentifiedRegion (WITH COMPONENTS { 
+          countryOnly(840) 
+        })
+      }))
+    }),
+    assuranceLevel ABSENT,
+    --appPermissions TO BE ADDED LATER,
     certIssuePermissions ABSENT,
     certRequestPermissions ABSENT,
     canRequestRollover ABSENT,
@@ -216,6 +342,119 @@ EcaCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
 })
 
 
+RaCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
+  issuer (WITH COMPONENTS{sha256AndDigest}),
+  toBeSigned (WITH COMPONENTS { ...,
+    id (WITH COMPONENTS {
+      name ("ra.poc.campllc.org") -- !!TBD!!
+    }),
+    -- cracaId set to HashedId3 of the ICA cert
+    crlSeries(2),
+    validityPeriod (WITH COMPONENTS { ...,
+      duration (WITH COMPONENTS { 
+        years(4)
+      })
+    }),
+    region (WITH COMPONENTS {
+      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
+        IdentifiedRegion (WITH COMPONENTS { 
+          countryOnly(124) 
+        }), 
+        IdentifiedRegion (WITH COMPONENTS { 
+          countryOnly(484) 
+        }), 
+        IdentifiedRegion (WITH COMPONENTS { 
+          countryOnly(840) 
+        })
+      }))
+    }),
+    assuranceLevel ABSENT,
+    appPermissions (SequenceOfPsidSsp (SIZE(1)) (CONSTRAINED BY {
+      PsidSsp (WITH COMPONENTS {
+        psid(35)
+        --ssp(OER encoding of ScmsSsp indicating Rassp)
+      })
+    })),
+    certIssuePermissions ABSENT,
+    certRequestPermissions (SequenceOfPsidGroupPermissions (SIZE(2)) (CONSTRAINED BY {
+      PsidGroupPermissions ( WITH COMPONENTS {..., 
+	    appPermissions (WITH COMPONENTS { 
+          explicit (SequenceOfPsidSspRange (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS { 
+            psid (32), sspRange ABSENT 
+          })))
+        }),
+        minChainDepth, --omitted
+        chainDepthRange --omitted
+      }),
+      PsidGroupPermissions ( WITH COMPONENTS {..., 
+	    appPermissions (WITH COMPONENTS{ 
+          explicit (SequenceOfPsidSspRange (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS {
+            psid (38), sspRange ABSENT 
+          })))
+        }),
+        minChainDepth, --omitted
+        chainDepthRange --omitted
+      })
+    })),
+    canRequestRollover(NULL),
+    encryptionKey PRESENT,
+    verifyKeyIndicator (WITH COMPONENTS {
+      reconstructionValue (WITH COMPONENTS {
+        compressed-y-0,
+        compressed-y-1
+      })
+    })
+  })
+})
+
+
+LaCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
+  issuer (WITH COMPONENTS{sha256AndDigest}),
+  toBeSigned (WITH COMPONENTS { ...,
+    id (WITH COMPONENTS {
+      name ("la.poc.campllc.org") -- !!TBD!!
+    }),
+    -- cracaId set to HashedId3 of the ICA cert
+    crlSeries(2),
+    validityPeriod (WITH COMPONENTS { ...,
+      duration(WITH COMPONENTS {
+        years(4)
+      })
+    }),
+    region (WITH COMPONENTS {
+      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
+        IdentifiedRegion (WITH COMPONENTS { 
+          countryOnly(124) 
+        }), 
+        IdentifiedRegion (WITH COMPONENTS { 
+          countryOnly(484) 
+        }), 
+        IdentifiedRegion (WITH COMPONENTS { 
+          countryOnly(840) 
+        })
+      }))
+    }),
+    assuranceLevel ABSENT,
+    appPermissions (SequenceOfPsidSsp (SIZE(1)) (CONSTRAINED BY {
+      PsidSsp (WITH COMPONENTS {
+        psid(35)
+        --ssp(OER encoding of ScmsSsp indicating Lassp)
+      })
+    })),
+    certIssuePermissions ABSENT,
+    certRequestPermissions ABSENT,
+    canRequestRollover (NULL),
+    encryptionKey PRESENT,
+    verifyKeyIndicator (WITH COMPONENTS {
+      reconstructionValue (WITH COMPONENTS {
+        compressed-y-0,
+        compressed-y-1
+      })
+    })
+  })
+})
+
+
 PcaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
   issuer (WITH COMPONENTS {sha256AndDigest}),
   toBeSigned (WITH COMPONENTS { ...,
@@ -226,7 +465,7 @@ PcaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
     crlSeries(2),
     validityPeriod (WITH COMPONENTS { ...,
       duration(WITH COMPONENTS {
-        years(6)
+        years(4)
       })
     }),
     region (WITH COMPONENTS {
@@ -283,84 +522,6 @@ PcaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
   })
 })
 
-RootCaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
-  issuer (WITH COMPONENTS {self}),
-  toBeSigned (WITH COMPONENTS { ...,
-    id (WITH COMPONENTS {
-      name ("rootca.poc.campllc.org") -- !!TBD!!
-    }),
-    cracaId, -- set to 00 00 00
-    crlSeries(128),                          
-    validityPeriod (WITH COMPONENTS { ...,
-      duration(WITH COMPONENTS {
-        years(40)
-      })
-    }),
-    region (WITH COMPONENTS {
-      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
-        IdentifiedRegion (WITH COMPONENTS { 
-          countryOnly(124) 
-        }), 
-        IdentifiedRegion (WITH COMPONENTS { 
-          countryOnly(484) 
-        }), 
-        IdentifiedRegion (WITH COMPONENTS { 
-          countryOnly(840) 
-        })
-      }))
-    }),
-    assuranceLevel ABSENT,
-    appPermissions (SequenceOfPsidSsp (SIZE(2)) (CONSTRAINED BY {
-      PsidSsp (WITH COMPONENTS {
-        psid(35)
-        --ssp(OER encoding of ScmsSsp indicating RootCassp)
-      }),
-	  PsidSsp (WITH COMPONENTS {
-        psid(CrlPsid)
-        --ssp(OER encoding of Crlssp: version=1, cracaType=self, crls=single entry with type=hashed crl_series=0x80)
-      })
-    })),
-    certIssuePermissions (SequenceOfPsidGroupPermissions (SIZE(4)) (CONSTRAINED BY {
-      PsidGroupPermissions ( WITH COMPONENTS {..., 
-	    appPermissions (WITH COMPONENTS { 
-          all
-        }),
-        minChainDepth(3),
-        chainDepthRange(-1),
-        eeType ({app, enrol})
-      }),
-      PsidGroupPermissions ( WITH COMPONENTS {..., 
-	    appPermissions (WITH COMPONENTS{ 
-          explicit (SequenceOfPsidSspRange (SIZE (3)) (CONSTRAINED BY {
-            PsidSspRange (WITH COMPONENTS {
-              psid (35), sspRange ABSENT 
-            }),             
-            PsidSspRange (WITH COMPONENTS {
-              psid (38), sspRange ABSENT 
-            }), 
-            PsidSspRange (WITH COMPONENTS {
-              psid (CrlPsid), sspRange ABSENT 
-            })
-          }))
-        }),
-        minChainDepth(1),
-        chainDepthRange(0)
-      })
-    })),--??
-    certRequestPermissions PRESENT,--??
-    canRequestRollover ABSENT,
-    encryptionKey PRESENT,
-    verifyKeyIndicator (WITH COMPONENTS {
-      verificationKey (WITH COMPONENTS {
-        ecdsaNistP256 (WITH COMPONENTS {
-          compressed-y-0,
-          compressed-y-1
-        })
-      })
-    })
-  })
-})
-
 
 IcaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
   issuer (WITH COMPONENTS {sha256AndDigest}),
@@ -372,7 +533,7 @@ IcaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
     crlSeries(128),
     validityPeriod (WITH COMPONENTS { ...,
       duration(WITH COMPONENTS {
-        years(40)
+        years(50)
       })
     }),
     region (WITH COMPONENTS {
@@ -452,83 +613,17 @@ IcaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
 })
 
 
-RaCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
-  issuer (WITH COMPONENTS{sha256AndDigest}),
+MaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
+  issuer (WITH COMPONENTS {sha256AndDigest}),
   toBeSigned (WITH COMPONENTS { ...,
     id (WITH COMPONENTS {
-      name ("ra.poc.campllc.org") -- !!TBD!!
+      name ("ma.poc.campllc.org") -- !!TBD!!
     }),
-    -- cracaId set to HashedId3 of the ICA cert
-    crlSeries(2),
-    validityPeriod (WITH COMPONENTS { ...,
-      duration (WITH COMPONENTS { 
-        years(40)
-      })
-    }),
-    region (WITH COMPONENTS {
-      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
-        IdentifiedRegion (WITH COMPONENTS { 
-          countryOnly(124) 
-        }), 
-        IdentifiedRegion (WITH COMPONENTS { 
-          countryOnly(484) 
-        }), 
-        IdentifiedRegion (WITH COMPONENTS { 
-          countryOnly(840) 
-        })
-      }))
-    }),
-    assuranceLevel ABSENT,
-    appPermissions (SequenceOfPsidSsp (SIZE(1)) (CONSTRAINED BY {
-      PsidSsp (WITH COMPONENTS {
-        psid(35)
-        --ssp(OER encoding of ScmsSsp indicating Rassp)
-      })
-    })),
-    certIssuePermissions ABSENT,
-    certRequestPermissions (SequenceOfPsidGroupPermissions (SIZE(2)) (CONSTRAINED BY {
-      PsidGroupPermissions ( WITH COMPONENTS {..., 
-	    appPermissions (WITH COMPONENTS { 
-          explicit (SequenceOfPsidSspRange (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS { 
-            psid (32), sspRange ABSENT 
-          })))
-        }),
-        minChainDepth, --omitted
-        chainDepthRange --omitted
-      }),
-      PsidGroupPermissions ( WITH COMPONENTS {..., 
-	    appPermissions (WITH COMPONENTS{ 
-          explicit (SequenceOfPsidSspRange (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS {
-            psid (38), sspRange ABSENT 
-          })))
-        }),
-        minChainDepth, --omitted
-        chainDepthRange --omitted
-      })
-    })),
-    canRequestRollover(NULL),
-    encryptionKey PRESENT,
-    verifyKeyIndicator (WITH COMPONENTS {
-      reconstructionValue (WITH COMPONENTS {
-        compressed-y-0,
-        compressed-y-1
-      })
-    })
-  })
-})
-
-
-LaCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
-  issuer (WITH COMPONENTS{sha256AndDigest}),
-  toBeSigned (WITH COMPONENTS { ...,
-    id (WITH COMPONENTS {
-      name ("la.poc.campllc.org") -- !!TBD!!
-    }),
-    -- cracaId set to HashedId3 of the ICA cert
-    crlSeries(2),
+    -- cracaId set to HashedId3 of the Root CA cert
+    crlSeries(128),
     validityPeriod (WITH COMPONENTS { ...,
       duration(WITH COMPONENTS {
-        years(6)
+        years(4)
       })
     }),
     region (WITH COMPONENTS {
@@ -548,7 +643,7 @@ LaCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
     appPermissions (SequenceOfPsidSsp (SIZE(1)) (CONSTRAINED BY {
       PsidSsp (WITH COMPONENTS {
         psid(35)
-        --ssp(OER encoding of ScmsSsp indicating Lassp)
+        --ssp(OER encoding of ScmsSsp indicating MA)
       })
     })),
     certIssuePermissions ABSENT,
@@ -556,12 +651,195 @@ LaCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
     canRequestRollover (NULL),
     encryptionKey PRESENT,
     verifyKeyIndicator (WITH COMPONENTS {
-      reconstructionValue (WITH COMPONENTS {
-        compressed-y-0,
-        compressed-y-1
+      verificationKey (WITH COMPONENTS {
+        ecdsaNistP256 (WITH COMPONENTS {
+          compressed-y-0,
+          compressed-y-1
+        })
       })
     })
   })
 })
+
+
+PGCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
+  issuer (WITH COMPONENTS {sha256AndDigest}),
+  toBeSigned (WITH COMPONENTS { ...,
+    id (WITH COMPONENTS {
+      name ("ma.poc.campllc.org") -- !!TBD!!
+    }),
+    -- cracaId set to HashedId3 of the Root CA cert
+    crlSeries(128),
+    validityPeriod (WITH COMPONENTS { ...,
+      duration(WITH COMPONENTS {
+        years(4)
+      })
+    }),
+    region (WITH COMPONENTS {
+      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
+        IdentifiedRegion (WITH COMPONENTS { 
+          countryOnly(124) 
+        }), 
+        IdentifiedRegion (WITH COMPONENTS { 
+          countryOnly(484) 
+        }), 
+        IdentifiedRegion (WITH COMPONENTS { 
+          countryOnly(840) 
+        })
+      }))
+    }),
+    assuranceLevel ABSENT,
+    appPermissions (SequenceOfPsidSsp (SIZE(1)) (CONSTRAINED BY {
+      PsidSsp (WITH COMPONENTS {
+        psid(35)
+        --ssp(OER encoding of ScmsSsp indicating Policy Generator)
+      })
+    })),
+    certIssuePermissions ABSENT,
+    certRequestPermissions ABSENT,
+    canRequestRollover (NULL),
+    encryptionKey PRESENT,
+    verifyKeyIndicator (WITH COMPONENTS {
+      verificationKey (WITH COMPONENTS {
+        ecdsaNistP256 (WITH COMPONENTS {
+          compressed-y-0,
+          compressed-y-1
+        })
+      })
+    })
+  })
+})
+
+
+RootCaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
+  issuer (WITH COMPONENTS {self}),
+  toBeSigned (WITH COMPONENTS { ...,
+    id (WITH COMPONENTS {
+      name ("rootca.poc.campllc.org") -- !!TBD!!
+    }),
+    cracaId, -- set to 00 00 00
+    crlSeries(128),                          
+    validityPeriod (WITH COMPONENTS { ...,
+      duration(WITH COMPONENTS {
+        years(70)
+      })
+    }),
+    region (WITH COMPONENTS {
+      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
+        IdentifiedRegion (WITH COMPONENTS { 
+          countryOnly(124) 
+        }), 
+        IdentifiedRegion (WITH COMPONENTS { 
+          countryOnly(484) 
+        }), 
+        IdentifiedRegion (WITH COMPONENTS { 
+          countryOnly(840) 
+        })
+      }))
+    }),
+    assuranceLevel ABSENT,
+    appPermissions (SequenceOfPsidSsp (SIZE(2)) (CONSTRAINED BY {
+      PsidSsp (WITH COMPONENTS {
+        psid(35)
+        --ssp(OER encoding of ScmsSsp indicating RootCassp)
+      }),
+	  PsidSsp (WITH COMPONENTS {
+        psid(CrlPsid)
+        --ssp(OER encoding of Crlssp: version=1, cracaType=self, crls=single entry with type=hashed crl_series=0x80)
+      })
+    })),
+    certIssuePermissions (SequenceOfPsidGroupPermissions (SIZE(4)) (CONSTRAINED BY {
+      PsidGroupPermissions ( WITH COMPONENTS {..., 
+	    appPermissions (WITH COMPONENTS { 
+          all
+        }),
+        minChainDepth(3),
+        chainDepthRange(-1),
+        eeType ({app, enrol})
+      }),
+      PsidGroupPermissions ( WITH COMPONENTS {..., 
+	    appPermissions (WITH COMPONENTS{ 
+          explicit (SequenceOfPsidSspRange (SIZE (3)) (CONSTRAINED BY {
+            PsidSspRange (WITH COMPONENTS {
+              psid (35), sspRange ABSENT 
+            }),             
+            PsidSspRange (WITH COMPONENTS {
+              psid (38), sspRange ABSENT 
+            }), 
+            PsidSspRange (WITH COMPONENTS {
+              psid (CrlPsid), sspRange ABSENT 
+            })
+          }))
+        }),
+        minChainDepth(1),
+        chainDepthRange(0)
+      })
+    })),--??
+    certRequestPermissions ABSENT,
+    canRequestRollover ABSENT,
+    encryptionKey PRESENT,
+    verifyKeyIndicator (WITH COMPONENTS {
+      verificationKey (WITH COMPONENTS {
+        ecdsaNistP256 (WITH COMPONENTS {
+          compressed-y-0,
+          compressed-y-1
+        })
+      })
+    })
+  })
+})
+
+ElectorCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
+  issuer (WITH COMPONENTS {self}),
+  toBeSigned (WITH COMPONENTS { ...,
+    id (WITH COMPONENTS {
+      name ("elector.poc.campllc.org") -- !!TBD!!
+    }),
+    cracaId, -- set to 00 00 00
+    crlSeries(128),                          
+    validityPeriod (WITH COMPONENTS { ...,
+      duration(WITH COMPONENTS {
+        years(60)
+      })
+    }),
+    region (WITH COMPONENTS {
+      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
+        IdentifiedRegion (WITH COMPONENTS { 
+          countryOnly(124) 
+        }), 
+        IdentifiedRegion (WITH COMPONENTS { 
+          countryOnly(484) 
+        }), 
+        IdentifiedRegion (WITH COMPONENTS { 
+          countryOnly(840) 
+        })
+      }))
+    }),
+    assuranceLevel ABSENT,
+    appPermissions (SequenceOfPsidSsp (SIZE(2)) (CONSTRAINED BY {
+      PsidSsp (WITH COMPONENTS {
+        psid(35)
+        --ssp(OER encoding of ScmsSsp indicating Electorssp)
+      }),
+	  PsidSsp (WITH COMPONENTS {
+        psid(CrlPsid)
+        --ssp(OER encoding of Crlssp: version=1, cracaType=self, crls=single entry with type=hashed crl_series=0x80)
+      })
+    })),
+    certIssuePermissions ABSENT,
+    certRequestPermissions ABSENT,
+    canRequestRollover ABSENT,
+    encryptionKey PRESENT,
+    verifyKeyIndicator (WITH COMPONENTS {
+      verificationKey (WITH COMPONENTS {
+        ecdsaNistP256 (WITH COMPONENTS {
+          compressed-y-0,
+          compressed-y-1
+        })
+      })
+    })
+  })
+})
+
 
 END
