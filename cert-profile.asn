@@ -197,7 +197,7 @@ RseEnrollmentCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
       name("")
     }),
     -- cracaId set to HashedId3 of the Root CA cert
-    crlSeries(3),
+    crlSeries(2),
     validityPeriod (WITH COMPONENTS { ...,
       duration (WITH COMPONENTS { 
         years(30)
@@ -239,7 +239,7 @@ RseApplicationCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
       name("") -- RSE's ID to be put here
     }),
     -- cracaId set to HashedId3 of the Root CA cert
-    crlSeries(3),
+    crlSeries(2),
     validityPeriod (WITH COMPONENTS { ...,
       duration(WITH COMPONENTS { 
         hours(169)
@@ -530,7 +530,7 @@ IcaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
       name ("ica.poc.campllc.org") -- !!TBD!!
     }),
     -- cracaId set to HashedId3 of the Root CA cert
-    crlSeries(128),
+    crlSeries(2),
     validityPeriod (WITH COMPONENTS { ...,
       duration(WITH COMPONENTS {
         years(50)
@@ -620,7 +620,7 @@ MaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
       name ("ma.poc.campllc.org") -- !!TBD!!
     }),
     -- cracaId set to HashedId3 of the Root CA cert
-    crlSeries(128),
+    crlSeries(2),
     validityPeriod (WITH COMPONENTS { ...,
       duration(WITH COMPONENTS {
         years(4)
@@ -666,10 +666,10 @@ PGCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
   issuer (WITH COMPONENTS {sha256AndDigest}),
   toBeSigned (WITH COMPONENTS { ...,
     id (WITH COMPONENTS {
-      name ("ma.poc.campllc.org") -- !!TBD!!
+      name ("pg.poc.campllc.org") -- !!TBD!!
     }),
     -- cracaId set to HashedId3 of the Root CA cert
-    crlSeries(128),
+    crlSeries(2),
     validityPeriod (WITH COMPONENTS { ...,
       duration(WITH COMPONENTS {
         years(4)
@@ -718,7 +718,7 @@ RootCaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
       name ("rootca.poc.campllc.org") -- !!TBD!!
     }),
     cracaId, -- set to 00 00 00
-    crlSeries(128),                          
+    crlSeries(0),                          
     validityPeriod (WITH COMPONENTS { ...,
       duration(WITH COMPONENTS {
         years(70)
@@ -738,14 +738,10 @@ RootCaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
       }))
     }),
     assuranceLevel ABSENT,
-    appPermissions (SequenceOfPsidSsp (SIZE(2)) (CONSTRAINED BY {
+    appPermissions (SequenceOfPsidSsp (SIZE(1)) (CONSTRAINED BY {
       PsidSsp (WITH COMPONENTS {
         psid(35)
         --ssp(OER encoding of ScmsSsp indicating RootCassp)
-      }),
-	  PsidSsp (WITH COMPONENTS {
-        psid(CrlPsid)
-        --ssp(OER encoding of Crlssp: version=1, cracaType=self, crls=single entry with type=hashed crl_series=0x80)
       })
     })),
     certIssuePermissions (SequenceOfPsidGroupPermissions (SIZE(4)) (CONSTRAINED BY {
@@ -774,8 +770,8 @@ RootCaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
         minChainDepth(1),
         chainDepthRange(0)
       })
-    })),--??
-    certRequestPermissions ABSENT,
+    })),
+    certRequestPermissions PRESENT,
     canRequestRollover ABSENT,
     encryptionKey PRESENT,
     verifyKeyIndicator (WITH COMPONENTS {
@@ -796,7 +792,7 @@ ElectorCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
       name ("elector.poc.campllc.org") -- !!TBD!!
     }),
     cracaId, -- set to 00 00 00
-    crlSeries(128),                          
+    crlSeries(0),                          
     validityPeriod (WITH COMPONENTS { ...,
       duration(WITH COMPONENTS {
         years(60)
@@ -816,14 +812,10 @@ ElectorCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
       }))
     }),
     assuranceLevel ABSENT,
-    appPermissions (SequenceOfPsidSsp (SIZE(2)) (CONSTRAINED BY {
+    appPermissions (SequenceOfPsidSsp (SIZE(1)) (CONSTRAINED BY {
       PsidSsp (WITH COMPONENTS {
         psid(35)
         --ssp(OER encoding of ScmsSsp indicating Electorssp)
-      }),
-	  PsidSsp (WITH COMPONENTS {
-        psid(CrlPsid)
-        --ssp(OER encoding of Crlssp: version=1, cracaType=self, crls=single entry with type=hashed crl_series=0x80)
       })
     })),
     certIssuePermissions ABSENT,
