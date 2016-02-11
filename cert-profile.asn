@@ -274,7 +274,7 @@ RseApplicationCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
 })
 
 
-EcaCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
+EcaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
   issuer (WITH COMPONENTS {sha256AndDigest}),
   toBeSigned (WITH COMPONENTS { ...,
     id (WITH COMPONENTS {
@@ -333,16 +333,18 @@ EcaCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
     canRequestRollover (NULL),
     encryptionKey PRESENT,
     verifyKeyIndicator (WITH COMPONENTS {
-      reconstructionValue (WITH COMPONENTS {
-        compressed-y-0,
-        compressed-y-1
+      verificationKey (WITH COMPONENTS {
+        ecdsaNistP256 (WITH COMPONENTS {
+          compressed-y-0,
+          compressed-y-1
+        })
       })
     })
   })
 })
 
 
-RaCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
+RaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
   issuer (WITH COMPONENTS{sha256AndDigest}),
   toBeSigned (WITH COMPONENTS { ...,
     id (WITH COMPONENTS {
@@ -399,16 +401,18 @@ RaCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
     canRequestRollover(NULL),
     encryptionKey PRESENT,
     verifyKeyIndicator (WITH COMPONENTS {
-      reconstructionValue (WITH COMPONENTS {
-        compressed-y-0,
-        compressed-y-1
+      verificationKey (WITH COMPONENTS {
+        ecdsaNistP256 (WITH COMPONENTS {
+          compressed-y-0,
+          compressed-y-1
+        })
       })
     })
   })
 })
 
 
-LaCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
+LaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
   issuer (WITH COMPONENTS{sha256AndDigest}),
   toBeSigned (WITH COMPONENTS { ...,
     id (WITH COMPONENTS {
@@ -446,9 +450,11 @@ LaCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
     canRequestRollover (NULL),
     encryptionKey PRESENT,
     verifyKeyIndicator (WITH COMPONENTS {
-      reconstructionValue (WITH COMPONENTS {
-        compressed-y-0,
-        compressed-y-1
+      verificationKey (WITH COMPONENTS {
+        ecdsaNistP256 (WITH COMPONENTS {
+          compressed-y-0,
+          compressed-y-1
+        })
       })
     })
   })
