@@ -307,28 +307,21 @@ EcaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
         --ssp(OER encoding of ScmsSsp indicating Ecassp)
       })
     })),
-    certIssuePermissions (SequenceOfPsidGroupPermissions (SIZE(2)) (CONSTRAINED BY {
-      PsidGroupPermissions ( WITH COMPONENTS {..., 
-	    appPermissions (WITH COMPONENTS { 
-          explicit (SequenceOfPsidSspRange (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS { 
-            psid (32), sspRange ABSENT 
-          })))
-        }),
-        minChainDepth(1),
-        chainDepthRange(0),
-        eeType({enrol})
-      }),
-      PsidGroupPermissions ( WITH COMPONENTS {..., 
-	    appPermissions (WITH COMPONENTS{ 
-          explicit (SequenceOfPsidSspRange (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS {
-            psid (38), sspRange ABSENT 
-          })))
-        }),
-        minChainDepth(1),
-        chainDepthRange(0),
-        eeType({enrol})
-      })
-    })),
+    certIssuePermissions (SequenceOfPsidGroupPermissions (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS {..., 
+	  appPermissions (WITH COMPONENTS {..., 
+		explicit (SequenceOfPsidSspRange (SIZE (2)) (CONSTRAINED BY{
+		  PsidSspRange (WITH COMPONENTS {
+			psid (32), sspRange ABSENT 
+		  }),
+		  PsidSspRange (WITH COMPONENTS {
+			psid (38), sspRange ABSENT 
+		  })
+		}))
+	  }),
+	  minChainDepth(1),
+	  chainDepthRange(0),
+	  eeType({enrol})
+    }))),
     certRequestPermissions ABSENT,
     canRequestRollover (NULL),
     encryptionKey PRESENT,
@@ -378,26 +371,18 @@ RaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
       })
     })),
     certIssuePermissions ABSENT,
-    certRequestPermissions (SequenceOfPsidGroupPermissions (SIZE(2)) (CONSTRAINED BY {
-      PsidGroupPermissions ( WITH COMPONENTS {..., 
-	    appPermissions (WITH COMPONENTS { 
-          explicit (SequenceOfPsidSspRange (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS { 
-            psid (32), sspRange ABSENT 
-          })))
-        }),
-        minChainDepth, --omitted
-        chainDepthRange --omitted
-      }),
-      PsidGroupPermissions ( WITH COMPONENTS {..., 
-	    appPermissions (WITH COMPONENTS{ 
-          explicit (SequenceOfPsidSspRange (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS {
-            psid (38), sspRange ABSENT 
-          })))
-        }),
-        minChainDepth, --omitted
-        chainDepthRange --omitted
-      })
-    })),
+    certRequestPermissions (SequenceOfPsidGroupPermissions (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS {..., 
+	  appPermissions (WITH COMPONENTS {..., 
+		explicit (SequenceOfPsidSspRange (SIZE (2)) (CONSTRAINED BY{
+		  PsidSspRange (WITH COMPONENTS {
+			psid (32), sspRange ABSENT 
+		  }),
+		  PsidSspRange (WITH COMPONENTS {
+			psid (38), sspRange ABSENT 
+		  })
+		}))
+	  })
+	}))),
     canRequestRollover(NULL),
     encryptionKey PRESENT,
     verifyKeyIndicator (WITH COMPONENTS {
@@ -494,26 +479,20 @@ PcaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
         --ssp(OER encoding of ScmsSsp indicating Pcassp)
       })
     })),
-    certIssuePermissions (SequenceOfPsidGroupPermissions (SIZE(2)) (CONSTRAINED BY {
-      PsidGroupPermissions ( WITH COMPONENTS {..., 
-	    appPermissions (WITH COMPONENTS { 
-          explicit (SequenceOfPsidSspRange (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS { 
-            psid (32), sspRange ABSENT 
-          })))
-        }),
-        minChainDepth(1),
-        chainDepthRange(0)
-      }),
-      PsidGroupPermissions ( WITH COMPONENTS {..., 
-	    appPermissions (WITH COMPONENTS{ 
-          explicit (SequenceOfPsidSspRange (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS {
-            psid (38), sspRange ABSENT 
-          })))
-        }),
-        minChainDepth(1),
-        chainDepthRange(0)
-      })
-    })),
+    certIssuePermissions (SequenceOfPsidGroupPermissions (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS {..., 
+	  appPermissions (WITH COMPONENTS {..., 
+		explicit (SequenceOfPsidSspRange (SIZE (2)) (CONSTRAINED BY{
+		  PsidSspRange (WITH COMPONENTS {
+			psid (32), sspRange ABSENT 
+		  }),
+		  PsidSspRange (WITH COMPONENTS {
+			psid (38), sspRange ABSENT 
+		  })
+		}))
+	  }),
+	  minChainDepth(1),
+	  chainDepthRange(0)
+    }))),
     certRequestPermissions ABSENT,
     canRequestRollover (NULL),
     encryptionKey PRESENT,
