@@ -37,11 +37,11 @@ Canada ::= CountryOnly (124)
 Mexico ::= CountryOnly (484)
 USA ::= CountryOnly (840)
 
-ObeEnrollmentCertExpirationPoc ::= Duration (WITH COMPONENTS {years(30)})
-ObePseudonymCertExpirationPoc ::= Duration (WITH COMPONENTS {hours(169)}) -- 1 week + 1 hour = 169 hours
-ObeIdentificationCertExpirationPoc ::= Duration (WITH COMPONENTS {hours(169)})
-RseEnrollmentCertExpirationPoc ::= Duration (WITH COMPONENTS {years(30)})
-RseApplicationCertExpirationPoc ::= Duration (WITH COMPONENTS {hours(169)})
+ObeEnrollmentCertExpirationPoc ::= Duration (WITH COMPONENTS {years(1..30)})
+ObePseudonymCertExpirationPoc ::= Duration (WITH COMPONENTS {hours(1..169)}) -- 1 week + 1 hour = 169 hours
+ObeIdentificationCertExpirationPoc ::= Duration (WITH COMPONENTS {hours(1..169)})
+RseEnrollmentCertExpirationPoc ::= Duration (WITH COMPONENTS {years(1..30)})
+RseApplicationCertExpirationPoc ::= Duration (WITH COMPONENTS {hours(1..169)})
 EcaCertExpirationPoc ::= Duration (WITH COMPONENTS {years(40)})
 RaCertExpirationPoc ::= Duration (WITH COMPONENTS {hours(26448)}) -- 3 years + 1 week = 26448 hours
 LaCertExpirationPoc ::= Duration (WITH COMPONENTS {hours(26448)})
