@@ -30,6 +30,26 @@ FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111)
 FROM IEEE1609dot2Crl {iso(1) identified-organization(3) ieee(111) 
   standards-association-numbered-series-standards(2) wave-stds(1609)  
   dot2(2) crl(3) protocol(2)}
+
+  ObeEnrollmentCertExpirationPoc,
+  ObePseudonymCertExpirationPoc,
+  ObeIdentificationCertExpirationPoc,
+  RseEnrollmentCertExpirationPoc,
+  RseApplicationCertExpirationPoc,
+  EcaCertExpirationPoc,
+  RaCertExpirationPoc,
+  LaCertExpirationPoc,
+  PcaCertExpirationPoc,
+  IcaCertExpirationPoc,
+  MaCertExpirationPoc,
+  PGCertExpirationPoc,
+  RootCaCertExpirationPoc,
+  ElectorCertExpirationPoc,
+  SecurityMgmtPsid,
+  MisbehaviorReportingPsid
+FROM Ieee1609dot2ScmsBaseTypes {iso(1) identified-organization(3) ieee(111)
+standards-association-numbered-series-standards(2) wave-stds(1609)  dot2(2)
+scms (2) interfaces(1) base-types (2)}
 ;
 
 
@@ -42,9 +62,7 @@ ObeEnrollmentCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
     -- cracaId set to HashedId3 of the Root CA cert
     crlSeries(3),
     validityPeriod (WITH COMPONENTS { ...,
-      duration (WITH COMPONENTS { 
-        years(30)
-      })
+      duration (ObeEnrollmentCertExpirationPoc)
     }),
     region (WITH COMPONENTS {
       identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
@@ -106,9 +124,7 @@ ObePseudonymCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
     crlSeries(1), -- we will use this value in POC without prejudice
       -- as to whether it will be used in all BSM certs
     validityPeriod (WITH COMPONENTS { ...,
-      duration(WITH COMPONENTS { 
-        hours(169)
-      })
+      duration (ObePseudonymCertExpirationPoc)
     }),
     region (WITH COMPONENTS {
       identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
@@ -130,7 +146,7 @@ ObePseudonymCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
         ssp ABSENT
       }), 
       PsidSsp (WITH COMPONENTS {
-        psid(38), 
+        psid(MisbehaviorReportingPsid), 
         ssp ABSENT
       })
     })),
@@ -157,9 +173,7 @@ ObeIdentificationCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { .
    -- cracaId set to HashedId3 of the Root CA cert
     crlSeries(3),
     validityPeriod (WITH COMPONENTS { ...,
-      duration(WITH COMPONENTS { 
-        hours(169)
-      })
+      duration (ObeIdentificationCertExpirationPoc)
     }),
     region (WITH COMPONENTS {
       identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
@@ -199,9 +213,7 @@ RseEnrollmentCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
     -- cracaId set to HashedId3 of the Root CA cert
     crlSeries(2),
     validityPeriod (WITH COMPONENTS { ...,
-      duration (WITH COMPONENTS { 
-        years(30)
-      })
+      duration (RseEnrollmentCertExpirationPoc)
     }),
     region (WITH COMPONENTS {
       identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
@@ -241,9 +253,7 @@ RseApplicationCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
     -- cracaId set to HashedId3 of the Root CA cert
     crlSeries(2),
     validityPeriod (WITH COMPONENTS { ...,
-      duration(WITH COMPONENTS { 
-        hours(169)
-      })
+      duration (RseApplicationCertExpirationPoc)
     }),
     region (WITH COMPONENTS {
       identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
@@ -283,9 +293,7 @@ EcaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
     -- cracaId set to HashedId3 of the ICA cert
     crlSeries(2),
     validityPeriod (WITH COMPONENTS { ...,
-      duration(WITH COMPONENTS {
-        years(40)
-      })
+      duration (EcaCertExpirationPoc)
     }),
     region (WITH COMPONENTS {
       identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
@@ -303,7 +311,7 @@ EcaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
     assuranceLevel ABSENT,
     appPermissions (SequenceOfPsidSsp (SIZE(1)) (CONSTRAINED BY {
       PsidSsp (WITH COMPONENTS {
-        psid(35)
+        psid(SecurityMgmtPsid)
         --ssp(OER encoding of ScmsSsp indicating Ecassp)
       })
     })),
@@ -346,9 +354,7 @@ RaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
     -- cracaId set to HashedId3 of the ICA cert
     crlSeries(2),
     validityPeriod (WITH COMPONENTS { ...,
-      duration (WITH COMPONENTS { 
-        years(4)
-      })
+      duration (RaCertExpirationPoc)
     }),
     region (WITH COMPONENTS {
       identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
@@ -366,7 +372,7 @@ RaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
     assuranceLevel ABSENT,
     appPermissions (SequenceOfPsidSsp (SIZE(1)) (CONSTRAINED BY {
       PsidSsp (WITH COMPONENTS {
-        psid(35)
+        psid(SecurityMgmtPsid)
         --ssp(OER encoding of ScmsSsp indicating Rassp)
       })
     })),
@@ -406,9 +412,7 @@ LaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
     -- cracaId set to HashedId3 of the ICA cert
     crlSeries(2),
     validityPeriod (WITH COMPONENTS { ...,
-      duration(WITH COMPONENTS {
-        years(4)
-      })
+      duration (LaCertExpirationPoc)
     }),
     region (WITH COMPONENTS {
       identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
@@ -426,7 +430,7 @@ LaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
     assuranceLevel ABSENT,
     appPermissions (SequenceOfPsidSsp (SIZE(1)) (CONSTRAINED BY {
       PsidSsp (WITH COMPONENTS {
-        psid(35)
+        psid(SecurityMgmtPsid)
         --ssp(OER encoding of ScmsSsp indicating Lassp)
       })
     })),
@@ -455,9 +459,7 @@ PcaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
     -- cracaId set to HashedId3 of the ICA cert
     crlSeries(2),
     validityPeriod (WITH COMPONENTS { ...,
-      duration(WITH COMPONENTS {
-        years(4)
-      })
+      duration (PcaCertExpirationPoc)
     }),
     region (WITH COMPONENTS {
       identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
@@ -475,7 +477,7 @@ PcaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
     assuranceLevel ABSENT,
     appPermissions (SequenceOfPsidSsp (SIZE(1)) (CONSTRAINED BY {
       PsidSsp (WITH COMPONENTS {
-        psid(35)
+        psid(SecurityMgmtPsid)
         --ssp(OER encoding of ScmsSsp indicating Pcassp)
       })
     })),
@@ -517,9 +519,7 @@ IcaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
     -- cracaId set to HashedId3 of the Root CA cert
     crlSeries(2),
     validityPeriod (WITH COMPONENTS { ...,
-      duration(WITH COMPONENTS {
-        years(50)
-      })
+      duration (IcaCertExpirationPoc)
     }),
     region (WITH COMPONENTS {
       identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
@@ -537,7 +537,7 @@ IcaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
     assuranceLevel ABSENT,
     appPermissions (SequenceOfPsidSsp (SIZE(1)) (CONSTRAINED BY {
       PsidSsp (WITH COMPONENTS {
-        psid(35)
+        psid(SecurityMgmtPsid)
         --ssp(OER encoding of ScmsSsp indicating Icassp)
       })
     })),
@@ -607,9 +607,7 @@ MaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
     -- cracaId set to HashedId3 of the Root CA cert
     crlSeries(2),
     validityPeriod (WITH COMPONENTS { ...,
-      duration(WITH COMPONENTS {
-        years(4)
-      })
+      duration (MaCertExpirationPoc)
     }),
     region (WITH COMPONENTS {
       identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
@@ -627,7 +625,7 @@ MaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
     assuranceLevel ABSENT,
     appPermissions (SequenceOfPsidSsp (SIZE(1)) (CONSTRAINED BY {
       PsidSsp (WITH COMPONENTS {
-        psid(35)
+        psid(SecurityMgmtPsid)
         --ssp(OER encoding of ScmsSsp indicating MA)
       })
     })),
@@ -656,9 +654,7 @@ PGCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
     -- cracaId set to HashedId3 of the Root CA cert
     crlSeries(2),
     validityPeriod (WITH COMPONENTS { ...,
-      duration(WITH COMPONENTS {
-        years(4)
-      })
+      duration (PGCertExpirationPoc)
     }),
     region (WITH COMPONENTS {
       identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
@@ -676,7 +672,7 @@ PGCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
     assuranceLevel ABSENT,
     appPermissions (SequenceOfPsidSsp (SIZE(1)) (CONSTRAINED BY {
       PsidSsp (WITH COMPONENTS {
-        psid(35)
+        psid(SecurityMgmtPsid)
         --ssp(OER encoding of ScmsSsp indicating Policy Generator)
       })
     })),
@@ -705,9 +701,7 @@ RootCaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
     cracaId, -- set to 00 00 00
     crlSeries(0),                          
     validityPeriod (WITH COMPONENTS { ...,
-      duration(WITH COMPONENTS {
-        years(70)
-      })
+      duration (RootCaCertExpirationPoc)
     }),
     region (WITH COMPONENTS {
       identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
@@ -725,7 +719,7 @@ RootCaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
     assuranceLevel ABSENT,
     appPermissions (SequenceOfPsidSsp (SIZE(1)) (CONSTRAINED BY {
       PsidSsp (WITH COMPONENTS {
-        psid(35)
+        psid(SecurityMgmtPsid)
         --ssp(OER encoding of ScmsSsp indicating RootCassp)
       })
     })),
@@ -753,7 +747,7 @@ RootCaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
           }))
         }),
         minChainDepth(1),
-        chainDepthRange(0)
+        chainDepthRange(-1)
       })
     })),
     certRequestPermissions PRESENT,
@@ -779,9 +773,7 @@ ElectorCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
     cracaId, -- set to 00 00 00
     crlSeries(0),                          
     validityPeriod (WITH COMPONENTS { ...,
-      duration(WITH COMPONENTS {
-        years(60)
-      })
+      duration (ElectorCertExpirationPoc)
     }),
     region (WITH COMPONENTS {
       identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
@@ -799,7 +791,7 @@ ElectorCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
     assuranceLevel ABSENT,
     appPermissions (SequenceOfPsidSsp (SIZE(1)) (CONSTRAINED BY {
       PsidSsp (WITH COMPONENTS {
-        psid(35)
+        psid(SecurityMgmtPsid)
         --ssp(OER encoding of ScmsSsp indicating Electorssp)
       })
     })),

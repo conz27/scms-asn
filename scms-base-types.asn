@@ -8,6 +8,7 @@ DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 EXPORTS ALL;
  
 IMPORTS 
+  Duration,
   Hostname,
   IValue,
   LaId,
@@ -31,9 +32,24 @@ FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111)
 
 ;
 
+ObeEnrollmentCertExpirationPoc ::= Duration (WITH COMPONENTS {years(30)})
+ObePseudonymCertExpirationPoc ::= Duration (WITH COMPONENTS {hours(169)}) -- 1 week + 1 hour = 169 hours
+ObeIdentificationCertExpirationPoc ::= Duration (WITH COMPONENTS {hours(169)})
+RseEnrollmentCertExpirationPoc ::= Duration (WITH COMPONENTS {years(30)})
+RseApplicationCertExpirationPoc ::= Duration (WITH COMPONENTS {hours(169)})
+EcaCertExpirationPoc ::= Duration (WITH COMPONENTS {years(40)})
+RaCertExpirationPoc ::= Duration (WITH COMPONENTS {hours(26448)}) -- 3 years + 1 week = 26448 hours
+LaCertExpirationPoc ::= Duration (WITH COMPONENTS {hours(26448)})
+PcaCertExpirationPoc ::= Duration (WITH COMPONENTS {years(4)})
+IcaCertExpirationPoc ::= Duration (WITH COMPONENTS {years(50)})
+MaCertExpirationPoc ::= Duration (WITH COMPONENTS {hours(26448)})
+PGCertExpirationPoc ::= Duration (WITH COMPONENTS {hours(26448)})
+RootCaCertExpirationPoc ::= Duration (WITH COMPONENTS {years(70)})
+ElectorCertExpirationPoc ::= Duration (WITH COMPONENTS {years(60)})
+
+
 SecurityMgmtPsid ::= Psid(35)  -- PSID = 0x23
-
-
+MisbehaviorReportingPsid ::= Psid(38)  -- PSID = 0x26
 
 EncryptedIndividualPLV ::= SEQUENCE {
     version         Uint8(1),  -- version of EncryptedPLV
