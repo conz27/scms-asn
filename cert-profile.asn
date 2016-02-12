@@ -31,6 +31,9 @@ FROM IEEE1609dot2Crl {iso(1) identified-organization(3) ieee(111)
   standards-association-numbered-series-standards(2) wave-stds(1609)  
   dot2(2) crl(3) protocol(2)}
 
+  Canada,
+  Mexico,
+  USA,
   ObeEnrollmentCertExpirationPoc,
   ObePseudonymCertExpirationPoc,
   ObeIdentificationCertExpirationPoc,
@@ -45,6 +48,7 @@ FROM IEEE1609dot2Crl {iso(1) identified-organization(3) ieee(111)
   PGCertExpirationPoc,
   RootCaCertExpirationPoc,
   ElectorCertExpirationPoc,
+  BsmPsid,
   SecurityMgmtPsid,
   MisbehaviorReportingPsid
 FROM Ieee1609dot2ScmsBaseTypes {iso(1) identified-organization(3) ieee(111)
@@ -67,13 +71,13 @@ ObeEnrollmentCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
     region (WITH COMPONENTS {
       identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
         IdentifiedRegion (WITH COMPONENTS { 
-          countryOnly(124) 
+          countryOnly(Canada) 
         }), 
         IdentifiedRegion (WITH COMPONENTS { 
-          countryOnly(484) 
+          countryOnly(Mexico) 
         }), 
         IdentifiedRegion (WITH COMPONENTS { 
-          countryOnly(840) 
+          countryOnly(USA) 
         })
       }))
     }),
@@ -84,7 +88,7 @@ ObeEnrollmentCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
       PsidGroupPermissions ( WITH COMPONENTS {..., 
 	    appPermissions (WITH COMPONENTS { 
           explicit (SequenceOfPsidSspRange (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS { 
-            psid (32), sspRange ABSENT 
+            psid (BsmPsid), sspRange ABSENT 
           })))
         }),
         minChainDepth(0),
@@ -93,7 +97,7 @@ ObeEnrollmentCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
       PsidGroupPermissions ( WITH COMPONENTS {..., 
 	    appPermissions (WITH COMPONENTS{ 
           explicit (SequenceOfPsidSspRange (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS {
-            psid (38), sspRange ABSENT 
+            psid (MisbehaviorReportingPsid), sspRange ABSENT 
           })))
         }),
         minChainDepth(1),
@@ -129,24 +133,24 @@ ObePseudonymCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
     region (WITH COMPONENTS {
       identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
         IdentifiedRegion (WITH COMPONENTS { 
-          countryOnly(124) 
+          countryOnly(Canada) 
         }), 
         IdentifiedRegion (WITH COMPONENTS { 
-          countryOnly(484) 
+          countryOnly(Mexico) 
         }), 
         IdentifiedRegion (WITH COMPONENTS { 
-          countryOnly(840) 
+          countryOnly(USA) 
         })
       }))
     }),
     assuranceLevel ABSENT,
     appPermissions (SequenceOfPsidSsp (SIZE(2)) (CONSTRAINED BY {
       PsidSsp (WITH COMPONENTS {
-        psid(32), 
+        psid (BsmPsid), 
         ssp ABSENT
       }), 
       PsidSsp (WITH COMPONENTS {
-        psid(MisbehaviorReportingPsid), 
+        psid (MisbehaviorReportingPsid), 
         ssp ABSENT
       })
     })),
@@ -178,13 +182,13 @@ ObeIdentificationCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { .
     region (WITH COMPONENTS {
       identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
         IdentifiedRegion (WITH COMPONENTS { 
-          countryOnly(124) 
+          countryOnly(Canada) 
         }), 
         IdentifiedRegion (WITH COMPONENTS { 
-          countryOnly(484) 
+          countryOnly(Mexico) 
         }), 
         IdentifiedRegion (WITH COMPONENTS { 
-          countryOnly(840) 
+          countryOnly(USA) 
         })
       }))
     }),
@@ -218,13 +222,13 @@ RseEnrollmentCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
     region (WITH COMPONENTS {
       identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
         IdentifiedRegion (WITH COMPONENTS { 
-          countryOnly(124) 
+          countryOnly(Canada) 
         }), 
         IdentifiedRegion (WITH COMPONENTS { 
-          countryOnly(484) 
+          countryOnly(Mexico) 
         }), 
         IdentifiedRegion (WITH COMPONENTS { 
-          countryOnly(840) 
+          countryOnly(USA) 
         })
       }))
     }),
@@ -258,13 +262,13 @@ RseApplicationCertificateScmsPoc ::= ImplicitCertificate (WITH COMPONENTS { ...,
     region (WITH COMPONENTS {
       identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
         IdentifiedRegion (WITH COMPONENTS { 
-          countryOnly(124) 
+          countryOnly(Canada) 
         }), 
         IdentifiedRegion (WITH COMPONENTS { 
-          countryOnly(484) 
+          countryOnly(Mexico) 
         }), 
         IdentifiedRegion (WITH COMPONENTS { 
-          countryOnly(840) 
+          countryOnly(USA) 
         })
       }))
     }),
@@ -298,20 +302,20 @@ EcaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
     region (WITH COMPONENTS {
       identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
         IdentifiedRegion (WITH COMPONENTS { 
-          countryOnly(124) 
+          countryOnly(Canada) 
         }), 
         IdentifiedRegion (WITH COMPONENTS { 
-          countryOnly(484) 
+          countryOnly(Mexico) 
         }), 
         IdentifiedRegion (WITH COMPONENTS { 
-          countryOnly(840) 
+          countryOnly(USA) 
         })
       }))
     }),
     assuranceLevel ABSENT,
     appPermissions (SequenceOfPsidSsp (SIZE(1)) (CONSTRAINED BY {
       PsidSsp (WITH COMPONENTS {
-        psid(SecurityMgmtPsid)
+        psid (SecurityMgmtPsid)
         --ssp(OER encoding of ScmsSsp indicating Ecassp)
       })
     })),
@@ -319,10 +323,10 @@ EcaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
 	  appPermissions (WITH COMPONENTS {..., 
 		explicit (SequenceOfPsidSspRange (SIZE (2)) (CONSTRAINED BY{
 		  PsidSspRange (WITH COMPONENTS {
-			psid (32), sspRange ABSENT 
+			psid (BsmPsid), sspRange ABSENT 
 		  }),
 		  PsidSspRange (WITH COMPONENTS {
-			psid (38), sspRange ABSENT 
+			psid (MisbehaviorReportingPsid), sspRange ABSENT 
 		  })
 		}))
 	  }),
@@ -359,20 +363,20 @@ RaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
     region (WITH COMPONENTS {
       identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
         IdentifiedRegion (WITH COMPONENTS { 
-          countryOnly(124) 
+          countryOnly(Canada) 
         }), 
         IdentifiedRegion (WITH COMPONENTS { 
-          countryOnly(484) 
+          countryOnly(Mexico) 
         }), 
         IdentifiedRegion (WITH COMPONENTS { 
-          countryOnly(840) 
+          countryOnly(USA) 
         })
       }))
     }),
     assuranceLevel ABSENT,
     appPermissions (SequenceOfPsidSsp (SIZE(1)) (CONSTRAINED BY {
       PsidSsp (WITH COMPONENTS {
-        psid(SecurityMgmtPsid)
+        psid (SecurityMgmtPsid)
         --ssp(OER encoding of ScmsSsp indicating Rassp)
       })
     })),
@@ -381,10 +385,10 @@ RaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
 	  appPermissions (WITH COMPONENTS {..., 
 		explicit (SequenceOfPsidSspRange (SIZE (2)) (CONSTRAINED BY{
 		  PsidSspRange (WITH COMPONENTS {
-			psid (32), sspRange ABSENT 
+			psid (BsmPsid), sspRange ABSENT 
 		  }),
 		  PsidSspRange (WITH COMPONENTS {
-			psid (38), sspRange ABSENT 
+			psid (MisbehaviorReportingPsid), sspRange ABSENT 
 		  })
 		}))
 	  })
@@ -417,20 +421,20 @@ LaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
     region (WITH COMPONENTS {
       identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
         IdentifiedRegion (WITH COMPONENTS { 
-          countryOnly(124) 
+          countryOnly(Canada) 
         }), 
         IdentifiedRegion (WITH COMPONENTS { 
-          countryOnly(484) 
+          countryOnly(Mexico) 
         }), 
         IdentifiedRegion (WITH COMPONENTS { 
-          countryOnly(840) 
+          countryOnly(USA) 
         })
       }))
     }),
     assuranceLevel ABSENT,
     appPermissions (SequenceOfPsidSsp (SIZE(1)) (CONSTRAINED BY {
       PsidSsp (WITH COMPONENTS {
-        psid(SecurityMgmtPsid)
+        psid (SecurityMgmtPsid)
         --ssp(OER encoding of ScmsSsp indicating Lassp)
       })
     })),
@@ -464,20 +468,20 @@ PcaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
     region (WITH COMPONENTS {
       identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
         IdentifiedRegion (WITH COMPONENTS { 
-          countryOnly(124) 
+          countryOnly(Canada) 
         }), 
         IdentifiedRegion (WITH COMPONENTS { 
-          countryOnly(484) 
+          countryOnly(Mexico) 
         }), 
         IdentifiedRegion (WITH COMPONENTS { 
-          countryOnly(840) 
+          countryOnly(USA) 
         })
       }))
     }),
     assuranceLevel ABSENT,
     appPermissions (SequenceOfPsidSsp (SIZE(1)) (CONSTRAINED BY {
       PsidSsp (WITH COMPONENTS {
-        psid(SecurityMgmtPsid)
+        psid (SecurityMgmtPsid)
         --ssp(OER encoding of ScmsSsp indicating Pcassp)
       })
     })),
@@ -485,10 +489,10 @@ PcaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
 	  appPermissions (WITH COMPONENTS {..., 
 		explicit (SequenceOfPsidSspRange (SIZE (2)) (CONSTRAINED BY{
 		  PsidSspRange (WITH COMPONENTS {
-			psid (32), sspRange ABSENT 
+			psid (BsmPsid), sspRange ABSENT 
 		  }),
 		  PsidSspRange (WITH COMPONENTS {
-			psid (38), sspRange ABSENT 
+			psid (MisbehaviorReportingPsid), sspRange ABSENT 
 		  })
 		}))
 	  }),
@@ -524,20 +528,20 @@ IcaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
     region (WITH COMPONENTS {
       identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
         IdentifiedRegion (WITH COMPONENTS { 
-          countryOnly(124) 
+          countryOnly(Canada) 
         }), 
         IdentifiedRegion (WITH COMPONENTS { 
-          countryOnly(484) 
+          countryOnly(Mexico) 
         }), 
         IdentifiedRegion (WITH COMPONENTS { 
-          countryOnly(840) 
+          countryOnly(USA) 
         })
       }))
     }),
     assuranceLevel ABSENT,
     appPermissions (SequenceOfPsidSsp (SIZE(1)) (CONSTRAINED BY {
       PsidSsp (WITH COMPONENTS {
-        psid(SecurityMgmtPsid)
+        psid (SecurityMgmtPsid)
         --ssp(OER encoding of ScmsSsp indicating Icassp)
       })
     })),
@@ -545,7 +549,7 @@ IcaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
       PsidGroupPermissions ( WITH COMPONENTS {..., 
 	    appPermissions (WITH COMPONENTS { 
           explicit (SequenceOfPsidSspRange (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS { 
-            psid (32), sspRange ABSENT 
+            psid (BsmPsid), sspRange ABSENT 
           })))
         }),
         minChainDepth(2),
@@ -555,7 +559,7 @@ IcaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
       PsidGroupPermissions ( WITH COMPONENTS {..., 
 	    appPermissions (WITH COMPONENTS{ 
           explicit (SequenceOfPsidSspRange (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS {
-            psid (35), sspRange (WITH COMPONENTS {all}) 
+            psid (SecurityMgmtPsid), sspRange (WITH COMPONENTS {all}) 
           })))
         }),
         minChainDepth(1),
@@ -575,7 +579,7 @@ IcaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
 	  PsidGroupPermissions ( WITH COMPONENTS {..., 
 	    appPermissions (WITH COMPONENTS{ 
           explicit (SequenceOfPsidSspRange (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS {
-            psid (38), sspRange ABSENT 
+            psid (MisbehaviorReportingPsid), sspRange ABSENT 
           })))
         }),
         minChainDepth(2),
@@ -612,20 +616,20 @@ MaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
     region (WITH COMPONENTS {
       identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
         IdentifiedRegion (WITH COMPONENTS { 
-          countryOnly(124) 
+          countryOnly(Canada) 
         }), 
         IdentifiedRegion (WITH COMPONENTS { 
-          countryOnly(484) 
+          countryOnly(Mexico) 
         }), 
         IdentifiedRegion (WITH COMPONENTS { 
-          countryOnly(840) 
+          countryOnly(USA) 
         })
       }))
     }),
     assuranceLevel ABSENT,
     appPermissions (SequenceOfPsidSsp (SIZE(1)) (CONSTRAINED BY {
       PsidSsp (WITH COMPONENTS {
-        psid(SecurityMgmtPsid)
+        psid (SecurityMgmtPsid)
         --ssp(OER encoding of ScmsSsp indicating MA)
       })
     })),
@@ -659,20 +663,20 @@ PGCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
     region (WITH COMPONENTS {
       identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
         IdentifiedRegion (WITH COMPONENTS { 
-          countryOnly(124) 
+          countryOnly(Canada) 
         }), 
         IdentifiedRegion (WITH COMPONENTS { 
-          countryOnly(484) 
+          countryOnly(Mexico) 
         }), 
         IdentifiedRegion (WITH COMPONENTS { 
-          countryOnly(840) 
+          countryOnly(USA) 
         })
       }))
     }),
     assuranceLevel ABSENT,
     appPermissions (SequenceOfPsidSsp (SIZE(1)) (CONSTRAINED BY {
       PsidSsp (WITH COMPONENTS {
-        psid(SecurityMgmtPsid)
+        psid (SecurityMgmtPsid)
         --ssp(OER encoding of ScmsSsp indicating Policy Generator)
       })
     })),
@@ -703,23 +707,11 @@ RootCaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
     validityPeriod (WITH COMPONENTS { ...,
       duration (RootCaCertExpirationPoc)
     }),
-    region (WITH COMPONENTS {
-      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
-        IdentifiedRegion (WITH COMPONENTS { 
-          countryOnly(124) 
-        }), 
-        IdentifiedRegion (WITH COMPONENTS { 
-          countryOnly(484) 
-        }), 
-        IdentifiedRegion (WITH COMPONENTS { 
-          countryOnly(840) 
-        })
-      }))
-    }),
+    region ABSENT,
     assuranceLevel ABSENT,
     appPermissions (SequenceOfPsidSsp (SIZE(1)) (CONSTRAINED BY {
       PsidSsp (WITH COMPONENTS {
-        psid(SecurityMgmtPsid)
+        psid (SecurityMgmtPsid)
         --ssp(OER encoding of ScmsSsp indicating RootCassp)
       })
     })),
@@ -736,10 +728,10 @@ RootCaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
 	    appPermissions (WITH COMPONENTS{ 
           explicit (SequenceOfPsidSspRange (SIZE (3)) (CONSTRAINED BY {
             PsidSspRange (WITH COMPONENTS {
-              psid (35), sspRange ABSENT 
+              psid (SecurityMgmtPsid), sspRange ABSENT 
             }),             
             PsidSspRange (WITH COMPONENTS {
-              psid (38), sspRange ABSENT 
+              psid (MisbehaviorReportingPsid), sspRange ABSENT 
             }), 
             PsidSspRange (WITH COMPONENTS {
               psid (CrlPsid), sspRange ABSENT 
@@ -764,6 +756,7 @@ RootCaCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
   })
 })
 
+
 ElectorCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
   issuer (WITH COMPONENTS {self}),
   toBeSigned (WITH COMPONENTS { ...,
@@ -775,23 +768,11 @@ ElectorCertificateScmsPoc ::= ExplicitCertificate (WITH COMPONENTS { ...,
     validityPeriod (WITH COMPONENTS { ...,
       duration (ElectorCertExpirationPoc)
     }),
-    region (WITH COMPONENTS {
-      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
-        IdentifiedRegion (WITH COMPONENTS { 
-          countryOnly(124) 
-        }), 
-        IdentifiedRegion (WITH COMPONENTS { 
-          countryOnly(484) 
-        }), 
-        IdentifiedRegion (WITH COMPONENTS { 
-          countryOnly(840) 
-        })
-      }))
-    }),
+    region ABSENT,
     assuranceLevel ABSENT,
     appPermissions (SequenceOfPsidSsp (SIZE(1)) (CONSTRAINED BY {
       PsidSsp (WITH COMPONENTS {
-        psid(SecurityMgmtPsid)
+        psid (SecurityMgmtPsid)
         --ssp(OER encoding of ScmsSsp indicating Electorssp)
       })
     })),
