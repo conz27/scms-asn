@@ -199,6 +199,14 @@ UnsignedButterflyParams ::= SEQUENCE {
     expansion             OCTET STRING (SIZE (16))
 }
 
+
+-- Identification cert:
+--
+-- Basically the same as pseudonym certificate requests. Identification certificates
+-- always use Butterfly keys. They are not shuffled, nor do they include a linkage value.
+-- This differentiation is visible in other interfaces only, in particular RA-PCA.
+
+
 -- these are signed and encrypted before sending, see scms-protocol.asn.
 
 -- signer field in verify-key-info.seed-key contains the enrolment cert
@@ -316,11 +324,6 @@ RaEeIdCertProvisioningAck ::= RaEePseudonymCertProvisioningAck
 
 RaEeAppCertProvisioningAck ::= RaEePseudonymCertProvisioningAck
 
--- Identification cert:
---
--- Basically the same as pseudonym certificate requests. Identification certificates
--- always use Butterfly keys. They are not shuffled, nor do they include a linkage value.
--- This differentiation is visible in other interfaces only, in particular RA-PCA.
 
 
 -- EE Error Log File
