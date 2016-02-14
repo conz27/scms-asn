@@ -185,7 +185,6 @@ RaEeCertResponseNack ::= SEQUENCE {
 CommonProvisioningRequestFields ::= SEQUENCE {
     current-time                 Time32,
     requested-start-time         Time32,
-    policyID                     OCTET STRING (SIZE (0..32)),
     ...
 }
 
