@@ -169,17 +169,7 @@ RaEeCertResponseNack ::= SEQUENCE {
 -- * Creates a series of individual cert requests for the OBE (see
 --   pca-ra.asn) and sends them to the PCA
 --
---
--- QUESTIONS:
---
--- 1. This pretty much ignores encryption keys in the certs. In particular,
---    it leaves use with no way to sign the encryption key in a request for
---    an enrolment cert. Is that okay? I think so because the enrolment cert
---    is never encrypted to directly, it signs cert requests that contain
---    response encryption keys
--- 2. The pseudonym cert request doesn't include a field for an encryption
---    key to appear in the cert - is that okay?
--- 3. Do we need requested-start-time in the pseudonym cert request?
+
 
 
 CommonProvisioningRequestFields ::= SEQUENCE {
