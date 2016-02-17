@@ -48,10 +48,10 @@ FROM Ieee1609dot2ScmsBaseTypes {iso(1) identified-organization(3) ieee(111)
     scms (2) interfaces(1) base-types (2)}
 
   CompositeCrl
-FROM IEEE1609dot2-profiles {iso(1) identified-organization(3) ieee(111) 
-    standards-association-numbered-series-standards(2) wave-stds(1609)  
-    dot2(2) base (1) profiles (3)}
-    
+FROM Ieee1609Dot2ScmsComponentCertificateManagement {iso(1) 
+    identified-organization(3) ieee(111) standards-association-numbered-series-standards(2) 
+    wave-stds(1609) dot2(2) scms(2) interfaces(1) component-certificate-management (3)}    
+
 ;
 
 
