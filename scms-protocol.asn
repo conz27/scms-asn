@@ -26,6 +26,7 @@ FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111)
 standards-association-numbered-series-standards(2) wave-stds(1609)
 dot2(2) base (1) schema (1)}
 
+  MisbehaviorReportingPsid,
   SecurityMgmtPsid
 FROM Ieee1609dot2ScmsBaseTypes {iso(1) identified-organization(3) ieee(111)
 standards-association-numbered-series-standards(2) wave-stds(1609)  dot2(2)
@@ -538,6 +539,12 @@ SecuredScmsPDU ::= Ieee1609Dot2Data
 --
 -- *************************************************************************
 
+SecuredMisbehaviorReport ::= SecuredScmsPDU(WITH COMPONENTS {...,
+  content(WITH COMPONENTS {...,
+    encryptedData -- XXX decrypts to a SignedMisbehaviorReport
+  })
+})
+
 SignedMisbehaviorReport ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -550,7 +557,7 @@ SignedMisbehaviorReport ::= SecuredScmsPDU (WITH COMPONENTS {...,
           })
         }),
         headerInfo (WITH COMPONENTS {...,
-          psid (SecurityMgmtPsid),
+          psid (MisbehaviorReportingPsid),
           generationTime PRESENT,
           expiryTime ABSENT,
           generationLocation PRESENT,
