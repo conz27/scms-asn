@@ -45,16 +45,6 @@ FROM Ieee1609Dot2EndEntityMaErrorEndEntityMaError
     standards-association-numbered-series-standards(2) wave-stds(1609)  
     dot2(2) scms(2) errors(2) ee-ma(7)}
 
-  ObeError,
-  RseError,
-  RaSoftError,
-  RaHardError,
-  EndEntityRaError
-FROM Ieee1609Dot2EndEntityRaErrorEndEntityRaError
-    {iso(1) identified-organization(3) ieee(111) 
-    standards-association-numbered-series-standards(2) wave-stds(1609)  
-    dot2(2) scms(2) errors(2) ee-ra(8)}
-
   LaMaError
 FROM Ieee1609Dot2LaMaErrorLaMaError
     {iso(1) identified-organization(3) ieee(111) 
@@ -113,7 +103,6 @@ ScmsError ::= CHOICE {
   eca-ee  EcaEndEntityError,
   ee-lop  EndEntityLopError,
   ee-ma   EndEntityMaError,
-  ee-ra   EndEntityRaError,
   la-ma   LaMaError,
   la-pca  LaPcaError,
   la-ra   LaRaError,
@@ -142,37 +131,6 @@ ScopedEndEntityLopError ::=
 
 ScopedEndEntityMaError ::= 
   ScmsError (WITH COMPONENTS {common} | WITH COMPONENTS {ee-ma})
-
-ScopedEndEntityRaError ::= 
-  ScmsError (WITH COMPONENTS {common} | WITH COMPONENTS {ee-ra})
-
--- OBE errors
-ScopedObeError ::=
-  ScmsError (WITH COMPONENTS {common} | 
-             WITH COMPONENTS {ee-ra
-                (WITH COMPONENTS{obe-error})}
-            )
-
--- RSE errors
-ScopedRseError ::=
-  ScmsError (WITH COMPONENTS {common} | 
-             WITH COMPONENTS {ee-ra
-                (WITH COMPONENTS{rse-error})}
-             )
-
--- Soft errors
-ScopedRaSoftError ::=
-  ScmsError (WITH COMPONENTS {common} | 
-             WITH COMPONENTS {ee-ra 
-                (WITH COMPONENTS {ra-soft-error})}
-            )
-
--- Hard errors
-ScopedRaHardError ::=
-  ScmsError (WITH COMPONENTS {common} | 
-             WITH COMPONENTS {ee-ra 
-                (WITH COMPONENTS {ra-hard-error})}
-            )
 
 -- This type is not used (see following la-ma errors)
 ScopedLaMaError ::=
