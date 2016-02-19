@@ -9,93 +9,95 @@ DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 EXPORTS ALL;
 
 IMPORTS
-  
-  Certificate
 
-FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111) 
-		standards-association-numbered-series-standards(2) wave-stds(1609)  
-		dot2(2) base (1) schema (1)}
-
-  ScopedEcaEndEntityError
-
-FROM Ieee1609Dot2EcaEndEntityError {iso(1) identified-organization(3) ieee(111) 
-		standards-association-numbered-series-standards(2) wave-stds(1609)  
-		dot2(2) scms(2) errors(2) complete (1)}
-
+  CrlSeries,
+  EccP256CurvePoint,
+  GeographicRegion,
+  HashedId3,
+  HashedId8,
   Hostname,
+  PublicEncryptionKey,
+  SubjectAssurance,
+  Time32,
   Uint8,
   Uint16
 
 FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111) 
-		standards-association-numbered-series-standards(2) wave-stds(1609)  
-		dot2(2) base(1) base-types(2)}
-;
+	 standards-association-numbered-series-standards(2) wave-stds(1609)  
+	 dot2(2) base(1) base-types(2)}
+
+  Certificate,
+  CertificateId,
+  ImplicitCertificate,
+  SequenceOfPsidGroupPermissions,
+  SequenceOfPsidSsp,
+  ValidityPeriod,
+  VerificationKeyIndicator
+
+FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111) 
+	 standards-association-numbered-series-standards(2) wave-stds(1609)  
+	 dot2(2) base (1) schema (1)}
+
+  ;
 
 EcaEndEntityInterfacePDU::= CHOICE {
-    ecaEeCertRequestMsg     EeEcaEnrolCertRequestMsg,
-    ecaEeCertResponseMsg    EcaEeEnrolCertResponseMsg,
-    ack                     Ack,	
+    obeEcaCertRequest     ObeEcaEnrollmentCertificateRequest,
+    ecaObeCertResponse    EcaObeEnrollmentCertificateResponse,
+    rseEcaCertRequest     RseEcaEnrollmentCertificateRequest,
+    ecaRseCertResponse    EcaRseEnrollmentCertificateResponse,
     ...
-}
-
--------------------------------------------------------------------------------
--- Payloads
--------------------------------------------------------------------------------
-
-Payload ::= CHOICE {
-	eca-ee-error			ScopedEcaEndEntityError,
-    enrollmentPayload		EnrollmentPayload,
-	...
-}
-
--- Enrollment Payload:
--- 
--- Parameters that will be provided to the DCM from the ECA upon a successful
--- enrollment.
-
-EnrollmentPayload ::= SEQUENCE {
-	endEntityPubKey	OCTET STRING OPTIONAL, -- TODO: change to PublicKey type
-	enrollmentCert Certificate OPTIONAL,
-	ecaCert Certificate OPTIONAL,
-	raCert Certificate OPTIONAL,
-	raHostname Hostname OPTIONAL,
-	...
 }
 
 -------------------------------------------------------------------------------
 -- Requests / Responses
 -------------------------------------------------------------------------------
-BaseMsg ::= SEQUENCE {
-	version Uint8(1),
-	seq Uint16,
-	payload Payload OPTIONAL,
-	...
+
+-- signer field in verifyKey contains the enrolment cert
+
+CommonEnrollmentCertificateRequest ::= SEQUENCE {
+    version             Uint8(1),
+    currentTime         Time32,
+    requestedStartTime  Time32,
+    tbsData             ToBeSignedEnrollmentCertificateData,
+    verifyKey           EccP256CurvePoint,
+    ...
 }
 
--- REQUEST: EE ===> ECA
---
--- The DCM will provide the OBE's public key to the ECA to
--- generate the Enrollment Certificate.
+CommonEnrollmentCertificateResponse ::= SEQUENCE {
+	version         Uint8(1),
+    requestHash     HashedId8,  -- hash of the original request
+    ecaCert         Certificate,
+    enrollmentCert  ImplicitCertificate,
+    raCert          Certificate,
+    raHostname      Hostname,
+    ...
+}
 
-EeEcaEnrolCertRequestMsg ::= BaseMsg(WITH COMPONENTS {...,
-	payload( WITH COMPONENTS{...,
-		enrollmentPayload(WITH COMPONENTS{...,
-			endEntityPubKey PRESENT
-		})
-	})			
-})
+ToBeSignedEnrollmentCertificateData ::= SEQUENCE  { 
+    id                     CertificateId,
+    cracaId                HashedId3,
+    crlSeries              CrlSeries,
+    validityPeriod         ValidityPeriod,
+    region                 GeographicRegion OPTIONAL,
+    assuranceLevel         SubjectAssurance OPTIONAL,
+    appPermissions         SequenceOfPsidSsp OPTIONAL,
+    certIssuePermissions   SequenceOfPsidGroupPermissions OPTIONAL,
+    certRequestPermissions SequenceOfPsidGroupPermissions OPTIONAL, 
+    canRequestRollover     NULL OPTIONAL,
+    encryptionKey          PublicEncryptionKey OPTIONAL,
+    verifyKeyIndicator     VerificationKeyIndicator,
+    ...
+  }
+  (WITH COMPONENTS { ..., appPermissions PRESENT} |
+   WITH COMPONENTS { ..., certIssuePermissions PRESENT} |
+   WITH COMPONENTS { ..., certRequestPermissions PRESENT})
 
--- Response: EE <=== ECA
---
--- The ECA provides the DCM with the enrollment parameters
--- necessary for contacting the RA and verifying the authenticity
--- of the generated encrollment certificate.
 
-EcaEeEnrolCertResponseMsg ::= BaseMsg(WITH COMPONENTS{...,
-	payload( WITH COMPONENTS{ enrollmentPayload } | WITH COMPONENTS {eca-ee-error } )
-})
 
--- ACK: EE <==> ECA
-Ack ::= BaseMsg
+ObeEcaEnrollmentCertificateRequest ::= CommonEnrollmentCertificateRequest
+EcaObeEnrollmentCertificateResponse ::= CommonEnrollmentCertificateResponse
+
+RseEcaEnrollmentCertificateRequest ::= CommonEnrollmentCertificateRequest
+EcaRseEnrollmentCertificateResponse ::= CommonEnrollmentCertificateResponse
 
 END
