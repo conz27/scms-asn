@@ -28,6 +28,7 @@ FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111)
 
   Certificate,
   CertificateId,
+  Ieee1609Dot2Data,
   ImplicitCertificate,
   SequenceOfPsidGroupPermissions,
   SequenceOfPsidSsp,
@@ -38,7 +39,13 @@ FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111)
 	 standards-association-numbered-series-standards(2) wave-stds(1609)  
 	 dot2(2) base (1) schema (1)}
 
-  ;
+  SecurityMgmtPsid
+
+FROM Ieee1609dot2ScmsBaseTypes {iso(1) identified-organization(3) ieee(111)
+     standards-association-numbered-series-standards(2) wave-stds(1609)  dot2(2)
+     scms (2) interfaces(1) base-types (2)}
+
+;
 
 EcaEndEntityInterfacePDU::= CHOICE {
     obeEcaCertRequest     ObeEcaEnrollmentCertificateRequest,
@@ -48,18 +55,64 @@ EcaEndEntityInterfacePDU::= CHOICE {
     ...
 }
 
+--------------------------------------------------------------------------------------
+--                                                                                  
+-- Enrollment Sequence Diagram (OBE/RSE)                                            
+--                                                                                  
+--              OBE                                                     ECA         
+--               |                                                       |          
+--   ========================                                            |          
+--   | Generate Type 1 Keys |                                            |          
+--   ========================                                            |          
+--               |                                                       |          
+--   ========================                                            |          
+--   |Sign Type 1 Public Key|                                            |          
+--   ========================                                            |          
+--               |                                                       |          
+--               |============ObeEnrollmentCertificateRequest===========>|          
+--               |             (TBS Data + SignedPublicKey)              |          
+--               |                                              ==================== 
+--               |                                              |Create Enrollment | 
+--               |                                              |   Certificate    | 
+--               |                                              |        +         | 
+--               |                                              |  Reconstruction  | 
+--               |                                              |      Values      | 
+--               |                                              ==================== 
+--               |                                                       |          
+--               |<==========ObeEnrollmentCertificateResponse============|          
+--               |    (Enrollment Cert + Pub/Priv Reconstruction Data)   |          
+--               |                                                       |          
+--     ======================                                            |          
+--     | Reconstruct Type 2 |                                            |          
+--     |     Private Key    |                                            |          
+--     ======================                                            |          
+--               |                                                       |          
+--     =======================                                           |          
+--     | Enrollment Complete |                                           |          
+--     =======================                                           |          
+--               |                                                       |          
+--               |                                                       |          
+--                                                                                  
+-- Refer to ee-ra.asn for description of enrollment procedure.                      
+--                                                                                  
+--------------------------------------------------------------------------------------
+
+
 -------------------------------------------------------------------------------
 -- Requests / Responses
 -------------------------------------------------------------------------------
+ObeEcaEnrollmentCertificateRequest ::= CommonEnrollmentCertificateRequest
+EcaObeEnrollmentCertificateResponse ::= CommonEnrollmentCertificateResponse
 
--- signer field in verifyKey contains the enrolment cert
+RseEcaEnrollmentCertificateRequest ::= CommonEnrollmentCertificateRequest
+EcaRseEnrollmentCertificateResponse ::= CommonEnrollmentCertificateResponse
 
 CommonEnrollmentCertificateRequest ::= SEQUENCE {
     version             Uint8(1),
-    currentTime         Time32,
-    requestedStartTime  Time32,
-    tbsData             ToBeSignedEnrollmentCertificateData,
-    verifyKey           EccP256CurvePoint,
+    currentTime         Time32, 
+    requestedStartTime  Time32, -- certificate start time    
+    tbsData             ToBeSignedEnrollmentCertificate,
+    verifyKey           SignedPublicKey,
     ...
 }
 
@@ -67,37 +120,58 @@ CommonEnrollmentCertificateResponse ::= SEQUENCE {
 	version         Uint8(1),
     requestHash     HashedId8,  -- hash of the original request
     ecaCert         Certificate,
-    enrollmentCert  ImplicitCertificate,
     raCert          Certificate,
     raHostname      Hostname,
+    enrollmentCert  Certificate (WITH COMPONENTS { ...,
+        type(implicit),
+        issuer(WITH COMPONENTS {sha256AndDigest})
+    }),
+    privKeyReconstructionS EccP256PrivateKeyReconstruction,
     ...
 }
 
-ToBeSignedEnrollmentCertificateData ::= SEQUENCE  { 
-    id                     CertificateId,
-    cracaId                HashedId3,
-    crlSeries              CrlSeries,
+ToBeSignedEnrollmentCertificate ::= SEQUENCE  { 
+    id                     CertificateId (
+        WITH COMPONENTS {..., name PRESENT } | 
+        WITH COMPONENTS {..., binaryId PRESENT } | 
+        WITH COMPONENTS {..., none PRESENT }  
+    ),
     validityPeriod         ValidityPeriod,
     region                 GeographicRegion OPTIONAL,
     assuranceLevel         SubjectAssurance OPTIONAL,
-    appPermissions         SequenceOfPsidSsp OPTIONAL,
-    certIssuePermissions   SequenceOfPsidGroupPermissions OPTIONAL,
-    certRequestPermissions SequenceOfPsidGroupPermissions OPTIONAL, 
     canRequestRollover     NULL OPTIONAL,
     encryptionKey          PublicEncryptionKey OPTIONAL,
-    verifyKeyIndicator     VerificationKeyIndicator,
     ...
-  }
-  (WITH COMPONENTS { ..., appPermissions PRESENT} |
-   WITH COMPONENTS { ..., certIssuePermissions PRESENT} |
-   WITH COMPONENTS { ..., certRequestPermissions PRESENT})
+}
 
+SignedPublicKey ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {...,
+    signedData  (WITH COMPONENTS {...,
+      tbsData (WITH COMPONENTS {...,
+        payload (WITH COMPONENTS {...,
+          data (WITH COMPONENTS {...,
+            content (WITH COMPONENTS {...,
+              unsecuredData (CONTAINING EccP256CurvePoint)
+            })
+          })
+        }),
+        headerInfo (WITH COMPONENTS {...,
+          psid (SecurityMgmtPsid),
+          generationTime ABSENT,
+          expiryTime ABSENT,
+          generationLocation ABSENT,
+          p2pcdLearningRequest ABSENT,
+          missingCrlIdentifier ABSENT,
+          encryptionKey ABSENT
+        })
+      }),
+      signer (WITH COMPONENTS {...,
+        self
+      })
+    })
+  })
+})
 
-
-ObeEcaEnrollmentCertificateRequest ::= CommonEnrollmentCertificateRequest
-EcaObeEnrollmentCertificateResponse ::= CommonEnrollmentCertificateResponse
-
-RseEcaEnrollmentCertificateRequest ::= CommonEnrollmentCertificateRequest
-EcaRseEnrollmentCertificateResponse ::= CommonEnrollmentCertificateResponse
+EccP256PrivateKeyReconstruction ::= OCTET STRING(SIZE(32))
 
 END
