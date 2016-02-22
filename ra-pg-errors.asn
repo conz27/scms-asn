@@ -1,0 +1,19 @@
+
+Ieee1609Dot2RaPgError
+{iso(1) identified-organization(3) ieee(111) 
+standards-association-numbered-series-standards(2) wave-stds(1609)  
+dot2(2) scms(2) errors(2) ra-pg(14)}
+
+DEFINITIONS AUTOMATIC TAGS ::= BEGIN
+
+EXPORTS ALL;
+
+
+RaPgError ::= ENUMERATED {
+  raPgMalformedRequest,
+  raPgSignatureFailed,
+  raPgPolicyError,
+  ...
+}
+
+END

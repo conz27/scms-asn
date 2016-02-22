@@ -79,19 +79,33 @@ GlobalPolicyFile ::= BasePolicyFile (WITH COMPONENTS {...,
     })
 })
 
-LocalPolicyFile ::= BasePolicyFile (WITH COMPONENTS {...,
-    tbsData( WITH COMPONENTS {...,
-        policy( WITH COMPONENTS {...,
-            local PRESENT
+
+LocalPolicyFile ::= SEQUENCE {
+    globalParameters BasePolicyFile (WITH COMPONENTS {...,
+        tbsData( WITH COMPONENTS {...,
+            policy( WITH COMPONENTS {...,
+                custom PRESENT
+            })
+        })
+    }),
+
+    localParamters BasePolicyFile (WITH COMPONENTS {...,
+        tbsData( WITH COMPONENTS {...,
+            policy( WITH COMPONENTS {...,
+                local PRESENT
+            })
         })
     })
-})
+}
+
 
 Policy ::= CHOICE {
     global  GlobalPolicyData,
+    custom  CustomPolicyData,
     local   LocalPolicyData,
     ...
 }
+
 
 GlobalPolicyData ::= SEQUENCE {
     temporalSeriesOfScmsVersion SEQUENCE {
@@ -223,6 +237,22 @@ GlobalPolicyData ::= SEQUENCE {
     } OPTIONAL,
     ...
 }
+
+
+--
+-- CustomPolicyData
+--
+-- This type is used by an RA that wasnts to creat a custom version of the
+-- GlobalPolicyData.  This structure adds an element with the RA's ID to
+-- differentiate it from a conventional GlobalPolicyFile.  
+-- 
+CustomPolicyData ::= SEQUENCE {
+    requestingRaHostname RaHostnameId OPTIONAL,	      	    -- Hostname of the RA that customized this policy data
+
+    GlobalPolicyData,
+    ...
+}
+
 
 ScmsVersion ::= Uint8                   
 SizeLaId ::= Uint16                     

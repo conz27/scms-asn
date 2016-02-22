@@ -1,0 +1,104 @@
+
+Ieee1609Dot2RaPgInterface
+{iso(1) identified-organization(3) ieee(111) 
+standards-association-numbered-series-standards(2) wave-stds(1609) dot2(2)
+scms(2) interfaces(1) ra-pg(14)}
+
+DEFINITIONS AUTOMATIC TAGS ::= BEGIN 
+
+EXPORTS ALL;
+ 
+IMPORTS 
+  HashedId8,
+  Hostname,
+  Opaque, 
+  Uint8,
+  Uint32
+FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111) 
+    standards-association-numbered-series-standards(2) wave-stds(1609) dot2(2)
+    base(1) base-types(2)}
+
+  Countersignature,
+  SignerIdentifier
+FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111) 
+    standards-association-numbered-series-standards(2) wave-stds(1609) dot2(2)
+    base(1) schema(1)}
+
+  HPCR,
+  HPCRAndHostInfo,
+  LCIAndHostInfo,
+  RaHostnameId,
+  MaHostnameId
+FROM Ieee1609dot2ScmsBaseTypes {iso(1) identified-organization(3) ieee(111)
+    standards-association-numbered-series-standards(2) wave-stds(1609) dot2(2)
+    scms(2) interfaces(1) base-types(2)}
+
+  ScopedMaRaBlacklistError,
+  ScopedMaRaLCIError
+FROM Ieee1609dot2ScmsError {iso(1) identified-organization(3) ieee(111)
+    standards-association-numbered-series-standards(2) wave-stds(1609) dot2(2)
+    scms(2) errors(2) complete(1)}
+    
+  RaPgError
+FROM Ieee1609Dot2RaPgError {iso(1) identified-organization(3) ieee(111) 
+    standards-association-numbered-series-standards(2) wave-stds(1609)  
+    dot2(2) scms(2) errors(2) ra-pg(14)}
+
+  BasePolicyFile,
+  ToBeSignedPolicyData
+FROM Ieee1609dot2ScmsPolicyTypes {iso(1) identified-organization(3) ieee(111)
+    standards-association-numbered-series-standards(2) wave-stds(1609)  dot2(2)
+    scms (2) interfaces(1) policy-types (500)}
+;
+
+
+--
+-- All message types for the RA-PG interface PDU
+--
+MaRaInterfacePDU ::= CHOICE {
+    raPgPolicySignatureRequest   RaPgPolicySignatureRequestMsg,
+    raPgPolicySignatureResponse  RaPgPolicySignatureResponseMsg,
+    ...
+}
+
+
+ToBeSignedCustomPolicyFile ::= ToBeSignedPolicyData( WITH COMPONENTS {...,
+    policy(WITH COMPONENTS {...,
+        custom PRESENT
+    })
+})
+
+
+SignedCustomPolicyFile ::= BasePolicyFile (WITH COMPONENTS {...,
+    tbsData( WITH COMPONENTS {...,
+        policy(WITH COMPONENTS {...,
+            custom PRESENT
+        })
+    })
+})
+
+
+--
+-- Request to sign modified global parameters inside a local policy file (LPF)
+-- An RA may generate an LPF with a mix of global parameters and local
+-- parameters.  The global portion must be approved and signed by the
+-- PG before it can be distributed to EEs.  
+--
+RaPgPolicySignatureRequestMsg ::= SEQUENCE {
+    version    Uint8(1),
+    tbs        ToBeSignedCustomPolicyFile,
+    ...
+}
+
+
+RaPgPolicySignatureResponseMsg ::= SEQUENCE {
+    version    Uint8(1),
+    signedFile   CHOICE {
+       success       SignedCustomPolicyFile,
+       failure       RaPgError
+    }
+}
+
+
+END
+
