@@ -101,6 +101,12 @@ EcaEndEntityInterfacePDU::= CHOICE {
 -------------------------------------------------------------------------------
 -- Requests / Responses
 -------------------------------------------------------------------------------
+
+-- If the DCM needs to sign the enrollment request, it would use 
+-- SignedObeEnrollmentRequest or SignedObeEnrollmentRequest. For encryption purposes,
+-- the DCM would use SecureObeEnrollmentRequest or SecureRseEnrollmentRequest.
+-- The operations for responses are analagous to those for requests.
+
 ObeEcaEnrollmentCertificateRequest ::= CommonEnrollmentCertificateRequest
 EcaObeEnrollmentCertificateResponse ::= CommonEnrollmentCertificateResponse
 
