@@ -1,7 +1,7 @@
 
 Ieee1609Dot2EcaEndEntityInterface
-{iso(1) identified-organization(3) ieee(111) 
-standards-association-numbered-series-standards(2) wave-stds(1609)  
+{iso(1) identified-organization(3) ieee(111)
+standards-association-numbered-series-standards(2) wave-stds(1609)
 dot2(2) scms(2) interfaces(1) eca-ee (5)}
 
 DEFINITIONS AUTOMATIC TAGS ::= BEGIN
@@ -22,8 +22,8 @@ IMPORTS
   Uint8,
   Uint16
 
-FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111) 
-	 standards-association-numbered-series-standards(2) wave-stds(1609)  
+FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111)
+	 standards-association-numbered-series-standards(2) wave-stds(1609)
 	 dot2(2) base(1) base-types(2)}
 
   Certificate,
@@ -35,8 +35,8 @@ FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111)
   ValidityPeriod,
   VerificationKeyIndicator
 
-FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111) 
-	 standards-association-numbered-series-standards(2) wave-stds(1609)  
+FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111)
+	 standards-association-numbered-series-standards(2) wave-stds(1609)
 	 dot2(2) base (1) schema (1)}
 
   SecurityMgmtPsid
@@ -56,45 +56,45 @@ EcaEndEntityInterfacePDU::= CHOICE {
 }
 
 --------------------------------------------------------------------------------------
---                                                                                  
--- Enrollment Sequence Diagram (OBE/RSE)                                            
---                                                                                  
---              OBE                                                     ECA         
---               |                                                       |          
---   ========================                                            |          
---   | Generate Type 1 Keys |                                            |          
---   ========================                                            |          
---               |                                                       |          
---   ========================                                            |          
---   |Sign Type 1 Public Key|                                            |          
---   ========================                                            |          
---               |                                                       |          
---               |============ObeEnrollmentCertificateRequest===========>|          
---               |             (TBS Data + SignedPublicKey)              |          
---               |                                              ==================== 
---               |                                              |Create Enrollment | 
---               |                                              |   Certificate    | 
---               |                                              |        +         | 
---               |                                              |  Reconstruction  | 
---               |                                              |      Values      | 
---               |                                              ==================== 
---               |                                                       |          
---               |<==========ObeEnrollmentCertificateResponse============|          
---               |    (Enrollment Cert + Pub/Priv Reconstruction Data)   |          
---               |                                                       |          
---     ======================                                            |          
---     | Reconstruct Type 2 |                                            |          
---     |     Private Key    |                                            |          
---     ======================                                            |          
---               |                                                       |          
---     =======================                                           |          
---     | Enrollment Complete |                                           |          
---     =======================                                           |          
---               |                                                       |          
---               |                                                       |          
---                                                                                  
--- Refer to ee-ra.asn for description of enrollment procedure.                      
---                                                                                  
+--
+-- Enrollment Sequence Diagram (OBE/RSE)
+--
+--              OBE                                                     ECA
+--               |                                                       |
+--   ========================                                            |
+--   | Generate Type 1 Keys |                                            |
+--   ========================                                            |
+--               |                                                       |
+--   ========================                                            |
+--   |Sign Type 1 Public Key|                                            |
+--   ========================                                            |
+--               |                                                       |
+--               |============ObeEnrollmentCertificateRequest===========>|
+--               |             (TBS Data + SignedPublicKey)              |
+--               |                                              ====================
+--               |                                              |Create Enrollment |
+--               |                                              |   Certificate    |
+--               |                                              |        +         |
+--               |                                              |  Reconstruction  |
+--               |                                              |      Values      |
+--               |                                              ====================
+--               |                                                       |
+--               |<==========ObeEnrollmentCertificateResponse============|
+--               |    (Enrollment Cert + Pub/Priv Reconstruction Data)   |
+--               |                                                       |
+--     ======================                                            |
+--     | Reconstruct Type 2 |                                            |
+--     |     Private Key    |                                            |
+--     ======================                                            |
+--               |                                                       |
+--     =======================                                           |
+--     | Enrollment Complete |                                           |
+--     =======================                                           |
+--               |                                                       |
+--               |                                                       |
+--
+-- Refer to ee-ra.asn for description of enrollment procedure.
+--
 --------------------------------------------------------------------------------------
 
 
@@ -102,8 +102,8 @@ EcaEndEntityInterfacePDU::= CHOICE {
 -- Requests / Responses
 -------------------------------------------------------------------------------
 
--- If the DCM needs to sign the enrollment request, it would use 
--- SignedObeEnrollmentRequest or SignedObeEnrollmentRequest. For encryption purposes,
+-- If the DCM needs to sign the enrollment request, it would use
+-- SignedObeEnrollmentRequest or SignedRseEnrollmentRequest. For encryption purposes,
 -- the DCM would use SecureObeEnrollmentRequest or SecureRseEnrollmentRequest.
 -- The operations for responses are analagous to those for requests.
 
@@ -115,8 +115,8 @@ EcaRseEnrollmentCertificateResponse ::= CommonEnrollmentCertificateResponse
 
 CommonEnrollmentCertificateRequest ::= SEQUENCE {
     version             Uint8(1),
-    currentTime         Time32, 
-    requestedStartTime  Time32, -- certificate start time    
+    currentTime         Time32,
+    requestedStartTime  Time32, -- certificate start time
     tbsData             ToBeSignedEnrollmentCertificate,
     verifyKey           SignedPublicKey,
     ...
@@ -136,11 +136,11 @@ CommonEnrollmentCertificateResponse ::= SEQUENCE {
     ...
 }
 
-ToBeSignedEnrollmentCertificate ::= SEQUENCE  { 
+ToBeSignedEnrollmentCertificate ::= SEQUENCE  {
     id                     CertificateId (
-        WITH COMPONENTS {..., name PRESENT } | 
-        WITH COMPONENTS {..., binaryId PRESENT } | 
-        WITH COMPONENTS {..., none PRESENT }  
+        WITH COMPONENTS {..., name PRESENT } |
+        WITH COMPONENTS {..., binaryId PRESENT } |
+        WITH COMPONENTS {..., none PRESENT }
     ),
     validityPeriod         ValidityPeriod,
     region                 GeographicRegion OPTIONAL,
