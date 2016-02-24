@@ -9,10 +9,17 @@ DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 EXPORTS ALL;
 
 EcaEndEntityError ::= ENUMERATED {
-  -- ECA failed to process Enrollment 
-  ecaInternalServerError, -- not used yet
-  -- ECA response timeout
-  ecaResponseTimeout, -- not used yet
+  maInvalidCurrentTime, -- currentTime out of range
+  maInvalidRequestedStartTime, -- requestedStartTime out of range
+  maInvalidPsid, -- passed PSID is invalid for the enrollment
+  maInvalidValidityPeriod, --ValidityPeriod out of range
+  maInvalidRegion, --GeographicRegion out of range
+  maInvalidAssuranceLevel, --SubjectAssurance out of range
+  maInvalidEncryptionKey, --response encryption key (PublicEncryptionKey) is invalid
+  maInvalidVerifyKey, -- enrollment key (SignedPublicKey) is invalid
+  maMalformedRequest, -- everything else that can go wrong in the request 
+  ecaInternalServerError, -- ECA failed to process Enrollment; not used yet
+  ecaResponseTimeout, -- ECA response timeout; not used yet
   ...
 }
 
