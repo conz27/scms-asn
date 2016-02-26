@@ -1,4 +1,4 @@
-<OssGuiProject product="ASN.1 Studio" productVersion="7.1" version="2.0">
+<OssGuiProject version="2.0" product="ASN.1 Studio" productVersion="7.1">
  <Asn1Files>
   <File>1609dot2-asn/1609dot2-base-types.asn</File>
   <File>1609dot2-asn/1609dot2-P2P.asn</File>
@@ -19,7 +19,6 @@
   <File>ee-ma.asn</File>
   <File>ee-ma-errors.asn</File>
   <File>ee-ra.asn</File>
-  <File>ee-ra-errors.asn</File>
   <File>la-ma.asn</File>
   <File>la-ma-errors.asn</File>
   <File>la-pca.asn</File>
@@ -45,12 +44,12 @@
  </Asn1Files>
  <CompilerSettings/>
  <EncodingFiles>
-  <File pduName="Ieee1609Dot2Data" encRule="ASN.1 Value Notation">signed-bsm-digest-d12pre1.txt</File>
-  <File pduName="Ieee1609Dot2Data" encRule="ASN.1 Value Notation">signed-bsm-cert-d12pre1.txt</File>
+  <File encRule="ASN.1 Value Notation" pduName="Ieee1609Dot2Data">signed-bsm-digest-d12pre1.txt</File>
+  <File encRule="ASN.1 Value Notation" pduName="Ieee1609Dot2Data">signed-bsm-cert-d12pre1.txt</File>
  </EncodingFiles>
  <Settings>
   <Setting name="-coer"/>
-  <Setting present="false" name="-noRelaxedMode"/>
+  <Setting name="-noRelaxedMode" present="false"/>
   <Setting name="-oer"/>
   <Setting name="-root"/>
   <Setting name="AUTOMATIC_ENCDEC"/>
