@@ -24,8 +24,8 @@ FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111)
     standards-association-numbered-series-standards(2) wave-stds(1609)  
     dot2(2) base(1) schema(1)}
 
-  ElectorCertificateScmsPoc,
-  RootCaCertificateScmsPoc
+  ElectorCertificate,
+  RootCaCertificate
 FROM IEEE1609dot2-profiles {iso(1) identified-organization(3) ieee(111) 
     standards-association-numbered-series-standards(2) wave-stds(1609)  
     dot2(2) base (1) profiles (3)}
@@ -55,7 +55,7 @@ ScmsComponentCertificateManagementPDU::= CHOICE {
 ----
 
 ElectorTbsBallot ::= SEQUENCE {
-    certificate ElectorCertificateScmsPoc,
+    certificate ElectorCertificate,
     effectiveTime Time64
 }
    
@@ -68,7 +68,7 @@ ElectorRemovalBallot ::= SEQUENCE {
 
 
 RootTbsBallot ::= SEQUENCE {
-    certificate RootCaCertificateScmsPoc,
+    certificate RootCaCertificate,
     effectiveTime Time64
 }
 
