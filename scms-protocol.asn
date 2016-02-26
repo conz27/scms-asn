@@ -1426,7 +1426,9 @@ SecuredPcaRaCertificateRequestReply ::= SecuredScmsPDU (WITH COMPONENTS {...,
 
 
 ScmsSsp ::= CHOICE {
+  elector ElectorSsp,
   root RootCaSsp,
+  pg   PGSsp,
   ica  IcaSsp,
   eca  EcaSsp,
   pca  PcaSsp,
@@ -1438,8 +1440,17 @@ ScmsSsp ::= CHOICE {
   ra   RaSsp,
   ...
 }
+ElectorSsp ::= SEQUENCE {
+  version Uint8(1),
+  ...
+}
 
 RootCaSsp ::= SEQUENCE {
+  version Uint8(1),
+  ...
+}
+
+PGSsp ::= SEQUENCE {
   version Uint8(1),
   ...
 }
