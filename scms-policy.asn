@@ -262,7 +262,6 @@ MaxNumGroups ::= Uint32
 MaxCertRequestAge ::= Duration          
 ShuffleThreshold ::= Uint32             
 HashOfRequestSize ::= Uint8            
-CertChainFileId ::= Uint16              
 
 LocalPolicyData ::= SEQUENCE {
     temporalSeriesOfShuffleThreshold SEQUENCE {
