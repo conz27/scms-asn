@@ -8,6 +8,8 @@ DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 EXPORTS ALL;
  
 IMPORTS 
+  CountryOnly,
+  Duration,
   Hostname,
   IValue,
   LaId,
@@ -31,9 +33,34 @@ FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111)
 
 ;
 
-SecurityMgmtPsid ::= Psid(35)  -- PSID = 0x23
+Canada ::= CountryOnly (124)
+Mexico ::= CountryOnly (484)
+USA ::= CountryOnly (840)
 
+ObeEnrollmentCertExpirationPoc ::= Duration (WITH COMPONENTS {years(30)})
+ObeEnrollmentCertExpirationCvp ::= Duration (WITH COMPONENTS {years(1..7)})
+ObePseudonymCertExpiration ::= Duration (WITH COMPONENTS {hours(169)}) -- 1 week + 1 hour = 169 hours
+ObeIdentificationCertExpiration ::= Duration (WITH COMPONENTS {hours(721)}) -- 1 month + 1 hour = 721 hours
+RseEnrollmentCertExpirationPoc ::= Duration (WITH COMPONENTS {years(30)})
+RseEnrollmentCertExpirationCvp ::= Duration (WITH COMPONENTS {years(1..7)})
+RseApplicationCertExpiration ::= Duration (WITH COMPONENTS {hours(169)})
+DcmCertExpiration ::= Duration (WITH COMPONENTS {hours(26448)}) -- 3 years + 1 week = 26448 hours
+EcaCertExpirationPoc ::= Duration (WITH COMPONENTS {years(40)})
+EcaCertExpirationCvp ::= Duration (WITH COMPONENTS {years(7)})
+RaCertExpiration ::= Duration (WITH COMPONENTS {hours(26448)})
+LaCertExpiration ::= Duration (WITH COMPONENTS {hours(26448)})
+PcaCertExpiration ::= Duration (WITH COMPONENTS {years(4)})
+IcaCertExpirationPoc ::= Duration (WITH COMPONENTS {years(50)})
+IcaCertExpirationCvp ::= Duration (WITH COMPONENTS {years(11)})
+MaCertExpiration ::= Duration (WITH COMPONENTS {hours(26448)})
+CrlgCertExpiration ::= Duration (WITH COMPONENTS {hours(26448)})
+PgCertExpiration ::= Duration (WITH COMPONENTS {hours(26448)})
+RootCaCertExpiration ::= Duration (WITH COMPONENTS {years(70)})
+ElectorCertExpiration ::= Duration (WITH COMPONENTS {years(60)})
 
+BsmPsid ::= Psid (32) --PSID = 0x20
+SecurityMgmtPsid ::= Psid (35)  -- PSID = 0x23
+MisbehaviorReportingPsid ::= Psid (38)  -- PSID = 0x26
 
 EncryptedIndividualPLV ::= SEQUENCE {
     version         Uint8(1),  -- version of EncryptedPLV
