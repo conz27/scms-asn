@@ -1,4 +1,4 @@
-<OssGuiProject version="2.0" compiler="ASN.1/Java" product="ASN.1 Studio" compilerSettingsChangeTime="2015-12-14T22:20:12" productVersion="7.1" compilerVersionLastUsed="6.1 T">
+<OssGuiProject product="ASN.1 Studio" compiler="ASN.1/Java" compilerSettingsChangeTime="2016-02-18T17:15:24" version="2.0" productVersion="7.1" compilerVersionLastUsed="6.1 T">
  <Asn1Files>
   <File>1609dot2-asn/1609dot2-base-types.asn</File>
   <File>1609dot2-asn/1609dot2-P2P.asn</File>
@@ -19,7 +19,6 @@
   <File>ee-ma.asn</File>
   <File>ee-ma-errors.asn</File>
   <File>ee-ra.asn</File>
-  <File>ee-ra-errors.asn</File>
   <File>la-ma.asn</File>
   <File>la-ma-errors.asn</File>
   <File>la-pca.asn</File>
@@ -44,26 +43,26 @@
   <File>1609dot2-asn/crl-ssp.asn</File>
  </Asn1Files>
  <CompilerSettings>
-  <Setting name="disablCAGLMessagesCheckBox" present="true"/>
+  <Setting present="true" name="disablCAGLMessagesCheckBox"/>
   <Setting name="jOutputLineEdit">org.campllc.scms.protocols</Setting>
-  <Setting name="jSampleDefaultRadioButton" present="true"/>
-  <Setting name="jToedRadioButton" present="true"/>
-  <Setting name="modListRadioButton" present="false"/>
+  <Setting present="true" name="jSampleDefaultRadioButton"/>
+  <Setting present="true" name="jToedRadioButton"/>
+  <Setting present="false" name="modListRadioButton"/>
  </CompilerSettings>
  <EncodingFiles/>
  <GeneratedFiles/>
  <Settings>
-  <Setting name="-noRelaxedMode" present="false"/>
-  <Setting name="-root"/>
-  <Setting name="-relaySafe" present="false"/>
-  <Setting name="AUTOMATIC_ENCDEC"/>
-  <Setting name="OSS_AUTO_ENCODE_WITHOUT_CHECKING_CONSTRAINT"/>
-  <Setting name="DEBUGPDU"/>
-  <Setting name="OSS_PRINT_TYPE_INFO"/>
-  <Setting name="OSS_PRINT_OFFSET"/>
-  <Setting name="OSS_PRINT_COMMENTS"/>
-  <Setting name="OSS_HEXBYTES"/>
+  <Setting present="false" name="-noRelaxedMode"/>
   <Setting name="-oer"/>
+  <Setting present="false" name="-relaySafe"/>
+  <Setting name="-root"/>
+  <Setting name="AUTOMATIC_ENCDEC"/>
+  <Setting name="DEBUGPDU"/>
+  <Setting name="OSS_AUTO_ENCODE_WITHOUT_CHECKING_CONSTRAINT"/>
+  <Setting name="OSS_HEXBYTES"/>
+  <Setting name="OSS_PRINT_COMMENTS"/>
+  <Setting name="OSS_PRINT_OFFSET"/>
+  <Setting name="OSS_PRINT_TYPE_INFO"/>
  </Settings>
  <UserFiles/>
 </OssGuiProject>

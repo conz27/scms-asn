@@ -164,6 +164,43 @@ ScmsFile ::= SEQUENCE {
 --
 -- *************************************************************************
 
+-- *** EE-CA ***************************************************************
+ScopedObeEnrollmentCertRequest ::=
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      eca-ee (WITH COMPONENTS {
+        obeEcaCertRequest
+      })
+    })
+ })
+
+ScopedObeEnrollmentCertResponse ::=
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      eca-ee (WITH COMPONENTS {
+        ecaObeCertResponse
+      })
+    })
+ })
+
+ScopedRseEnrollmentCertRequest ::=
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      eca-ee (WITH COMPONENTS {
+        rseEcaCertRequest
+      })
+    })
+ })
+
+ScopedRseEnrollmentCertResponse ::=
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      eca-ee (WITH COMPONENTS {
+        ecaRseCertResponse
+      })
+    })
+ })
+
 -- *** EE-MA ***************************************************************
 
 ScopedMisbehaviorReport ::=
@@ -500,6 +537,8 @@ ScopedPcaRaCertificateRequestReply ::=
 
   ScopedCertificateRequest ::= ScmsPDU (
      ScopedEeRaCertRequest |
+     ScopedObeEnrollmentCertRequest |
+     ScopedRseEnrollmentCertRequest |
      ScopedPseudonymCertProvisioningRequest |
      ScopedIdCertProvisioningRequest  |
      ScopedAppCertProvisioningRequest  |
@@ -532,6 +571,100 @@ ScopedPcaRaCertificateRequestReply ::=
 -- *************************************************************************
 
 SecuredScmsPDU ::= Ieee1609Dot2Data
+
+-- *************************************************************************
+--
+--             EE-ECA
+--
+-- *************************************************************************
+
+SignedObeEnrollmentCertRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {...,
+    signedCertificateRequest  (CONTAINING
+      SignedCertificateRequest (WITH COMPONENTS {...,
+        tbsRequest (ScopedObeEnrollmentCertRequest),
+        signer (WITH COMPONENTS {
+          self
+        })
+      })
+    )
+  })
+})
+
+SecuredObeEnrollmentCertResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {...,
+    encryptedData  -- XXX decrypts to a SignedObeEnrollmentCertResponse
+  })
+})
+
+SignedObeEnrollmentCertResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {...,
+    signedData  (WITH COMPONENTS {...,
+      tbsData (WITH COMPONENTS {...,
+        payload (WITH COMPONENTS {...,
+          data (WITH COMPONENTS {...,
+             content (WITH COMPONENTS {
+                unsecuredData (CONTAINING ScopedObeEnrollmentCertResponse)
+            })
+          })
+        }),
+        headerInfo (WITH COMPONENTS {...,
+          psid (SecurityMgmtPsid),
+          generationTime ABSENT,
+          expiryTime ABSENT,
+          generationLocation ABSENT,
+          p2pcdLearningRequest ABSENT,
+          missingCrlIdentifier ABSENT,
+          encryptionKey ABSENT
+        })
+      })
+    })
+  })
+})
+
+SignedRseEnrollmentCertRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {...,
+    signedCertificateRequest  (CONTAINING
+      SignedCertificateRequest (WITH COMPONENTS {...,
+        tbsRequest (ScopedRseEnrollmentCertRequest),
+        signer (WITH COMPONENTS {
+          self
+        })
+      })
+    )
+  })
+})
+
+SecuredRseEnrollmentCertResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {...,
+    encryptedData  -- XXX decrypts to a SignedEcaRseEnrollmentCertResponse
+  })
+})
+
+SignedRseEnrollmentCertResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {...,
+    signedData  (WITH COMPONENTS {...,
+      tbsData (WITH COMPONENTS {...,
+        payload (WITH COMPONENTS {...,
+          data (WITH COMPONENTS {...,
+             content (WITH COMPONENTS {
+                unsecuredData (CONTAINING ScopedRseEnrollmentCertResponse)
+            })
+          })
+        }),
+        headerInfo (WITH COMPONENTS {...,
+          psid (SecurityMgmtPsid),
+          generationTime ABSENT,
+          expiryTime ABSENT,
+          generationLocation ABSENT,
+          p2pcdLearningRequest ABSENT,
+          missingCrlIdentifier ABSENT,
+          encryptionKey ABSENT
+        })
+      })
+    })
+  })
+})
 
 -- *************************************************************************
 --
