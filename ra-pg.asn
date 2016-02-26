@@ -2,7 +2,7 @@
 Ieee1609Dot2RaPgInterface
 {iso(1) identified-organization(3) ieee(111) 
 standards-association-numbered-series-standards(2) wave-stds(1609) dot2(2)
-scms(2) interfaces(1) ra-pg(14)}
+scms(2) interfaces(1) ra-pg(16)}
 
 DEFINITIONS AUTOMATIC TAGS ::= BEGIN 
 
@@ -42,7 +42,7 @@ FROM Ieee1609dot2ScmsError {iso(1) identified-organization(3) ieee(111)
   RaPgError
 FROM Ieee1609Dot2RaPgError {iso(1) identified-organization(3) ieee(111) 
     standards-association-numbered-series-standards(2) wave-stds(1609)  
-    dot2(2) scms(2) errors(2) ra-pg(14)}
+    dot2(2) scms(2) errors(2) ra-pg(16)}
 
   BasePolicyFile,
   ToBeSignedPolicyData
@@ -55,9 +55,9 @@ FROM Ieee1609dot2ScmsPolicyTypes {iso(1) identified-organization(3) ieee(111)
 --
 -- All message types for the RA-PG interface PDU
 --
-MaRaInterfacePDU ::= CHOICE {
+RaPgInterfacePDU ::= CHOICE {
     raPgPolicySignatureRequest   RaPgPolicySignatureRequestMsg,
-    raPgPolicySignatureResponse  RaPgPolicySignatureResponseMsg,
+    raPgPolicySignatureRequestReply  RaPgPolicySignatureRequestReplyMsg,
     ...
 }
 
@@ -91,7 +91,7 @@ RaPgPolicySignatureRequestMsg ::= SEQUENCE {
 }
 
 
-RaPgPolicySignatureResponseMsg ::= SEQUENCE {
+RaPgPolicySignatureRequestReplyMsg ::= SEQUENCE {
     version    Uint8(1),
     signedFile   CHOICE {
        success       SignedCustomPolicyFile,
