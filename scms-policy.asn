@@ -228,13 +228,6 @@ GlobalPolicyData ::= SEQUENCE {
             hashOfRequestSize HashOfRequestSize
         }
     } OPTIONAL,
-    temporalSeriesOfCertChainFileId SEQUENCE {
-        initialCertChainFileId CertChainFileId,         -- must match version in Global Certificate Chain File
-        intervals SEQUENCE SIZE(0..MAX) OF SEQUENCE {
-            startTime Time64,
-            certChainFileId CertChainFileId
-        }
-    } OPTIONAL,
     ...
 }
 
