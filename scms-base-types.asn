@@ -8,6 +8,7 @@ DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 EXPORTS ALL;
  
 IMPORTS 
+  CountryOnly,
   Duration,
   Hostname,
   IValue,
@@ -32,24 +33,34 @@ FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111)
 
 ;
 
+Canada ::= CountryOnly (124)
+Mexico ::= CountryOnly (484)
+USA ::= CountryOnly (840)
+
 ObeEnrollmentCertExpirationPoc ::= Duration (WITH COMPONENTS {years(30)})
-ObePseudonymCertExpirationPoc ::= Duration (WITH COMPONENTS {hours(169)}) -- 1 week + 1 hour = 169 hours
-ObeIdentificationCertExpirationPoc ::= Duration (WITH COMPONENTS {hours(169)})
+ObeEnrollmentCertExpirationCvp ::= Duration (WITH COMPONENTS {years(1..7)})
+ObePseudonymCertExpiration ::= Duration (WITH COMPONENTS {hours(169)}) -- 1 week + 1 hour = 169 hours
+ObeIdentificationCertExpiration ::= Duration (WITH COMPONENTS {hours(721)}) -- 1 month + 1 hour = 721 hours
 RseEnrollmentCertExpirationPoc ::= Duration (WITH COMPONENTS {years(30)})
-RseApplicationCertExpirationPoc ::= Duration (WITH COMPONENTS {hours(169)})
+RseEnrollmentCertExpirationCvp ::= Duration (WITH COMPONENTS {years(1..7)})
+RseApplicationCertExpiration ::= Duration (WITH COMPONENTS {hours(169)})
+DcmCertExpiration ::= Duration (WITH COMPONENTS {hours(26448)}) -- 3 years + 1 week = 26448 hours
 EcaCertExpirationPoc ::= Duration (WITH COMPONENTS {years(40)})
-RaCertExpirationPoc ::= Duration (WITH COMPONENTS {hours(26448)}) -- 3 years + 1 week = 26448 hours
-LaCertExpirationPoc ::= Duration (WITH COMPONENTS {hours(26448)})
-PcaCertExpirationPoc ::= Duration (WITH COMPONENTS {years(4)})
+EcaCertExpirationCvp ::= Duration (WITH COMPONENTS {years(7)})
+RaCertExpiration ::= Duration (WITH COMPONENTS {hours(26448)})
+LaCertExpiration ::= Duration (WITH COMPONENTS {hours(26448)})
+PcaCertExpiration ::= Duration (WITH COMPONENTS {years(4)})
 IcaCertExpirationPoc ::= Duration (WITH COMPONENTS {years(50)})
-MaCertExpirationPoc ::= Duration (WITH COMPONENTS {hours(26448)})
-PGCertExpirationPoc ::= Duration (WITH COMPONENTS {hours(26448)})
-RootCaCertExpirationPoc ::= Duration (WITH COMPONENTS {years(70)})
-ElectorCertExpirationPoc ::= Duration (WITH COMPONENTS {years(60)})
+IcaCertExpirationCvp ::= Duration (WITH COMPONENTS {years(11)})
+MaCertExpiration ::= Duration (WITH COMPONENTS {hours(26448)})
+CrlgCertExpiration ::= Duration (WITH COMPONENTS {hours(26448)})
+PgCertExpiration ::= Duration (WITH COMPONENTS {hours(26448)})
+RootCaCertExpiration ::= Duration (WITH COMPONENTS {years(70)})
+ElectorCertExpiration ::= Duration (WITH COMPONENTS {years(60)})
 
-
-SecurityMgmtPsid ::= Psid(35)  -- PSID = 0x23
-MisbehaviorReportingPsid ::= Psid(38)  -- PSID = 0x26
+BsmPsid ::= Psid (32) --PSID = 0x20
+SecurityMgmtPsid ::= Psid (35)  -- PSID = 0x23
+MisbehaviorReportingPsid ::= Psid (38)  -- PSID = 0x26
 
 EncryptedIndividualPLV ::= SEQUENCE {
     version         Uint8(1),  -- version of EncryptedPLV

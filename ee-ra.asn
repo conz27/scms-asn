@@ -35,22 +35,15 @@ FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111)
     standards-association-numbered-series-standards(2) wave-stds(1609) dot2(2)
     base(1) schema(1)}
 
-  ScopedObeError,
-  ScopedRaSoftError,
-  ScopedRaHardError
-FROM Ieee1609dot2ScmsError {iso(1) identified-organization(3) ieee(111)
-    standards-association-numbered-series-standards(2) wave-stds(1609) dot2(2)
-    scms (2) errors(2) complete(1)}
-
   SecurityMgmtPsid
 FROM Ieee1609dot2ScmsBaseTypes {iso(1) identified-organization(3) ieee(111)
     standards-association-numbered-series-standards(2) wave-stds(1609)  dot2(2)
     scms (2) interfaces(1) base-types (2)}
 
-  SecuredCrl
-FROM IEEE1609dot2Crl {iso(1) identified-organization(3) ieee(111)
-    standards-association-numbered-series-standards(2) wave-stds(1609) dot2(2)
-    crl(3) protocol(2)}
+  CompositeCrl
+FROM Ieee1609Dot2ScmsComponentCertificateManagement {iso(1)
+    identified-organization(3) ieee(111) standards-association-numbered-series-standards(2)
+    wave-stds(1609) dot2(2) scms(2) interfaces(1) component-certificate-management (3)}
 
 ;
 
@@ -77,19 +70,14 @@ RaEeCertResponseMsg ::= SEQUENCE {
     version         Uint8(1),
   	reply           CHOICE {
         ack           RaEeCertResponseAck,
-        nack          RaEeCertResponseNack
+        ...
     },
     ...
 }
 
 RaEeCertResponseAck ::= SEQUENCE {
     raCertificate   Certificate,
-    crl             SecuredCrl,
-    ...
-}
-
-RaEeCertResponseNack ::= SEQUENCE {
-    hardError        ScopedRaHardError,
+    crl             CompositeCrl,
     ...
 }
 
@@ -169,23 +157,12 @@ RaEeCertResponseNack ::= SEQUENCE {
 -- * Creates a series of individual cert requests for the OBE (see
 --   pca-ra.asn) and sends them to the PCA
 --
---
--- QUESTIONS:
---
--- 1. This pretty much ignores encryption keys in the certs. In particular,
---    it leaves use with no way to sign the encryption key in a request for
---    an enrolment cert. Is that okay? I think so because the enrolment cert
---    is never encrypted to directly, it signs cert requests that contain
---    response encryption keys
--- 2. The pseudonym cert request doesn't include a field for an encryption
---    key to appear in the cert - is that okay?
--- 3. Do we need requested-start-time in the pseudonym cert request?
+
 
 
 CommonProvisioningRequestFields ::= SEQUENCE {
     current-time                 Time32,
     requested-start-time         Time32,
-    policyID                     OCTET STRING (SIZE (0..32)),
     ...
 }
 
@@ -198,6 +175,14 @@ UnsignedButterflyParams ::= SEQUENCE {
     seed-key              EccP256CurvePoint,
     expansion             OCTET STRING (SIZE (16))
 }
+
+
+-- Identification cert:
+--
+-- Basically the same as pseudonym certificate requests. Identification certificates
+-- always use Butterfly keys. They are not shuffled, nor do they include a linkage value.
+-- This differentiation is visible in other interfaces only, in particular RA-PCA.
+
 
 -- these are signed and encrypted before sending, see scms-protocol.asn.
 
@@ -293,7 +278,7 @@ RaEePseudonymCertProvisioningAck ::= SEQUENCE {
     requestHash HashedId8,  -- hash of the original request
     reply       CHOICE {
         ack        PseudonymCertProvisioningAck,
-        nack       RARequestNAcknowledge
+        ...
     },
     ...
 }
@@ -301,42 +286,12 @@ RaEePseudonymCertProvisioningAck ::= SEQUENCE {
 PseudonymCertProvisioningAck ::= SEQUENCE {
     certDLTime       Time32,
     certDLURL        Hostname,
-    softError        ScopedRaSoftError OPTIONAL,
     ...
 }
-
-
-RARequestNAcknowledge ::= SEQUENCE {
-    hardError        ScopedRaHardError,
-    ...
-}
-
 
 RaEeIdCertProvisioningAck ::= RaEePseudonymCertProvisioningAck
 
 RaEeAppCertProvisioningAck ::= RaEePseudonymCertProvisioningAck
-
--- Identification cert:
---
--- Basically the same as pseudonym certificate requests. Identification certificates
--- always use Butterfly keys. They are not shuffled, nor do they include a linkage value.
--- This differentiation is visible in other interfaces only, in particular RA-PCA.
-
-
--- EE Error Log File
-
-EeErrorLogFile ::= SEQUENCE {
-    version Uint8(1),                           --version of the log file, starts with 1
-    logEntries SEQUENCE OF ErrorLogEntries,
-    ...
-}
-
-ErrorLogEntries ::= SEQUENCE {
-    timeStamp Time64,                           -- each log entry has a time stamp (UTC),
-    hashOfRequest HashedId8,                    -- the hash of the corresponding request EE-RA,
-    errorCode ScopedObeError,                   -- and one error code per line item
-    ...
-}
 
 -- Authenticated Downloads
 
