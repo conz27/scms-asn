@@ -216,7 +216,7 @@ EeRaIdCertProvisioningRequest ::= SEQUENCE {
 
 EeRaAppCertProvisioningRequest ::= SEQUENCE {
     version                 Uint8(1),
-    verify-key              SignedEccNistP256Point,
+    verify-key              SignedEccNistP256Point, -- make this extensible!
     cert-encryption-key     PublicEncryptionKey OPTIONAL,
     response-encryption-key PublicEncryptionKey OPTIONAL,
     common                  CommonProvisioningRequestFields,
