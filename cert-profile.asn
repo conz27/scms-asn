@@ -110,7 +110,7 @@ CrlgCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
       PsidSsp (WITH COMPONENTS {
         psid (CrlPsid),
         ssp (WITH COMPONENTS {opaque(CONTAINING CrlSsp (WITH COMPONENTS {..., 
-          associatedCraca(isCraca),
+          associatedCraca(issuerIsCraca),
           crls (PermissibleCrls (SIZE(4)) (CONSTRAINED BY {
             CrlSeries (EeEnrollmentCrlSeries),
             CrlSeries (EeNonPseudonymCrlSeries),
