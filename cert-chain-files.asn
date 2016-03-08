@@ -40,8 +40,8 @@ CertificateChainFiles ::= CHOICE {
 ----
 
 GlobalCertificateChainFile ::= SEQUENCE {
-    version Uint16(0),
-    certStore CertificateStore,
+    version Uint16(0),		-- unique version number for this GCCF
+    certStore CertificateStore,	-- list of certificats and all issuers
     ...
 }
 
@@ -56,16 +56,17 @@ GlobalCertificateChainFile ::= SEQUENCE {
 ----
 
 LocalCertificateChainFile ::= SEQUENCE {
-    version CompositeVersion,
-    requiredCertStore CertificateStore, -- Contains full cert chains for all PCAs that issued psudonym certs for the target device
-    optionalCertStore CertificateStore OPTIONAL,
+version CompositeVersion,		-- composite version for this file
+    maCertificate Certificate,	      	-- MA certificate - needed by EEs
+    requiredCertStore CertificateStore, -- required list of certificates
+    optionalCertStore CertificateStore OPTIONAL,	-- optional certs
     ...
 }
 
 CompositeVersion ::= SEQUENCE {
-	gccfVersion Uint16(0),
-	lccfVersion Uint16(0),
-	raHostname Hostname
+	gccfVersion Uint16(0), 		-- GCCF version that generatd this file
+	lccfVersion Uint16(0),	       	-- unique local index for this LCCF
+	raHostname Hostname		-- name of the RA that generated this
 }
 
 
