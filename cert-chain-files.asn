@@ -56,8 +56,7 @@ GlobalCertificateChainFile ::= SEQUENCE {
 ----
 
 LocalCertificateChainFile ::= SEQUENCE {
-version CompositeVersion,		-- composite version for this file
-    maCertificate Certificate,	      	-- MA certificate - needed by EEs
+    version CompositeVersion,		-- composite version for this file
     requiredCertStore CertificateStore, -- required list of certificates
     optionalCertStore CertificateStore OPTIONAL,	-- optional certs
     ...
@@ -109,6 +108,7 @@ ElectorEndorsement ::= BaseEndorsementBallot
 CertificateStore ::= SEQUENCE {
     rootCAEndorsements SEQUENCE SIZE(0..MAX) OF RootCAEndorsement,
     electorEndorsements SEQUENCE SIZE(0..MAX) OF ElectorEndorsement,
+    maCertificate Certificate OPTIONAL,	 
     certs SEQUENCE SIZE(0..MAX) OF Certificate,
     ...
 }
