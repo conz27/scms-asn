@@ -40,8 +40,8 @@ CertificateChainFiles ::= CHOICE {
 ----
 
 GlobalCertificateChainFile ::= SEQUENCE {
-    version Uint16(0),
-    certStore CertificateStore,
+    version Uint16(0),		-- unique version number for this GCCF
+    certStore CertificateStore,	-- list of certificats and all issuers
     ...
 }
 
@@ -56,16 +56,16 @@ GlobalCertificateChainFile ::= SEQUENCE {
 ----
 
 LocalCertificateChainFile ::= SEQUENCE {
-    version CompositeVersion,
-    requiredCertStore CertificateStore, -- Contains full cert chains for all PCAs that issued psudonym certs for the target device
-    optionalCertStore CertificateStore OPTIONAL,
+    version CompositeVersion,		-- composite version for this file
+    requiredCertStore CertificateStore, -- required list of certificates
+    optionalCertList SEQUENCE SIZE(0..MAX) OF Certificate, -- optional certs
     ...
 }
 
 CompositeVersion ::= SEQUENCE {
-	gccfVersion Uint16(0),
-	lccfVersion Uint16(0),
-	raHostname Hostname
+	gccfVersion Uint16(0), 		-- GCCF version that generatd this file
+	lccfVersion Uint16(0),	       	-- unique local index for this LCCF
+	raHostname Hostname		-- name of the RA that generated this
 }
 
 
@@ -106,8 +106,9 @@ ElectorEndorsement ::= BaseEndorsementBallot
 --
 
 CertificateStore ::= SEQUENCE {
-    rootCAEndorsements SEQUENCE SIZE(0..MAX) OF RootCAEndorsement,
+    rootCAEndorsements SEQUENCE SIZE(1..MAX) OF RootCAEndorsement,
     electorEndorsements SEQUENCE SIZE(0..MAX) OF ElectorEndorsement,
+    maCertificate Certificate,
     certs SEQUENCE SIZE(0..MAX) OF Certificate,
     ...
 }
