@@ -12,7 +12,8 @@ IMPORTS
   HashedId32,
   SequenceOfPsid,
   SequenceOfPsidSsp,
-  Uint8
+  Uint8,
+  Uint16
 FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111)
 standards-association-numbered-series-standards(2) wave-stds(1609)
 dot2(2) base(1) base-types(2)}
@@ -1717,6 +1718,7 @@ DcmSsp ::= SEQUENCE {
 
 LaSsp ::= SEQUENCE {
   version Uint8(1),
+  laId Uint16,
   ...
 }
 
