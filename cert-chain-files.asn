@@ -58,7 +58,7 @@ GlobalCertificateChainFile ::= SEQUENCE {
 LocalCertificateChainFile ::= SEQUENCE {
     version CompositeVersion,		-- composite version for this file
     requiredCertStore CertificateStore, -- required list of certificates
-    optionalCertStore CertificateStore OPTIONAL,	-- optional certs
+    optionalCertList SEQUENCE SIZE(0..MAX) OF Certificate, -- optional certs
     ...
 }
 
@@ -106,9 +106,9 @@ ElectorEndorsement ::= BaseEndorsementBallot
 --
 
 CertificateStore ::= SEQUENCE {
-    rootCAEndorsements SEQUENCE SIZE(0..MAX) OF RootCAEndorsement,
+    rootCAEndorsements SEQUENCE SIZE(1..MAX) OF RootCAEndorsement,
     electorEndorsements SEQUENCE SIZE(0..MAX) OF ElectorEndorsement,
-    maCertificate Certificate OPTIONAL,	 
+    maCertificate Certificate,
     certs SEQUENCE SIZE(0..MAX) OF Certificate,
     ...
 }
