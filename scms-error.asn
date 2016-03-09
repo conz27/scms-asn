@@ -39,12 +39,6 @@ FROM Ieee1609Dot2EndEntityLopErrorEndEntityLopError
     standards-association-numbered-series-standards(2) wave-stds(1609)  
     dot2(2) scms(2) errors(2) ee-lop(6)}
 
-  EndEntityMaError
-FROM Ieee1609Dot2EndEntityMaErrorEndEntityMaError
-    {iso(1) identified-organization(3) ieee(111) 
-    standards-association-numbered-series-standards(2) wave-stds(1609)  
-    dot2(2) scms(2) errors(2) ee-ma(7)}
-
   LaMaError
 FROM Ieee1609Dot2LaMaErrorLaMaError
     {iso(1) identified-organization(3) ieee(111) 
@@ -102,7 +96,6 @@ ScmsError ::= CHOICE {
   dca-ee  DcmEndEntityError,
   eca-ee  EcaEndEntityError,
   ee-lop  EndEntityLopError,
-  ee-ma   EndEntityMaError,
   la-ma   LaMaError,
   la-pca  LaPcaError,
   la-ra   LaRaError,
@@ -128,9 +121,6 @@ ScopedEcaEndEntityError ::=
 
 ScopedEndEntityLopError ::= 
   ScmsError (WITH COMPONENTS {common} | WITH COMPONENTS {ee-lop})
-
-ScopedEndEntityMaError ::= 
-  ScmsError (WITH COMPONENTS {common} | WITH COMPONENTS {ee-ma})
 
 -- This type is not used (see following la-ma errors)
 ScopedLaMaError ::=
