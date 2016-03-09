@@ -228,6 +228,22 @@ GlobalPolicyData ::= SEQUENCE {
             hashOfRequestSize HashOfRequestSize
         }
     } OPTIONAL,
+    temporalSeriesOfRseApplicationCertValidity SEQUENCE {
+        initialRseApplicationCertValidity RseApplicationCertValidity, 
+        -- Default value is 1 week + 1 hour = 168 hours
+        intervals SEQUENCE SIZE(0..MAX) OF SEQUENCE {
+            startTime Time64,
+            rseApplicationCertValidity RseApplicationCertValidity
+        }
+    } OPTIONAL,
+    temporalSeriesOfRseApplicationCertOVerlap SEQUENCE {
+        initialRseApplicationCertOverlap RseApplicationCertOverlap,   
+	-- Default value is 1 hour
+        intervals SEQUENCE SIZE(0..MAX) OF SEQUENCE {
+            startTime Time64,
+            rseApplicationCertOverlap RseApplicationCertOverlap
+	}
+    } OPTIONAL,	
     ...
 }
 
@@ -261,6 +277,9 @@ MaxNumGroups ::= Uint32
 MaxCertRequestAge ::= Duration          
 ShuffleThreshold ::= Uint32             
 HashOfRequestSize ::= Uint8            
+RseApplicationCertValidity ::= Duration
+RseApplicationCertOverlap ::= Duration
+
 
 LocalPolicyData ::= SEQUENCE {
     temporalSeriesOfShuffleThreshold SEQUENCE {
