@@ -131,7 +131,7 @@ GlobalPolicyData ::= SEQUENCE {
     -- Overdure CRL Tolerance
     temporalSeriesOfOverdueCrlTolerance SEQUENCE {
         initialOverdueCrlTolerance OverdueCrlTolerance,
-        -- max time to operate without a new CRL (4 bytes)
+        -- max time to operate without a new CRL, specified in weeks (4 bytes)
         intervals SEQUENCE SIZE(0..MAX) OF SEQUENCE {
             startTime Time64,
             overdueCrlTolerance OverdueCrlTolerance
@@ -171,7 +171,7 @@ GlobalPolicyData ::= SEQUENCE {
     -- Max available cert supply
     temporalSeriesOfMaxAvailableCertSupply SEQUENCE {
         initialMaxAvailableCertSupply MaxAvailableCertSupply,
-        -- maximum number of certs for any period
+        -- max time covered by a certificate batch in years, default: 3 years
         intervals SEQUENCE SIZE(0..MAX) OF SEQUENCE {
             startTime Time64,
             maxAvailableCertSupply MaxAvailableCertSupply
@@ -191,8 +191,9 @@ GlobalPolicyData ::= SEQUENCE {
 
     -- Shuffle threshold
     temporalSeriesOfShuffleThreshold SEQUENCE {
-        initialShuffleThreshold ShuffleThreshold,
+        initialShuffleThreshold ShuffleThreshold DEFAULT 1000
         -- minimum # of individual cert requests before shuffle/send to PCA
+	-- default: 1000
         intervals SEQUENCE SIZE(0..MAX) OF SEQUENCE {
             startTime Time64,
             shuffleThreshold ShuffleThreshold
@@ -213,7 +214,8 @@ GlobalPolicyData ::= SEQUENCE {
     -- Max GPF GCCF retrieval interval
     temporalSeriesOfMaxGpfGccfRetrievalInterval SEQUENCE {
         initialMaxGpfGccfRetrievalInterval MaxGpfGccfRetrievalInterval,
-        -- maximum interval before retreiving new GPF or GCCF
+        -- maximum interval (in hours) before retreiving new GPF or GCCF
+	-- default: 1 hour
         intervals SEQUENCE SIZE(0..MAX) OF SEQUENCE {
 	    startTime Time64,
 	    maxGpfGccfRetrievalInterval MaxGpfGccfRetrievalInterval
@@ -223,7 +225,8 @@ GlobalPolicyData ::= SEQUENCE {
     -- RSE application cert validity 
     temporalSeriesOfRseApplicationCertValidity SEQUENCE {
         initialRseApplicationCertValidity RseApplicationCertValidity,
-        -- Default value is 1 week + 1 hour = 168 hours
+	-- validity time for an RSE cert (in hours)
+	-- Default value is 1 week + 1 hour = 168 hours
         intervals SEQUENCE SIZE(0..MAX) OF SEQUENCE {
             startTime Time64,
             rseApplicationCertValidity RseApplicationCertValidity
@@ -254,7 +257,7 @@ CertValidityModel ::= ENUMERATED {
     non-concurrent  (2),
     ...
 }
-MaxAvailableCertSupply ::= Uint16
+MaxAvailableCertSupply ::= Duration
 MaxCertRequestAge ::= Duration          
 ShuffleThreshold ::= Uint32             
 HashOfRequestSize ::= Uint8            
