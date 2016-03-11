@@ -191,7 +191,7 @@ GlobalPolicyData ::= SEQUENCE {
 
     -- Shuffle threshold
     temporalSeriesOfShuffleThreshold SEQUENCE {
-        initialShuffleThreshold ShuffleThreshold DEFAULT 1000
+        initialShuffleThreshold ShuffleThreshold DEFAULT 1000,
         -- minimum # of individual cert requests before shuffle/send to PCA
 	-- default: 1000
         intervals SEQUENCE SIZE(0..MAX) OF SEQUENCE {
