@@ -128,7 +128,6 @@ FROM IEEE1609dot2-cert-chains {iso(1) identified-organization(3) ieee(111)
 standards-association-numbered-series-standards(2) wave-stds(1609)
 dot2(2) base (1) cert-chains (4)}
 
-
   PolicyFiles
 FROM Ieee1609dot2ScmsPolicyTypes {iso(1) identified-organization(3) ieee(111)
 standards-association-numbered-series-standards(2) wave-stds(1609)  dot2(2)
@@ -1649,6 +1648,47 @@ SignedRaPgPolicySignatureRequestReply ::= SecuredScmsPDU (WITH COMPONENTS {...,
 SecuredRaPgPolicySignatureRequestReply ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     encryptedData  -- decrypts to a SignedRaPgPolicySignatureRequestReply
+  })
+})
+
+
+-- *************************************************************************
+--
+--             Root Management - Electors
+--
+-- *************************************************************************
+
+ScopedElectorEndorsement ::=
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      ccm (WITH COMPONENTS {
+        tbsElectorEndorsement
+      })
+    })
+ })
+
+SignedElectorEndorsement ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {...,
+    signedData  (WITH COMPONENTS {...,
+      tbsData (WITH COMPONENTS {...,
+        payload (WITH COMPONENTS {...,
+         data (WITH COMPONENTS {...,
+             content (WITH COMPONENTS {
+                unsecuredData (CONTAINING ScopedElectorEndorsement)
+            })
+          })
+        }),
+        headerInfo (WITH COMPONENTS {...,
+          psid (SecurityMgmtPsid),
+          generationTime PRESENT,
+          expiryTime ABSENT,
+          generationLocation ABSENT,
+          p2pcdLearningRequest ABSENT,
+          missingCrlIdentifier ABSENT,
+          encryptionKey ABSENT
+        })
+      })
+    })
   })
 })
 
