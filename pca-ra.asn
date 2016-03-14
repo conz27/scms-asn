@@ -212,7 +212,7 @@ SignedEncryptedButterflyCertificateResponse ::= Ieee1609Dot2Data (WITH COMPONENT
         payload (WITH COMPONENTS {..., 
           data (WITH COMPONENTS {...,
              content (WITH COMPONENTS {
-                unsecuredData (CONTAINING ToBeSignedEncryptedButterflyCertificateResponse)
+                unsecuredData (CONTAINING ToBeSignedEncryptedCertificateResponse)
             })
           }) PRESENT,
           extDataHash ABSENT
@@ -239,7 +239,7 @@ SignedEncryptedSingleKeyCertificateResponse ::= Ieee1609Dot2Data (WITH COMPONENT
         payload (WITH COMPONENTS {..., 
           data (WITH COMPONENTS {...,
              content (WITH COMPONENTS {
-                unsecuredData (CONTAINING ToBeSignedEncryptedSingleKeyCertificateResponse)
+                unsecuredData (CONTAINING ToBeSignedEncryptedCertificateResponse)
             })
           }) PRESENT,
           extDataHash ABSENT
@@ -261,25 +261,10 @@ SignedEncryptedSingleKeyCertificateResponse ::= Ieee1609Dot2Data (WITH COMPONENT
 
 ToBeSignedEncryptedCertificateResponse ::= SEQUENCE {
     psidSsp         SequenceOfPsidSsp,
-    iValue          IValue OPTIONAL,
-	jValue			OCTET STRING (SIZE(4)) OPTIONAL,
     expiration      Time32,     
     lifetime        Duration,   
     encrypted-cert  EncryptedCertificateData
 }
-
-ToBeSignedEncryptedSingleKeyCertificateResponse ::= 
-    ToBeSignedEncryptedCertificateResponse (WITH COMPONENTS { ...,
-        iValue ABSENT,
-		jValue ABSENT
-    })
-
-ToBeSignedEncryptedButterflyCertificateResponse ::= 
-    ToBeSignedEncryptedCertificateResponse (WITH COMPONENTS { ...,
-        iValue PRESENT,
-		jValue PRESENT
-    })
-
 
 -- Decrypts to a DecryptedCertificateData
 EncryptedCertificateData ::= Ieee1609Dot2Data (WITH COMPONENTS {
