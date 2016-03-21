@@ -13,6 +13,7 @@ MaRaError ::= CHOICE {
   ma-ra-base-error          MaRaBaseErrorCode,
   ma-ra-blacklist-error     MaRaBlacklistErrorCode,
   ma-ra-lci-error           MaRaLCIErrorCode,
+  ma-ra-cdv-error           MaRaCDVErrorCode,    -- Added for RSE revocation
   ...
 }
 
@@ -33,7 +34,8 @@ MaRaBaseErrorCode ::= ENUMERATED {
 
 MaRaBlacklistErrorCode ::= ENUMERATED {
 	-- HPCR points to already blacklisted certificate
-	raCertificateAlreadyBlacklisted,
+	alreadyBlacklisted,
+	-- raCertificateAlreadyBlacklisted,
 	...
 }
 
@@ -42,5 +44,10 @@ MaRaLCIErrorCode ::= ENUMERATED {
 	...
 }
 
-
+-- Added for RSE application and OBE identification cert revocation
+MaRaCDVErrorCode ::= ENUMERATED {
+    noCertificateDigestValuesKnownForRIF,
+    ...
+}
+    
 END

@@ -158,10 +158,7 @@ PcaRaCertResponseMsg ::= SEQUENCE {
   pca-id      PcaHostnameId,
   reply       CHOICE {      
       success      CHOICE {
-          signed-encrypted  CHOICE {
-              butterfly         SignedEncryptedButterflyCertificateResponse,
-              single-key        SignedEncryptedSingleKeyCertificateResponse
-          },
+          signed-encrypted	SignedEncryptedCertificateResponse,
           raw               PlaintextCertificateResponse
       },
       failure ScopedPcaRaError
@@ -176,20 +173,12 @@ PcaRaCertResponseMsg ::= SEQUENCE {
 -- 1609.2 data, which decrypts to a DecryptedCertificateData containing the
 -- PlaintextCertificateResponse.
 --
--- The difference between the two types of SignedEncrypted*CertificateResponse,
--- Butterfly and SingleKey, is that the Butterfly response contains i and the
--- Single-key version doesn't.
-
 -- We implement this as follows.
 
 -- At the Signed level, we:
 -- * Define ToBeSignedEncryptedCertificateResponse, which is all the fields
 --   relevant to both types of response plus optional i-value
--- * Define ToBeSignedEncrypted*CertificateResponse, with * = "Butterfly" or
---   "SingleKey", as a profile of ToBeSignedEncryptedCertificateResponse with 
---   i-value either present or absent.
--- * Define the SignedEncrypted*CertificateResponse types, which differ only
---   in the ToBeSignedEncrypted*CertificateResponse they contain.
+-- * Define the SignedEncryptedCertificateResponse
 
 -- At the Encrypted level, the EncryptedCertificateData type is a 1609.2 data
 -- containing a single recipient info which is encrypted to a response 
@@ -205,34 +194,7 @@ PcaRaCertResponseMsg ::= SEQUENCE {
 -- and a receiver needs to know which combination applies in order to recover 
 -- the correct private key.
 
-SignedEncryptedButterflyCertificateResponse ::= Ieee1609Dot2Data (WITH COMPONENTS {..., 
-  content (WITH COMPONENTS {
-    signedData  (WITH COMPONENTS {..., 
-      tbsData (WITH COMPONENTS {
-        payload (WITH COMPONENTS {..., 
-          data (WITH COMPONENTS {...,
-             content (WITH COMPONENTS {
-                unsecuredData (CONTAINING ToBeSignedEncryptedCertificateResponse)
-            })
-          }) PRESENT,
-          extDataHash ABSENT
-        }),
-        headerInfo (WITH COMPONENTS {..., 
-          psid (SecurityMgmtPsid),
-          generationTime ABSENT,
-          expiryTime ABSENT,
-          generationLocation ABSENT,
-          p2pcdLearningRequest ABSENT,
-          missingCrlIdentifier ABSENT,
-          encryptionKey ABSENT
-        })
-      })
-    })
-  })
-})
-
-
-SignedEncryptedSingleKeyCertificateResponse ::= Ieee1609Dot2Data (WITH COMPONENTS {..., 
+SignedEncryptedCertificateResponse ::= Ieee1609Dot2Data (WITH COMPONENTS {..., 
   content (WITH COMPONENTS {
     signedData  (WITH COMPONENTS {..., 
       tbsData (WITH COMPONENTS {
