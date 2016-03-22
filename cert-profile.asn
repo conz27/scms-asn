@@ -209,8 +209,8 @@ ElectorCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     assuranceLevel ABSENT,
     appPermissions (SequenceOfPsidSsp (SIZE(1)) (CONSTRAINED BY {
       PsidSsp (WITH COMPONENTS {
-        psid (SecurityMgmtPsid)
-        --ssp(OER encoding of ScmsSsp indicating ElectorSsp)
+        psid (SecurityMgmtPsid),
+        ssp --OER encoding of ScmsSsp indicating ElectorSsp
       })
     })),
     certIssuePermissions ABSENT,
@@ -602,8 +602,8 @@ PcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     assuranceLevel ABSENT,
     appPermissions (SequenceOfPsidSsp (SIZE(1)) (CONSTRAINED BY {
       PsidSsp (WITH COMPONENTS {
-        psid (SecurityMgmtPsid)
-        --ssp(OER encoding of ScmsSsp indicating Pcassp)
+        psid (SecurityMgmtPsid),
+        ssp --OER encoding of ScmsSsp indicating Pcassp
       })
     })),
     certIssuePermissions (SequenceOfPsidGroupPermissions (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS {..., 
@@ -659,8 +659,8 @@ PgCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     assuranceLevel ABSENT,
     appPermissions (SequenceOfPsidSsp (SIZE(1)) (CONSTRAINED BY {
       PsidSsp (WITH COMPONENTS {
-        psid (SecurityMgmtPsid)
-        --ssp(OER encoding of ScmsSsp indicating Policy Generator)
+        psid (SecurityMgmtPsid),
+        ssp --OER encoding of ScmsSsp indicating Policy Generator
       })
     })),
     certIssuePermissions ABSENT,
@@ -703,8 +703,8 @@ RaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     assuranceLevel ABSENT,
     appPermissions (SequenceOfPsidSsp (SIZE(1)) (CONSTRAINED BY {
       PsidSsp (WITH COMPONENTS {
-        psid (SecurityMgmtPsid)
-        --ssp(OER encoding of ScmsSsp indicating Rassp)
+        psid (SecurityMgmtPsid),
+        ssp --OER encoding of ScmsSsp indicating Rassp
       })
     })),
     certIssuePermissions ABSENT,
@@ -752,8 +752,8 @@ RootCaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     assuranceLevel ABSENT,
     appPermissions (SequenceOfPsidSsp (SIZE(2)) (CONSTRAINED BY {
       PsidSsp (WITH COMPONENTS {
-        psid (SecurityMgmtPsid)
-        --ssp(OER encoding of ScmsSsp indicating RootCaSsp)
+        psid (SecurityMgmtPsid),
+        ssp --OER encoding of ScmsSsp indicating RootCaSsp
       }),
       PsidSsp (WITH COMPONENTS {
         psid (CrlPsid),
@@ -783,7 +783,7 @@ RootCaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
               psid (MisbehaviorReportingPsid), sspRange ABSENT 
             }), 
             PsidSspRange (WITH COMPONENTS {
-              psid (CrlPsid), sspRange ABSENT 
+              psid (CrlPsid), sspRange (WITH COMPONENTS {all})
             })
           }))
         }),
