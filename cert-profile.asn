@@ -502,8 +502,8 @@ ObeIdentificationCertificate ::= ImplicitCertificate (WITH COMPONENTS { ...,
   issuer (WITH COMPONENTS {sha256AndDigest}),
     toBeSigned (WITH COMPONENTS { ...,
       id (WITH COMPONENTS {
-        binaryId (SIZE (4))  -- RIF value shall be used as the certificate ID
-    }),
+        binaryId (SIZE (8))  -- RIF value shall be used as the certificate ID
+      }),
     cracaId, --set to HashedId3 of the Root CA cert
     crlSeries(EeNonPseudonymCrlSeries),
     validityPeriod (WITH COMPONENTS { ...,
@@ -811,10 +811,10 @@ RootCaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
 
 RseApplicationCertificate ::= ImplicitCertificate (WITH COMPONENTS { ...,
   issuer (WITH COMPONENTS {sha256AndDigest}),
-  toBeSigned (WITH COMPONENTS { ...,
-    id (WITH COMPONENTS {
-      binaryId (SIZE (4))  -- RIF value shall be used as the certificate ID
-    }),
+    toBeSigned (WITH COMPONENTS { ...,
+      id (WITH COMPONENTS {
+        binaryId (SIZE (8))  -- RIF value shall be used as the certificate ID
+      }),
     cracaId, --set to HashedId3 of the Root CA cert
     crlSeries(EeNonPseudonymCrlSeries),
     validityPeriod (WITH COMPONENTS { ...,
