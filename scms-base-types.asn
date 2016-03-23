@@ -179,7 +179,11 @@ LCIAndHostInfo ::= SEQUENCE {
 	la2-id          LaHostnameId
 }
 
-
+-- define the revocation identifier field (RIF) as 4-byte value
+-- [LSB0] least significant byte of RIF: LSB of PCA identifier
+-- [LSB1-3] of RIF: the three LSBs [LSB0-2] of the SHA-256 hash of the EE's
+-- enrollment certificate.
+RIF ::= OCTET STRING (SIZE(4))
 
 
 END
