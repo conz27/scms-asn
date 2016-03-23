@@ -428,7 +428,7 @@ MaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     appPermissions (SequenceOfPsidSsp (SIZE(1)) (CONSTRAINED BY {
       PsidSsp (WITH COMPONENTS {
         psid (SecurityMgmtPsid),
-        ssp --OER encoding of ScmsSsp indicating MA
+        ssp ABSENT --TBD in the MBD project. It is ABSENT only for POC.
       })
     })),
     certIssuePermissions ABSENT,

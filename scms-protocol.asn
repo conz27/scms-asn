@@ -1775,8 +1775,6 @@ MaSsp ::= SEQUENCE {
 
 RaSsp ::= SEQUENCE {
   version  Uint8(1),
-  psid-ssp SequenceOfPsidSsp,
-  policy   OCTET STRING (SIZE(0..31)),
   ...
 }
 
