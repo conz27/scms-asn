@@ -18,6 +18,7 @@ IMPORTS
   Opaque, 
   Psid,
   Signature,
+  HashedId8,
   Uint8,
   Uint16,
   Uint32
@@ -179,7 +180,9 @@ LCIAndHostInfo ::= SEQUENCE {
 	la2-id          LaHostnameId
 }
 
-
+-- Revocation Identifier (RIF)
+-- This is an 8-byte hash of an enrollment certificate
+RIF ::= HashedId8
 
 
 END
