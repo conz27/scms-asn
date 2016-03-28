@@ -209,8 +209,8 @@ ElectorCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     assuranceLevel ABSENT,
     appPermissions (SequenceOfPsidSsp (SIZE(1)) (CONSTRAINED BY {
       PsidSsp (WITH COMPONENTS {
-        psid (SecurityMgmtPsid)
-        --ssp(OER encoding of ScmsSsp indicating ElectorSsp)
+        psid (SecurityMgmtPsid),
+        ssp --OER encoding of ScmsSsp indicating ElectorSsp
       })
     })),
     certIssuePermissions ABSENT,
@@ -428,7 +428,7 @@ MaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     appPermissions (SequenceOfPsidSsp (SIZE(1)) (CONSTRAINED BY {
       PsidSsp (WITH COMPONENTS {
         psid (SecurityMgmtPsid),
-        ssp --OER encoding of ScmsSsp indicating MA
+        ssp ABSENT --TBD in the MBD project. It is ABSENT only for POC.
       })
     })),
     certIssuePermissions ABSENT,
@@ -500,10 +500,10 @@ ObeEnrollmentCertificate ::= ImplicitCertificate (WITH COMPONENTS { ...,
 
 ObeIdentificationCertificate ::= ImplicitCertificate (WITH COMPONENTS { ...,
   issuer (WITH COMPONENTS {sha256AndDigest}),
-  toBeSigned (WITH COMPONENTS { ...,
-    id (WITH COMPONENTS { 
-      name("") -- OBE's ID to be put here
-    }),
+    toBeSigned (WITH COMPONENTS { ...,
+      id (WITH COMPONENTS {
+        binaryId (SIZE (8))  -- RIF value shall be used as the certificate ID
+      }),
     cracaId, --set to HashedId3 of the Root CA cert
     crlSeries(EeNonPseudonymCrlSeries),
     validityPeriod (WITH COMPONENTS { ...,
@@ -602,8 +602,8 @@ PcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     assuranceLevel ABSENT,
     appPermissions (SequenceOfPsidSsp (SIZE(1)) (CONSTRAINED BY {
       PsidSsp (WITH COMPONENTS {
-        psid (SecurityMgmtPsid)
-        --ssp(OER encoding of ScmsSsp indicating Pcassp)
+        psid (SecurityMgmtPsid),
+        ssp --OER encoding of ScmsSsp indicating Pcassp
       })
     })),
     certIssuePermissions (SequenceOfPsidGroupPermissions (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS {..., 
@@ -659,8 +659,8 @@ PgCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     assuranceLevel ABSENT,
     appPermissions (SequenceOfPsidSsp (SIZE(1)) (CONSTRAINED BY {
       PsidSsp (WITH COMPONENTS {
-        psid (SecurityMgmtPsid)
-        --ssp(OER encoding of ScmsSsp indicating Policy Generator)
+        psid (SecurityMgmtPsid),
+        ssp --OER encoding of ScmsSsp indicating Policy Generator
       })
     })),
     certIssuePermissions ABSENT,
@@ -703,8 +703,8 @@ RaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     assuranceLevel ABSENT,
     appPermissions (SequenceOfPsidSsp (SIZE(1)) (CONSTRAINED BY {
       PsidSsp (WITH COMPONENTS {
-        psid (SecurityMgmtPsid)
-        --ssp(OER encoding of ScmsSsp indicating Rassp)
+        psid (SecurityMgmtPsid),
+        ssp --OER encoding of ScmsSsp indicating Rassp
       })
     })),
     certIssuePermissions ABSENT,
@@ -752,8 +752,8 @@ RootCaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     assuranceLevel ABSENT,
     appPermissions (SequenceOfPsidSsp (SIZE(2)) (CONSTRAINED BY {
       PsidSsp (WITH COMPONENTS {
-        psid (SecurityMgmtPsid)
-        --ssp(OER encoding of ScmsSsp indicating RootCaSsp)
+        psid (SecurityMgmtPsid),
+        ssp --OER encoding of ScmsSsp indicating RootCaSsp
       }),
       PsidSsp (WITH COMPONENTS {
         psid (CrlPsid),
@@ -783,7 +783,7 @@ RootCaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
               psid (MisbehaviorReportingPsid), sspRange ABSENT 
             }), 
             PsidSspRange (WITH COMPONENTS {
-              psid (CrlPsid), sspRange ABSENT 
+              psid (CrlPsid), sspRange (WITH COMPONENTS {all})
             })
           }))
         }),
@@ -811,10 +811,10 @@ RootCaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
 
 RseApplicationCertificate ::= ImplicitCertificate (WITH COMPONENTS { ...,
   issuer (WITH COMPONENTS {sha256AndDigest}),
-  toBeSigned (WITH COMPONENTS { ...,
-    id (WITH COMPONENTS { 
-      name("") -- RSE's ID to be put here
-    }),
+    toBeSigned (WITH COMPONENTS { ...,
+      id (WITH COMPONENTS {
+        binaryId (SIZE (8))  -- RIF value shall be used as the certificate ID
+      }),
     cracaId, --set to HashedId3 of the Root CA cert
     crlSeries(EeNonPseudonymCrlSeries),
     validityPeriod (WITH COMPONENTS { ...,
