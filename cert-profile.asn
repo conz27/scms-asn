@@ -622,7 +622,7 @@ PcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     }))),
     certRequestPermissions ABSENT,
     canRequestRollover (NULL),
-    encryptionKey ABSENT,
+    encryptionKey PRESENT,
     verifyKeyIndicator (WITH COMPONENTS {
       verificationKey (WITH COMPONENTS {
         ecdsaNistP256 (WITH COMPONENTS {
