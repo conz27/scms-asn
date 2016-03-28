@@ -136,7 +136,7 @@ PseudonymCertRequestInfo ::= SEQUENCE {
 IdCertRequestInfo ::= SEQUENCE {
   pca-id                 PcaHostnameId,
   type                   CertificateType,
-  i-value                IValue,
+  -- i-value                IValue,
 
   to-be-signed-cert   ToBeSignedCertificate( 
     WITH COMPONENTS { ...,  
