@@ -572,7 +572,8 @@ ScopedRaPgPolicySignatureRequestReply ::=
      ScopedPseudonymCertProvisioningRequest |
      ScopedIdCertProvisioningRequest  |
      ScopedAppCertProvisioningRequest  |
-     ScopedRaPcaCertificateRequest )
+     ScopedRaPcaCertificateRequest |
+     ScopedAuthenticatedDownloadRequest )
 
 
 
@@ -903,26 +904,15 @@ SecuredAppCertProvisioningAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
 
 SignedAuthenticatedDownloadRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
-    signedData  (WITH COMPONENTS {...,
-      tbsData (WITH COMPONENTS {...,
-        payload (WITH COMPONENTS {...,
-          data (WITH COMPONENTS {...,
-             content (WITH COMPONENTS {
-                unsecuredData (CONTAINING ScopedAuthenticatedDownloadRequest)
-            })
-          })
-        }),
-        headerInfo (WITH COMPONENTS {...,
-          psid (SecurityMgmtPsid),
-          generationTime ABSENT,
-          expiryTime ABSENT,
-          generationLocation ABSENT,
-          p2pcdLearningRequest ABSENT,
-          missingCrlIdentifier ABSENT,
-          encryptionKey ABSENT
+    signedCertificateRequest  (CONTAINING
+      SignedCertificateRequest (WITH COMPONENTS {...,
+        tbsRequest (ScopedAuthenticatedDownloadRequest),
+        signer (WITH COMPONENTS {
+          certificate (SequenceOfCertificate (SIZE(1)) -- RA 1609.2 cert
+          )
         })
       })
-    })
+    )
   })
 })
 
