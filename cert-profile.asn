@@ -366,7 +366,7 @@ LaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
   issuer (WITH COMPONENTS{sha256AndDigest}),
   toBeSigned (WITH COMPONENTS { ...,
     id (WITH COMPONENTS {
-      name ("la.v2xscms.com" | "v2v-la.cvp.v2xscms.com" | "v2i-la.cvp.v2xscms.com") -- !!TBD!!
+      name ("la1.v2xscms.com" | "la2.v2xscms.com" | "v2v-la1.cvp.v2xscms.com" | "v2v-la2.cvp.v2xscms.com" | "v2i-la1.cvp.v2xscms.com" | "v2i-la2.cvp.v2xscms.com") -- !!TBD!!
     }),
     cracaId, --set to HashedId3 of the Root CA cert
     crlSeries(ScmsComponentCrlSeries),
@@ -741,7 +741,7 @@ RootCaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
   issuer (WITH COMPONENTS {self}),
   toBeSigned (WITH COMPONENTS { ...,
     id (WITH COMPONENTS {
-      name ("v2xrootca.ghsiss.com")
+      name ("rca.v2xscms.com" | "v2xrootca.ghsiss.com")
     }),
     cracaId('000000'H),
     crlSeries(0),                          
