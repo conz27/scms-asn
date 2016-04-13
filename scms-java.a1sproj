@@ -37,9 +37,11 @@
   <File>scms-error.asn</File>
   <File>scms-policy.asn</File>
   <File>scms-protocol.asn</File>
-  <File>cert-chain-files.asn</File>
   <File>cert-profile.asn</File>
   <File>1609dot2-asn/crl-ssp.asn</File>
+  <File>cert-chain-files.asn</File>
+  <File>ra-pg-errors.asn</File>
+  <File>ra-pg.asn</File>
  </Asn1Files>
  <CompilerSettings>
   <Setting name="disablCAGLMessagesCheckBox" present="true"/>
