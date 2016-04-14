@@ -167,7 +167,7 @@ DcmCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     certIssuePermissions ABSENT,
     certRequestPermissions (SequenceOfPsidGroupPermissions (SIZE(1)) (CONSTRAINED BY {
       PsidGroupPermissions ( WITH COMPONENTS {..., 
-	    appPermissions (WITH COMPONENTS { 
+	    subjectPermissions (WITH COMPONENTS { 
           explicit (SequenceOfPsidSspRange (SIZE (2)) (CONSTRAINED BY { 
             PsidSspRange( WITH COMPONENTS { psid (BsmPsid), sspRange ABSENT }),
             PsidSspRange( WITH COMPONENTS { psid (MisbehaviorReportingPsid), sspRange ABSENT })
@@ -258,7 +258,7 @@ EcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
       })
     })),
     certIssuePermissions (SequenceOfPsidGroupPermissions (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS {..., 
-	  appPermissions (WITH COMPONENTS {..., 
+	  subjectPermissions (WITH COMPONENTS {..., 
 		explicit (SequenceOfPsidSspRange (SIZE (2)) (CONSTRAINED BY{
 		  PsidSspRange (WITH COMPONENTS {
 			psid (BsmPsid), sspRange ABSENT 
@@ -316,7 +316,7 @@ IcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     })),
     certIssuePermissions (SequenceOfPsidGroupPermissions (SIZE(2)) (CONSTRAINED BY {
       PsidGroupPermissions ( WITH COMPONENTS {..., 
-	    appPermissions (WITH COMPONENTS { 
+	    subjectPermissions (WITH COMPONENTS { 
           explicit (SequenceOfPsidSspRange (SIZE (2)) (CONSTRAINED BY { 
             PsidSspRange( WITH COMPONENTS {
               psid (BsmPsid), sspRange ABSENT 
@@ -330,7 +330,7 @@ IcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
 	    eeType ({app, enrol})
       }),
       PsidGroupPermissions ( WITH COMPONENTS {..., 
-        appPermissions (WITH COMPONENTS { 
+        subjectPermissions (WITH COMPONENTS { 
           explicit (SequenceOfPsidSspRange (SIZE (2)) (CONSTRAINED BY { 
             PsidSspRange( WITH COMPONENTS {
               psid (SecurityMgmtPsid), sspRange (WITH COMPONENTS {all}) 
@@ -473,7 +473,7 @@ ObeEnrollmentCertificate ::= ImplicitCertificate (WITH COMPONENTS { ...,
     certIssuePermissions ABSENT,
     certRequestPermissions (SequenceOfPsidGroupPermissions (SIZE(1)) (CONSTRAINED BY {
       PsidGroupPermissions ( WITH COMPONENTS {..., 
-	    appPermissions (WITH COMPONENTS { 
+	    subjectPermissions (WITH COMPONENTS { 
           explicit (SequenceOfPsidSspRange (SIZE (2)) (CONSTRAINED BY { 
             PsidSspRange( WITH COMPONENTS { psid (BsmPsid), sspRange ABSENT }),
             PsidSspRange( WITH COMPONENTS { psid (MisbehaviorReportingPsid), sspRange ABSENT })
@@ -607,7 +607,7 @@ PcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
       })
     })),
     certIssuePermissions (SequenceOfPsidGroupPermissions (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS {..., 
-	  appPermissions (WITH COMPONENTS {..., 
+	  subjectPermissions (WITH COMPONENTS {..., 
 		explicit (SequenceOfPsidSspRange (SIZE (2)) (CONSTRAINED BY{
 		  PsidSspRange (WITH COMPONENTS {
 			psid (BsmPsid), sspRange ABSENT 
@@ -710,7 +710,7 @@ RaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     certIssuePermissions ABSENT,
     certRequestPermissions (SequenceOfPsidGroupPermissions (SIZE(1)) (CONSTRAINED BY {
       PsidGroupPermissions ( WITH COMPONENTS {..., 
-	    appPermissions (WITH COMPONENTS { 
+	    subjectPermissions (WITH COMPONENTS { 
           explicit (SequenceOfPsidSspRange (SIZE (2)) (CONSTRAINED BY { 
             PsidSspRange( WITH COMPONENTS { psid (BsmPsid), sspRange ABSENT }),
             PsidSspRange( WITH COMPONENTS { psid (MisbehaviorReportingPsid), sspRange ABSENT })
@@ -767,7 +767,7 @@ RootCaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     })),
     certIssuePermissions (SequenceOfPsidGroupPermissions (SIZE(4)) (CONSTRAINED BY {
       PsidGroupPermissions ( WITH COMPONENTS {..., 
-	    appPermissions (WITH COMPONENTS { 
+	    subjectPermissions (WITH COMPONENTS { 
           all
         }),
         minChainDepth(3), 
@@ -775,7 +775,7 @@ RootCaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
         eeType ({app, enrol})
       }),
       PsidGroupPermissions ( WITH COMPONENTS {..., 
-	    appPermissions (WITH COMPONENTS{ 
+	    subjectPermissions (WITH COMPONENTS{ 
           explicit (SequenceOfPsidSspRange (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS {
             psid (SecurityMgmtPsid), sspRange ABSENT 
           })))
@@ -785,7 +785,7 @@ RootCaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
 	    eeType ({app, enrol}) 
       }),
       PsidGroupPermissions ( WITH COMPONENTS {..., 
-	    appPermissions (WITH COMPONENTS{ 
+	    subjectPermissions (WITH COMPONENTS{ 
           explicit (SequenceOfPsidSspRange (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS {
             psid (MisbehaviorReportingPsid), sspRange ABSENT 
           })))
@@ -795,7 +795,7 @@ RootCaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
 	    eeType ({app, enrol}) 
       }),
       PsidGroupPermissions ( WITH COMPONENTS {..., 
-	    appPermissions (WITH COMPONENTS{ 
+	    subjectPermissions (WITH COMPONENTS{ 
           explicit (SequenceOfPsidSspRange (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS {
             psid (CrlPsid), sspRange ABSENT 
           })))
