@@ -17,6 +17,7 @@ IMPORTS
   HashedId8,
   Hostname,
   PublicEncryptionKey,
+  PublicVerificationKey,
   SubjectAssurance,
   Time32,
   Uint8,
@@ -61,16 +62,16 @@ EcaEndEntityInterfacePDU::= CHOICE {
 --
 --              OBE                                                     ECA
 --               |                                                       |
---   ========================                                            |
---   | Generate Type 1 Keys |                                            |
---   ========================                                            |
+--   ================================                                    |
+--   | Generate Enrollment Key Pair |                                    |
+--   ================================                                    |
 --               |                                                       |
---   ========================                                            |
---   |Sign Type 1 Public Key|                                            |
---   ========================                                            |
+--   ===============================                                     |
+--   |Include Public Key in Request|                                     |
+--   ===============================                                     |
 --               |                                                       |
 --               |============ObeEnrollmentCertificateRequest===========>|
---               |             (TBS Data + SignedPublicKey)              |
+--               |             (TBS Data + PublicKey)                    |
 --               |                                              ====================
 --               |                                              |Create Enrollment |
 --               |                                              |   Certificate    |
@@ -83,7 +84,7 @@ EcaEndEntityInterfacePDU::= CHOICE {
 --               |    (Enrollment Cert + Pub/Priv Reconstruction Data)   |
 --               |                                                       |
 --     ======================                                            |
---     | Reconstruct Type 2 |                                            |
+--     |     Reconstruct    |                                            |
 --     |     Private Key    |                                            |
 --     ======================                                            |
 --               |                                                       |
@@ -118,7 +119,7 @@ CommonEnrollmentCertificateRequest ::= SEQUENCE {
     currentTime         Time32,
     requestedStartTime  Time32, -- certificate start time
     tbsData             ToBeSignedEnrollmentCertificate,
-    verifyKey           SignedPublicKey,
+    verifyKey           PublicVerificationKey,
     ...
 }
 
@@ -149,34 +150,6 @@ ToBeSignedEnrollmentCertificate ::= SEQUENCE  {
     encryptionKey          PublicEncryptionKey OPTIONAL,
     ...
 }
-
-SignedPublicKey ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
-  content (WITH COMPONENTS {...,
-    signedData  (WITH COMPONENTS {...,
-      tbsData (WITH COMPONENTS {...,
-        payload (WITH COMPONENTS {...,
-          data (WITH COMPONENTS {...,
-            content (WITH COMPONENTS {...,
-              unsecuredData (CONTAINING EccP256CurvePoint)
-            })
-          })
-        }),
-        headerInfo (WITH COMPONENTS {...,
-          psid (SecurityMgmtPsid),
-          generationTime ABSENT,
-          expiryTime ABSENT,
-          generationLocation ABSENT,
-          p2pcdLearningRequest ABSENT,
-          missingCrlIdentifier ABSENT,
-          encryptionKey ABSENT
-        })
-      }),
-      signer (WITH COMPONENTS {...,
-        self
-      })
-    })
-  })
-})
 
 EccP256PrivateKeyReconstruction ::= OCTET STRING(SIZE(32))
 
