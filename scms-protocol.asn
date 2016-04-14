@@ -519,6 +519,26 @@ ScopedLCIResponse ::=
     })
   })
 
+  
+ScopedRseObeIdBlacklistRequest ::=
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      ma-ra (WITH COMPONENTS {
+        maRaRseObeIdBlacklistRequest
+      })
+    })
+  })
+
+
+ScopedRseObeIdBlacklistResponse ::=
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      ma-ra (WITH COMPONENTS {
+        raMaRseObeIdBlacklistResponse
+      })
+    })
+  })
+
 -- *** PCA-RA *************************************************************
 
 ScopedRaPcaCertificateRequest ::=
@@ -1453,6 +1473,70 @@ SecuredBlacklistResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
 })
 
 
+SignedRseObeIdBlacklistRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {...,
+    signedData  (WITH COMPONENTS {...,
+      tbsData (WITH COMPONENTS {...,
+        payload (WITH COMPONENTS {...,
+          data (WITH COMPONENTS {...,
+             content (WITH COMPONENTS {
+                unsecuredData (CONTAINING ScopedRseObeIdBlacklistRequest)
+            })
+          })
+        }),
+        headerInfo (WITH COMPONENTS {...,
+          psid (SecurityMgmtPsid),
+          generationTime ABSENT,
+          expiryTime ABSENT,
+          generationLocation ABSENT,
+          p2pcdLearningRequest ABSENT,
+          missingCrlIdentifier ABSENT,
+          encryptionKey ABSENT
+        })
+      })
+    })
+  })
+})
+
+SecuredRseObeIdBlacklistRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {...,
+    encryptedData  -- decrypts to a SignedRseObeIdBlacklistRequest
+  })
+})
+
+
+SignedRseObeIdBlacklistResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {...,
+    signedData  (WITH COMPONENTS {...,
+      tbsData (WITH COMPONENTS {...,
+        payload (WITH COMPONENTS {...,
+          data (WITH COMPONENTS {...,
+             content (WITH COMPONENTS {
+                unsecuredData (CONTAINING ScopedBlacklistResponse)
+            })
+          })
+        }),
+        headerInfo (WITH COMPONENTS {...,
+          psid (SecurityMgmtPsid),
+          generationTime ABSENT,
+          expiryTime ABSENT,
+          generationLocation ABSENT,
+          p2pcdLearningRequest ABSENT,
+          missingCrlIdentifier ABSENT,
+          encryptionKey ABSENT
+        })
+      })
+    })
+  })
+})
+
+SecuredRseObeIdBlacklistResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {...,
+    encryptedData  -- decrypts to a SignedRseObeIdBlacklistResponse
+  })
+})
+
+
 SignedLCIRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -1516,7 +1600,6 @@ SecuredLCIResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
     encryptedData  -- decrypts to a SignedLCIResponse
   })
 })
-
 
 
 -- *************************************************************************
