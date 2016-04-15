@@ -519,6 +519,26 @@ ScopedLCIResponse ::=
     })
   })
 
+  
+ScopedRseObeIdBlacklistRequest ::=
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      ma-ra (WITH COMPONENTS {
+        maRaRseObeIdBlacklistRequest
+      })
+    })
+  })
+
+
+ScopedRseObeIdBlacklistResponse ::=
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      ma-ra (WITH COMPONENTS {
+        raMaRseObeIdBlacklistResponse
+      })
+    })
+  })
+
 -- *** PCA-RA *************************************************************
 
 ScopedRaPcaCertificateRequest ::=
@@ -758,7 +778,7 @@ SignedPseudonymCertProvisioningRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
       SignedCertificateRequest (WITH COMPONENTS {...,
         tbsRequest (ScopedPseudonymCertProvisioningRequest),
         signer (WITH COMPONENTS {
-          self
+          certificate (SequenceOfCertificate (SIZE(1))) -- Enrollment cert
         })
       })
     )
@@ -808,7 +828,7 @@ SignedIdCertProvisioningRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
       SignedCertificateRequest (WITH COMPONENTS {...,
         tbsRequest (ScopedIdCertProvisioningRequest),
         signer (WITH COMPONENTS {
-          self
+          certificate (SequenceOfCertificate (SIZE(1))) -- Enrollment cert
         })
       })
     )
@@ -858,7 +878,7 @@ SignedAppCertProvisioningRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
       SignedCertificateRequest (WITH COMPONENTS {...,
         tbsRequest (ScopedAppCertProvisioningRequest),
         signer (WITH COMPONENTS {
-          self
+          certificate (SequenceOfCertificate (SIZE(1))) -- Enrollment cert
         })
       })
     )
@@ -908,8 +928,7 @@ SignedAuthenticatedDownloadRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
       SignedCertificateRequest (WITH COMPONENTS {...,
         tbsRequest (ScopedAuthenticatedDownloadRequest),
         signer (WITH COMPONENTS {
-          certificate (SequenceOfCertificate (SIZE(1)) -- RA 1609.2 cert
-          )
+          certificate (SequenceOfCertificate (SIZE(1))) -- Enrollment cert
         })
       })
     )
@@ -1453,6 +1472,70 @@ SecuredBlacklistResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
 })
 
 
+SignedRseObeIdBlacklistRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {...,
+    signedData  (WITH COMPONENTS {...,
+      tbsData (WITH COMPONENTS {...,
+        payload (WITH COMPONENTS {...,
+          data (WITH COMPONENTS {...,
+             content (WITH COMPONENTS {
+                unsecuredData (CONTAINING ScopedRseObeIdBlacklistRequest)
+            })
+          })
+        }),
+        headerInfo (WITH COMPONENTS {...,
+          psid (SecurityMgmtPsid),
+          generationTime ABSENT,
+          expiryTime ABSENT,
+          generationLocation ABSENT,
+          p2pcdLearningRequest ABSENT,
+          missingCrlIdentifier ABSENT,
+          encryptionKey ABSENT
+        })
+      })
+    })
+  })
+})
+
+SecuredRseObeIdBlacklistRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {...,
+    encryptedData  -- decrypts to a SignedRseObeIdBlacklistRequest
+  })
+})
+
+
+SignedRseObeIdBlacklistResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {...,
+    signedData  (WITH COMPONENTS {...,
+      tbsData (WITH COMPONENTS {...,
+        payload (WITH COMPONENTS {...,
+          data (WITH COMPONENTS {...,
+             content (WITH COMPONENTS {
+                unsecuredData (CONTAINING ScopedBlacklistResponse)
+            })
+          })
+        }),
+        headerInfo (WITH COMPONENTS {...,
+          psid (SecurityMgmtPsid),
+          generationTime ABSENT,
+          expiryTime ABSENT,
+          generationLocation ABSENT,
+          p2pcdLearningRequest ABSENT,
+          missingCrlIdentifier ABSENT,
+          encryptionKey ABSENT
+        })
+      })
+    })
+  })
+})
+
+SecuredRseObeIdBlacklistResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {...,
+    encryptedData  -- decrypts to a SignedRseObeIdBlacklistResponse
+  })
+})
+
+
 SignedLCIRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -1516,7 +1599,6 @@ SecuredLCIResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
     encryptedData  -- decrypts to a SignedLCIResponse
   })
 })
-
 
 
 -- *************************************************************************
