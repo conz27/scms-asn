@@ -39,23 +39,11 @@ FROM Ieee1609Dot2ScmsComponentCertificateManagement
 standards-association-numbered-series-standards(2) wave-stds(1609)
 dot2(2) scms(2) interfaces(1) component-certificate-management(3)}
 
-  DcmEcaInterfacePDU
-FROM Ieee1609Dot2DcmEcaInterface
-{iso(1) identified-organization(3) ieee(111)
-standards-association-numbered-series-standards(2) wave-stds(1609)
-dot2(2) scms(2) interfaces(1) dcm-eca(4)}
-
   EcaEndEntityInterfacePDU
 FROM Ieee1609Dot2EcaEndEntityInterface
 {iso(1) identified-organization(3) ieee(111)
 standards-association-numbered-series-standards(2) wave-stds(1609)
 dot2(2) scms(2) interfaces(1) eca-ee(5)}
-
-  EndEntityLopInterfacePDU
-FROM Ieee1609Dot2EndEntityLopInterface
-{iso(1) identified-organization(3) ieee(111)
-standards-association-numbered-series-standards(2) wave-stds(1609)
-dot2(2) scms(2) interfaces(1) ee-lop(6)}
 
   EndEntityMaInterfacePDU
 FROM Ieee1609Dot2EndEntityMaInterface
@@ -87,12 +75,6 @@ FROM Ieee1609Dot2LaRaInterface
 standards-association-numbered-series-standards(2) wave-stds(1609)
 dot2(2) scms(2) interfaces(1) la-ra(11)}
 
-  LopMaInterfacePDU
-FROM Ieee1609Dot2LopMaInterface
-{iso(1) identified-organization(3) ieee(111)
-standards-association-numbered-series-standards(2) wave-stds(1609)
-dot2(2) scms(2) interfaces(1) lop-ma(12)}
-
   MaPcaInterfacePDU
 FROM Ieee1609Dot2MaPcaInterface
 {iso(1) identified-organization(3) ieee(111)
@@ -117,12 +99,6 @@ FROM Ieee1609Dot2RaPgInterface
 standards-association-numbered-series-standards(2) wave-stds(1609) dot2(2)
 scms(2) interfaces(1) ra-pg(16)}
 
-  DcmEndEntityInterfacePDU
-FROM Ieee1609Dot2DcmEndEntityInterface
-{iso(1) identified-organization(3) ieee(111)
-standards-association-numbered-series-standards(2) wave-stds(1609)
-dot2(2) scms(2) interfaces(1) dcm-ee(127)}
-
   CertificateChainFiles
 FROM IEEE1609dot2-cert-chains {iso(1) identified-organization(3) ieee(111)
 standards-association-numbered-series-standards(2) wave-stds(1609)
@@ -138,19 +114,15 @@ ScmsPDU ::= SEQUENCE {
   version  Uint8(1),
   content  CHOICE {
     ccm       ScmsComponentCertificateManagementPDU,
-    dcm-eca   DcmEcaInterfacePDU,
     eca-ee    EcaEndEntityInterfacePDU,
-    ee-lop    EndEntityLopInterfacePDU,
     ee-ma     EndEntityMaInterfacePDU,
     ee-ra     EndEntityRaInterfacePDU,
     la-ma     LaMaInterfacePDU,
     la-pca    LaPcaInterfacePDU,
     la-ra     LaRaInterfacePDU,
-    lop-ma    LopMaInterfacePDU,
     ma-pca    MaPcaInterfacePDU,
     ma-ra     MaRaInterfacePDU,
     pca-ra    PcaRaInterfacePDU,
-    dcm-ee    DcmEndEntityInterfacePDU,
     ra-pg     RaPgInterfacePDU,
     ...
  }
