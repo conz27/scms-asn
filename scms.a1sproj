@@ -8,14 +8,8 @@
   <File>1609dot2-asn/wsa-ssp.asn</File>
   <File>component-cert-management.asn</File>
   <File>component-cert-management-errors.asn</File>
-  <File>dcm-eca.asn</File>
-  <File>dcm-eca-errors.asn</File>
-  <File>dcm-ee.asn</File>
-  <File>dcm-ee-errors.asn</File>
   <File>eca-ee.asn</File>
   <File>eca-ee-errors.asn</File>
-  <File>ee-lop.asn</File>
-  <File>ee-lop-errors.asn</File>
   <File>ee-ma.asn</File>
   <File>ee-ra.asn</File>
   <File>la-ma.asn</File>
@@ -24,8 +18,6 @@
   <File>la-pca-errors.asn</File>
   <File>la-ra.asn</File>
   <File>la-ra-errors.asn</File>
-  <File>lop-ma.asn</File>
-  <File>lop-ma-errors.asn</File>
   <File>ma-pca.asn</File>
   <File>ma-pca-errors.asn</File>
   <File>ma-ra.asn</File>
