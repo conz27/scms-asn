@@ -521,7 +521,7 @@ ObeIdentificationCertificate ::= ImplicitCertificate (WITH COMPONENTS { ...,
     certIssuePermissions ABSENT,
     certRequestPermissions ABSENT,
     canRequestRollover ABSENT,
-    encryptionKey ABSENT,
+    encryptionKey OPTIONAL,
     verifyKeyIndicator (WITH COMPONENTS {
       reconstructionValue (WITH COMPONENTS {
         compressed-y-0, compressed-y-1
@@ -567,7 +567,7 @@ ObePseudonymCertificate ::= ImplicitCertificate (WITH COMPONENTS { ...,
     certIssuePermissions ABSENT,
     certRequestPermissions ABSENT,
     canRequestRollover ABSENT,
-    encryptionKey ABSENT,
+    encryptionKey OPTIONAL,
     verifyKeyIndicator (WITH COMPONENTS {
       reconstructionValue (WITH COMPONENTS {
         compressed-y-0, compressed-y-1
@@ -846,7 +846,7 @@ RseApplicationCertificate ::= ImplicitCertificate (WITH COMPONENTS { ...,
     certIssuePermissions ABSENT,
     certRequestPermissions ABSENT,
     canRequestRollover ABSENT,
-    encryptionKey ABSENT,
+    encryptionKey OPTIONAL,
     verifyKeyIndicator (WITH COMPONENTS {
       reconstructionValue (WITH COMPONENTS {
         compressed-y-0, compressed-y-1
