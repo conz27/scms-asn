@@ -67,6 +67,7 @@ FROM IEEE1609dot2CrlSsp {iso(1) identified-organization(3) ieee(111)
   BsmPsid,
   MisbehaviorReportingPsid,
   SecurityMgmtPsid,
+  TravellerInformationAndRoadsideSignagePsid,
   
   EeEnrollmentCrlSeries,
   EeNonPseudonymCrlSeries,
@@ -614,7 +615,10 @@ PcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
 		  }),
 		  PsidSspRange (WITH COMPONENTS {
 			psid (MisbehaviorReportingPsid), sspRange ABSENT 
-		  })
+		  }),
+          PsidSspRange (WITH COMPONENTS {
+			psid (TravellerInformationAndRoadsideSignagePsid), sspRange(WITH COMPONENTS{all}) 
+		  }) 
 		}))
 	  }),
 	  minChainDepth(1), chainDepthRange(0),

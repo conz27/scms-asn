@@ -63,6 +63,7 @@ RootCaCertExpiration ::= Duration (WITH COMPONENTS {years(70)})
 BsmPsid ::= Psid (32) --PSID = 0x20
 MisbehaviorReportingPsid ::= Psid (38)  -- PSID = 0x26
 SecurityMgmtPsid ::= Psid (35)  -- PSID = 0x23
+TravellerInformationAndRoadsideSignagePsid ::= Psid (131) -- PSID = 0x83
 
 EeEnrollmentCrlSeries ::= CrlSeries (4)
 EeNonPseudonymCrlSeries ::= CrlSeries (3)
