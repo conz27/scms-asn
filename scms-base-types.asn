@@ -61,11 +61,14 @@ RseEnrollmentCertExpirationPoc ::= Duration (WITH COMPONENTS {years(30)})
 RootCaCertExpiration ::= Duration (WITH COMPONENTS {years(70)})
 
 BsmPsid ::= Psid (32) --PSID = 0x20
-IntersectionSafetyAndAwarenessPsid ::= Psid (130) -- PSID = 0x82
-IPv6RoutingPsid ::= Psid (270549118) -- PSID = 0x1020407E
-MisbehaviorReportingPsid ::= Psid (38)  -- PSID = 0x26
 SecurityMgmtPsid ::= Psid (35)  -- PSID = 0x23
+MisbehaviorReportingPsid ::= Psid (38)  -- PSID = 0x26
+DifferentialGpsCorrectionsUncompressedPsid ::= Psid (128) -- PSID = 0x80
+DifferentialGpsCorrectionsCompressedPsid ::= Psid (129) -- PSID = 0x81
+IntersectionSafetyAndAwarenessPsid ::= Psid (130) -- PSID = 0x82
 TravellerInformationAndRoadsideSignagePsid ::= Psid (131) -- PSID = 0x83
+WaveServiceAdvertisementPsid ::= Psid (135) -- PSID = 0x87
+PeerToPeerCertDistributionPsid ::= Psid (136) -- PSID = 0x88
 
 
 EeEnrollmentCrlSeries ::= CrlSeries (4)

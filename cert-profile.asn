@@ -65,12 +65,15 @@ FROM IEEE1609dot2CrlSsp {iso(1) identified-organization(3) ieee(111)
   RseEnrollmentCertExpirationCvp,
   RseEnrollmentCertExpirationPoc,
   
-  BsmPsid,
-  IntersectionSafetyAndAwarenessPsid,
-  IPv6RoutingPsid,
-  MisbehaviorReportingPsid,
-  SecurityMgmtPsid,
-  TravellerInformationAndRoadsideSignagePsid,
+  BsmPsid, --PSID = 0x20
+  SecurityMgmtPsid,  -- PSID = 0x23
+  MisbehaviorReportingPsid,  -- PSID = 0x26
+  DifferentialGpsCorrectionsUncompressedPsid, -- PSID = 0x80
+  DifferentialGpsCorrectionsCompressedPsid, -- PSID = 0x81
+  IntersectionSafetyAndAwarenessPsid, -- PSID = 0x82
+  TravellerInformationAndRoadsideSignagePsid, -- PSID = 0x83
+  WaveServiceAdvertisementPsid, -- PSID = 0x87
+  PeerToPeerCertDistributionPsid, -- PSID = 0x88
   
   
   EeEnrollmentCrlSeries,
@@ -615,44 +618,42 @@ PcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
 	  subjectPermissions (WITH COMPONENTS {..., 
 		explicit (SequenceOfPsidSspRange (SIZE (2)) (CONSTRAINED BY{
 		  PsidSspRange (WITH COMPONENTS {
-			psid (BsmPsid), sspRange ABSENT 
+			psid (BsmPsid), --PSID = 0x20
+            sspRange(WITH COMPONENTS{ 
+              opaque -- single OCTET STRING of length 0  
+            }) 
+		  }),
+		  PsidSspRange (WITH COMPONENTS {
+			psid (MisbehaviorReportingPsid), -- PSID = 0x26
+            sspRange ABSENT 
 		  }),
           PsidSspRange (WITH COMPONENTS {
-			psid (IntersectionSafetyAndAwarenessPsid), sspRange(WITH COMPONENTS{
+			psid (DifferentialGpsCorrectionsUncompressedPsid), -- PSID = 0x80 
+            sspRange ABSENT 
+		  }),
+          PsidSspRange (WITH COMPONENTS {
+			psid (DifferentialGpsCorrectionsCompressedPsid), -- PSID = 0x81 
+            sspRange ABSENT 
+		  }),
+          PsidSspRange (WITH COMPONENTS {
+			psid (IntersectionSafetyAndAwarenessPsid), -- PSID = 0x82 
+            sspRange(WITH COMPONENTS{
               opaque --SSP: 90-01, 90-FF-FF-01, 90-FF-FF-02, 90-FF-FF-03, 90-FF-FF-04  
             }) 
 		  }),
           PsidSspRange (WITH COMPONENTS {
-			psid (IPv6RoutingPsid), sspRange ABSENT 
-		  }),
-		  PsidSspRange (WITH COMPONENTS {
-			psid (MisbehaviorReportingPsid), sspRange ABSENT 
-		  }),
-          PsidSspRange (WITH COMPONENTS {
-			psid (TravellerInformationAndRoadsideSignagePsid), sspRange(WITH COMPONENTS{
+			psid (TravellerInformationAndRoadsideSignagePsid), -- PSID = 0x83 
+            sspRange(WITH COMPONENTS{
               opaque --SSPs: 90-FF-FF-01, 90-FF-FF-02, 90-FF-FF-03, 90-FF-FF-04, 
               --90-FF-FF-05, 90-FF-FF-06, 90-FF-FF-07, 90-FF-FF-08, 90-FF-FF-09 
             }) 
 		  }),
           PsidSspRange (WITH COMPONENTS {
-			psid (Psid(128)), sspRange ABSENT -- PSID = 0x80
-		  }),
-          PsidSspRange (WITH COMPONENTS {
-			psid (Psid(129)), sspRange ABSENT -- PSID = 0x81
-		  }),
-          PsidSspRange (WITH COMPONENTS {
-			psid (Psid(256)), sspRange ABSENT -- PSID = 0x0100
-		  }),
-          PsidSspRange (WITH COMPONENTS {
-			psid (Psid(135)), sspRange ABSENT -- PSID = 0x87
-		  }),
-          PsidSspRange (WITH COMPONENTS {
-			psid (Psid(38)), sspRange ABSENT -- PSID = 0x26
-		  }),
-          PsidSspRange (WITH COMPONENTS {
-			psid (Psid(136)), sspRange ABSENT -- PSID = 0x88
+			psid (WaveServiceAdvertisementPsid), -- PSID = 0x87 
+            sspRange(WITH COMPONENTS{
+              opaque -- single OCTET STRING of length 0 
+            }) 
 		  })
-
 		}))
 	  }),
 	  minChainDepth(1), chainDepthRange(0),
