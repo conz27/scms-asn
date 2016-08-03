@@ -112,11 +112,11 @@ CrlgCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     assuranceLevel ABSENT,
     appPermissions (SequenceOfPsidSsp (SIZE(2)) (CONSTRAINED BY {
       PsidSsp (WITH COMPONENTS {
-        psid (SecurityMgmtPsid),
+        psid (SecurityMgmtPsid), -- PSID = 0x23
         ssp --OER encoding of ScmsSsp indicating CrlSignerSsp
       }),
       PsidSsp (WITH COMPONENTS {
-        psid (CrlPsid),
+        psid (CrlPsid), -- PSID = 0x100
         ssp (WITH COMPONENTS {opaque(CONTAINING CrlSsp (WITH COMPONENTS {..., 
           associatedCraca(issuerIsCraca),
           crls (PermissibleCrls (SIZE(4)) (CONSTRAINED BY {
@@ -168,7 +168,7 @@ DcmCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     assuranceLevel ABSENT,
     appPermissions (SequenceOfPsidSsp (SIZE(1)) (CONSTRAINED BY {
       PsidSsp (WITH COMPONENTS {
-        psid (SecurityMgmtPsid),
+        psid (SecurityMgmtPsid), -- PSID = 0x23
         ssp --OER encoding of ScmsSsp indicating Dcmssp
       })
     })),
@@ -176,9 +176,17 @@ DcmCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     certRequestPermissions (SequenceOfPsidGroupPermissions (SIZE(1)) (CONSTRAINED BY {
       PsidGroupPermissions ( WITH COMPONENTS {..., 
 	    subjectPermissions (WITH COMPONENTS { 
-          explicit (SequenceOfPsidSspRange (SIZE (2)) (CONSTRAINED BY { 
-            PsidSspRange( WITH COMPONENTS { psid (BsmPsid), sspRange ABSENT }),
-            PsidSspRange( WITH COMPONENTS { psid (MisbehaviorReportingPsid), sspRange ABSENT })
+          explicit (SequenceOfPsidSspRange (SIZE (2)) (CONSTRAINED BY {
+		    PsidSspRange (WITH COMPONENTS {
+			  psid (BsmPsid), --PSID = 0x20
+              sspRange(WITH COMPONENTS{ 
+                opaque -- single OCTET STRING of length 0  
+              }) 
+		    }),
+		    PsidSspRange (WITH COMPONENTS {
+			  psid (MisbehaviorReportingPsid), -- PSID = 0x26
+              sspRange ABSENT 
+		    })
           }))
         }),
         minChainDepth(0), chainDepthRange(0),
@@ -217,7 +225,7 @@ ElectorCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     assuranceLevel ABSENT,
     appPermissions (SequenceOfPsidSsp (SIZE(1)) (CONSTRAINED BY {
       PsidSsp (WITH COMPONENTS {
-        psid (SecurityMgmtPsid),
+        psid (SecurityMgmtPsid), -- PSID = 0x23
         ssp --OER encoding of ScmsSsp indicating ElectorSsp
       })
     })),
@@ -261,7 +269,7 @@ EcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     assuranceLevel ABSENT,
     appPermissions (SequenceOfPsidSsp (SIZE(1)) (CONSTRAINED BY {
       PsidSsp (WITH COMPONENTS {
-        psid (SecurityMgmtPsid),
+        psid (SecurityMgmtPsid), -- PSID = 0x23
         ssp --OER encoding of ScmsSsp indicating Ecassp
       })
     })),
@@ -269,10 +277,14 @@ EcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
 	  subjectPermissions (WITH COMPONENTS {..., 
 		explicit (SequenceOfPsidSspRange (SIZE (2)) (CONSTRAINED BY{
 		  PsidSspRange (WITH COMPONENTS {
-			psid (BsmPsid), sspRange ABSENT 
+			psid (BsmPsid), --PSID = 0x20
+            sspRange(WITH COMPONENTS{ 
+              opaque -- single OCTET STRING of length 0  
+            }) 
 		  }),
 		  PsidSspRange (WITH COMPONENTS {
-			psid (MisbehaviorReportingPsid), sspRange ABSENT 
+			psid (MisbehaviorReportingPsid), -- PSID = 0x26
+            sspRange ABSENT 
 		  })
 		}))
 	  }),
@@ -318,20 +330,24 @@ IcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     assuranceLevel ABSENT,
     appPermissions (SequenceOfPsidSsp (SIZE(1)) (CONSTRAINED BY {
       PsidSsp (WITH COMPONENTS {
-        psid (SecurityMgmtPsid),
+        psid (SecurityMgmtPsid), -- PSID = 0x23
         ssp --OER encoding of ScmsSsp indicating Icassp
       })
     })),
     certIssuePermissions (SequenceOfPsidGroupPermissions (SIZE(2)) (CONSTRAINED BY {
       PsidGroupPermissions ( WITH COMPONENTS {..., 
 	    subjectPermissions (WITH COMPONENTS { 
-          explicit (SequenceOfPsidSspRange (SIZE (2)) (CONSTRAINED BY { 
-            PsidSspRange( WITH COMPONENTS {
-              psid (BsmPsid), sspRange ABSENT 
-            }),
-            PsidSspRange( WITH COMPONENTS {
-              psid (MisbehaviorReportingPsid), sspRange ABSENT 
-            })
+          explicit (SequenceOfPsidSspRange (SIZE (2)) (CONSTRAINED BY {
+		    PsidSspRange (WITH COMPONENTS {
+			  psid (BsmPsid), --PSID = 0x20
+              sspRange(WITH COMPONENTS{ 
+                opaque -- single OCTET STRING of length 0  
+              }) 
+		    }),
+		    PsidSspRange (WITH COMPONENTS {
+			  psid (MisbehaviorReportingPsid), -- PSID = 0x26
+              sspRange ABSENT 
+		    })
           }))
         }),
         minChainDepth(2), chainDepthRange(0),
@@ -341,10 +357,12 @@ IcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
         subjectPermissions (WITH COMPONENTS { 
           explicit (SequenceOfPsidSspRange (SIZE (2)) (CONSTRAINED BY { 
             PsidSspRange( WITH COMPONENTS {
-              psid (SecurityMgmtPsid), sspRange (WITH COMPONENTS {all}) 
+              psid (SecurityMgmtPsid), -- PSID = 0x23
+              sspRange (WITH COMPONENTS {all}) 
             }),
             PsidSspRange( WITH COMPONENTS {
-              psid (CrlPsid), sspRange (WITH COMPONENTS {all}) 
+              psid (CrlPsid), -- PSID = 0x100
+              sspRange (WITH COMPONENTS {all}) 
             })
           }))
         }),
@@ -391,7 +409,7 @@ LaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     assuranceLevel ABSENT,
     appPermissions (SequenceOfPsidSsp (SIZE(1)) (CONSTRAINED BY {
       PsidSsp (WITH COMPONENTS {
-        psid (SecurityMgmtPsid),
+        psid (SecurityMgmtPsid), -- PSID = 0x23
         ssp --OER encoding of ScmsSsp indicating Lassp
       })
     })),
@@ -435,7 +453,7 @@ MaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     assuranceLevel ABSENT,
     appPermissions (SequenceOfPsidSsp (SIZE(1)) (CONSTRAINED BY {
       PsidSsp (WITH COMPONENTS {
-        psid (SecurityMgmtPsid),
+        psid (SecurityMgmtPsid), -- PSID = 0x23
         ssp ABSENT --TBD in the MBD project. It is ABSENT only for POC.
       })
     })),
@@ -482,9 +500,17 @@ ObeEnrollmentCertificate ::= ImplicitCertificate (WITH COMPONENTS { ...,
     certRequestPermissions (SequenceOfPsidGroupPermissions (SIZE(1)) (CONSTRAINED BY {
       PsidGroupPermissions ( WITH COMPONENTS {..., 
 	    subjectPermissions (WITH COMPONENTS { 
-          explicit (SequenceOfPsidSspRange (SIZE (2)) (CONSTRAINED BY { 
-            PsidSspRange( WITH COMPONENTS { psid (BsmPsid), sspRange ABSENT }),
-            PsidSspRange( WITH COMPONENTS { psid (MisbehaviorReportingPsid), sspRange ABSENT })
+          explicit (SequenceOfPsidSspRange (SIZE (2)) (CONSTRAINED BY {
+		    PsidSspRange (WITH COMPONENTS {
+			  psid (BsmPsid), --PSID = 0x20
+              sspRange(WITH COMPONENTS{ 
+                opaque -- single OCTET STRING of length 0  
+              }) 
+		    }),
+		    PsidSspRange (WITH COMPONENTS {
+			  psid (MisbehaviorReportingPsid), -- PSID = 0x26
+              sspRange ABSENT 
+		    })
           }))
         }),
         minChainDepth(0), chainDepthRange(0),
@@ -565,12 +591,16 @@ ObePseudonymCertificate ::= ImplicitCertificate (WITH COMPONENTS { ...,
     }),
     assuranceLevel ABSENT,
     appPermissions (SequenceOfPsidSsp (SIZE(2)) (CONSTRAINED BY {
-      PsidSsp (WITH COMPONENTS {
-        psid (BsmPsid), ssp ABSENT
-      }), 
-      PsidSsp (WITH COMPONENTS {
-        psid (MisbehaviorReportingPsid), ssp ABSENT
-      })
+      PsidSspRange (WITH COMPONENTS {
+	    psid (BsmPsid), --PSID = 0x20
+        sspRange(WITH COMPONENTS{ 
+          opaque -- single OCTET STRING of length 0  
+        }) 
+      }),
+	  PsidSspRange (WITH COMPONENTS {
+		psid (MisbehaviorReportingPsid), -- PSID = 0x26
+        sspRange ABSENT 
+	  })
     })),
     certIssuePermissions ABSENT,
     certRequestPermissions ABSENT,
@@ -610,13 +640,13 @@ PcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     assuranceLevel ABSENT,
     appPermissions (SequenceOfPsidSsp (SIZE(1)) (CONSTRAINED BY {
       PsidSsp (WITH COMPONENTS {
-        psid (SecurityMgmtPsid),
+        psid (SecurityMgmtPsid), -- PSID = 0x23
         ssp --OER encoding of ScmsSsp indicating Pcassp
       })
     })),
     certIssuePermissions (SequenceOfPsidGroupPermissions (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS {..., 
 	  subjectPermissions (WITH COMPONENTS {..., 
-		explicit (SequenceOfPsidSspRange (SIZE (2)) (CONSTRAINED BY{
+		explicit (SequenceOfPsidSspRange (SIZE (7)) (CONSTRAINED BY{
 		  PsidSspRange (WITH COMPONENTS {
 			psid (BsmPsid), --PSID = 0x20
             sspRange(WITH COMPONENTS{ 
@@ -643,10 +673,7 @@ PcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
 		  }),
           PsidSspRange (WITH COMPONENTS {
 			psid (TravellerInformationAndRoadsideSignagePsid), -- PSID = 0x83 
-            sspRange(WITH COMPONENTS{
-              opaque --SSPs: 90-FF-FF-01, 90-FF-FF-02, 90-FF-FF-03, 90-FF-FF-04, 
-              --90-FF-FF-05, 90-FF-FF-06, 90-FF-FF-07, 90-FF-FF-08, 90-FF-FF-09 
-            }) 
+            sspRange ABSENT 
 		  }),
           PsidSspRange (WITH COMPONENTS {
 			psid (WaveServiceAdvertisementPsid), -- PSID = 0x87 
@@ -698,7 +725,7 @@ PgCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     assuranceLevel ABSENT,
     appPermissions (SequenceOfPsidSsp (SIZE(1)) (CONSTRAINED BY {
       PsidSsp (WITH COMPONENTS {
-        psid (SecurityMgmtPsid),
+        psid (SecurityMgmtPsid), -- PSID = 0x23
         ssp --OER encoding of ScmsSsp indicating Policy Generator
       })
     })),
@@ -742,7 +769,7 @@ RaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     assuranceLevel ABSENT,
     appPermissions (SequenceOfPsidSsp (SIZE(1)) (CONSTRAINED BY {
       PsidSsp (WITH COMPONENTS {
-        psid (SecurityMgmtPsid),
+        psid (SecurityMgmtPsid), -- PSID = 0x23
         ssp --OER encoding of ScmsSsp indicating Rassp
       })
     })),
@@ -750,9 +777,17 @@ RaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     certRequestPermissions (SequenceOfPsidGroupPermissions (SIZE(1)) (CONSTRAINED BY {
       PsidGroupPermissions ( WITH COMPONENTS {..., 
 	    subjectPermissions (WITH COMPONENTS { 
-          explicit (SequenceOfPsidSspRange (SIZE (2)) (CONSTRAINED BY { 
-            PsidSspRange( WITH COMPONENTS { psid (BsmPsid), sspRange ABSENT }),
-            PsidSspRange( WITH COMPONENTS { psid (MisbehaviorReportingPsid), sspRange ABSENT })
+          explicit (SequenceOfPsidSspRange (SIZE (2)) (CONSTRAINED BY {
+		    PsidSspRange (WITH COMPONENTS {
+			  psid (BsmPsid), --PSID = 0x20
+              sspRange(WITH COMPONENTS{ 
+                opaque -- single OCTET STRING of length 0  
+              }) 
+		    }),
+		    PsidSspRange (WITH COMPONENTS {
+			  psid (MisbehaviorReportingPsid), -- PSID = 0x26
+              sspRange ABSENT 
+		    })
           }))
         }),
         minChainDepth(0), chainDepthRange(0),
@@ -791,11 +826,11 @@ RootCaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     assuranceLevel ABSENT,
     appPermissions (SequenceOfPsidSsp (SIZE(2)) (CONSTRAINED BY {
       PsidSsp (WITH COMPONENTS {
-        psid (SecurityMgmtPsid),
+        psid (SecurityMgmtPsid), -- PSID = 0x23
         ssp --OER encoding of ScmsSsp indicating RootCaSsp
       }),
       PsidSsp (WITH COMPONENTS {
-        psid (CrlPsid),
+        psid (CrlPsid), -- PSID = 0x100
         ssp (WITH COMPONENTS {opaque(CONTAINING CrlSsp (WITH COMPONENTS {..., 
           associatedCraca(isCraca),
           crls (PermissibleCrls (SIZE(1)) (CONSTRAINED BY {
@@ -816,7 +851,8 @@ RootCaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
       PsidGroupPermissions ( WITH COMPONENTS {..., 
 	    subjectPermissions (WITH COMPONENTS{ 
           explicit (SequenceOfPsidSspRange (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS {
-            psid (SecurityMgmtPsid), sspRange ABSENT 
+            psid (SecurityMgmtPsid), -- PSID = 0x23
+            sspRange ABSENT 
           })))
         }),
         minChainDepth(1), 
@@ -826,7 +862,8 @@ RootCaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
       PsidGroupPermissions ( WITH COMPONENTS {..., 
 	    subjectPermissions (WITH COMPONENTS{ 
           explicit (SequenceOfPsidSspRange (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS {
-            psid (MisbehaviorReportingPsid), sspRange ABSENT 
+            psid (MisbehaviorReportingPsid), -- PSID = 0x26
+            sspRange ABSENT 
           })))
         }),
         minChainDepth(1), 
@@ -836,7 +873,8 @@ RootCaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
       PsidGroupPermissions ( WITH COMPONENTS {..., 
 	    subjectPermissions (WITH COMPONENTS{ 
           explicit (SequenceOfPsidSspRange (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS {
-            psid (CrlPsid), sspRange ABSENT 
+            psid (CrlPsid), -- PSID = 0x100
+            sspRange ABSENT 
           })))
         }),
         minChainDepth(1), 
