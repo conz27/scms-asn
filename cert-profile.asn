@@ -337,18 +337,7 @@ IcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     certIssuePermissions (SequenceOfPsidGroupPermissions (SIZE(2)) (CONSTRAINED BY {
       PsidGroupPermissions ( WITH COMPONENTS {..., 
 	    subjectPermissions (WITH COMPONENTS { 
-          explicit (SequenceOfPsidSspRange (SIZE (2)) (CONSTRAINED BY {
-		    PsidSspRange (WITH COMPONENTS {
-			  psid (BsmPsid), --PSID = 0x20
-              sspRange(WITH COMPONENTS{ 
-                opaque -- single OCTET STRING of length 0  
-              }) 
-		    }),
-		    PsidSspRange (WITH COMPONENTS {
-			  psid (MisbehaviorReportingPsid), -- PSID = 0x26
-              sspRange ABSENT 
-		    })
-          }))
+          all
         }),
         minChainDepth(2), chainDepthRange(0),
 	    eeType ({app, enrol})
