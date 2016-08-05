@@ -719,7 +719,7 @@ ObePseudonymCertificate ::= ImplicitCertificate (WITH COMPONENTS { ...,
       }),
 	  PsidSsp (WITH COMPONENTS {
 		psid (MisbehaviorReportingPsid), -- PSID = 0x26
-        ssp ABSENT 
+        ssp -- single OCTET STRING of length 0 
 	  })
     })),
     certIssuePermissions ABSENT,
@@ -974,12 +974,14 @@ PgCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
 ----------------------------------
 --		Registration Authority	
 ----------------------------------
+--      POC RA 
+----------------------------------------------
 
-RaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
+PocRaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
   issuer (WITH COMPONENTS{sha256AndDigest}),
   toBeSigned (WITH COMPONENTS { ...,
     id (WITH COMPONENTS {
-      name ("ra.v2xscms.com" | "v2v-ra.cvp.v2xscms.com" | "v2i-ra.cvp.v2xscms.com") -- !!TBD!!
+      name ("ra.v2xscms.com") -- !!TBD!!
     }),
     cracaId, --set to HashedId3 of the Root CA cert
     crlSeries(ScmsComponentCrlSeries),
@@ -1004,23 +1006,150 @@ RaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     certRequestPermissions (SequenceOfPsidGroupPermissions (SIZE(1)) (CONSTRAINED BY {
       PsidGroupPermissions ( WITH COMPONENTS {..., 
 	    subjectPermissions (WITH COMPONENTS { 
-          explicit (SequenceOfPsidSspRange (SIZE (2)) (CONSTRAINED BY {
-		    PsidSspRange (WITH COMPONENTS {
-			  psid (BsmPsid), --PSID = 0x20
-              sspRange(WITH COMPONENTS{ 
-                opaque -- single OCTET STRING of length 0  
-              }) 
-		    }),
-		    PsidSspRange (WITH COMPONENTS {
-			  psid (MisbehaviorReportingPsid), -- PSID = 0x26
-              sspRange ABSENT 
-		    })
-          }))
+          all
         }),
         minChainDepth(0), chainDepthRange(0),
         eeType({app})
       })
     })),
+    canRequestRollover(NULL),
+    encryptionKey PRESENT,
+    verifyKeyIndicator (WITH COMPONENTS {
+      verificationKey (WITH COMPONENTS {
+        ecdsaNistP256 (WITH COMPONENTS {
+          compressed-y-0, compressed-y-1
+        })
+      })
+    })
+  })
+})
+
+----------------------------------
+--      CVP-V2V RA 
+----------------------------------------------
+
+CvpV2vRaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
+  issuer (WITH COMPONENTS{sha256AndDigest}),
+  toBeSigned (WITH COMPONENTS { ...,
+    id (WITH COMPONENTS {
+      name ("v2v-ra.cvp.v2xscms.com") -- !!TBD!!
+    }),
+    cracaId, --set to HashedId3 of the Root CA cert
+    crlSeries(ScmsComponentCrlSeries),
+    validityPeriod (WITH COMPONENTS { ...,
+      duration (RaCertExpiration)
+    }),
+    region (WITH COMPONENTS {
+      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
+        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Canada) }), 
+        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Mexico) }), 
+        IdentifiedRegion ( WITH COMPONENTS { countryOnly(USA) })
+      }))
+    }),
+    assuranceLevel ABSENT,
+    appPermissions (SequenceOfPsidSsp (SIZE(1)) (CONSTRAINED BY {
+      PsidSsp (WITH COMPONENTS {
+        psid (SecurityMgmtPsid), -- PSID = 0x23
+        ssp --OER encoding of ScmsSsp indicating Rassp
+      })
+    })),
+    certIssuePermissions ABSENT,
+    certRequestPermissions (SequenceOfPsidGroupPermissions (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS {..., 
+	  subjectPermissions (WITH COMPONENTS {..., 
+		explicit (SequenceOfPsidSspRange (SIZE (2)) (CONSTRAINED BY{
+		  PsidSspRange (WITH COMPONENTS {
+			psid (BsmPsid), --PSID = 0x20
+            sspRange(WITH COMPONENTS{ 
+              opaque -- single OCTET STRING of length 0  
+            }) 
+		  }),
+		  PsidSspRange (WITH COMPONENTS {
+			psid (MisbehaviorReportingPsid), -- PSID = 0x26
+            sspRange ABSENT 
+		  })
+		}))
+	  }),
+	  minChainDepth(0), chainDepthRange(0),
+      eeType({app})
+    }))),
+    canRequestRollover(NULL),
+    encryptionKey PRESENT,
+    verifyKeyIndicator (WITH COMPONENTS {
+      verificationKey (WITH COMPONENTS {
+        ecdsaNistP256 (WITH COMPONENTS {
+          compressed-y-0, compressed-y-1
+        })
+      })
+    })
+  })
+})
+
+----------------------------------
+--      CVP-V2I RA 
+----------------------------------------------
+
+CvpV2iRaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
+  issuer (WITH COMPONENTS{sha256AndDigest}),
+  toBeSigned (WITH COMPONENTS { ...,
+    id (WITH COMPONENTS {
+      name ("v2i-ra.cvp.v2xscms.com") -- !!TBD!!
+    }),
+    cracaId, --set to HashedId3 of the Root CA cert
+    crlSeries(ScmsComponentCrlSeries),
+    validityPeriod (WITH COMPONENTS { ...,
+      duration (RaCertExpiration)
+    }),
+    region (WITH COMPONENTS {
+      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
+        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Canada) }), 
+        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Mexico) }), 
+        IdentifiedRegion ( WITH COMPONENTS { countryOnly(USA) })
+      }))
+    }),
+    assuranceLevel ABSENT,
+    appPermissions (SequenceOfPsidSsp (SIZE(1)) (CONSTRAINED BY {
+      PsidSsp (WITH COMPONENTS {
+        psid (SecurityMgmtPsid), -- PSID = 0x23
+        ssp --OER encoding of ScmsSsp indicating Rassp
+      })
+    })),
+    certIssuePermissions ABSENT,
+    certRequestPermissions (SequenceOfPsidGroupPermissions (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS {..., 
+	  subjectPermissions (WITH COMPONENTS {..., 
+		explicit (SequenceOfPsidSspRange (SIZE (6)) (CONSTRAINED BY{
+		  PsidSspRange (WITH COMPONENTS {
+			psid (MisbehaviorReportingPsid), -- PSID = 0x26
+            sspRange ABSENT 
+		  }),
+          PsidSspRange (WITH COMPONENTS {
+			psid (DifferentialGpsCorrectionsUncompressedPsid), -- PSID = 0x80 
+            sspRange ABSENT 
+		  }),
+          PsidSspRange (WITH COMPONENTS {
+			psid (DifferentialGpsCorrectionsCompressedPsid), -- PSID = 0x81 
+            sspRange ABSENT 
+		  }),
+          PsidSspRange (WITH COMPONENTS {
+			psid (IntersectionSafetyAndAwarenessPsid), -- PSID = 0x82 
+            sspRange(WITH COMPONENTS{
+              opaque --SSP: 90-01, 90-FF-FF-01, 90-FF-FF-02, 90-FF-FF-03, 90-FF-FF-04  
+            }) 
+		  }),
+          PsidSspRange (WITH COMPONENTS {
+			psid (TravellerInformationAndRoadsideSignagePsid), -- PSID = 0x83 
+            sspRange ABSENT 
+		  }),
+          PsidSspRange (WITH COMPONENTS {
+			psid (WaveServiceAdvertisementPsid), -- PSID = 0x87 
+            sspRange(WITH COMPONENTS{
+              opaque -- single OCTET STRING of length 0 
+            }) 
+		  })
+		}))
+	  }),
+	  minChainDepth(0), chainDepthRange(0),
+      eeType({app})
+    }))),
     canRequestRollover(NULL),
     encryptionKey PRESENT,
     verifyKeyIndicator (WITH COMPONENTS {
