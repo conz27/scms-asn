@@ -281,7 +281,7 @@ PocEcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
           all
         }),
         minChainDepth(1), chainDepthRange(0),
-	    eeType ({app, enrol})
+	    eeType ({enrol})
       })
     })),
     certRequestPermissions ABSENT,
@@ -420,7 +420,7 @@ CvpV2iEcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
 		}))
 	  }),
 	  minChainDepth(1), chainDepthRange(0),
-      eeType({app})
+      eeType({enrol})
     }))),
     certRequestPermissions ABSENT,
     canRequestRollover (NULL),
@@ -486,7 +486,7 @@ IcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
             })
           }))
         }),
-        minChainDepth(1), chainDepthRange(0),
+        minChainDepth(1), chainDepthRange(-1),
         eeType ({app, enrol})
       })
     })),
@@ -711,15 +711,13 @@ ObePseudonymCertificate ::= ImplicitCertificate (WITH COMPONENTS { ...,
     }),
     assuranceLevel ABSENT,
     appPermissions (SequenceOfPsidSsp (SIZE(2)) (CONSTRAINED BY {
-      PsidSspRange (WITH COMPONENTS {
+      PsidSsp (WITH COMPONENTS {
 	    psid (BsmPsid), --PSID = 0x20
-        sspRange(WITH COMPONENTS{ 
-          opaque -- single OCTET STRING of length 0  
-        }) 
+        ssp -- single OCTET STRING of length 0  
       }),
-	  PsidSspRange (WITH COMPONENTS {
+	  PsidSsp (WITH COMPONENTS {
 		psid (MisbehaviorReportingPsid), -- PSID = 0x26
-        sspRange ABSENT 
+        ssp ABSENT 
 	  })
     })),
     certIssuePermissions ABSENT,
@@ -772,7 +770,7 @@ PocPcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
           all
         }),
         minChainDepth(1), chainDepthRange(0),
-	    eeType ({app, enrol})
+	    eeType ({app})
       })
     })),
     certRequestPermissions ABSENT,
