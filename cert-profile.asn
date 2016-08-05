@@ -629,7 +629,9 @@ ObeEnrollmentCertificate ::= ImplicitCertificate (WITH COMPONENTS { ...,
 		    }),
 		    PsidSspRange (WITH COMPONENTS {
 			  psid (MisbehaviorReportingPsid), -- PSID = 0x26
-              sspRange ABSENT 
+              sspRange(WITH COMPONENTS{ 
+                opaque -- single OCTET STRING of length 0  
+              }) 
 		    })
           }))
         }),
