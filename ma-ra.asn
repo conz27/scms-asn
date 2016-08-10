@@ -10,6 +10,7 @@ EXPORTS ALL;
  
 IMPORTS 
   HashedId8,
+  HashedId10,
   Hostname,
   Opaque, 
   Uint8,
@@ -214,7 +215,7 @@ CdvInfo ::= SEQUENCE {
 	rif        RIF,
 	reply CHOICE {			
         -- for each input rif, a list of certificate digests (HashedId8) is returned
-        success  SEQUENCE OF HashedId8,
+        success  SEQUENCE OF HashedId10,
         failure  ScopedMaRaBlacklistError
 	}
 }
