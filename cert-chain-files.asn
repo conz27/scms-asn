@@ -37,31 +37,36 @@ CertificateChainFiles ::= CHOICE {
     ...
 }
 
-----
+
+--------------------------------
+-- GlobalCertificateChainFile
 --
--- Global Certificate Chain File:
---
--- Contains the full certificate of all SCMS components.
+-- Contains a minimum set of full certificates as required by policy and
+-- the selection of the local RA that generated this file.  
 -- This file is signed by the Policy Generator.
 --
-----
-
+-- version           version number for this file
+-- requiredCertStore required list of certificates 
+-- optionalCertList  optional certificates 
+--------------------------------
 GlobalCertificateChainFile ::= SEQUENCE {
     version Uint16(0),		-- unique version number for this GCCF
     certStore CertificateStore,	-- list of certificats and all issuers
     ...
 }
 
-----
---
--- Local Certificate Chain File:
+
+--------------------------------
+-- LocalCertificateChainFile
 --
 -- Contains a minimum set of full certificates as required by policy and
 -- the selection of the local RA that generated this file.  
 -- This file is signed by the Policy Generator.
 --
-----
-
+-- version           composite version of this file (global and local version)
+-- requiredCertStore required list of certificates 
+-- optionalCertList  optional certificates 
+--------------------------------
 LocalCertificateChainFile ::= SEQUENCE {
     version CompositeVersion,		-- composite version for this file
     requiredCertStore CertificateStore, -- required list of certificates
@@ -69,6 +74,17 @@ LocalCertificateChainFile ::= SEQUENCE {
     ...
 }
 
+
+--------------------------------
+-- CompositeVersion
+--
+-- Composite of global and local certificate chain file version numbers and
+-- the RA host name.  
+--
+-- gccfVersion  global certificate chain file version number
+-- lccfVersion  local certificate chain file version number
+-- raHostname   name of the RA that created the LCCF that contains this version
+--------------------------------
 CompositeVersion ::= SEQUENCE {
 	gccfVersion Uint16(0), 		-- GCCF version that generatd this file
 	lccfVersion Uint16(0),	       	-- unique local index for this LCCF
@@ -76,7 +92,7 @@ CompositeVersion ::= SEQUENCE {
 }
 
 
---
+--------------------------------
 -- Certificate Store
 --
 -- A certificate store is a list of root and elector endorsements plus lists
@@ -92,7 +108,11 @@ CompositeVersion ::= SEQUENCE {
 -- chains, each chain would have a copy of the same root CA and some chains
 -- would have copies of the same ICA.
 --
-
+-- rootCAEndorsements  list of elector signatures endorsing one or more Root CA
+-- electorEndorsements list of elector signatures endorsing electors
+-- maCertificate       current MA certificate
+-- certs               list of all other certificates
+--------------------------------
 CertificateStore ::= SEQUENCE {
     rootCAEndorsements SEQUENCE SIZE(1..MAX) OF ElectorBallot,
     electorEndorsements SEQUENCE SIZE(0..MAX) OF ElectorBallot,
@@ -100,6 +120,5 @@ CertificateStore ::= SEQUENCE {
     certs SEQUENCE SIZE(0..MAX) OF Certificate,
     ...
 }
-
 
 END

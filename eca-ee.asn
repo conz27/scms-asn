@@ -104,8 +104,9 @@ EcaEndEntityInterfacePDU::= CHOICE {
 -------------------------------------------------------------------------------
 
 -- If the DCM needs to sign the enrollment request, it would use
--- SignedObeEnrollmentRequest or SignedRseEnrollmentRequest. For encryption purposes,
--- the DCM would use SecureObeEnrollmentRequest or SecureRseEnrollmentRequest.
+-- SignedObeEnrollmentRequest or SignedRseEnrollmentRequest. For encryption
+-- purposes, the DCM would use SecureObeEnrollmentRequest or
+-- SecureRseEnrollmentRequest.
 -- The operations for responses are analagous to those for requests.
 
 ObeEcaEnrollmentCertificateRequest ::= CommonEnrollmentCertificateRequest
@@ -114,6 +115,18 @@ EcaObeEnrollmentCertificateResponse ::= CommonEnrollmentCertificateResponse
 RseEcaEnrollmentCertificateRequest ::= CommonEnrollmentCertificateRequest
 EcaRseEnrollmentCertificateResponse ::= CommonEnrollmentCertificateResponse
 
+
+--------------------------------
+-- CommonEnrollmentCertificateRequest
+--
+-- Enrollment certificate request sent from an EE to an ECA.
+--
+-- version            version of this response structure
+-- currentTime        time when the request was signed
+-- requestedStartTime requested validity start time for the enrollment cert
+-- tbsData            structure containing requested certificate properties
+-- verifyKey          public verification key needed for implicit cert request
+--------------------------------
 CommonEnrollmentCertificateRequest ::= SEQUENCE {
     version             Uint8(1),
     currentTime         Time32,
@@ -123,6 +136,21 @@ CommonEnrollmentCertificateRequest ::= SEQUENCE {
     ...
 }
 
+
+--------------------------------
+-- CommonEnrollmentCertificateResponse
+-- 
+-- Response sent from ECA to an EE to fulfill a certificate request.  The same
+-- structure is used for both RSE and OBE enrollment certs.
+--
+-- version         version of this response structure
+-- requestHash     hash of the original certificate request sent to the ECA
+-- ecaCert         copy of the ECA certificate
+-- raCert          RA certificate used to validate the RA identity
+-- raHostname      hostname of the RA that the EE must use 
+-- enrollmentCert  signed implicit enrollment certificate
+-- privKeyReconstructionS reconstruction value needed for implicit certs
+--------------------------------
 CommonEnrollmentCertificateResponse ::= SEQUENCE {
 	version         Uint8(1),
     requestHash     HashedId8,  -- hash of the original request
@@ -137,6 +165,19 @@ CommonEnrollmentCertificateResponse ::= SEQUENCE {
     ...
 }
 
+
+--------------------------------
+-- ToBeSignedEnrollmentCertificate
+-- 
+-- This structure populated by an EE when requesting an enrollment certificate. 
+--
+-- validityPeriod     requested validity period
+-- region             list of valid operating regions for the certificate
+-- assuranceLevel     octet string that encodes component security properties
+-- canRequestRollover flag, indicates that certificate can rollover when true
+-- encryptionKey      encryption key for use by EE that is requesting the cert
+-- appPermissions     list of PSID/SSP pairs requested for the enrollment cert
+--------------------------------
 ToBeSignedEnrollmentCertificate ::= SEQUENCE  {
     id                     CertificateId (
         WITH COMPONENTS {..., name PRESENT } |
@@ -146,11 +187,18 @@ ToBeSignedEnrollmentCertificate ::= SEQUENCE  {
     validityPeriod         ValidityPeriod,
     region                 GeographicRegion OPTIONAL,
     assuranceLevel         SubjectAssurance OPTIONAL,
+    appPermissions         SequenceOfPsidSsp OPTIONAL,
     canRequestRollover     NULL OPTIONAL,
     encryptionKey          PublicEncryptionKey OPTIONAL,
     ...
 }
 
+
+--------------------------------
+-- EccP256PrivateKeyReconstruction
+--
+-- Reconstruction value needed for implicit certificates
+--------------------------------
 EccP256PrivateKeyReconstruction ::= OCTET STRING(SIZE(32))
 
 END

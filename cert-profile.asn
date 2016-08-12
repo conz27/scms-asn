@@ -1,3 +1,9 @@
+----------------------------
+-- cert-profile.asn
+--
+-- Defines the certificate structure for each component certificate in SCMS.
+----------------------------
+
 IEEE1609dot2-profiles {iso(1) identified-organization(3) ieee(111) 
 standards-association-numbered-series-standards(2) wave-stds(1609)  
 dot2(2) base (1) profiles (3)}
@@ -80,9 +86,18 @@ scms (2) interfaces(1) base-types (2)}
 
 
 ----------------------------
---		CRL Generator		
+-- CRL Generator	
+--
+-- Compiles and signs the CRL which contains linkage information that all
+-- receiving devices can use to identify the non-trustworthy devices.
+-- 
+-- CRL generator certificates are issued by the Root CA and can be used only
+-- to sign CRLs, and nothing else. As revocation of CRL generator certificates
+-- is difficult (i.e., can be done by either root CA or ICA), validity period
+-- of CRL generator certificates is kept as low as possible. For a given CRACA
+-- and CRL series, there is only one valid CRL generator certificate at any
+-- time, except for a short overlap	
 ----------------------------
-
 CrlgCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
   issuer (WITH COMPONENTS {sha256AndDigest}),
   toBeSigned (WITH COMPONENTS { ...,
@@ -136,9 +151,13 @@ CrlgCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
 
 
 ----------------------------------------
---		Device Configuation Manager		
+-- Device Configuation Manager
+--
+-- The DCM is responsible for giving devices access to new information. Use
+-- cases include the moving of an authority to a new address, updating the
+-- certificates of one or more authorities, and relaying policy decision or
+-- technical guidelines issued by the SCMS Manager to the device.  
 ----------------------------------------
-
 DcmCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
   issuer (WITH COMPONENTS{sha256AndDigest}),
   toBeSigned (WITH COMPONENTS { ...,
@@ -191,9 +210,19 @@ DcmCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
 
 
 -----------------------
---		Elector		
+-- Elector		
+--
+-- Elector certificates are not part of the PKI hierarchy of the SCMS, i.e.,
+-- verifying a certificate chain in the system does not involve verifying
+-- elector certificates. They are used primarily for root CA certificate
+-- management, including adding and removing a Root CA. The signature on the
+-- elector certificate does not have any cryptographic value, is there only
+-- for namesake, as the signature is by the elector itself, and therefore the
+-- trust in an elector certificate is established through out-of-band means.
+-- Elector certificate does not have an encryption key, as the electors are
+-- mostly offline and do not accept any incoming messages, whether encrypted
+-- or not.
 -----------------------
-
 ElectorCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
   issuer (WITH COMPONENTS {self}),
   toBeSigned (WITH COMPONENTS { ...,
@@ -229,9 +258,13 @@ ElectorCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
 
 
 ----------------------------------------------
---		Enrollment Certificate Authority		
+-- Enrollment Certificate Authority
+-- 
+-- ECA certificates are only used to issue certificates to end-entities
+-- including OBEs and RSEs. These certificates do not have encryption keys.
+-- To receive encrypted messages, the owner of these certificates can include
+-- an ephemeral response encryption key in the request messages.
 ----------------------------------------------
-
 EcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
   issuer (WITH COMPONENTS {sha256AndDigest}),
   toBeSigned (WITH COMPONENTS { ...,
@@ -286,9 +319,19 @@ EcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
 
 
 ----------------------------------------------
---		Intermediate Certificate Authority		
+-- Intermediate Certificate Authority
+-- 
+-- This entity is a CA, the certificate of which was issued by a different
+-- Root CA or ICA. Its value is that it shields the Root CA from traffic and
+-- attacks. It may also allow for greater granularity in permission granting:
+-- for example, ICAs (and the CAs below them) may be limited to a particular
+-- geographic region or to a particular manufacturer or type of device, to
+-- make auditing simpler. 
+--
+-- ICA certificates can be used to only issue certificates to other SCMS
+-- components and nothing else. Only the root CA or the ICA can issue (or,
+-- authorize someone to issue) a CRL to revoke ICA certificate.
 ----------------------------------------------
-
 IcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
   issuer (WITH COMPONENTS {sha256AndDigest}),
   toBeSigned (WITH COMPONENTS { ...,
@@ -359,9 +402,12 @@ IcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
 
 
 --------------------------------
---		Linkage Authority		
+-- Linkage Authority
+--
+-- The linkage authority generates linkage values. The certificates for a
+-- given device make use of linkage values from two LAs in order to make
+-- tracking more difficult.
 --------------------------------
-
 LaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
   issuer (WITH COMPONENTS{sha256AndDigest}),
   toBeSigned (WITH COMPONENTS { ...,
@@ -403,9 +449,15 @@ LaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
 
 
 --------------------------------
---		Misbehavior Authority		
+-- Misbehavior Authority
+--
+-- Responsible for processing misbehavior reports to identify potential
+-- misbehavior by end-entity devices. If necessary, it initiates the
+-- process to link a certificate identifier to the corresponding enrollment
+-- certificates. Further, it possibly revokes the enrollment certificate
+-- by adding the enrollment certificate to an internal blacklist and
+-- sending out an updated CRL to the devices in the field.
 --------------------------------
-
 MaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
   issuer (WITH COMPONENTS {sha256AndDigest}),
   toBeSigned (WITH COMPONENTS { ...,
@@ -446,10 +498,19 @@ MaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
 })
 
 
---------------------------------
---		OBE Enrollment		
---------------------------------
 
+--------------------------------
+-- OBE Enrollment
+--
+-- The enrollment certificate is like a passport for the OBE that it uses to
+-- request other certificates: pseudonym and identification certificates. It
+-- is provided to OBE during its bootstrap process, and is signed by an ECA.
+-- Each enrollment certificate has at least one PSID; however, an OBE cannot
+-- have more than one enrollment certificate associated with a particular
+-- (PSID, SSP) combination.
+--
+-- The enrollment certificate is an implicit certificate.
+--------------------------------
 ObeEnrollmentCertificate ::= ImplicitCertificate (WITH COMPONENTS { ...,
   issuer (WITH COMPONENTS{sha256AndDigest}),
   toBeSigned (WITH COMPONENTS { ...,
@@ -497,7 +558,6 @@ ObeEnrollmentCertificate ::= ImplicitCertificate (WITH COMPONENTS { ...,
 --------------------------------
 --		OBE Identification		
 --------------------------------
-
 ObeIdentificationCertificate ::= ImplicitCertificate (WITH COMPONENTS { ...,
   issuer (WITH COMPONENTS {sha256AndDigest}),
     toBeSigned (WITH COMPONENTS { ...,
@@ -532,9 +592,15 @@ ObeIdentificationCertificate ::= ImplicitCertificate (WITH COMPONENTS { ...,
 
 
 --------------------------------
---		OBE Pseudonym		
+-- OBE Pseudonym
+--
+-- Pseudonym certificates are used by an OBE primarily for BSM authentication
+-- and misbehavior reporting. They are signed in batches by a PCA and 
+-- downloaded by the OBE from an RA. Pseudonym certs are only used for a short
+-- period of time so that an OBE cannot be tracked by any other entity, but
+-- contain linkage values that allow for revocation and linkability in order
+-- in the case of misbehavior. 
 --------------------------------
-
 ObePseudonymCertificate ::= ImplicitCertificate (WITH COMPONENTS { ...,
   issuer (WITH COMPONENTS {sha256AndDigest}),
   toBeSigned (WITH COMPONENTS { ...,
@@ -578,9 +644,15 @@ ObePseudonymCertificate ::= ImplicitCertificate (WITH COMPONENTS { ...,
 
 
 ----------------------------------------------
---		Pseudonym Certificate Authority		
+-- Pseudonym Certificate Authority
+--
+-- PCA certificates are only used to issue certificates to end-entities,
+-- including OBEs and RSEs. To receive encrypted messages, the owner of these
+-- certificates can include an ephemeral response encryption key in the request
+-- messages. PCA certificates need to have validity periods that are at least
+-- as long as the longest validity certificates issued using them. Revocation
+-- of PCA certificate is done through CRLs issued by CRL generator.
 ----------------------------------------------
-
 PcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
   issuer (WITH COMPONENTS {sha256AndDigest}),
   toBeSigned (WITH COMPONENTS { ...,
@@ -637,7 +709,6 @@ PcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
 -------------------------------
 --		Policy Generator	
 -------------------------------
-
 PgCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
   issuer (WITH COMPONENTS {sha256AndDigest}),
   toBeSigned (WITH COMPONENTS { ...,
@@ -679,9 +750,13 @@ PgCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
 
 
 ----------------------------------
---		Registration Authority	
+-- Registration Authority
+--
+-- The RA is an entity authorized to validate, process and forward certificate
+-- requests. Although multiple RAs may exist, a given device may access only
+-- one RA. The RA is the gateway through which OBEs can request and download
+-- pseudonym certificates.
 ----------------------------------
-
 RaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
   issuer (WITH COMPONENTS{sha256AndDigest}),
   toBeSigned (WITH COMPONENTS { ...,
@@ -734,9 +809,13 @@ RaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
 
 
 ----------------------------------------------
---		Root Certificate Authority		
+-- Root Certificate Authority
+--
+-- The Root CA is a trust anchor. It resides at the top of the certificate
+-- chain and issues certificates for other CAs (as well as the MA / LAs / RAs).
+-- It uses a self-signed certificate and can only be trusted by an
+-- established and secure out-of-band means. 
 ----------------------------------------------
-
 RootCaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
   issuer (WITH COMPONENTS {self}),
   toBeSigned (WITH COMPONENTS { ...,
@@ -822,7 +901,6 @@ RootCaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
 ----------------------------
 --		RSE Application		
 ----------------------------
-
 RseApplicationCertificate ::= ImplicitCertificate (WITH COMPONENTS { ...,
   issuer (WITH COMPONENTS {sha256AndDigest}),
     toBeSigned (WITH COMPONENTS { ...,
@@ -859,7 +937,6 @@ RseApplicationCertificate ::= ImplicitCertificate (WITH COMPONENTS { ...,
 ----------------------------
 --		RSE Enrollment		
 ----------------------------
-
 RseEnrollmentCertificate ::= ImplicitCertificate (WITH COMPONENTS { ...,
   issuer (WITH COMPONENTS{sha256AndDigest}),
   toBeSigned (WITH COMPONENTS { ...,
