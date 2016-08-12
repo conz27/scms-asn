@@ -721,7 +721,10 @@ SignedMisbehaviorReport ::= SecuredScmsPDU (WITH COMPONENTS {...,
           missingCrlIdentifier ABSENT,
           encryptionKey ABSENT
         })
-      })
+      }),
+      signer (WITH COMPONENTS {...,
+		certificate (SequenceOfCertificate (SIZE(1))) -- reporter's pseudonym cert
+	  })
     })
   })
 })
