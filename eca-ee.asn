@@ -1,3 +1,19 @@
+-------------------------------------------------------------------------------
+-- ECA-EE 
+--
+-- The structures in this file define the protocol for messages between the
+-- ECA and any EE (OBE or RSE) for the purpose of requesting and receiving
+-- a new enrollment certificate.
+--
+-- The enrollment process is always initiated by the EE, typically with the aid
+-- of a DCM which provides a trusted connection between the new EE and the
+-- ECA.  The enrollment protocol assumes that the DCM does not take an active
+-- roll in the enrollment certificate request/response, it is just a trusted
+-- network connection point for the EE.  
+--
+-- This file is part of the SCMS protocol developed by CAMP VSC5
+-- It depends on the IEEE 1609.2 protocol specification
+-------------------------------------------------------------------------------
 
 Ieee1609Dot2EcaEndEntityInterface
 {iso(1) identified-organization(3) ieee(111)
