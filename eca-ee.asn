@@ -127,7 +127,6 @@ EcaEndEntityInterfacePDU::= CHOICE {
 
 ObeEcaEnrollmentCertificateRequest ::= CommonEnrollmentCertificateRequest
 EcaObeEnrollmentCertificateResponse ::= CommonEnrollmentCertificateResponse
-
 RseEcaEnrollmentCertificateRequest ::= CommonEnrollmentCertificateRequest
 EcaRseEnrollmentCertificateResponse ::= CommonEnrollmentCertificateResponse
 
@@ -190,9 +189,9 @@ CommonEnrollmentCertificateResponse ::= SEQUENCE {
 -- validityPeriod     requested validity period
 -- region             list of valid operating regions for the certificate
 -- assuranceLevel     octet string that encodes component security properties
+-- certRequestPermissions list of PSID/SSP pairs requested for the cert
 -- canRequestRollover flag, indicates that certificate can rollover when true
 -- encryptionKey      encryption key for use by EE that is requesting the cert
--- appPermissions     list of PSID/SSP pairs requested for the enrollment cert
 --------------------------------
 ToBeSignedEnrollmentCertificate ::= SEQUENCE  {
     id                     CertificateId (
@@ -203,7 +202,7 @@ ToBeSignedEnrollmentCertificate ::= SEQUENCE  {
     validityPeriod         ValidityPeriod,
     region                 GeographicRegion OPTIONAL,
     assuranceLevel         SubjectAssurance OPTIONAL,
-    appPermissions         SequenceOfPsidSsp OPTIONAL,
+    certRequestPermissions SequenceOfPsidGroupPermissions OPTIONAL,
     canRequestRollover     NULL OPTIONAL,
     encryptionKey          PublicEncryptionKey OPTIONAL,
     ...
