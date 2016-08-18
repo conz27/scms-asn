@@ -1,3 +1,12 @@
+-------------------------------------------------------------------------------
+-- MA-RA-ERRORS
+--
+-- The structures in this file define the possible error occuring during a 
+-- message exchange between the MA and the RA.
+--
+-- This file is part of the SCMS protocol developed by CAMP VSC5
+-- It depends on the IEEE 1609.2 protocol specification
+-------------------------------------------------------------------------------
 
 Ieee1609Dot2MaRaError
 {iso(1) identified-organization(3) ieee(111) 
@@ -9,6 +18,11 @@ DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 EXPORTS ALL;
 
 
+--------------------------------
+-- MaRaError 
+--
+-- Generic structure containing the possible errors returned by the RA.
+--------------------------------
 MaRaError ::= CHOICE {
   ma-ra-base-error          MaRaBaseErrorCode,
   ma-ra-blacklist-error     MaRaBlacklistErrorCode,
@@ -18,23 +32,29 @@ MaRaError ::= CHOICE {
 }
 
 MaRaBaseErrorCode ::= ENUMERATED {
-	raInternalTimeout,
-        maRequestTimeout,
-        raNoMaAuthorizationSignature, 
-	raInvalidMaAuthorizationSignature,
-        raInvalidInputValueFormat,
-        raInvalidHashRequest,
-        raInvalidRIFValue,
-        raInvalidLinkageValue, 
-	raNumberOfRequestsExceeded,
-	noSecureConnectionToRequestor, -- not used yet
-	hpcrIsUnknownToRA, -- not used yet
+	raInternalTimeout,                   -- internal timeout at the RA
+        maRequestTimeout,                    -- request timeout by the MA
+        raNoMaAuthorizationSignature,        -- the MA is not authorized to 
+                                             -- access the requested information
+	raInvalidMaAuthorizationSignature,   -- the signature in the request 
+                                             -- from the MA is invalid
+        raInvalidInputValueFormat,           -- generic invalid format in the 
+                                             -- request
+        raInvalidHashRequest,                -- the hash of the original 
+                                             -- request is invalid
+        raInvalidRIFValue,                   -- the RIF value is invalid
+        raInvalidLinkageValue,               -- the linkage value is invalid
+	raNumberOfRequestsExceeded,          -- the number of requests made by 
+                                             -- the MA was exceeded
+	noSecureConnectionToRequestor,       -- not used yet
+	hpcrIsUnknownToRA,                   -- not used yet
 	...
 }
 
 MaRaBlacklistErrorCode ::= ENUMERATED {
-	-- HPCR points to already blacklisted certificate
-	alreadyBlacklisted,
+	
+	alreadyBlacklisted,                  -- HPCR points to already 
+                                             -- blacklisted certificate
 	-- raCertificateAlreadyBlacklisted,
 	...
 }
@@ -46,7 +66,8 @@ MaRaLCIErrorCode ::= ENUMERATED {
 
 -- Added for RSE application and OBE identification cert revocation
 MaRaCDVErrorCode ::= ENUMERATED {
-    noCertificateDigestValuesKnownForRIF,
+    noCertificateDigestValuesKnownForRIF,    -- No CDV corresponds to the 
+                                             -- provided RIF
     ...
 }
     

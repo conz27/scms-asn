@@ -1,3 +1,12 @@
+-------------------------------------------------------------------------------
+-- LA-MA-ERRORS
+--
+-- The structures in this file define the possible error occuring during a 
+-- message exchange between an LA and the MA.
+--
+-- This file is part of the SCMS protocol developed by CAMP VSC5
+-- It depends on the IEEE 1609.2 protocol specification
+-------------------------------------------------------------------------------
 
 Ieee1609Dot2LaMaError
 {iso(1) identified-organization(3) ieee(111) 
@@ -8,6 +17,16 @@ DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 
 EXPORTS ALL;
 
+
+--------------------------------
+-- LaMaError
+--
+-- Generic structure containing the possible errors returned by the LA.
+--
+-- la-ma-base-error          base error codes for LA-MA communication
+-- la-ma-linkage-info-error  error codes in response to a linkage info request
+-- la-ma-linkage-seed-error  error codes in response to a linkage seed request
+--------------------------------
 LaMaError ::= CHOICE {
   la-ma-base-error          LaMaBaseErrorCode,
   la-ma-linkage-info-error  LaMaLinkageInfoErrorCode,
@@ -16,28 +35,32 @@ LaMaError ::= CHOICE {
 }
 
 LaMaBaseErrorCode ::= ENUMERATED {
-  laNoMaAuthorizationSignature, 
-  laInvalidMaAuthorizationSignature,
-  numberOfRequestsExceeded, -- not used yet
-  noSecureConnectionToRequestor, -- not used yet
-  laInternalTimeout,
-  maRequestTimeout,
-  laInvalidInputValueFormat, 
+  laNoMaAuthorizationSignature,       -- the MA is not authorized to acces the
+                                      -- requested information
+  laInvalidMaAuthorizationSignature,  -- the signature in the request from the
+                                      -- MA is invalid
+  numberOfRequestsExceeded,           -- not used yet
+  noSecureConnectionToRequestor,      -- not used yet
+  laInternalTimeout,                  -- internal timeout at the LA
+  maRequestTimeout,                   -- request timeout by the MA
+  laInvalidInputValueFormat,          -- generic invalid format in the request
   ...
 }
 
 LaMaLinkageInfoErrorCode ::= ENUMERATED {
-  atLeastOnePrelinkageValueUnknown, -- not used yet
-  allPrelinkageValuesUnknown, -- not used yet
-  onlyOnePrelinkageValuePresented, -- not used yet
-  laInvalidPrelinkageValuePresented,
+  atLeastOnePrelinkageValueUnknown,   -- not used yet
+  allPrelinkageValuesUnknown,         -- not used yet
+  onlyOnePrelinkageValuePresented,    -- not used yet
+  laInvalidPrelinkageValuePresented,  -- the pre-linkage value sent by the MA 
+                                      -- in its request is invalid
   ...
 }
 
 LaMaLinkageSeedErrorCode ::= ENUMERATED {
-  linkageChainIdentifierUnknown, -- not used yet
-  laInvalidLinkageValue,
-  laNumberOfLciValuesExceeded,
+  linkageChainIdentifierUnknown,      -- not used yet
+  laInvalidLinkageValue,              -- the linkage value is invalid
+  laNumberOfLciValuesExceeded,        -- the number of linkage chain 
+                                      -- information values is exceeded
   ...
 }
 

@@ -1,3 +1,20 @@
+-------------------------------------------------------------------------------
+-- EE-RA 
+--
+-- The structures in this file define the protocol for messages between an
+-- EE (OBE or RSE) and the RA for the purposes of 
+-- a) requesting and receiving the RA certificate in the event that the EE 
+-- possess an expired or invalid RA certificate, as an alternative method
+-- to aquiring the RA certificate through the DCM,
+-- b) requesting a batch of pseudonym certificates, identity certificates
+-- or application certificates
+--
+-- Both of these processes are initiated by the EE, possibly with the aid
+-- of a DCM.  
+--
+-- This file is part of the SCMS protocol developed by CAMP VSC5
+-- It depends on the IEEE 1609.2 protocol specification
+-------------------------------------------------------------------------------
 
 Ieee1609Dot2EndEntityRaInterface
 {iso(1) identified-organization(3) ieee(111)
@@ -48,6 +65,11 @@ FROM Ieee1609Dot2ScmsComponentCertificateManagement {iso(1)
 ;
 
 
+--------------------------------
+-- EndEntityRaInterfacePDU
+--
+-- All message types for the EE-RA interface PDU
+--------------------------------
 EndEntityRaInterfacePDU::= CHOICE {
     eeRaCertRequest                      EeRaCertRequestMsg,
     raEeCertResponse                     RaEeCertResponseMsg,
@@ -61,11 +83,32 @@ EndEntityRaInterfacePDU::= CHOICE {
     ...
 }
 
+
+-------------------------------------------------------------------------------
+-- Requests / Responses
+-------------------------------------------------------------------------------
+
+--------------------------------
+-- EeRaCertRequestMsg
+--
+-- RA certificate request sent from an EE to the RA.
+--
+-- version            version of this response structure
+--------------------------------
 EeRaCertRequestMsg ::= SEQUENCE {
     version         Uint8(1),
     ...
 }
 
+
+--------------------------------
+-- RaEeCertResponseMsg 
+--
+-- RA certificate response sent from the RA to an EE.
+--
+-- version            version of this response structure
+-- ack                structure containing the certificate response
+--------------------------------
 RaEeCertResponseMsg ::= SEQUENCE {
     version         Uint8(1),
   	reply           CHOICE {
@@ -75,6 +118,16 @@ RaEeCertResponseMsg ::= SEQUENCE {
     ...
 }
 
+
+--------------------------------
+-- RaEeCertResponseAck 
+--
+-- This structure populated by the RA contains the information requested by 
+-- an EE.
+--
+-- raCertificate      RA certificate
+-- crl                copy of the current CRL                
+--------------------------------
 RaEeCertResponseAck ::= SEQUENCE {
     raCertificate   Certificate,
     crl             CompositeCrl,
@@ -82,24 +135,54 @@ RaEeCertResponseAck ::= SEQUENCE {
 }
 
 
+--------------------------------
+-- CommonProvisioningRequestFields 
+--
+-- This structure encapsulates common fields required for a Provisioning
+-- request.
+--
+-- current-time       current time in seconds since 00:00:00 UTC, 
+--                    1 January, 2004.
+-- requested-start-time  requested start time of the certificates to be
+--                    provisioned
+--------------------------------
 CommonProvisioningRequestFields ::= SEQUENCE {
     current-time                 Time32,
     requested-start-time         Time32,
     ...
 }
 
+
+--------------------------------
+-- UnsignedButterflyParams 
+--
+-- This structure encapsulates fields required for butterfly key expansion.
+-- The RA generates caterpillar keys using a linear formula based on the
+-- two fields described in this structure.
+--
+-- seed-key           ECC curve point used for key expansion
+-- expansion          expansion value used for key expansion
+--------------------------------
 UnsignedButterflyParams ::= SEQUENCE {
     seed-key              EccP256CurvePoint,
     expansion             OCTET STRING (SIZE (16))
 }
 
 
--- Identification cert:
+--------------------------------
+-- EeRaIdCertProvisioningRequest 
 --
--- Identification certificates use Butterfly keys. 
-
--- These are signed and encrypted before sending, see scms-protocol.asn.
-
+-- Identification certificate provisioning request sent by an EE (OBE) to the RA.
+--
+-- version            version of this response structure
+-- verify-key-info    resulting butterfly key used as signature keys in the 
+--                    issued certificate
+-- cert-enc-key-info  resulting butterfly key used as encryption keys in the
+--                    issued certificate 
+-- resp-enc-key-info  resulting butterfly key used by the PCA to encrypt the
+--                    issued certificate to the EE
+-- common             time-related information as defined above
+--------------------------------
 EeRaIdCertProvisioningRequest ::= SEQUENCE {
     version                      Uint8(1),
     verify-key-info              UnsignedButterflyParams,
@@ -109,10 +192,23 @@ EeRaIdCertProvisioningRequest ::= SEQUENCE {
     ...
 }
 
--- Application cert:
---
--- Similar to Identification cert except no use of butterfly keys.
 
+--------------------------------
+-- EeRaAppCertProvisioningRequest
+--
+-- Application certificate provisioning request sent by an EE (RSE) to the RA.
+-- Similar to the EeRaIdCertProvisioningRequest defined above, except that 
+-- butterfly keys are not used in this case.
+--
+-- version            version of this response structure
+-- verify-key         public key used as signature keys in the issued
+--                    certificate
+-- cert-encryption-key public key used as encryption keys in the issued 
+--                    certificate 
+-- response-encryption-key public key used by the PCA to encrypt the
+--                    issued certificate to the EE
+-- common             time-related information as defined above
+--------------------------------
 EeRaAppCertProvisioningRequest ::= SEQUENCE {
     version                 Uint8(1),
     verify-key              PublicVerificationKey,
@@ -122,11 +218,22 @@ EeRaAppCertProvisioningRequest ::= SEQUENCE {
     ...
 }
 
--- Pseudonym cert:
---
--- Pseudonym certificates use butterfly keys. Unlike identification certificates, they are shuffled and include linkage values.
--- This differentiation is visible in other interfaces only, in particular RA-PCA.
 
+--------------------------------
+-- EeRaPseudonymCertProvisioningRequest 
+--
+-- Pseudonym certificate provisioning request sent by an EE to the RA.
+-- Unlike identification certificates, pseudonym certificates are shuffled 
+-- and include linkage values.
+-- This differentiation is visible in other interfaces only, in particular RA-PCA.
+--
+-- version            version of this response structure
+-- verify-key-info    resulting butterfly key used as to generate the
+--                    reconstruction value in the issued certificate
+-- resp-enc-key-info  resulting butterfly key used by the PCA to encrypt the
+--                    issued certificate to the EE
+-- common             time-related information as defined above
+--------------------------------
 EeRaPseudonymCertProvisioningRequest ::= SEQUENCE {
     version                      Uint8(1),
     verify-key-info              UnsignedButterflyParams,
@@ -136,14 +243,30 @@ EeRaPseudonymCertProvisioningRequest ::= SEQUENCE {
 }
 
 
--- enrollment certificate of the end entity, for pseudonym certificate requests
+--------------------------------
+-- EndEntityEnrollmentPseudonymCertificate 
+--
+-- Enrollment certificate of the end entity, used for pseudonym certificate 
+-- requests.
+--------------------------------
 EndEntityEnrollmentPseudonymCertificate ::= ImplicitCertificate (WITH COMPONENTS {...,
       toBeSigned(WITH COMPONENTS {...,
           certRequestPermissions PRESENT
       })
   })
 
--- signed and encrypted before sending, see scms-protocol.asn.
+--------------------------------
+-- RaEePseudonymCertProvisioningAck 
+--
+-- Acknowledgement sent by the RA to the EE in response to a pseudonym 
+-- certificate provisioning request.
+-- This message is igned and encrypted before sending, refer to 
+-- scms-protocol.asn for more information.
+--
+-- version            version of this response structure
+-- requestHash        hash of the original request
+-- reply              structure containing the acknowledgement
+--------------------------------
 RaEePseudonymCertProvisioningAck ::= SEQUENCE {
     version     Uint8(1),
     -- in case when RA can't calculate hash of the original
@@ -156,18 +279,52 @@ RaEePseudonymCertProvisioningAck ::= SEQUENCE {
     ...
 }
 
+
+--------------------------------
+-- PseudonymCertProvisioningAck 
+--
+-- Structure containing the acknowledgement included in a response to a 
+-- pseudonym certificate provisioning request.
+--
+-- certDLTime         time at which the first certificate batches will be 
+--                    available for download
+-- certDLURL          repository URL where to download the certificate batches 
+--------------------------------
 PseudonymCertProvisioningAck ::= SEQUENCE {
     certDLTime       Time32,
     certDLURL        Hostname,
     ...
 }
 
+
+--------------------------------
+-- RaEeIdCertProvisioningAck 
+--
+-- Acknowledgement sent by the RA to the EE (OBE) in response to an 
+-- identification certificate provisioning request.
+--------------------------------
 RaEeIdCertProvisioningAck ::= RaEePseudonymCertProvisioningAck
 
+
+--------------------------------
+-- RaEeAppCertProvisioningAck 
+--
+-- Acknowledgement sent by the RA to the EE (RSE) in response to an application 
+-- certificate provisioning request.
+--------------------------------
 RaEeAppCertProvisioningAck ::= RaEePseudonymCertProvisioningAck
 
 -- Authenticated Downloads
 
+--------------------------------
+-- AuthenticatedDownloadRequest 
+--
+-- Request sent from the EE to the RA to download the certificates
+-- requested above.
+--
+-- timestamp          time used to schedule subsequent top-up download 
+-- filename           name of the file to download 
+--------------------------------
 AuthenticatedDownloadRequest ::= SEQUENCE {
     timestamp      Time32,
     filename       UTF8String (SIZE(0..255)),

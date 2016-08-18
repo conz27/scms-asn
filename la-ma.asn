@@ -1,3 +1,22 @@
+-------------------------------------------------------------------------------
+-- LA-MA 
+--
+-- The structures in this file define the protocol for messages between an
+-- LA and the MA for the purposes of
+--
+-- a) Misbehaviour detection: the MA requests and receives information about
+-- the correlation of pre-linkage values to other prelinkage values originating
+-- from the same EEs linkage chain. This happens after having requested the PCA 
+-- to map the linkage values of the misbehaving EE to the pre-linkage value.
+-- 
+-- b) Revocation: the MA requests and receives the linkage seed of an EE in 
+-- order to add these values to the CRL.
+--
+-- Both of these processes are initiated by the MA.
+--
+-- This file is part of the SCMS protocol developed by CAMP VSC5
+-- It depends on the IEEE 1609.2 protocol specification
+-------------------------------------------------------------------------------
 
 Ieee1609Dot2LaMaInterface
 {iso(1) identified-organization(3) ieee(111) 
@@ -40,10 +59,11 @@ FROM Ieee1609dot2ScmsError {iso(1) identified-organization(3) ieee(111)
 ;
 
 
+--------------------------------
+-- LaMaInterfacePDU
 --
 -- All message types for the LA-MA interface PDU
---
-
+--------------------------------
 LaMaInterfacePDU::= CHOICE {
     maLaLinkageInfoRequest  MaLaLinkageInfoRequestMsg,
     laMaLinkageInfoResponse LaMaLinkageInfoResponseMsg,
@@ -52,9 +72,20 @@ LaMaInterfacePDU::= CHOICE {
     ...
 }
 
+
+--------------------------------
+-- MaLaLinkageInfoRequestMsg 
 --
--- MA requests linkage information from LA
+-- MA requests linkage information from LA for the purpose of Misbehavior 
+-- Detection.
 --
+-- version            version of this response structure
+-- tbs                structure containing the request 
+-- signatures         array of signatures proving that the MA is authorized
+--                    to perform this instruction; signatures can either be
+--                    a) the signature of the MA
+--                    b) the signature of the MA and of multiple Auditors
+--------------------------------
 MaLaLinkageInfoRequestMsg ::= SEQUENCE {
     version     Uint8(1),
     tbs         ToBeSignedLIRequestMsg,
@@ -63,6 +94,19 @@ MaLaLinkageInfoRequestMsg ::= SEQUENCE {
 }
 
 
+--------------------------------
+-- ToBeSignedLIRequestMsg 
+--
+-- Structure containing the request for linkage information
+--
+-- maId                   hostname of the MA
+-- encryptedPLVsAndFlags  array of structures containing the encrypted 
+--                        pre-linkage values
+-- encryptedGPLVsAndFlags array of structures containing the encrypted 
+--                        group pre-linkage values
+-- expectedReply          the format of the expected reply, can either be 
+--                        a scalar answer or a list of indices
+--------------------------------
 ToBeSignedLIRequestMsg ::= SEQUENCE {
     maId                        MaHostnameId,
     encryptedPLVsAndFlags       SEQUENCE (SIZE(0..MAX)) OF EncryptedPrelinkageValueAndDontCareFlag,
@@ -71,25 +115,58 @@ ToBeSignedLIRequestMsg ::= SEQUENCE {
     ...
 }
 
+--------------------------------
+-- EncryptedPrelinkageValueAndDontCareFlag 
+--
+-- Structure containing the encrypted pre-linkage value 
+--
+-- encryptedPLV           encrypted pre-linkage values
+-- dontCareFlag           
+--------------------------------
 EncryptedPrelinkageValueAndDontCareFlag ::= SEQUENCE {
     encryptedPLV  EncryptedIndividualPLV,
     dontCareFlag  BOOLEAN    
 }
 
+--------------------------------
+-- EncryptedGroupPrelinkageValueAndDontCareFlag 
+--
+-- Structure containing the encrypted group pre-linkage value 
+--
+-- encryptedGroupPLV      encrypted group pre-linkage values
+-- dontCareFlag           
+--------------------------------
 EncryptedGroupPrelinkageValueAndDontCareFlag ::= SEQUENCE {
     encryptedGroupPLV  EncryptedGroupPLV,
     dontCareFlag  BOOLEAN    
 }
 
 
+--------------------------------
+-- ExpectedReply 
+--
+-- The format of the reply expected by the MA, can either be 
+--                        
+-- scalarAnswer           a scalar answer 
+-- indicesLists           a list of indices
+--------------------------------
 ExpectedReply ::= ENUMERATED {
     scalarAnswer,
     indicesLists
 }
 
+--------------------------------
+-- LaMaLinkageInfoResponseMsg 
 --
--- LA replies with linkage information (Misbehavior Detection)
+-- The reply from the LA for the purpose of Misbehavior Detection. 
+-- Structure containing the linkage information.
 --
+-- version            version of this response structure
+-- requestHash        hash of the original request
+-- laId               hostname of the LA
+-- linkageInfo        structure containing the linkage information in case of
+--                    success or an error in case of failure
+--------------------------------
 LaMaLinkageInfoResponseMsg ::= SEQUENCE {
     version       Uint8(1),
     requestHash   HashedId8,  -- hash of the original request
@@ -100,6 +177,44 @@ LaMaLinkageInfoResponseMsg ::= SEQUENCE {
     }
 }
 
+--------------------------------
+-- LinkageInformation 
+--
+-- Structure containing the linkage information sent by the LA, either scalar
+-- or list of indices as requested by the MA.
+--
+-- a) scalar
+--     matches        number of pre-linkage values from the same linkage chain.
+--                    If multiple chains are found within the provided values, 
+--                    the chain with the most entries in the provided subset 
+--                    should be chosen. This does not include values flagged as
+--                    "don't care" 
+--     lowerBound     whether the scalar answer is exact or a lower bound. 
+--                    Example: the MA provides the LA with 50 pre-linkage 
+--                    values and specifies that it is interested in all linkage
+--                    information, i.e., does not set any of the "don't care" 
+--                    flags to true. However, the LA will only provide linkage 
+--                    information on 20 of them, i.e., rejects the request on 
+--                    the remaining 30. It uses the variable "matches" to 
+--                    report that five pre-linkage values (out of the 
+--                    considered 20) come from the same chain. It will set the 
+--                    variable "lowerBound" to True in order to indicate that 
+--                    there could be more pre-linkage values which point to 
+--                    this chain, i.e., five is only a lower bound on the 
+--                    number of pre-linkage values from the same chain. This 
+--                    bound may be tight.
+--
+-- a) indicesList     lists of pre-linkage values belonging together.
+--                    The sum of the three following fields must match the
+--                    length of the input field PrelinkageValueAndDontCareFlag.
+--
+--     unknownPlv     array of unknown pre-linkage values, can be of length 0
+--     rejectPlv      array of pre-linkage values for which a reply is rejected
+--                    This does not include pre-linkage values for which the 
+--                    "don't care" flag was set. Can be of length 0.
+--     assocPlv       array of lists of pre-linkage values stemming from the 
+--                    same device. Can be of length 0.
+--------------------------------
 LinkageInformation ::= CHOICE {
     scalar SEQUENCE {
         matches      INTEGER,
@@ -113,9 +228,18 @@ LinkageInformation ::= CHOICE {
     }
 }
 
+--------------------------------
+-- MaLaLinkageSeedRequestMsg 
 --
--- MA requests linkage seed from LA (Revocation)
+-- MA requests linkage seed from LA for the purpose of Revocation.
 --
+-- version            version of this response structure
+-- tbs                structure containing the request 
+-- signatures         array of signatures proving that the MA is authorized
+--                    to perform this instruction; signatures can either be
+--                    a) the signature of the MA
+--                    b) the signature of the MA and of multiple Auditors
+--------------------------------
 MaLaLinkageSeedRequestMsg ::= SEQUENCE {
     version       Uint8(1),
     tbs           ToBeSignedLSRequestMsg,
@@ -123,15 +247,32 @@ MaLaLinkageSeedRequestMsg ::= SEQUENCE {
     signatures    SEQUENCE (SIZE (0..MAX)) OF Countersignature
 }
 
+--------------------------------
+-- ToBeSignedLSRequestMsg 
+--
+-- Structure containing the request for linkage information
+--
+-- maId                   hostname of the MA
+-- lci                    array of linkage chain ids
+--------------------------------
 ToBeSignedLSRequestMsg ::= SEQUENCE {
     maId          MaHostnameId,
     lci           SEQUENCE OF LinkageChainId,
     ...
 }
 
+--------------------------------
+-- LaMaLinkageSeedResponseMsg
 --
--- LA replies with linkage seed (Revocation)
+-- The reply from the LA for the purpose of Revocation. Structure containing
+-- the linkage seeds corresponding to the pre-linkage values sent by the MA.
 --
+-- version            version of this response structure
+-- requestHash        hash of the original request
+-- laId               hostname of the LA
+-- lsInfo             array of linkage chain informations mapped to their
+--                    linkage seeds
+--------------------------------
 LaMaLinkageSeedResponseMsg ::= SEQUENCE {
     version     Uint8(1),
     requestHash HashedId8,
@@ -139,6 +280,20 @@ LaMaLinkageSeedResponseMsg ::= SEQUENCE {
     lsInfo      SEQUENCE OF LCI2LS
 }
 
+--------------------------------
+-- LCI2LS 
+--
+-- Structure containing the mapping of the linkage chain information to the 
+-- linkage seed requested by the MA.
+--
+-- lci                the linkage chain identifier
+-- reply              structure containing (in case of)
+--                    a) success: the linkage seed corresponding to the 
+--                                pre-linkage value requested and the LaId,
+--                                the unique LA Id used to generate the 
+--                                pre-linkage value through forward-hashing
+--                    b) failure: the corresponding error
+--------------------------------
 LCI2LS ::= SEQUENCE {
     lci    LinkageChainId,
     reply  CHOICE {

@@ -1,3 +1,12 @@
+-------------------------------------------------------------------------------
+-- MA-PCA-ERRORS
+--
+-- The structures in this file define the possible error occuring during a 
+-- message exchange between the MA and the PCA.
+--
+-- This file is part of the SCMS protocol developed by CAMP VSC5
+-- It depends on the IEEE 1609.2 protocol specification
+-------------------------------------------------------------------------------
 
 Ieee1609Dot2MaPcaError
 {iso(1) identified-organization(3) ieee(111) 
@@ -8,23 +17,34 @@ DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 
 EXPORTS ALL;
 
+
+--------------------------------
+-- LaMaError
+--
+-- Generic structure containing the possible errors returned by the PCA.
+--------------------------------
 MaPcaError ::= CHOICE {
 	ma-pca	MaPcaErrorCode,
   ...
 }
 
 MaPcaErrorCode ::= ENUMERATED {
-    pcaInternalTimeout,
-    maRequestTimeout,
-    pcaNoMaAuthorizationSignature,
-    pcaInvalidMaAuthorizationSignature,
-    numberofRequestsExceeded, -- not used yet
-    pcaNumberOfLinkageValuesExceeded,
-    noSecureConnectiontoRequestor, -- not used yet
-    tooManyUsers, -- not used yet
-    linkageValueUnknown, -- not used yet
-    pcaInvalidLinkageValue,
-    pcaInvalidInputValueFormat,
+    pcaInternalTimeout,                  -- internal timeout at the PCA
+    maRequestTimeout,                    -- request timeout by the MA
+    pcaNoMaAuthorizationSignature,       -- the MA is not authorized to acces the
+                                         -- requested information
+    pcaInvalidMaAuthorizationSignature,  -- the signature in the request from the
+                                         -- MA is invalid
+    numberofRequestsExceeded,            -- not used yet
+    pcaNumberOfLinkageValuesExceeded,    -- the number of linkage values 
+                                         -- requested allowed has been exceeded
+    noSecureConnectiontoRequestor,       -- not used yet
+    tooManyUsers,                        -- not used yet
+    linkageValueUnknown,                 -- not used yet
+    pcaInvalidLinkageValue,              -- the linkage value sent in the 
+                                         -- request is invalid
+    pcaInvalidInputValueFormat,          -- generic invalid format in the 
+                                         -- request
   ...
 }
 
