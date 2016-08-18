@@ -1,3 +1,12 @@
+-------------------------------------------------------------------------------
+-- ECA-EE-ERRORS
+--
+-- The structure in this file defines the possible error returned by the ECA 
+-- following a request by an OBE to obtain a new enrollment certificate.
+--
+-- This file is part of the SCMS protocol developed by CAMP VSC5
+-- It depends on the IEEE 1609.2 protocol specification
+-------------------------------------------------------------------------------
 
 Ieee1609Dot2EcaEndEntityError
 {iso(1) identified-organization(3) ieee(111) 
@@ -8,18 +17,24 @@ DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 
 EXPORTS ALL;
 
+
+--------------------------------
+-- EcaEndEntityError
+--
+-- Possible errors returned by the ECA.
+--------------------------------
 EcaEndEntityError ::= ENUMERATED {
-  ecaInvalidCurrentTime, -- currentTime out of range
+  ecaInvalidCurrentTime,        -- currentTime out of range
   ecaInvalidRequestedStartTime, -- requestedStartTime out of range
-  ecaInvalidPsid, -- passed PSID is invalid for the enrollment
-  ecaInvalidValidityPeriod, --ValidityPeriod out of range
-  ecaInvalidRegion, --GeographicRegion out of range
-  ecaInvalidAssuranceLevel, --SubjectAssurance out of range
-  ecaInvalidEncryptionKey, --response encryption key (PublicEncryptionKey) is invalid
-  ecaInvalidVerifyKey, -- enrollment key (SignedPublicKey) is invalid
-  ecaMalformedRequest, -- everything else that can go wrong in the request 
-  ecaInternalServerError, -- ECA failed to process Enrollment
-  ecaResponseTimeout, -- ECA response timeout
+  ecaInvalidPsid,               -- passed PSID is invalid for the enrollment
+  ecaInvalidValidityPeriod,     -- ValidityPeriod out of range
+  ecaInvalidRegion,             -- GeographicRegion out of range
+  ecaInvalidAssuranceLevel,     -- SubjectAssurance out of range
+  ecaInvalidEncryptionKey,      -- response encryption key (PublicEncryptionKey) is invalid
+  ecaInvalidVerifyKey,          -- enrollment key (SignedPublicKey) is invalid
+  ecaMalformedRequest,          -- everything else that can go wrong in the request 
+  ecaInternalServerError,       -- ECA failed to process Enrollment
+  ecaResponseTimeout,           -- ECA response timeout
   ...
 }
 

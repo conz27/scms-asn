@@ -1,3 +1,12 @@
+-------------------------------------------------------------------------------
+-- SCMS-ERRORS
+--
+-- The structure in this file defines the possible error occuring during the 
+-- management of component certificates.
+--
+-- This file is part of the SCMS protocol developed by CAMP VSC5
+-- It depends on the IEEE 1609.2 protocol specification
+-------------------------------------------------------------------------------
 
 Ieee1609dot2ScmsError {iso(1) identified-organization(3) ieee(111)
 standards-association-numbered-series-standards(2) wave-stds(1609)  dot2(2)
@@ -65,6 +74,11 @@ FROM Ieee1609Dot2PcaRaErrorPcaRaError
 
 ;
 
+--------------------------------
+-- ScmsError 
+--
+-- Possible errors in the SCMS 
+--------------------------------
 ScmsError ::= CHOICE {
   common  ScmsCommonError,
   ccm     ComponentCertificateManagementError,
@@ -79,23 +93,47 @@ ScmsError ::= CHOICE {
 }
 
 
+--------------------------------
+-- ScopedComponentCertificateManagementError 
+--
+-- Management of certificates of SCMS component errors
+--------------------------------
 ScopedComponentCertificateManagementError ::= 
   ScmsError (WITH COMPONENTS {common} | WITH COMPONENTS {ccm})
 
+--------------------------------
+-- ScopedEcaEndEntityError 
+--
+-- ECA-EE errors
+--------------------------------
 ScopedEcaEndEntityError ::= 
   ScmsError (WITH COMPONENTS {common} | WITH COMPONENTS {eca-ee})
 
+--------------------------------
+-- ScopedLaMaError 
+-- 
 -- This type is not used (see following la-ma errors)
+--------------------------------
 ScopedLaMaError ::=
   ScmsError (WITH COMPONENTS {common} | WITH COMPONENTS {la-ma})
+
+--------------------------------
+-- ScopedLaMaLIError 
+-- 
 -- Linkage information request errors
+--------------------------------
 ScopedLaMaLIError ::=
   ScmsError (WITH COMPONENTS {common} | 
              WITH COMPONENTS {la-ma 
                 (WITH COMPONENTS {la-ma-base-error} |
                  WITH COMPONENTS {la-ma-linkage-info-error})}
             )
+
+--------------------------------
+-- ScopedLaMaLSError 
+--
 -- Linkage seed request errors
+--------------------------------
 ScopedLaMaLSError ::=
   ScmsError (WITH COMPONENTS {common} | 
              WITH COMPONENTS {la-ma 
@@ -103,25 +141,55 @@ ScopedLaMaLSError ::=
                  WITH COMPONENTS {la-ma-linkage-seed-error})}
             )
 
+--------------------------------
+-- ScopedLaPcaError
+--
+-- LA-PCA errors 
+--------------------------------
 ScopedLaPcaError ::= 
   ScmsError (WITH COMPONENTS {common} | WITH COMPONENTS {la-pca})
 
+--------------------------------
+-- ScopedLaRaError
+--
+-- LA-RA errors 
+--------------------------------
 ScopedLaRaError ::= 
   ScmsError (WITH COMPONENTS {common} | WITH COMPONENTS {la-ra})
 
+--------------------------------
+-- ScopedMaPcaError
+--
+-- MA-PCA errors
+--------------------------------
 ScopedMaPcaError ::= 
   ScmsError (WITH COMPONENTS {common} | WITH COMPONENTS {ma-pca})
 
+--------------------------------
+-- ScopedMaRaError
+--
+-- MA-RA errors 
+--------------------------------
 ScopedMaRaError ::= 
   ScmsError (WITH COMPONENTS {common} | WITH COMPONENTS {ma-ra})
+
+--------------------------------
+-- ScopedMaRaBlacklistError 
+--
 -- Blacklist request errors
+--------------------------------
 ScopedMaRaBlacklistError ::=
   ScmsError (WITH COMPONENTS {common} | 
              WITH COMPONENTS {ma-ra
                 (WITH COMPONENTS {ma-ra-base-error} |
                  WITH COMPONENTS {ma-ra-blacklist-error})}
             )
+
+--------------------------------
+-- ScopedMaRaLCIError 
+--
 -- Linkage chain identifier request errors
+--------------------------------
 ScopedMaRaLCIError ::=
   ScmsError (WITH COMPONENTS {common} | 
              WITH COMPONENTS {ma-ra
@@ -130,7 +198,11 @@ ScopedMaRaLCIError ::=
             )
 
 
-
+--------------------------------
+-- ScopedPcaRaError 
+--
+-- PCA-RA errors
+--------------------------------
 ScopedPcaRaError ::= 
   ScmsError (WITH COMPONENTS {common} | WITH COMPONENTS {pca-ra})
 

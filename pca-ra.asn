@@ -1,3 +1,18 @@
+-------------------------------------------------------------------------------
+-- PCA-RA 
+--
+-- The structures in this file define the protocol for messages between the
+-- PCA and the RA for the purpose of requesting and receiving pseudonym or 
+-- identification certificates on behalf of the EE.
+--
+-- The certificate provisioning process is initiated by the EE, which initially
+-- issues a request to the RA, as specified in ee-ra.asn. This request is 
+-- processed by the RA which forwards the request to the PCA, as defined by the 
+-- structures described in this file.
+--
+-- This file is part of the SCMS protocol developed by CAMP VSC5
+-- It depends on the IEEE 1609.2 protocol specification
+-------------------------------------------------------------------------------
 
 Ieee1609Dot2PcaRaInterface
 {iso(1) identified-organization(3) ieee(111) 
@@ -58,18 +73,36 @@ FROM Ieee1609dot2ScmsError {iso(1) identified-organization(3) ieee(111)
 
 ;
 
+
+--------------------------------
+-- PcaRaInterfacePDU
 --
 -- All message types for the PCA-RA interface PDU
---
+--------------------------------
 PcaRaInterfacePDU::= CHOICE {
   raPcaCertRequest   RaPcaCertRequestMsg,
   pcaRaCertResponse  PcaRaCertResponseMsg,
   ...
 }
 
+
+-------------------------------------------------------------------------------
+-- Requests / Responses
+-------------------------------------------------------------------------------
+
+
+--------------------------------
+-- RaPcaCertRequestMsg 
 --
--- Request certificate message sent by RA to PCA
+-- Request certificate message sent by the RA to the PCA
 --
+--
+-- version            version of this response structure
+-- raId               hostname of the RA
+-- cert-request-info  structure containing the certificate request information
+--                    either for requesting pseudonym certificates, or identity
+--                    certificates
+--------------------------------
 RaPcaCertRequestMsg ::= SEQUENCE {
   version           Uint8(1),
   raId              RaHostnameId,
@@ -81,36 +114,56 @@ RaPcaCertRequestMsg ::= SEQUENCE {
 }
 
 
-
-
+--------------------------------
+-- PseudonymCertRequestInfo 
 --
--- OBE Pseudonym Certificate info sent in the request certificate message
+-- OBE Pseudonym Certificate info sent in the request certificate message.
+--
 -- This version is only for implicit certs using butterfly keys. If other
 -- versions of pseudonym cert requests are developed with no butterfly keys
 -- or for explicit certs, that can be handled by defining an additional
 -- CertRequestInfo type within RaPcaCertRequestMsg. In particular, this 
 -- doesn't allow pseudonym certs to have encryption keys, although it would
 -- in principle be possible to support this if the CA added a value to the
--- encryption key as well as modifying the signing key. It's probably best
--- for pseudonymous devices that want encrypted responses to do it via a 
+-- encryption key as well as modifying the signing key. However, it's probably 
+-- best for pseudonymous devices that want encrypted responses to do it via a 
 -- response encryption key in the SignedData anyway.
 --
-
+--
+-- The following fields are directly included into the certificate
+--
+-- psidSsp            array of Psid service specific permissions
+-- performanceAssuranceLevel trust assurance level of the certificate holder        
+-- region             geographic validity region of the certificate
+-- iValue             value representing a particular time period embedded
+--                    in the certificate
+--
+-- The following fields are used to generate material that goes in the 
+-- certificate but are not included in the certificate directly
+--
+-- pca-id             hostname of the PCA
+-- sig-butterfly-key-B expanded signature butterfly key B_i
+-- la1-id             hostname of the LA delivering pre-linkage value 1
+-- la2-id             hostname of the LA delivering pre-linkage value 2
+-- enc-plv1           encrypted pre-linkage value 1 delivered by la1-id
+-- enc-plv2           encrypted pre-linkage value 2 delivered by la2-id
+-- group-linkage-info optional structure encapsulating information related to 
+--                    the group linkage value
+--   gla1-id            hostname of the LA delivering grouppre-linkage value 1
+--   gla2-id            hostname of the LA delivering grouppre-linkage value 2
+--   enc-gplv1          encrypted group pre-linkage value 1 delivered by gla1-id
+--   enc-gplv2          encrypted group pre-linkage value 2 delivered by gla2-id
+-- 
+-- The following field is not related to any field of the resulting certificate
+-- 
+-- enc-butterfly-key-H butterfly key to encrypt the certificate to the EE
+--------------------------------
 PseudonymCertRequestInfo ::= SEQUENCE {
-
-  --
-  -- these fields go directly into the cert
-  --
 
   psidSsp                           SequenceOfPsidSsp,
   performanceAssuranceLevel         SubjectAssurance OPTIONAL,
   region                            GeographicRegion OPTIONAL,
   iValue                            IValue,
-
-  --
-  -- used to create material that goes in the cert but not included in the
-  -- cert directly
-  --
 
   pca-id                 PcaHostnameId,
   sig-butterfly-key-B    EccP256CurvePoint,
@@ -125,22 +178,32 @@ PseudonymCertRequestInfo ::= SEQUENCE {
       enc-gplv2              EncryptedGroupPLV 
   } OPTIONAL,
 
-  -- used to encrypt the response
   enc-butterfly-key-H    EccP256CurvePoint
 }
 
---
+
+--------------------------------
+-- IdCertRequestInfo 
+-- 
 -- Identification Certificate info sent in the request certificate message
 --
-
+-- pca-id             hostname of the PCA
+-- type               type of certificate requested (explicit or implicit)
+-- to-be-signed-cert  structure encapsulating the information to be signed by
+--                    the PCA
+--   crlSeries(0)     a placeholder for crlSeries that the PCA overwrites
+--   appPermissions   Psid of the identification certificate request
+-- 
+-- response-encryption-key key to encrypt the certificate to the EE
+--------------------------------
 IdCertRequestInfo ::= SEQUENCE {
   pca-id                 PcaHostnameId,
   type                   CertificateType,
 
   to-be-signed-cert   ToBeSignedCertificate( 
     WITH COMPONENTS { ...,  
-      crlSeries(0), -- PCA inserts crlSeries value
-      appPermissions -- Identification certificate request PSID
+      crlSeries(0), 
+      appPermissions
     }
   ),
 
@@ -148,9 +211,23 @@ IdCertRequestInfo ::= SEQUENCE {
 }
 
 
+--------------------------------
+-- PcaRaCertResponseMsg  
 --
--- Response to certificate request message sent by PCA to RA
+-- Response to a certificate request message sent by the PCA to the RA
 --
+-- version            version of this response structure
+-- requestHash        hash of the original certificate request sent to the PCA
+-- pca-id             hostname of the PCA
+-- reply              reply can be either success or failure. In case of
+--   a) success       the response can either be
+--
+--     i) signed-encrypted structure signed by the PCA and encrypted to OBE 
+--                     containing the response. See below.
+--     ii) raw         a certificate either implicit or explicit. See below.
+--
+--   b) failure       structure encompassing the reason for the request failure
+--------------------------------
 PcaRaCertResponseMsg ::= SEQUENCE {
   version     Uint8(1),
   requestHash HashedId8,  -- hash of the original request
@@ -165,6 +242,9 @@ PcaRaCertResponseMsg ::= SEQUENCE {
   ...
 }
 
+
+--------------------------------
+-- SignedEncryptedCertificateResponse 
 --
 -- Since this looks a little complicated, here's some explanation.
 -- 
@@ -192,7 +272,7 @@ PcaRaCertResponseMsg ::= SEQUENCE {
 -- and (butterfly/single-key) as all four combinations are potentially legal 
 -- and a receiver needs to know which combination applies in order to recover 
 -- the correct private key.
-
+--------------------------------
 SignedEncryptedCertificateResponse ::= Ieee1609Dot2Data (WITH COMPONENTS {..., 
   content (WITH COMPONENTS {
     signedData  (WITH COMPONENTS {..., 
@@ -220,6 +300,16 @@ SignedEncryptedCertificateResponse ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
 })
 
 
+--------------------------------
+-- ToBeSignedEncryptedCertificateResponse 
+--
+-- Structure contained in a successful SignedEncryptedCertificateResponse
+--
+-- psidSsp            array of Psid service specific permissions 
+-- expiration         expiration time of the certificate enclosed
+-- lifetime           validity period of the certificate enclosed
+-- encrypted-cert     encrypted certificate structure
+--------------------------------
 ToBeSignedEncryptedCertificateResponse ::= SEQUENCE {
     psidSsp         SequenceOfPsidSsp,
     expiration      Time32,     
@@ -227,7 +317,13 @@ ToBeSignedEncryptedCertificateResponse ::= SEQUENCE {
     encrypted-cert  EncryptedCertificateData
 }
 
--- Decrypts to a DecryptedCertificateData
+
+--------------------------------
+-- EncryptedCertificateData 
+--
+-- Encrypted certificate structure. Decrypts to a DecryptedCertificateData
+-- as defined below
+--------------------------------
 EncryptedCertificateData ::= Ieee1609Dot2Data (WITH COMPONENTS {
   content (WITH COMPONENTS {..., 
     encryptedData (WITH COMPONENTS {
@@ -239,6 +335,13 @@ EncryptedCertificateData ::= Ieee1609Dot2Data (WITH COMPONENTS {
   })
 })
 
+
+--------------------------------
+-- DecryptedCertificateData 
+--
+-- Decrypted certificate structure. Contains a PlaintextCertificateResponse
+-- as defined below
+--------------------------------
 DecryptedCertificateData ::= Ieee1609Dot2Data (WITH COMPONENTS {
     content (WITH COMPONENTS {..., 
       unsecuredData (CONTAINING PlaintextCertificateResponse
@@ -246,6 +349,17 @@ DecryptedCertificateData ::= Ieee1609Dot2Data (WITH COMPONENTS {
   })
 })
 
+
+--------------------------------
+-- PlaintextCertificateResponse 
+--
+-- The basic structure for a certificate response; can be either of
+
+-- implicit-butterfly certificate of type implicit containing an i-Value
+-- implicit           certificate of type implicit without i-Value
+-- explicit-butterfly explicit certificate containing an i-Value
+-- explicit           standard explicit certificate
+--------------------------------
 PlaintextCertificateResponse ::= CHOICE {
     implicit-butterfly   ImplicitCertResponse,
     implicit             ImplicitCertResponse,
@@ -253,11 +367,25 @@ PlaintextCertificateResponse ::= CHOICE {
     explicit             Certificate
 }
 
--- Provided certificate and private key reconstruction value 
 
+--------------------------------
+-- EccP256PrivateKeyReconstruction 
+--
+-- Private key reconstruction value for the EE
+--------------------------------
 EccP256PrivateKeyReconstruction ::= OCTET STRING(SIZE(32))
 
 
+--------------------------------
+-- ImplicitCertResponse 
+--
+-- Structure grouping a certificate of type implicit in response to a request
+-- initiated by an EE and a private key reconstruction value to allow the EE
+-- to reconstruct the private key associated with this certificate
+
+-- certificate        certificate of type implicit 
+-- priv-key-reconstruction-s private key reconstruction value
+--------------------------------
 ImplicitCertResponse ::= SEQUENCE {
     certificate             Certificate (WITH COMPONENTS { ...,
         type(implicit),
@@ -266,7 +394,16 @@ ImplicitCertResponse ::= SEQUENCE {
     priv-key-reconstruction-s EccP256PrivateKeyReconstruction
 }
 
+
+--------------------------------
+-- ButterflyExplicitCertResponse 
+-- 
 -- Provided certificate and private key reconstruction value 
+--
+-- certificate        certificate of type explicit
+-- priv-key-reconstruction-c random nonce introduced by the PCA needed by the 
+--                    EE to reconstruct its private key
+--------------------------------
 ButterflyExplicitCertResponse ::= SEQUENCE {
     certificate             Certificate (WITH COMPONENTS { ...,
         type(explicit),
@@ -274,9 +411,6 @@ ButterflyExplicitCertResponse ::= SEQUENCE {
     }),
     priv-key-reconstruction-c EccP256PrivateKeyReconstruction
 }
-
-
-
 
 
 END

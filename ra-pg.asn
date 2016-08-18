@@ -1,3 +1,15 @@
+-------------------------------------------------------------------------------
+-- RA-PG 
+--
+-- The structures in this file define the protocol for messages between the RA
+-- and the PG (Policy Generator) for the purpose of requesting and receiving
+-- a custom policy file. 
+--
+-- Both of these processes are initiated by the MA.
+--
+-- This file is part of the SCMS protocol developed by CAMP VSC5
+-- It depends on the IEEE 1609.2 protocol specification
+-------------------------------------------------------------------------------
 
 Ieee1609Dot2RaPgInterface
 {iso(1) identified-organization(3) ieee(111) 
@@ -52,9 +64,11 @@ FROM Ieee1609dot2ScmsPolicyTypes {iso(1) identified-organization(3) ieee(111)
 ;
 
 
+--------------------------------
+-- RaPgInterfacePDU
 --
 -- All message types for the RA-PG interface PDU
---
+--------------------------------
 RaPgInterfacePDU ::= CHOICE {
     raPgPolicySignatureRequest   RaPgPolicySignatureRequestMsg,
     raPgPolicySignatureRequestReply  RaPgPolicySignatureRequestReplyMsg,
@@ -62,6 +76,12 @@ RaPgInterfacePDU ::= CHOICE {
 }
 
 
+--------------------------------
+-- ToBeSignedCustomPolicyFile 
+--
+-- Structure containing the custom policy file modified and then sent by the RA
+-- in order to have it signed by the PG
+--------------------------------
 ToBeSignedCustomPolicyFile ::= ToBeSignedPolicyData( WITH COMPONENTS {...,
     policy(WITH COMPONENTS {...,
         custom PRESENT
@@ -69,6 +89,12 @@ ToBeSignedCustomPolicyFile ::= ToBeSignedPolicyData( WITH COMPONENTS {...,
 })
 
 
+--------------------------------
+-- SignedCustomPolicyFile 
+--
+-- Structure containing the custom policy file modified by the RA signed by the
+-- PG in response to the request by the MA
+--------------------------------
 SignedCustomPolicyFile ::= BasePolicyFile (WITH COMPONENTS {...,
     tbsData( WITH COMPONENTS {...,
         policy(WITH COMPONENTS {...,
@@ -78,12 +104,17 @@ SignedCustomPolicyFile ::= BasePolicyFile (WITH COMPONENTS {...,
 })
 
 
+--------------------------------
+-- RaPgPolicySignatureRequestMsg  
 --
--- Request to sign modified global parameters inside a local policy file (LPF)
--- An RA may generate an LPF with a mix of global parameters and local
--- parameters.  The global portion must be approved and signed by the
--- PG before it can be distributed to EEs.  
---
+-- Request sent from the RA to the PG to sign the modified global parameters 
+-- inside a local policy file (LPF). The RA may generate an LPF with a mix of 
+-- global parameters and local parameters. The global portion must be approved
+-- and signed by the PG before it can be distributed to EEs.  
+-- 
+-- version            version of this request structure
+-- tbs                structure containing the custom policy file to be signed
+--------------------------------
 RaPgPolicySignatureRequestMsg ::= SEQUENCE {
     version    Uint8(1),
     tbs        ToBeSignedCustomPolicyFile,
@@ -91,6 +122,16 @@ RaPgPolicySignatureRequestMsg ::= SEQUENCE {
 }
 
 
+--------------------------------
+-- RaPgPolicySignatureRequestReplyMsg 
+--
+-- The response to the policy signature request sent by the PG to the RA
+--
+-- version            version of this response structure
+-- signedFile         structure containing (in case of)
+--                    a) success: the signed policy file
+--                    b) failure: the corresponding error
+--------------------------------
 RaPgPolicySignatureRequestReplyMsg ::= SEQUENCE {
     version    Uint8(1),
     signedFile   CHOICE {

@@ -1,3 +1,12 @@
+-------------------------------------------------------------------------------
+-- COMPONENT-CERT-MANAGEMENT-ERRORS
+--
+-- The structure in this file defines the possible error occuring during the 
+-- management of component certificates.
+--
+-- This file is part of the SCMS protocol developed by CAMP VSC5
+-- It depends on the IEEE 1609.2 protocol specification
+-------------------------------------------------------------------------------
 
 Ieee1609Dot2ScmsComponentCertificateManagementError
 {iso(1) identified-organization(3) ieee(111) 
@@ -8,6 +17,11 @@ DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 
 EXPORTS ALL;
 
+--------------------------------
+-- ComponentCertificateManagementError 
+--
+-- Generic structure containing the possible error.
+--------------------------------
 ComponentCertificateManagementError ::= ENUMERATED {
   baseline(1),
   ...

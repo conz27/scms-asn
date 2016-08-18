@@ -1,3 +1,12 @@
+-------------------------------------------------------------------------------
+-- SCMS-COMMON-ERRORS
+--
+-- The structure in this file defines a common error structure for the SCMS 
+-- components.
+--
+-- This file is part of the SCMS protocol developed by CAMP VSC5
+-- It depends on the IEEE 1609.2 protocol specification
+-------------------------------------------------------------------------------
 
 Ieee1609dot2ScmsCommonError {iso(1) identified-organization(3) ieee(111)
 standards-association-numbered-series-standards(2) wave-stds(1609) dot2(2)
@@ -8,6 +17,11 @@ DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 
 EXPORTS ALL;
 
+--------------------------------
+-- ScmsCommonError 
+--
+-- Common error structure
+--------------------------------
 ScmsCommonError ::= ENUMERATED {
   baseline(1),
   ...

@@ -1,3 +1,16 @@
+-------------------------------------------------------------------------------
+-- SCMS-Protocol
+--
+-- Describes the high level messages exchanged between components in the SCMS
+-- system. Each pair of communicating entities has a defined interface for
+-- communication. Unsecured communication over these interfaces is encapsulated
+-- in a series of Scoped messages. These Scoped messages can then be further
+-- encapsulated as a Signed message, and further as a Secured message (i.e.,
+-- a Scoped message that has been Signed and then Encrypted).
+--
+-- This file is part of the SCMS protocol developed by CAMP VSC5
+-- It depends on the IEEE 1609.2 protocol specification
+-------------------------------------------------------------------------------
 
 IEEE1609dot2ScmsProtocol {iso(1) identified-organization(3) ieee(111)
 standards-association-numbered-series-standards(2) wave-stds(1609)
@@ -110,6 +123,24 @@ standards-association-numbered-series-standards(2) wave-stds(1609)  dot2(2)
 scms (2) interfaces(1) policy-types (500)}
 ;
 
+--------------------------------
+-- ScmsPDU
+--
+-- The top-level container for messages exchanged between SCMS components.
+--
+-- version    version of this PDU
+-- ccm          for PDUs related to component certificate management
+-- eca-ee       for PDUs exchanged between the ECA and an EE
+-- ee-ma        for PDUs exchanged between an EE and the MA
+-- ee-ra        for PDUs exchanged between an EE and the RA
+-- la-ma        for PDUs exchanged between the LA and the MA
+-- la-pca       for PDUs exchanged between the LA and the PCA
+-- la-ra        for PDUs exchanged between the LA and the RA
+-- ma-pca       for PDUs exchanged between the MA and the PCA
+-- ma-ra        for PDUs exchanged between the MA and the RA
+-- pca-ra       for PDUs exchanged between the PCA and the RA
+-- ra-pg        for PDUs exchanged between the RA and the PG
+--------------------------------
 ScmsPDU ::= SEQUENCE {
   version  Uint8(1),
   content  CHOICE {
@@ -128,6 +159,17 @@ ScmsPDU ::= SEQUENCE {
  }
 }
 
+--------------------------------
+-- ScmsFile
+--
+-- Contains either a CertificateChainFiles or a PolicyFiles object. Provides
+-- a standard object to be encapsulated in a Scoped PDU for certificate chain
+-- and policy files.
+--
+-- version      version of this PDU
+-- cert-chain   certificate chain files
+-- policy       policy files
+--------------------------------
 ScmsFile ::= SEQUENCE {
   version Uint8(1),
   content CHOICE {
@@ -137,17 +179,27 @@ ScmsFile ::= SEQUENCE {
   }
 }
 
--- *************************************************************************
---
---             Scoped
---
--- *************************************************************************
+----------------------------------------------------------------------------
+-- Scoped SCMS PDUs and SCMS Files
+-- 
+-- Each pair of communicating components has an associated interface defining
+-- the necessary messages. The Scoped version of these messages is the 
+-- associated ScmsPDU containing a given interface-specific message.
+----------------------------------------------------------------------------
 
--- *** EE-CA ***************************************************************
+----------------------------------------------------------------------------
+-- EE-CA (Scoped)
+-- 
+-- The Scoped version of:
+--              obeEcaCertRequest
+--              ecaObeCertResponse
+--              rseEcaCertRequest
+--              ecaRseCertResponse
+----------------------------------------------------------------------------
 ScopedObeEnrollmentCertRequest ::=
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
-      eca-ee (WITH COMPONENTS {
+      eca-ee (WITH COMPONENTS s{
         obeEcaCertRequest
       })
     })
@@ -180,8 +232,12 @@ ScopedRseEnrollmentCertResponse ::=
     })
  })
 
--- *** EE-MA ***************************************************************
-
+----------------------------------------------------------------------------
+-- EE-MA (Scoped)
+-- 
+-- The Scoped version of:
+--              misbehaviorReport
+----------------------------------------------------------------------------
 ScopedMisbehaviorReport ::=
   ScmsPDU (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
@@ -191,8 +247,26 @@ ScopedMisbehaviorReport ::=
     })
  })
 
--- *** EE-RA ***************************************************************
-
+----------------------------------------------------------------------------
+-- EE-RA (Scoped)
+-- 
+-- The Scoped version of:
+--              eeRaCertRequest
+--              raEeCertResponse
+--              eeRaPseudonymCertProvisioningRequest
+--         raEePseudonymCertProvisioningAck
+--         eeRaIdCertProvisioningRequest
+--         raEeIdCertProvisioningAck
+--        eeRaAppCertProvisioningRequest
+--        raEeAppCertProvisioningAck
+--        eeRaAuthenticatedDownloadRequest
+--
+-- Also contains Scoped versions of the following files:
+--        globalCertificateChainFile
+--        localCertificateChainFile
+--        globalPolicyFile
+--         localPolicyFile
+----------------------------------------------------------------------------
 ScopedEeRaCertRequest ::=
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
@@ -310,8 +384,15 @@ ScopedAuthenticatedDownloadRequest ::=
     })
   })
 
--- *** LA-MA ***************************************************************
-
+----------------------------------------------------------------------------
+-- LA-MA (Scoped)
+-- 
+-- The Scoped version of:
+--        maLaLinkageInfoRequest
+--        laMaLinkageInfoResponse
+--        maLaLinkageSeedRequest
+--        laMaLinkageSeedResponse
+----------------------------------------------------------------------------
 ScopedLIRequest ::=
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
@@ -350,8 +431,14 @@ ScopedLSReply ::=
   })
 
 
--- *** LA-PCA **************************************************************
-
+----------------------------------------------------------------------------
+-- LA-PCA (Scoped)
+-- 
+-- The Scoped version of:
+--        pcaLaKeyAgreementRequest
+--         laPcaKeyAgreementResponse
+--        pcaLaKeyAgreementAck
+----------------------------------------------------------------------------
 ScopedPcaLaKeyAgreementRequest ::=
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
@@ -379,8 +466,14 @@ ScopedPcaLaKeyAgreementAck ::=
     })
   })
 
--- *** LA-RA ***************************************************************
-
+----------------------------------------------------------------------------
+-- LA-RA (Scoped)
+-- 
+-- The Scoped version of:
+--        raLaIndividualPreLinkageValueRequest
+--        raLaGroupPreLinkageValueRequest
+--         laRaPreLinkageValueResponse
+----------------------------------------------------------------------------
 ScopedRaLaIndividualPreLinkageValueRequest ::=
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
@@ -409,9 +502,15 @@ ScopedLaRaPreLinkageValueResponse ::=
     })
   })
 
--- *** MA-PCA **************************************************************
-
-
+----------------------------------------------------------------------------
+-- MA-PCA (Scoped)
+-- 
+-- The Scoped version of:
+--        maPcaPreLinkageValueRequest
+--        pcaMaPreLinkageValueResponse
+--        maPcaHPCRRequest
+--        pcaMaHPCRResponse
+----------------------------------------------------------------------------
 ScopedMaPcaPreLinkageValueRequest ::=
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
@@ -451,9 +550,17 @@ ScopedPcaMaHPCRResponse ::=
     })
   })
 
--- *** MA-RA **************************************************************
-
-
+----------------------------------------------------------------------------
+-- MA-RA (Scoped)
+-- 
+-- The Scoped version of:
+--        maRaBlacklistRequest
+--        raMaBlacklistResponse
+--        maRaLCIRequest
+--        raMaLCIResponse
+--        maRaRseObeIdBlacklistRequest
+--        raMaRseObeIdBlacklistResponse
+----------------------------------------------------------------------------
 ScopedBlacklistRequest ::=
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
@@ -511,8 +618,13 @@ ScopedRseObeIdBlacklistResponse ::=
     })
   })
 
--- *** PCA-RA *************************************************************
-
+----------------------------------------------------------------------------
+-- PCA-RA (Scoped)
+-- 
+-- The Scoped version of:
+--        raPcaCertRequest
+--        pcaRaCertResponse
+----------------------------------------------------------------------------
 ScopedRaPcaCertificateRequest ::=
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
@@ -533,8 +645,13 @@ ScopedPcaRaCertificateRequestReply ::=
   })
 
 
--- *** RA-PG *************************************************************
-
+----------------------------------------------------------------------------
+-- RA-PG (Scoped)
+-- 
+-- The Scoped version of:
+--        raPgPolicySignatureRequest
+--         raPgPolicySignatureRequestReply
+----------------------------------------------------------------------------
 ScopedRaPgPolicySignatureRequest ::=
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
@@ -554,9 +671,13 @@ ScopedRaPgPolicySignatureRequestReply ::=
     })
   })
 
-  
--- *** Scoped certificate requests   **************************************
-
+----------------------------------------------------------------------------
+-- ScopedCertificateRequest
+--
+-- A single container for each of the individual scoped certificate requests.
+-- Allows for the definition of a single SignedCertificateRequest type that
+-- contains a ScopedCertificateRequest.
+----------------------------------------------------------------------------
   ScopedCertificateRequest ::= ScmsPDU (
      ScopedEeRaCertRequest |
      ScopedObeEnrollmentCertRequest |
@@ -569,38 +690,58 @@ ScopedRaPgPolicySignatureRequestReply ::=
 
 
 
-
---*************************************************************************
+----------------------------------------------------------------------------
+-- Secured SCMS PDUs and SCMS Files
+-- 
+-- Each of the Scoped messages defined above has a corresponding secured
+-- version. Each secured PDU is an Ieee1609dot2Data whose content is either
+-- signed data or encrypted data. 
+-- 
+-- A Signed*** PDU has content of type SignedData or SignedCertificateRequest
 --
---  Certificate Request
---
---**********************************************************************
+-- A Secured*** PDU has content of type EncryptedData which decrypts to
+-- the corresponding Signed*** PDU (with a few exceptions).
+----------------------------------------------------------------------------
+SecuredScmsPDU ::= Ieee1609Dot2Data
 
-  SignedCertificateRequest ::= SEQUENCE  {
+
+--------------------------------
+-- SignedCertificateRequest
+--
+-- hashId        identifies which hash algorithm was used to compute the digest
+-- tbsRequest    the tbs data containing the certificate
+-- signer        information about the entity that signed the request
+-- signature    the signature, computed on a digest of the tbsRequest
+--------------------------------
+SignedCertificateRequest ::= SEQUENCE  {
     hashId          HashAlgorithm,
     tbsRequest      ScopedCertificateRequest,
     signer          SignerIdentifier,
     signature       Signature
-  }
+}
 
 
-
--- *************************************************************************
--- *************************************************************************
+----------------------------------------------------------------------------
+-- EE-ECA (Secured)
 --
---             Secured
---
--- *************************************************************************
--- *************************************************************************
+-- The Signed and Secured versions of:
+--        ScopedObeEnrollmentCertRequest (contains obeEcaCertRequest)
+--        ScopedObeEnrollmentCertResponse (contains ecaObeCertResponse)
+--        ScopedRseEnrollmentCertRequest (contains rseEcaCertRequest)
+--        ScopedRseEnrollmentCertResponse (contains ecaRseCertResponse)
+----------------------------------------------------------------------------
 
-SecuredScmsPDU ::= Ieee1609Dot2Data
-
--- *************************************************************************
+--------------------------------
+-- SignedObeEnrollmentCertRequest
 --
---             EE-ECA
+-- A self-signed request from an OBE to an ECA to request a signature on the 
+-- enclosed enrollment certificate.
 --
--- *************************************************************************
-
+-- Contains a self-signed ScopedObeEnrollmentCertRequest, which contains 
+-- an obeEcaCertRequest.
+--
+-- There is no corresponding encrypted PDU defined.
+--------------------------------
 SignedObeEnrollmentCertRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedCertificateRequest  (CONTAINING
@@ -614,12 +755,20 @@ SignedObeEnrollmentCertRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
-SecuredObeEnrollmentCertResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
-  content (WITH COMPONENTS {...,
-    encryptedData  -- XXX decrypts to a SignedObeEnrollmentCertResponse
-  })
-})
-
+--------------------------------
+-- SignedObeEnrollmentCertResponse / SecuredObeEnrollmentCertResponse
+--
+-- A signed response from the ECA to an OBE containing a signed enrollment
+-- certificate.
+--
+-- Contains a signed ScopedObeEnrollmentCertResponse, which contains 
+-- an ecaObeCertResponse. The header contains the following:
+--        psid = SecurityMgmtPsid
+--
+-- SecuredObeEnrollmentCertResponse is encrypted using the (optional)
+-- encryption key in the enrollment certificate. Decrypts to a 
+-- SignedObeEnrollmentCertResponse.
+--------------------------------
 SignedObeEnrollmentCertResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -645,6 +794,23 @@ SignedObeEnrollmentCertResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
+SecuredObeEnrollmentCertResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {...,
+    encryptedData    -- decrypts to a SignedObeEnrollmentCertResponse
+  })
+})
+
+--------------------------------
+-- SignedRseEnrollmentCertRequest
+--
+-- A self-signed request from a RSE to an ECA to request a signature on the 
+-- enclosed enrollment certificate.
+--
+-- Contains a self-signed ScopedRseEnrollmentCertRequest, which contains 
+-- an rseEcaCertRequest.
+--
+-- There is no corresponding encrypted PDU defined.
+--------------------------------
 SignedRseEnrollmentCertRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedCertificateRequest  (CONTAINING
@@ -658,12 +824,20 @@ SignedRseEnrollmentCertRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
-SecuredRseEnrollmentCertResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
-  content (WITH COMPONENTS {...,
-    encryptedData  -- XXX decrypts to a SignedEcaRseEnrollmentCertResponse
-  })
-})
-
+--------------------------------
+-- SignedRseEnrollmentCertResponse / SecuredRseEnrollmentCertResponse
+--
+-- A self-signed request from a RSE to an ECA to request a signature on the 
+-- enclosed enrollment certificate.
+--
+-- Contains a signed ScopedRseEnrollmentCertResponse, which contains 
+-- an ecaRseCertResponse. The header contains the following:
+--        psid = SecurityMgmtPsid
+--
+-- SecuredRseEnrollmentCertResponse is encrypted using the encryption key
+-- in the enrollment certificate. Decrypts to a 
+-- SignedRseEnrollmentCertResponse. 
+--------------------------------
 SignedRseEnrollmentCertResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -689,18 +863,31 @@ SignedRseEnrollmentCertResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
--- *************************************************************************
---
---             EE-MA
---
--- *************************************************************************
-
-SecuredMisbehaviorReport ::= SecuredScmsPDU(WITH COMPONENTS {...,
-  content(WITH COMPONENTS {...,
-    encryptedData -- XXX decrypts to a SignedMisbehaviorReport
+SecuredRseEnrollmentCertResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {...,
+    encryptedData  -- decrypts to a SignedEcaRseEnrollmentCertResponse
   })
 })
 
+----------------------------------------------------------------------------
+-- EE-MAs (Secured)
+--
+-- The Signed and Secured versions of:
+--        ScopedMisbehaviorReport (contains misbehaviorReport)
+----------------------------------------------------------------------------
+
+--------------------------------
+-- SignedMisbehaviorReport / SecuredMisbehaviorReport
+--
+-- A signed message containing a misbehavior report. Sent from an EE to the MA.
+--
+-- Contains a signed ScopedMisbehaviorReport, which contains a
+-- misbehaviorReport. The header contains the following:
+--        psid = MisbehaviorReportingPsid
+--
+-- SecuredMisbehaviorReport is encrypted using the encryption key in the MA 
+-- certificate, and decrypts to a SignedMisbehaviorReport. 
+--------------------------------
 SignedMisbehaviorReport ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -723,30 +910,77 @@ SignedMisbehaviorReport ::= SecuredScmsPDU (WITH COMPONENTS {...,
         })
       }),
       signer (WITH COMPONENTS {...,
-		certificate (SequenceOfCertificate (SIZE(1))) -- reporter's pseudonym cert
-	  })
+        certificate (SequenceOfCertificate (SIZE(1))) -- reporter's pseudonym cert
+      })
     })
   })
 })
 
--- *************************************************************************
---
---             EE-RA
---
--- *************************************************************************
+SecuredMisbehaviorReport ::= SecuredScmsPDU(WITH COMPONENTS {...,
+  content(WITH COMPONENTS {...,
+    encryptedData -- decrypts to a SignedMisbehaviorReport
+  })
+})
 
+----------------------------------------------------------------------------
+-- EE-RA (Secured)
+--
+-- The Signed and Secured versions of:
+--        ScopedEeRaCertRequest (contains eeRaCertRequest)
+--        ScopedRaEeCertResponse (contains raEeCertResponse)
+--         ScopedPseudonymCertProvisioningRequest 
+--            (contains eeRaPseudonymCertProvisioningRequest)
+--        ScopedPseudonymCertProvisioningAck 
+--            (contains raEePseudonymCertProvisioningAck)
+--        ScopedIdCertProvisioningRequest 
+--            (contains eeRaIdCertProvisioningRequest)
+--        ScopedIdCertProvisioningAck (contains raEeIdCertProvisioningAck)
+--        ScopedAppCertProvisioningRequest 
+--            (contains eeRaAppCertProvisioningRequest)
+--        ScopedAppCertProvisioningAck (contains raEeAppCertProvisioningAck) 
+--        ScopedGlobalCertificateChainFile (contains globalCertificateChainFile)
+--         ScopedLocalCertificateChainFile (contains localCertificateChainFile)
+--        ScopedGlobalPolicyFile (contains globalPolicyFile)
+--        ScopedLocalPolicyFile (contains localPolicyFile)
+--        ScopedAuthenticatedDownloadRequest
+--            (contains eeRaAuthenticatedDownloadRequest)
+----------------------------------------------------------------------------
+
+--------------------------------
+-- SecuredRACertRequest
+--
+-- An unsecured message containing a request by an EE for the RA's certificate.
+--------------------------------
 SecuredRACertRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
-    content (WITH COMPONENTS {...,
-      unsecuredData (CONTAINING ScopedEeRaCertRequest)
-    })
+  content (WITH COMPONENTS {...,
+    unsecuredData (CONTAINING ScopedEeRaCertRequest)
   })
+})
 
+--------------------------------
+-- SecuredRACertResponse
+--
+-- An unsecured message containing the RA's certificate, as requested by an EE.
+--------------------------------
 SecuredRACertResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
-    content (WITH COMPONENTS {...,
-      unsecuredData (CONTAINING ScopedRaEeCertResponse)
-    })
+  content (WITH COMPONENTS {...,
+    unsecuredData (CONTAINING ScopedRaEeCertResponse)
   })
+})
 
+--------------------------------
+-- SignedPseudonymCertProvisioningRequest / 
+-- SecuredPseudonymCertProvisioningRequest
+--
+-- Sent to the RA by an EE in order to request the provisioning of pseudonym
+-- certificates.
+--
+-- Contains a signed ScopedPseudonymCertProvisioningRequest, signed using
+-- the EE's enrollment certificate.
+--
+-- SecuredPseudonymCertProvisioningRequest is encrypted to the RA and
+-- decrypts to a SignedPseudonymCertProvisioningRequest.
+--------------------------------
 SignedPseudonymCertProvisioningRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedCertificateRequest  (CONTAINING
@@ -762,10 +996,23 @@ SignedPseudonymCertProvisioningRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
 
 SecuredPseudonymCertProvisioningRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
-    encryptedData  -- XXX decrypts to a SignedPseudonymCertProvisioningRequest or
+    encryptedData  -- decrypts to a SignedPseudonymCertProvisioningRequest
   })
 })
 
+--------------------------------
+-- SignedPseudonymCertProvisioningAck / SecuredPseudonymCertProvisioningAck
+--
+-- Sent by the RA to an EE in order to acknowledge the receipt of a pseudonym
+-- certificate provisioning request.
+--
+-- Contains a signed ScopedPseudonymCertProvisioningAck, signed using
+-- the RA's certificate with
+--        psid = SecurityMgmtPsid
+--
+-- SecuredPseudonymCertProvisioningAck is encrypted to the EE and
+-- decrypts to a SignedPseudonymCertProvisioningAck.
+--------------------------------
 SignedPseudonymCertProvisioningAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -797,6 +1044,18 @@ SecuredPseudonymCertProvisioningAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
+--------------------------------
+-- SignedIdCertProvisioningRequest / SecuredIdCertProvisioningRequest
+--
+-- Sent to the RA by an EE in order to request the provisioning of an ID
+-- certificate.
+--
+-- Contains a signed ScopedIdCertProvisioningRequest, signed using
+-- the EE's enrollment certificate.
+--
+-- SecuredIdCertProvisioningRequest is encrypted to the RA and
+-- decrypts to a SignedIdCertProvisioningRequest.
+--------------------------------
 SignedIdCertProvisioningRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedCertificateRequest  (CONTAINING
@@ -812,10 +1071,23 @@ SignedIdCertProvisioningRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
 
 SecuredIdCertProvisioningRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
-    encryptedData  -- decrypts to a SignedIdCertProvisioningRequest or XXX
+    encryptedData  -- decrypts to a SignedIdCertProvisioningRequests
   })
 })
 
+--------------------------------
+-- SignedIdCertProvisioningAck / SecuredIdCertProvisioningAck
+--
+-- Sent by the RA to an EE in order to acknowledge the receipt of a ID
+-- certificate provisioning request.
+--
+-- Contains a signed ScopedIdCertProvisioningAck, signed using
+-- the RA's certificate, with
+--        psid = SecurityMgmtPsid
+--
+-- SecuredIdCertProvisioningAck is encrypted to the EE and
+-- decrypts to a SignedIdCertProvisioningAck.
+--------------------------------
 SignedIdCertProvisioningAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -847,6 +1119,18 @@ SecuredIdCertProvisioningAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
+--------------------------------
+-- SignedAppCertProvisioningRequest / SecuredAppCertProvisioningRequest
+--
+-- Sent by a RSE to the RA to request the provisioning of application 
+-- certificates.
+--
+-- Contains a signed ScopedAppCertProvisioningRequest, signed using
+-- the RSE's enrollment certificate.
+--
+-- SecuredAppCertProvisioningRequest is encrypted to the RA and
+-- decrypts to a SignedAppCertProvisioningRequest.
+--------------------------------
 SignedAppCertProvisioningRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedCertificateRequest  (CONTAINING
@@ -862,10 +1146,23 @@ SignedAppCertProvisioningRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
 
 SecuredAppCertProvisioningRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
-    encryptedData  -- decrypts to a SignedAppCertProvisioningRequest or XXX
+    encryptedData  -- decrypts to a SignedAppCertProvisioningRequest
   })
 })
 
+--------------------------------
+-- SignedAppCertProvisioningAck / SecuredAppCertProvisioningAck
+--
+-- Sent by the RA to a RSE in order to acknowledge the receipt of an
+-- application certificate provisioning request.
+--
+-- Contains a signed ScopedAppCertProvisioningAck, signed using
+-- the EE's enrollment certificate, with
+--        psid = SecurityMgmtPsid
+--
+-- SecuredAppCertProvisioningAck is encrypted to the EE and
+-- decrypts to a SignedAppCertProvisioningAck.
+--------------------------------
 SignedAppCertProvisioningAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -897,6 +1194,17 @@ SecuredAppCertProvisioningAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
+--------------------------------
+-- SignedAuthenticatedDownloadRequest
+--
+-- Sent by an EE to the RA in order to request the download of a file. Used,
+-- for example, to request policy files, certificate chain files, pseudonym
+-- certificate batch files, application certificate files, etc. Contains a
+-- ScopedAuthenticatedDownloadRequest signed using the EE's enrollment
+-- certificate.
+--
+-- There is no corresponding encrypted PDU defined.
+--------------------------------
 SignedAuthenticatedDownloadRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedCertificateRequest  (CONTAINING
@@ -910,6 +1218,13 @@ SignedAuthenticatedDownloadRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
+--------------------------------
+-- SignedGlobalPolicyFile
+--
+-- Contains a ScopedGlobalPolicyFile signed by the RA.
+--
+-- There is no corresponding encrypted PDU defined.
+--------------------------------
 SignedGlobalPolicyFile ::= Ieee1609Dot2Data( WITH COMPONENTS{...,
     content( WITH COMPONENTS{...,
       signedData( WITH COMPONENTS{...,
@@ -926,6 +1241,13 @@ SignedGlobalPolicyFile ::= Ieee1609Dot2Data( WITH COMPONENTS{...,
    })
 })
 
+--------------------------------
+-- SignedLocalPolicyFile
+--
+-- Contains a ScopedLocalPolicyFile signed by the RA.
+--
+-- There is no corresponding encrypted PDU defined.
+--------------------------------s
 SignedLocalPolicyFile ::= Ieee1609Dot2Data( WITH COMPONENTS{...,
     content( WITH COMPONENTS{...,
       signedData( WITH COMPONENTS{...,
@@ -942,12 +1264,27 @@ SignedLocalPolicyFile ::= Ieee1609Dot2Data( WITH COMPONENTS{...,
    })
 })
 
--- *************************************************************************
+----------------------------------------------------------------------------
+-- LA-MA (Secured)
 --
---             LA-MA
---
--- *************************************************************************
+-- The Signed and Secured versions of:
+--        ScopedLIRequest (contains maLaLinkageInfoRequest)
+--        ScopedLIReply (contains laMaLinkageInfoResponse)
+--        ScopedLSRequest (contains maLaLinkageSeedRequest)
+--        ScopedLSReply (contains laMaLinkageSeedResponse)
+----------------------------------------------------------------------------
 
+--------------------------------
+-- SignedLIRequest / SecuredLIRequest
+--
+-- Sent by the MA to the LA to request information about the correlation of
+-- pre-linkage values originating from EEs in the same linkage chain.
+--
+-- Contains a ScopedLIRequest signed using the MA certificate with
+--        psid = SecurityMgmtPsid
+--
+-- SecuredLIRequest is encrypted to the LA and decrypts to a SignedLIRequest.
+--------------------------------
 SignedLIRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -979,6 +1316,16 @@ SecuredLIRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
+--------------------------------
+-- SignedLIReply / SecuredLIReply
+--
+-- Sent by the LA to the MA in response to a ScopedLIRequest.
+--
+-- Contains a ScopedLIReply signed using the LA certificate with
+--        psid = SecurityMgmtPsid
+--
+-- SecuredLIReply is encrypted to the MA and decrypts to a SignedLIRequest.
+--------------------------------
 SignedLIReply ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -1010,6 +1357,17 @@ SecuredLIReply ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
+--------------------------------
+-- SignedLSRequest / SecuredLSRequest
+--
+-- Sent by the MA to the LA to request the linkage seed in response
+-- to a misbehavior report.
+--
+-- Contains a ScopedLIRequest signed using the MA certificate with
+--        psid = SecurityMgmtPsid
+--
+-- SecuredLIRequest is encrypted to the LA and decrypts to a SignedLIRequest.
+--------------------------------
 SignedLSRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -1041,6 +1399,16 @@ SecuredLSRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
+--------------------------------
+-- SignedLSReply / SecuredLSReply
+--
+-- Sent by the LA to the MA in response to a ScopedLSRequest.
+--
+-- Contains a ScopedLSReply signed using the LA certificate with
+--        psid = SecurityMgmtPsid
+--
+-- SecuredLSReply is encrypted to the MA and decrypts to a SignedLSRequest.
+--------------------------------
 SignedLSReply ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -1074,12 +1442,26 @@ SecuredLSReply ::= SecuredScmsPDU (WITH COMPONENTS {...,
 
 
 
--- *************************************************************************
+----------------------------------------------------------------------------
+-- LA-PCA (Secured)
 --
---             LA-PCA
---
--- *************************************************************************
+-- The Signed and Secured versions of:s
+--        ScopedPcaLaKeyAgreementRequest (contains pcaLaKeyAgreementRequest)
+--        ScopedLaPcaKeyAgreementResponse (contains laPcaKeyAgreementResponse)
+--        SignedPcaLaKeyAgreementAck (contains pcaLaKeyAgreementAck)
+----------------------------------------------------------------------------
 
+--------------------------------
+-- SignedPcaLaKeyAgreementRequest
+--
+-- Sent by the PCA to the LA in order to initiate the establishement of a
+-- shared key.
+-- 
+-- Contains a ScopedPcaLaKeyAgreementRequest signed by the PCA, with
+--        psid = SecurityMgmtPsid
+--
+-- There is no corresponding encrypted PDU defined.
+--------------------------------
 SignedPcaLaKeyAgreementRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -1105,6 +1487,16 @@ SignedPcaLaKeyAgreementRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
+--------------------------------
+-- SignedLaPcaKeyAgreementResponse
+--
+-- Sent by the LA to the PCA in response of a key agreement request.
+-- 
+-- Contains a ScopedLaPcaKeyAgreementResponse signed by the LA, with
+--        psid = SecurityMgmtPsid
+--
+-- There is no corresponding encrypted PDU defined.
+--------------------------------
 SignedLaPcaKeyAgreementResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -1130,6 +1522,17 @@ SignedLaPcaKeyAgreementResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
+--------------------------------
+-- SignedPcaLaKeyAgreementAck
+--
+-- Sent by the PCA to the LA to acknowledge the successul establishement
+-- of a shared key.s
+-- 
+-- Contains a ScopedPcaLaKeyAgreementAck signed by the PCA, with
+--        psid = SecurityMgmtPsid
+--
+-- There is no corresponding encrypted PDU defined.
+--------------------------------
 SignedPcaLaKeyAgreementAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -1156,15 +1559,31 @@ SignedPcaLaKeyAgreementAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
 })
 
 
--- *************************************************************************
+----------------------------------------------------------------------------
+-- LA-RA (Secured)
 --
---             LA-RA
+-- The Signed and Secured versions of:
+--        ScopedRaLaIndividualPreLinkageValueRequest
+--            (contains raLaIndividualPreLinkageValueRequest)
+--        ScopedRaLaGroupPreLinkageValueRequest
+--            (contains raLaGroupPreLinkageValueRequest)
+--        ScopedLaRaPreLinkageValueResponse (contains laRaPreLinkageValueResponse)
 --
--- *************************************************************************
+-- Generation time present in each message to prevent replay. Keep message for
+-- replay check until time corresponding to iMin has been reached.
+----------------------------------------------------------------------------
 
-
--- Generation time present to prevent replay, keep message for replay check until
--- time corresponding to iMin has been reached.
+--------------------------------
+-- SignedRaLaIndividualPreLinkageValueRequest
+--
+-- Sent by the RA to the LA to request an individual pre-linkage value.
+--
+-- Contains a ScopedRaLaIndividualPreLinkageValueRequest signed by the RA, with
+--        psid = SecurityMgmtPsid
+--         generationTime PRESENT
+--
+-- There is no corresponding encrypted PDU defined.
+--------------------------------
 SignedRaLaIndividualPreLinkageValueRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -1190,7 +1609,17 @@ SignedRaLaIndividualPreLinkageValueRequest ::= SecuredScmsPDU (WITH COMPONENTS {
   })
 })
 
-
+--------------------------------
+-- SignedRaLaGroupPreLinkageValueRequest
+--
+-- Sent by the RA to the LA to request a group pre-linkage value.
+--
+-- Contains a ScopedRaLaGroupPreLinkageValueRequest signed by the RA, with
+--        psid = SecurityMgmtPsid
+--         generationTime PRESENT
+--
+-- There is no corresponding encrypted PDU defined.
+--------------------------------
 SignedRaLaGroupPreLinkageValueRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -1216,7 +1645,17 @@ SignedRaLaGroupPreLinkageValueRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
-
+--------------------------------
+-- SignedLaRaPreLinkageValueResponse
+--
+-- Sent by the LA to the RA in response to a request for pre-linkage values.
+--
+-- Contains a ScopedLaRaPreLinkageValueResponse signed by the LA, with
+--        psid = SecurityMgmtPsid
+--         generationTime PRESENT
+--
+-- There is no corresponding encrypted PDU defined.
+--------------------------------
 SignedLaRaPreLinkageValueResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -1243,12 +1682,30 @@ SignedLaRaPreLinkageValueResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
 })
 
 
--- *************************************************************************
+----------------------------------------------------------------------------
+-- MA-PCA (Secured)
 --
---             MA-PCA
---
--- *************************************************************************
+-- The Signed and Secured versions of:
+--        ScopedMaPcaPreLinkageValueRequest 
+--            (contains maPcaPreLinkageValueRequest)
+--        ScopedPcaMaPreLinkageValueResponse 
+--            (contains pcaMaPreLinkageValueResponse)
+--        ScopedMaPcaHPCRRequest (contains maPcaHPCRRequest)
+--        ScopedPcaMaHPCRResponse (contains pcaMaHPCRResponse)
+----------------------------------------------------------------------------
 
+--------------------------------
+-- SignedMaPcaPreLinkageValueRequest / SecuredMaPcaPreLinkageValueRequest
+--
+-- Sent by the MA to the PCA to request pre-linkage values due to a
+-- misbehavior report.
+--
+-- Contains a ScopedMaPcaPreLinkageValueRequest signed by the MA, with
+--        psid = SecurityMgmtPsid
+--
+-- SecuredMaPcaPreLinkageValueRequest is encrypted to the PCA and decrypts
+-- to a SignedMaPcaPreLinkageValueRequest.
+--------------------------------
 SignedMaPcaPreLinkageValueRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -1280,7 +1737,17 @@ SecuredMaPcaPreLinkageValueRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
-
+--------------------------------
+-- SignedPcaMaPreLinkageValueResponse / SecuredPcaMaPreLinkageValueResponse
+--
+-- Sent by the PCA to the MA in response to a request for pre-linkage values.
+--
+-- Contains a ScopedPcaMaPreLinkageValueResponse signed by the PCA, with
+--        psid = SecurityMgmtPsid
+--
+-- SecuredPcaMaPreLinkageValueResponse is encrypted to the MA and decrypts
+-- to a SignedPcaMaPreLinkageValueResponse.
+--------------------------------
 SignedPcaMaPreLinkageValueResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -1312,7 +1779,18 @@ SecuredPcaMaPreLinkageValueResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
-
+--------------------------------
+-- SignedMaPcaHPCRRequest / SecuredMaPcaHPCRRequest
+--
+-- Sent by the MA to the PCA to request the hash of a pseudonym certificate
+-- provisioning request (HPCR).
+--
+-- Contains a ScopedMaPcaHPCRRequest signed by the MA, with
+--        psid = SecurityMgmtPsid
+--
+-- SecuredMaPcaHPCRRequest is encrypted to the PCA and decrypts
+-- to a SignedMaPcaHPCRRequest.
+--------------------------------
 SignedMaPcaHPCRRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -1344,7 +1822,18 @@ SecuredMaPcaHPCRRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
-
+--------------------------------
+-- SignedPcaMaHPCRResponse / SecuredPcaMaHPCRResponse
+--
+-- Sent by the PCA to the MA in response to a request for the hash of a
+-- pseudonym certificate provisioning request (HPCR).
+--
+-- Contains a SecuredPcaMaHPCRResponse signed by the PCA, with
+--        psid = SecurityMgmtPsid
+--
+-- SecuredPcaMaHPCRResponse is encrypted to the MA and decrypts
+-- to a SignedPcaMaHPCRResponse.
+--------------------------------
 SignedPcaMaHPCRResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -1377,12 +1866,31 @@ SecuredPcaMaHPCRResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
 })
 
 
--- *************************************************************************
+----------------------------------------------------------------------------
+-- MA-RA (Secured)
 --
---             MA-RA
---
--- *************************************************************************
+-- The Signed and Secured versions of:
+--        ScopedBlacklistRequest (contains maRaBlacklistRequest)
+--        ScopedBlacklistResponse (contains raMaBlacklistResponse)
+--        ScopedLCIRequest (contains maRaLCIRequest)
+--        ScopedLCIResponse(contains raMaLCIResponse)
+--        ScopedRseObeIdBlacklistRequest (contains maRaRseObeIdBlacklistRequest)
+--        ScopedRseObeIdBlacklistResponse 
+--            (contains raMaRseObeIdBlacklistResponse) 
+----------------------------------------------------------------------------
 
+--------------------------------
+-- SignedBlacklistRequest / SecuredBlacklistRequest
+--
+-- Sent by the MA to the RA to indicate that a given EE should be added
+-- to its blacklist.
+--
+-- Contains a ScopedBlacklistRequest signed by the MA, with
+--        psid = SecurityMgmtPsid
+--
+-- SecuredBlacklistRequest is encrypted to the RA and decrypts to a 
+-- SignedBlacklistRequest.
+--------------------------------
 SignedBlacklistRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -1414,7 +1922,17 @@ SecuredBlacklistRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
-
+--------------------------------
+-- SignedBlacklistResponse / SecuredBlacklistResponse
+--
+-- Sent by the RA to the MA in response to a blacklist request.
+--
+-- Contains a ScopedBlacklistResponse signed by the RA, with
+--        psid = SecurityMgmtPsid
+--
+-- SecuredBlacklistResponse is encrypted to the MA and decrypts to a 
+-- SignedBlacklistResponse.
+--------------------------------
 SignedBlacklistResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -1446,7 +1964,18 @@ SecuredBlacklistResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
-
+--------------------------------
+-- SignedRseObeIdBlacklistRequest / SecuredRseObeIdBlacklistRequest
+--
+-- Sent by the MA to the RA to indicate that a given EE should be added
+-- to its blacklist.
+--
+-- Contains a ScopedRseObeIdBlacklistRequest signed by the MA, with
+--        psid = SecurityMgmtPsid
+--
+-- SecuredRseObeIdBlacklistRequest is encrypted to the RA and decrypts to a 
+-- SignedRseObeIdBlacklistRequest.
+--------------------------------
 SignedRseObeIdBlacklistRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -1478,7 +2007,17 @@ SecuredRseObeIdBlacklistRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
-
+--------------------------------
+-- SignedRseObeIdBlacklistResponse / SecuredRseObeIdBlacklistResponse
+--
+-- Sent by the RA to the MA in response to a blacklist request.
+--
+-- Contains a ScopedBlacklistResponse signed by the RA, with
+--        psid = SecurityMgmtPsid
+--
+-- SecuredRseObeIdBlacklistResponse is encrypted to the MA and decrypts to a 
+-- SignedRseObeIdBlacklistResponse.
+--------------------------------
 SignedRseObeIdBlacklistResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -1510,7 +2049,18 @@ SecuredRseObeIdBlacklistResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
-
+--------------------------------
+-- SignedLCIRequest / SecuredLCIRequest
+--
+-- Sent by the MA to the RA to request linkage chain identifiers associated
+-- with an EE.
+--
+-- Contains a ScopedLCIRequest signed by the MA, with
+--        psid = SecurityMgmtPsid
+--
+-- SecuredLCIRequest is encrypted to the RA and decrypts to a 
+-- SignedLCIRequest.
+--------------------------------
 SignedLCIRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -1542,8 +2092,17 @@ SecuredLCIRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
-
-
+--------------------------------
+-- SignedLCIResponse / SecuredLCIResponse
+--
+-- Sent by the RA to the MA in response to a linkage chain identifier request.
+--
+-- Contains a ScopedLCIResponse signed by the RA, with
+--        psid = SecurityMgmtPsid
+--
+-- SecuredLCIResponse is encrypted to the MA and decrypts to a 
+-- SignedLCIResponse.
+--------------------------------
 SignedLCIResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -1576,14 +2135,24 @@ SecuredLCIResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
 })
 
 
--- *************************************************************************
+----------------------------------------------------------------------------
+-- PCA-RA (Secured)
 --
---             PCA-RA
+-- The Signed and Secured versions of:
+--         ScopedRaPcaCertificateRequest (contains raPcaCertRequest)
+--         ScopedPcaRaCertificateRequestReply (contains pcaRaCertResponse)
+----------------------------------------------------------------------------
+
+--------------------------------
+-- SecuredRaPcaCertificateRequest
 --
--- *************************************************************************
-
-
-
+-- Sent by the RA to the PCA to request a certificate.
+--
+-- Contains a ScopedRaPcaCertificateRequest signed by the RA, with
+--        psid = SecurityMgmtPsid
+--
+-- There is no corresponding encrypted PDU defined.
+--------------------------------
 SecuredRaPcaCertificateRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedCertificateRequest  (CONTAINING
@@ -1601,8 +2170,16 @@ SecuredRaPcaCertificateRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
-
-
+--------------------------------
+-- SecuredPcaRaCertificateRequestReply
+--
+-- Sent by the PCA to the RA in response to a certificate request.
+--
+-- Contains a ScopedPcaRaCertificateRequestReply signed by the PCA, with
+--        psid = SecurityMgmtPsid
+--
+-- There is no corresponding encrypted PDU defined.
+--------------------------------
 SecuredPcaRaCertificateRequestReply ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -1629,12 +2206,26 @@ SecuredPcaRaCertificateRequestReply ::= SecuredScmsPDU (WITH COMPONENTS {...,
 })
 
 
--- *************************************************************************
+----------------------------------------------------------------------------
+-- RA-PG (Secured)
 --
---             RA-PG
---
--- *************************************************************************
+-- The Signed and Secured versions of:
+--        ScopedRaPgPolicySignatureRequest (contains raPgPolicySignatureRequest)
+--        ScopedRaPgPolicySignatureRequestReply
+--            (contains raPgPolicySignatureRequestReply)
+----------------------------------------------------------------------------
 
+--------------------------------
+-- SignedRaPgPolicySignatureRequest / SecuredRaPgPolicySignatureRequest
+--
+-- Sent by the RA to the PG to request that a policy file be signed.
+--
+-- Contains a ScopedRaPgPolicySignatureRequest signed by the RA, with
+--        psid = SecurityMgmtPsid
+--
+-- A SecuredRaPgPolicySignatureRequest is encrypted to the PG and decrypts
+-- to a SignedRaPgPolicySignatureRquest.
+--------------------------------
 SignedRaPgPolicySignatureRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -1666,7 +2257,17 @@ SecuredRaPgPolicySignatureRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
-
+--------------------------------
+-- SignedRaPgPolicySignatureRequestReply / SecuredRaPgPolicySignatureRequestReply
+--
+-- Sent by the PG to the RA in response to a policy signature request.s
+--
+-- Contains a ScopedRaPgPolicySignatureRequestReply signed by the RA, with
+--        psid = SecurityMgmtPsid
+--
+-- A SecuredRaPgPolicySignatureRequestReply is encrypted to the PG and decrypts
+-- to a SignedRaPgPolicySignatureRequestReply.
+--------------------------------
 SignedRaPgPolicySignatureRequestReply ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -1699,12 +2300,18 @@ SecuredRaPgPolicySignatureRequestReply ::= SecuredScmsPDU (WITH COMPONENTS {...,
 })
 
 
--- *************************************************************************
+----------------------------------------------------------------------------
+-- Root Management / Electors (Secured)
 --
---             Root Management - Electors
---
--- *************************************************************************
+-- The Signed and Secured versions of:
+--         ScopedElectorEndorsement (contains tbsElectorEndorsement)
+----------------------------------------------------------------------------
 
+--------------------------------
+-- ScopedElectorEndorsement
+-- 
+-- The scoped version of a tbsElectorEndorsement.
+--------------------------------
 ScopedElectorEndorsement ::=
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
@@ -1714,6 +2321,15 @@ ScopedElectorEndorsement ::=
     })
  })
 
+--------------------------------
+-- SignedElectorEndorsement
+--
+-- Contains the signed version of a ScopedElectorEndorsement, which contains
+-- a tbsElectorEndorsement, with 
+--        psid = SecurityMgmtPsid
+--
+-- There is no corresponding encrypted PDU defined.
+--------------------------------
 SignedElectorEndorsement ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -1740,14 +2356,13 @@ SignedElectorEndorsement ::= SecuredScmsPDU (WITH COMPONENTS {...,
 })
 
 
--- *************************************************************************
+
+----------------------------------------------------------------------------
+-- Service Specific Permissions (SSP)
 --
---             SSP
---
--- *************************************************************************
-
-
-
+-- Defines the type for he SSP of each SCMS component. Each SSP is currently 
+-- defined as an 8-bit unsigned integer.
+----------------------------------------------------------------------------
 ScmsSsp ::= CHOICE {
   elector ElectorSsp,
   root RootCaSsp,
@@ -1763,6 +2378,7 @@ ScmsSsp ::= CHOICE {
   ra   RaSsp,
   ...
 }
+
 ElectorSsp ::= SEQUENCE {
   version Uint8(1),
   ...
