@@ -39,26 +39,26 @@ Canada ::= CountryOnly (124)
 Mexico ::= CountryOnly (484)
 USA ::= CountryOnly (840)
 
-CrlgCertExpiration ::= Duration (WITH COMPONENTS {hours(26448)}) -- 3 years + 1 week = 26448 hourss
-DcmCertExpiration ::= Duration (WITH COMPONENTS {hours(26448)}) 
+CrlgCertExpiration ::= Duration (WITH COMPONENTS {hours(35208)}) -- 4 years + 1 week = 35208 hours
+DcmCertExpiration ::= Duration (WITH COMPONENTS {hours(26448)}) -- 3 years + 1 week = 26448 hours
 EcaCertExpirationCvp ::= Duration (WITH COMPONENTS {years(7)})
-EcaCertExpirationPoc ::= Duration (WITH COMPONENTS {years(40)})
-ElectorCertExpiration ::= Duration (WITH COMPONENTS {years(60)})
+EcaCertExpirationPoc ::= Duration (WITH COMPONENTS {years(11)})
+ElectorCertExpiration ::= Duration (WITH COMPONENTS {years(12)})
 IcaCertExpirationCvp ::= Duration (WITH COMPONENTS {years(11)})
-IcaCertExpirationPoc ::= Duration (WITH COMPONENTS {years(50)})
+IcaCertExpirationPoc ::= Duration (WITH COMPONENTS {years(13)})
 LaCertExpiration ::= Duration (WITH COMPONENTS {hours(26448)})
-MaCertExpiration ::= Duration (WITH COMPONENTS {hours(26448)})
+MaCertExpiration ::= Duration (WITH COMPONENTS {hours(35208)})
 PcaCertExpiration ::= Duration (WITH COMPONENTS {years(4)})
-PgCertExpiration ::= Duration (WITH COMPONENTS {hours(26448)})
+PgCertExpiration ::= Duration (WITH COMPONENTS {hours(35208)})
 ObeEnrollmentCertExpirationCvp ::= Duration (WITH COMPONENTS {years(1..7)})
-ObeEnrollmentCertExpirationPoc ::= Duration (WITH COMPONENTS {years(30)})
+ObeEnrollmentCertExpirationPoc ::= Duration (WITH COMPONENTS {years(6)})
 ObeIdentificationCertExpiration ::= Duration (WITH COMPONENTS {hours(721)}) -- 1 month + 1 hour = 721 hours
 ObePseudonymCertExpiration ::= Duration (WITH COMPONENTS {hours(169)}) -- 1 week + 1 hour = 169 hours
 RaCertExpiration ::= Duration (WITH COMPONENTS {hours(26448)})
 RseApplicationCertExpiration ::= Duration (WITH COMPONENTS {hours(169)})
 RseEnrollmentCertExpirationCvp ::= Duration (WITH COMPONENTS {years(1..7)})
-RseEnrollmentCertExpirationPoc ::= Duration (WITH COMPONENTS {years(30)})
-RootCaCertExpiration ::= Duration (WITH COMPONENTS {years(70)})
+RseEnrollmentCertExpirationPoc ::= Duration (WITH COMPONENTS {years(6)})
+RootCaCertExpiration ::= Duration (WITH COMPONENTS {years(17)})
 
 BsmPsid ::= Psid (32) --PSID = 0x20
 SecurityMgmtPsid ::= Psid (35)  -- PSID = 0x23
