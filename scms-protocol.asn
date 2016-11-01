@@ -95,7 +95,7 @@ dot2(2) scms(2) interfaces(1) pca-ra(15)}
 
   RaPgInterfacePDU
 FROM Ieee1609Dot2RaPgInterface
-{iso(1) identified-organization(3) ieee(111) 
+{iso(1) identified-organization(3) ieee(111)
 standards-association-numbered-series-standards(2) wave-stds(1609) dot2(2)
 scms(2) interfaces(1) ra-pg(16)}
 
@@ -491,7 +491,7 @@ ScopedLCIResponse ::=
     })
   })
 
-  
+
 ScopedRseObeIdBlacklistRequest ::=
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
@@ -554,7 +554,37 @@ ScopedRaPgPolicySignatureRequestReply ::=
     })
   })
 
-  
+
+-- *** CCM ****************************************************************
+
+ScopedElectorEndorsement ::=
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      ccm (WITH COMPONENTS {
+        tbsElectorEndorsement
+      })
+    })
+ })
+
+
+ScopedElectorBallot ::=
+  ScmsPDU (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      ccm (WITH COMPONENTS {
+        electorBallot
+      })
+    })
+  })
+
+ScopedCompositeCrl ::=
+  ScmsPDU (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      ccm (WITH COMPONENTS {
+        compositeCrl
+      })
+    })
+  })
+
 -- *** Scoped certificate requests   **************************************
 
   ScopedCertificateRequest ::= ScmsPDU (
@@ -1705,23 +1735,14 @@ SecuredRaPgPolicySignatureRequestReply ::= SecuredScmsPDU (WITH COMPONENTS {...,
 --
 -- *************************************************************************
 
-ScopedElectorEndorsement ::=
-  ScmsPDU  (WITH COMPONENTS {...,
-    content (WITH COMPONENTS {
-      ccm (WITH COMPONENTS {
-        tbsElectorEndorsement
-      })
-    })
- })
-
 SignedElectorEndorsement ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
       tbsData (WITH COMPONENTS {...,
         payload (WITH COMPONENTS {...,
-         data (WITH COMPONENTS {...,
-             content (WITH COMPONENTS {
-                unsecuredData (CONTAINING ScopedElectorEndorsement)
+          data (WITH COMPONENTS {...,
+            content (WITH COMPONENTS {
+              unsecuredData (CONTAINING ScopedElectorEndorsement)
             })
           })
         }),
@@ -1739,14 +1760,31 @@ SignedElectorEndorsement ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
+-- Note: even though this is an "unsecured" message, this merely states that
+-- "UnsecuredElectorBallot" (ie. Ieee1609Dot2Data wrapper) is not a signed or
+-- encrypted message. However, the ScopedElectorBallot contains contents
+-- that has been signed.
+UnsecuredElectorBallot ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {...,
+    unsecuredData (CONTAINING ScopedElectorBallot) -- signed payload
+  })
+})
+
+-- Note: even though this is an "unsecured" message, this merely states that
+-- "UnsecuredCompositeCrl" (ie. Ieee1609Dot2Data wrapper) is not a signed or
+-- encrypted message. However, the ScopedCompositeCrl contains contents
+-- that has been signed and encrypted.
+UnsecuredCompositeCrl ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {...,
+    unsecuredData (CONTAINING ScopedCompositeCrl) -- signed / encrypted payload
+  })
+})
 
 -- *************************************************************************
 --
 --             SSP
 --
 -- *************************************************************************
-
-
 
 ScmsSsp ::= CHOICE {
   elector ElectorSsp,
@@ -1763,6 +1801,7 @@ ScmsSsp ::= CHOICE {
   ra   RaSsp,
   ...
 }
+
 ElectorSsp ::= SEQUENCE {
   version Uint8(1),
   ...
