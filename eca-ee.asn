@@ -60,7 +60,7 @@ EcaEeCertResponse ::= SEQUENCE {
     raCert          			Certificate,
     raHostname      			Hostname,
     enrollmentCert  			ImplicitCertificate,
-    privKeyReconstruction 	EccP256PrivateKeyReconstruction,
+    privKeyReconstruction 		EccP256PrivateKeyReconstruction,
     ...
 }
 
