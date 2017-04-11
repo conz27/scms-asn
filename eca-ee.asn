@@ -52,7 +52,8 @@ EeEcaCertRequest ::= SEQUENCE {
     ...
 }
 
---RA's certs are in a directory at the DCM.
+-- Additional bootstrapping information including the RA's certificate 
+-- are provided by the DCM in a zipped file.
 EcaEeCertResponse ::= SEQUENCE {
     version         			Uint8(1),
     requestHash     			HashedId8,  -- hash of original request
