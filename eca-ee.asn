@@ -48,7 +48,10 @@ EcaEndEntityInterfacePDU::= CHOICE {
 EeEcaCertRequest ::= SEQUENCE {
     version             Uint8(1),
     currentTime         Time32,
-    tbsData             ToBeSignedCertificate,
+    tbsData             ToBeSignedCertificate (WITH COMPONENTS { ..., 
+      region PRESENT,
+      appPermissions ABSENT,
+      certIssuePermissions ABSENT}),
     ...
 }
 
