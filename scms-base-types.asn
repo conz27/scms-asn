@@ -77,6 +77,8 @@ ObePseudonymCrlSeries ::= CrlSeries (1)
 ScmsComponentCrlSeries ::= CrlSeries (2)
 ScmsSpclComponentCrlSeries ::= CrlSeries (256)
 
+EccP256PrivateKeyReconstruction ::= OCTET STRING(SIZE(32))
+
 EncryptedIndividualPLV ::= SEQUENCE {
     version         Uint8(1),  -- version of EncryptedPLV
     laId            LaId,      -- identifies which LA created PLV
