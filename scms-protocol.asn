@@ -595,12 +595,6 @@ SignedEeEnrollmentCertRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
-SecuredEeEnrollmentCertResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
-  content (WITH COMPONENTS {...,
-    encryptedData  -- XXX decrypts to a SignedEeEnrollmentCertResponse
-  })
-})
-
 SignedEeEnrollmentCertResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
