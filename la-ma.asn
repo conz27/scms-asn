@@ -74,13 +74,13 @@ ToBeSignedLIRequestMsg ::= SEQUENCE {
 
 EncryptedPrelinkageValuePair ::= SEQUENCE {
     reporterEncryptedPLV 	EncryptedIndividualPLV,
-    accusedEncryptedPLV 		EncryptedIndividualPLV,
+    accusedEncryptedPLV 	EncryptedIndividualPLV,
     ...
 }
 
 EncryptedGroupPrelinkageValueAndDontCareFlag ::= SEQUENCE {
-    encryptedGroupPLV  EncryptedGroupPLV,
-    dontCareFlag  BOOLEAN    
+    encryptedGroupPLV  	EncryptedGroupPLV,
+    dontCareFlag  		BOOLEAN    
 }
 
 
@@ -111,8 +111,8 @@ LinkageInformation ::= SEQUENCE {
 -- If matchCount/uniqueReporters > 65535, return 65535
 --
 GroupOverThreshold  ::= SEQUENCE {
-    encryptedPLV 	EncryptedIndividualPLV,
-    matchCount 		Uint16,
+    encryptedPLV 		EncryptedIndividualPLV,
+    matchCount 			Uint16,
     uniqueReporters 	Uint16,
     ...
 }
