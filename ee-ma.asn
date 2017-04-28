@@ -9,11 +9,8 @@ DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 EXPORTS ALL;
 
 IMPORTS 
-  Opaque,
-  Signature,
-  Time32,
-  ThreeDLocation,
-  Uint8
+  Uint8,
+  Uint16
 FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111) 
 		standards-association-numbered-series-standards(2) wave-stds(1609)  
 		dot2(2) base(1) base-types(2)}
@@ -21,20 +18,52 @@ FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111)
 ;
 
 EndEntityMaInterfacePDU::= CHOICE {
-    misbehaviorReport   MisbehaviorReportContents,
+    misbehaviorReport   MisbehaviorReport,
     ...
 }
 
-MisbehaviorReportContents ::= SEQUENCE {
-    version Uint8(1),
-    misbehavingDeviceInfo Opaque, -- placeholder
-    misbehavingDeviceBSMs OCTET STRING OPTIONAL, -- non-OER encoded ASN.1 messages
-    reporterDeviceBSMs OCTET STRING OPTIONAL, -- non-OER encoded ASN.1 messages
-    sensorInfo Opaque OPTIONAL, -- placeholder: non-V2V related sensor information, if available
+MisbehaviorReport ::= SEQUENCE {
+    version 				Uint8(1),
+    mbrReason 			MbrReason,
+    neighbors 			Neighbors,
+    hostVehicleBSMs 		SEQUENCE (SIZE(0..MAX)) OF BSM,
+    remoteVehicleBSMs 	SEQUENCE (SIZE(0..MAX)) OF BSM,
     ...
 }
 
+MbrReason ::= CHOICE {
+    motionViolation 			MotionViolation,
+    proximityPlausibility 	ProximityPlausibility, 
+    warningReport 			WarningReport,
+    testMBR 					TestMBR,
+    ...
+}
 
+MotionViolation ::= CHOICE {
+    default 		NULL,
+    ...
+}
 
+ProximityPlausibility ::= CHOICE {
+    default 		NULL,
+    ...
+}
 
+WarningReport ::= CHOICE {
+    default 		NULL,
+    ...
+}
+
+TestMBR ::= CHOICE {
+    default 		NULL,
+    ...
+}
+
+Neighbors ::= SEQUENCE {
+    neighborCount 	Uint16,
+    neighborBSMs 	SEQUENCE (SIZE(0..MAX)) OF BSM,
+    ...
+}
+
+BSM ::= OCTET STRING -- non-OER encoded ASN.1 messages
 END
