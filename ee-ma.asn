@@ -23,39 +23,39 @@ EndEntityMaInterfacePDU::= CHOICE {
 }
 
 MisbehaviorReport ::= SEQUENCE {
-    version 				Uint8(1),
+    version 			Uint8(1),
     mbrReason 			MbrReason,
     neighbors 			Neighbors,
-    hostVehicleBSMs 		SEQUENCE (SIZE(0..MAX)) OF BSM,
+    hostVehicleBSMs 	SEQUENCE (SIZE(0..MAX)) OF BSM,
     remoteVehicleBSMs 	SEQUENCE (SIZE(0..MAX)) OF BSM,
     ...
 }
 
 MbrReason ::= CHOICE {
-    motionViolation 			MotionViolation,
+    motionViolation 		MotionViolation,
     proximityPlausibility 	ProximityPlausibility, 
     warningReport 			WarningReport,
-    testMBR 					TestMBR,
+    testMBR 				TestMBR,
     ...
 }
 
 MotionViolation ::= CHOICE {
-    default 		NULL,
+    default 	NULL,
     ...
 }
 
 ProximityPlausibility ::= CHOICE {
-    default 		NULL,
+    default 	NULL,
     ...
 }
 
 WarningReport ::= CHOICE {
-    default 		NULL,
+    default 	NULL,
     ...
 }
 
 TestMBR ::= CHOICE {
-    default 		NULL,
+    default 	NULL,
     ...
 }
 
