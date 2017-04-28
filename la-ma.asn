@@ -11,6 +11,7 @@ EXPORTS ALL;
 IMPORTS 
 
   Uint8,
+  Uint16,
   HashedId8
 FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111) 
     standards-association-numbered-series-standards(2) wave-stds(1609)  
@@ -64,16 +65,17 @@ MaLaLinkageInfoRequestMsg ::= SEQUENCE {
 
 
 ToBeSignedLIRequestMsg ::= SEQUENCE {
-    maId                        MaHostnameId,
-    encryptedPLVsAndFlags       SEQUENCE (SIZE(0..MAX)) OF EncryptedPrelinkageValueAndDontCareFlag,
-    encryptedGPLVsAndFlags      SEQUENCE (SIZE(0..MAX)) OF EncryptedGroupPrelinkageValueAndDontCareFlag,
-    expectedReply               ExpectedReply,
+    maId 						MaHostnameId,
+    encryptedPLVPair 			SEQUENCE (SIZE(0..MAX)) OF EncryptedPrelinkageValuePair,
+    encryptedGPLVsAndFlags 		SEQUENCE (SIZE(0..MAX)) OF EncryptedGroupPrelinkageValueAndDontCareFlag,
+    expectedReply 				ExpectedReply,
     ...
 }
 
-EncryptedPrelinkageValueAndDontCareFlag ::= SEQUENCE {
-    encryptedPLV  EncryptedIndividualPLV,
-    dontCareFlag  BOOLEAN    
+EncryptedPrelinkageValuePair ::= SEQUENCE {
+    reporterEncryptedPLV 	EncryptedIndividualPLV,
+    accusedEncryptedPLV 		EncryptedIndividualPLV,
+    ...
 }
 
 EncryptedGroupPrelinkageValueAndDontCareFlag ::= SEQUENCE {
@@ -88,7 +90,7 @@ ExpectedReply ::= ENUMERATED {
 }
 
 --
--- LA replies with linkage information (Misbehavior Detection)
+-- LA replies with linkage information (Misbehavior Investigation)
 --
 LaMaLinkageInfoResponseMsg ::= SEQUENCE {
     version       Uint8(1),
@@ -100,17 +102,19 @@ LaMaLinkageInfoResponseMsg ::= SEQUENCE {
     }
 }
 
-LinkageInformation ::= CHOICE {
-    scalar SEQUENCE {
-        matches      INTEGER,
-        lowerBound   BOOLEAN  -- lower bound is used or not
-    },
-    --- indices_list should be optional, not yet implemented!
-    indicesList SEQUENCE {
-        unkownPlv    SEQUENCE OF PreLinkageValue,
-        rejectPlv    SEQUENCE OF PreLinkageValue,
-        assocPlv     SEQUENCE OF SEQUENCE OF PreLinkageValue
-    }
+LinkageInformation ::= SEQUENCE {
+    groups SEQUENCE (SIZE (0..MAX)) OF GroupOverThreshold,
+    ...
+}
+
+--
+-- If matchCount/uniqueReporters > 65535, return 65535
+--
+GroupOverThreshold  ::= SEQUENCE {
+    encryptedPLV 	EncryptedIndividualPLV,
+    matchCount 		Uint16,
+    uniqueReporters 	Uint16,
+    ...
 }
 
 --
