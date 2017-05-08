@@ -9,11 +9,19 @@ DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 EXPORTS ALL;
 
 IMPORTS 
+
   Uint8,
   Uint16
+
 FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111) 
 		standards-association-numbered-series-standards(2) wave-stds(1609)  
 		dot2(2) base(1) base-types(2)}
+
+  ImplicitCertificate
+
+FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111)
+	 standards-association-numbered-series-standards(2) wave-stds(1609)
+	 dot2(2) base (1) schema (1)}
 
 ;
 
@@ -23,19 +31,18 @@ EndEntityMaInterfacePDU::= CHOICE {
 }
 
 MisbehaviorReport ::= SEQUENCE {
-    version 			Uint8(1),
+    version 				Uint8(1),
     mbrReason 			MbrReason,
-    neighbors 			Neighbors,
-    hostVehicleBSMs 	SEQUENCE (SIZE(0..MAX)) OF BSM,
-    remoteVehicleBSMs 	SEQUENCE (SIZE(0..MAX)) OF BSM,
+    neighborList 		SEQUENCE (SIZE(0..MAX)) OF SignedBSMWithCertificate,
+    reporterBSMs 		SEQUENCE (SIZE(1..MAX)) OF UnsignedBSM,
+    suspectVehicleList 	SEQUENCE (SIZE(1..MAX)) OF SuspectVehicleBSMList,
     ...
 }
 
 MbrReason ::= CHOICE {
-    motionViolation 		MotionViolation,
+    motionViolation 			MotionViolation,
     proximityPlausibility 	ProximityPlausibility, 
     warningReport 			WarningReport,
-    testMBR 				TestMBR,
     ...
 }
 
@@ -54,16 +61,14 @@ WarningReport ::= CHOICE {
     ...
 }
 
-TestMBR ::= CHOICE {
-    default 	NULL,
-    ...
+SignedBSMWithCertificate ::= SEQUENCE {
+    signedBSM 			OCTET STRING, -- non-OER encoded signed BSM
+    signingCertificate 	ImplicitCertificate,
+    ... 	
 }
 
-Neighbors ::= SEQUENCE {
-    neighborCount 	Uint16,
-    neighborBSMs 	SEQUENCE (SIZE(0..MAX)) OF BSM,
-    ...
-}
+UnsignedBSM ::= OCTET STRING -- non-OER encoded unsigned BSM
 
-BSM ::= OCTET STRING -- non-OER encoded ASN.1 messages
+SuspectVehicleBSMList ::= SEQUENCE (SIZE(1..MAX)) OF SignedBSMWithCertificate
+
 END
