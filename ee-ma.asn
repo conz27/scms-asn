@@ -31,7 +31,7 @@ EndEntityMaInterfacePDU::= CHOICE {
 }
 
 MisbehaviorReport ::= SEQUENCE {
-    version 				Uint8(1),
+    version 			Uint8(1),
     mbrReason 			MbrReason,
     neighborList 		SEQUENCE (SIZE(0..MAX)) OF SignedBSMWithCertificate,
     reporterBSMs 		SEQUENCE (SIZE(1..MAX)) OF UnsignedBSM,
@@ -40,7 +40,7 @@ MisbehaviorReport ::= SEQUENCE {
 }
 
 MbrReason ::= CHOICE {
-    motionViolation 			MotionViolation,
+    motionViolation 		MotionViolation,
     proximityPlausibility 	ProximityPlausibility, 
     warningReport 			WarningReport,
     ...
