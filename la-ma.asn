@@ -73,7 +73,7 @@ ToBeSignedLIRequestMsg ::= SEQUENCE {
 
 EncryptedPrelinkageValuePair ::= SEQUENCE {
     reporterEncryptedPLV 	EncryptedIndividualPLV,
-    suspectEncryptedPLV 		EncryptedIndividualPLV,
+    suspectEncryptedPLV 	EncryptedIndividualPLV,
     ...
 }
 
