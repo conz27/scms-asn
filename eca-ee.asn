@@ -10,37 +10,23 @@ EXPORTS ALL;
 
 IMPORTS
 
-  CrlSeries,
-  EccP256CurvePoint,
-  GeographicRegion,
-  HashedId3,
   HashedId8,
-  Hostname,
-  PublicEncryptionKey,
-  PublicVerificationKey,
-  SubjectAssurance,
   Time32,
-  Uint8,
-  Uint16
+  Uint8
 
 FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111)
 	 standards-association-numbered-series-standards(2) wave-stds(1609)
 	 dot2(2) base(1) base-types(2)}
 
   Certificate,
-  CertificateId,
-  Ieee1609Dot2Data,
   ImplicitCertificate,
-  SequenceOfPsidGroupPermissions,
-  SequenceOfPsidSsp,
-  ValidityPeriod,
-  VerificationKeyIndicator
+  ToBeSignedCertificate
 
 FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111)
 	 standards-association-numbered-series-standards(2) wave-stds(1609)
 	 dot2(2) base (1) schema (1)}
 
-  SecurityMgmtPsid
+  EccP256PrivateKeyReconstruction
 
 FROM Ieee1609dot2ScmsBaseTypes {iso(1) identified-organization(3) ieee(111)
      standards-association-numbered-series-standards(2) wave-stds(1609)  dot2(2)
@@ -49,108 +35,39 @@ FROM Ieee1609dot2ScmsBaseTypes {iso(1) identified-organization(3) ieee(111)
 ;
 
 EcaEndEntityInterfacePDU::= CHOICE {
-    obeEcaCertRequest     ObeEcaEnrollmentCertificateRequest,
-    ecaObeCertResponse    EcaObeEnrollmentCertificateResponse,
-    rseEcaCertRequest     RseEcaEnrollmentCertificateRequest,
-    ecaRseCertResponse    EcaRseEnrollmentCertificateResponse,
+    eeEcaCertRequest 	EeEcaCertRequest,
+    ecaEeCertResponse 	EcaEeCertResponse,
     ...
 }
 
---------------------------------------------------------------------------------------
---
--- Enrollment Sequence Diagram (OBE/RSE)
---
---              OBE                                                     ECA
---               |                                                       |
---   ================================                                    |
---   | Generate Enrollment Key Pair |                                    |
---   ================================                                    |
---               |                                                       |
---   ===============================                                     |
---   |Include Public Key in Request|                                     |
---   ===============================                                     |
---               |                                                       |
---               |============ObeEnrollmentCertificateRequest===========>|
---               |             (TBS Data + PublicKey)                    |
---               |                                              ====================
---               |                                              |Create Enrollment |
---               |                                              |   Certificate    |
---               |                                              |        +         |
---               |                                              |  Reconstruction  |
---               |                                              |      Values      |
---               |                                              ====================
---               |                                                       |
---               |<==========ObeEnrollmentCertificateResponse============|
---               |    (Enrollment Cert + Pub/Priv Reconstruction Data)   |
---               |                                                       |
---     ======================                                            |
---     |     Reconstruct    |                                            |
---     |     Private Key    |                                            |
---     ======================                                            |
---               |                                                       |
---     =======================                                           |
---     | Enrollment Complete |                                           |
---     =======================                                           |
---               |                                                       |
---               |                                                       |
---
--- Refer to ee-ra.asn for description of enrollment procedure.
---
---------------------------------------------------------------------------------------
-
-
--------------------------------------------------------------------------------
--- Requests / Responses
--------------------------------------------------------------------------------
-
--- If the DCM needs to sign the enrollment request, it would use
--- SignedObeEnrollmentRequest or SignedRseEnrollmentRequest. For encryption purposes,
--- the DCM would use SecureObeEnrollmentRequest or SecureRseEnrollmentRequest.
--- The operations for responses are analagous to those for requests.
-
-ObeEcaEnrollmentCertificateRequest ::= CommonEnrollmentCertificateRequest
-EcaObeEnrollmentCertificateResponse ::= CommonEnrollmentCertificateResponse
-
-RseEcaEnrollmentCertificateRequest ::= CommonEnrollmentCertificateRequest
-EcaRseEnrollmentCertificateResponse ::= CommonEnrollmentCertificateResponse
-
-CommonEnrollmentCertificateRequest ::= SEQUENCE {
+-- EeEcaCertRequest is signed using the private key generated by the EE and the 
+-- corresponding public key placed in verificationKey is used by the ECA in 
+-- generating the enrollment certificate. All the fields of ToBeSignedCertificate
+-- are filled by the EE/DCM, but the ECA may override them.
+EeEcaCertRequest ::= SEQUENCE {
     version             Uint8(1),
     currentTime         Time32,
-    requestedStartTime  Time32, -- certificate start time
-    tbsData             ToBeSignedEnrollmentCertificate,
-    verifyKey           PublicVerificationKey,
+    tbsData             ToBeSignedCertificate (WITH COMPONENTS { ..., 
+      id(WITH COMPONENTS {
+        linkageData ABSENT }),
+      region PRESENT,
+      appPermissions ABSENT,
+      certIssuePermissions ABSENT,
+      certRequestPermissions PRESENT,
+      verifyKeyIndicator (WITH COMPONENTS {
+        verificationKey }) }),
     ...
 }
 
-CommonEnrollmentCertificateResponse ::= SEQUENCE {
-	version         Uint8(1),
-    requestHash     HashedId8,  -- hash of the original request
-    ecaCert         Certificate,
-    raCert          Certificate,
-    raHostname      Hostname,
-    enrollmentCert  Certificate (WITH COMPONENTS { ...,
-        type(implicit),
-        issuer(WITH COMPONENTS {sha256AndDigest})
-    }),
-    privKeyReconstructionS EccP256PrivateKeyReconstruction,
+-- Additional bootstrapping information including the RA's certificate 
+-- are provided by the DCM in a zipped file.
+EcaEeCertResponse ::= SEQUENCE {
+    version         			Uint8(1),
+    requestHash     			HashedId8,  -- hash of original request
+    ecaCert         			Certificate,
+    enrollmentCert  			ImplicitCertificate,
+    privKeyReconstruction 		EccP256PrivateKeyReconstruction,
     ...
 }
-
-ToBeSignedEnrollmentCertificate ::= SEQUENCE  {
-    id                     CertificateId (
-        WITH COMPONENTS {..., name PRESENT } |
-        WITH COMPONENTS {..., binaryId PRESENT } |
-        WITH COMPONENTS {..., none PRESENT }
-    ),
-    validityPeriod         ValidityPeriod,
-    region                 GeographicRegion OPTIONAL,
-    assuranceLevel         SubjectAssurance OPTIONAL,
-    canRequestRollover     NULL OPTIONAL,
-    encryptionKey          PublicEncryptionKey OPTIONAL,
-    ...
-}
-
-EccP256PrivateKeyReconstruction ::= OCTET STRING(SIZE(32))
 
 END

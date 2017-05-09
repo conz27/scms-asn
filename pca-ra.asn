@@ -40,6 +40,7 @@ FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111)
     standards-association-numbered-series-standards(2) wave-stds(1609) dot2(2)
     base(1) schema(1)}
 
+  EccP256PrivateKeyReconstruction,
   EncryptedIndividualPLV,
   EncryptedGroupPLV,
   IValue,
@@ -252,11 +253,6 @@ PlaintextCertificateResponse ::= CHOICE {
     explicit-butterfly   ButterflyExplicitCertResponse,
     explicit             Certificate
 }
-
--- Provided certificate and private key reconstruction value 
-
-EccP256PrivateKeyReconstruction ::= OCTET STRING(SIZE(32))
-
 
 ImplicitCertResponse ::= SEQUENCE {
     certificate             Certificate (WITH COMPONENTS { ...,

@@ -21,23 +21,11 @@ FROM Ieee1609Dot2ScmsComponentCertificateManagementErrorScmsComponentCertificate
     standards-association-numbered-series-standards(2) wave-stds(1609)  
     dot2(2) scms(2) errors(2) component-certificate-management(3)}
 
-  DcmEcaError
-FROM Ieee1609Dot2DcmEcaErrorDcmEcaError
-    {iso(1) identified-organization(3) ieee(111) 
-    standards-association-numbered-series-standards(2) wave-stds(1609)  
-    dot2(2) scms(2) errors(2) dcm-eca(4)}
-
   EcaEndEntityError
 FROM Ieee1609Dot2EcaEndEntityErrorEcaEndEntityError
     {iso(1) identified-organization(3) ieee(111) 
     standards-association-numbered-series-standards(2) wave-stds(1609)  
     dot2(2) scms(2) errors(2) eca-ee(5)}
-
-  EndEntityLopError
-FROM Ieee1609Dot2EndEntityLopErrorEndEntityLopError
-    {iso(1) identified-organization(3) ieee(111) 
-    standards-association-numbered-series-standards(2) wave-stds(1609)  
-    dot2(2) scms(2) errors(2) ee-lop(6)}
 
   LaMaError
 FROM Ieee1609Dot2LaMaErrorLaMaError
@@ -57,12 +45,6 @@ FROM Ieee1609Dot2LaRaErrorLaRaError
     standards-association-numbered-series-standards(2) wave-stds(1609)  
     dot2(2) scms(2) errors(2) la-ra(11)}
 
-  LopMaError
-FROM Ieee1609Dot2LopMaErrorLopMaError
-    {iso(1) identified-organization(3) ieee(111) 
-    standards-association-numbered-series-standards(2) wave-stds(1609)  
-    dot2(2) scms(2) errors(2) lop-ma(12)}
-
   MaPcaError
 FROM Ieee1609Dot2MaPcaErrorMaPcaError
     {iso(1) identified-organization(3) ieee(111) 
@@ -81,25 +63,15 @@ FROM Ieee1609Dot2PcaRaErrorPcaRaError
     standards-association-numbered-series-standards(2) wave-stds(1609)  
     dot2(2) scms(2) errors(2) pca-ra(15)}
 
-  DcmEndEntityError
-FROM Ieee1609Dot2DcmEndEntityErrorDcmEndEntityError
-    {iso(1) identified-organization(3) ieee(111) 
-    standards-association-numbered-series-standards(2) wave-stds(1609)  
-    dot2(2) scms(2) errors(2) dcm-ee(127)}
-
 ;
 
 ScmsError ::= CHOICE {
   common  ScmsCommonError,
   ccm     ComponentCertificateManagementError,
-  dcm-eca DcmEcaError,
-  dca-ee  DcmEndEntityError,
   eca-ee  EcaEndEntityError,
-  ee-lop  EndEntityLopError,
   la-ma   LaMaError,
   la-pca  LaPcaError,
   la-ra   LaRaError,
-  lop-ma  LopMaError,
   ma-pca  MaPcaError,
   ma-ra   MaRaError,
   pca-ra  PcaRaError,
@@ -110,17 +82,8 @@ ScmsError ::= CHOICE {
 ScopedComponentCertificateManagementError ::= 
   ScmsError (WITH COMPONENTS {common} | WITH COMPONENTS {ccm})
 
-ScopedDcmEcaError ::= 
-  ScmsError (WITH COMPONENTS {common} | WITH COMPONENTS {dcm-eca})
-
-ScopedDcmEndEntityError ::= 
-  ScmsError (WITH COMPONENTS {common} | WITH COMPONENTS {dca-ee})
-
 ScopedEcaEndEntityError ::= 
   ScmsError (WITH COMPONENTS {common} | WITH COMPONENTS {eca-ee})
-
-ScopedEndEntityLopError ::= 
-  ScmsError (WITH COMPONENTS {common} | WITH COMPONENTS {ee-lop})
 
 -- This type is not used (see following la-ma errors)
 ScopedLaMaError ::=
@@ -145,9 +108,6 @@ ScopedLaPcaError ::=
 
 ScopedLaRaError ::= 
   ScmsError (WITH COMPONENTS {common} | WITH COMPONENTS {la-ra})
-
-ScopedLopMaError ::= 
-  ScmsError (WITH COMPONENTS {common} | WITH COMPONENTS {lop-ma})
 
 ScopedMaPcaError ::= 
   ScmsError (WITH COMPONENTS {common} | WITH COMPONENTS {ma-pca})
