@@ -68,25 +68,18 @@ ToBeSignedLIRequestMsg ::= SEQUENCE {
     maId 						MaHostnameId,
     encryptedPLVPair 			SEQUENCE (SIZE(0..MAX)) OF EncryptedPrelinkageValuePair,
     encryptedGPLVsAndFlags 		SEQUENCE (SIZE(0..MAX)) OF EncryptedGroupPrelinkageValueAndDontCareFlag,
-    expectedReply 				ExpectedReply,
     ...
 }
 
 EncryptedPrelinkageValuePair ::= SEQUENCE {
     reporterEncryptedPLV 	EncryptedIndividualPLV,
-    accusedEncryptedPLV 	EncryptedIndividualPLV,
+    suspectEncryptedPLV 		EncryptedIndividualPLV,
     ...
 }
 
 EncryptedGroupPrelinkageValueAndDontCareFlag ::= SEQUENCE {
     encryptedGroupPLV  	EncryptedGroupPLV,
     dontCareFlag  		BOOLEAN    
-}
-
-
-ExpectedReply ::= ENUMERATED {
-    scalarAnswer,
-    indicesLists
 }
 
 --
