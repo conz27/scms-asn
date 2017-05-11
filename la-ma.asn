@@ -27,7 +27,6 @@ FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111)
   LinkageChainId,
   MaHostnameId,
   LaHostnameId,
-  EncryptedGroupPLV,
   EncryptedIndividualPLV
 FROM Ieee1609dot2ScmsBaseTypes {iso(1) identified-organization(3) ieee(111)
      standards-association-numbered-series-standards(2) wave-stds(1609)  dot2(2)
@@ -67,7 +66,6 @@ MaLaLinkageInfoRequestMsg ::= SEQUENCE {
 ToBeSignedLIRequestMsg ::= SEQUENCE {
     maId 						MaHostnameId,
     encryptedPLVPair 			SEQUENCE (SIZE(0..MAX)) OF EncryptedPrelinkageValuePair,
-    encryptedGPLVsAndFlags 		SEQUENCE (SIZE(0..MAX)) OF EncryptedGroupPrelinkageValueAndDontCareFlag,
     ...
 }
 
@@ -75,11 +73,6 @@ EncryptedPrelinkageValuePair ::= SEQUENCE {
     reporterEncryptedPLV 	EncryptedIndividualPLV,
     suspectEncryptedPLV 	EncryptedIndividualPLV,
     ...
-}
-
-EncryptedGroupPrelinkageValueAndDontCareFlag ::= SEQUENCE {
-    encryptedGroupPLV  	EncryptedGroupPLV,
-    dontCareFlag  		BOOLEAN    
 }
 
 --
