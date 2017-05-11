@@ -34,7 +34,7 @@ MisbehaviorReport ::= SEQUENCE {
     version 			Uint8(1),
     mbrReason 			MbrReason,
     neighborList 		SEQUENCE (SIZE(0..MAX)) OF SignedBSMWithCertificate,
-    reporterBSMs 		SEQUENCE (SIZE(1..MAX)) OF UnsignedBSM,
+    reporterBSMs 		SEQUENCE (SIZE(1..MAX)) OF SignedBSMWithCertificate,
     suspectVehicleList 	SEQUENCE (SIZE(1..MAX)) OF SuspectVehicleBSMList,
     ...
 }
@@ -66,8 +66,6 @@ SignedBSMWithCertificate ::= SEQUENCE {
     signingCertificate 	ImplicitCertificate,
     ... 	
 }
-
-UnsignedBSM ::= OCTET STRING -- non-OER encoded unsigned BSM
 
 SuspectVehicleBSMList ::= SEQUENCE (SIZE(1..MAX)) OF SignedBSMWithCertificate
 
