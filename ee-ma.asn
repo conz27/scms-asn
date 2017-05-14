@@ -31,7 +31,7 @@ EndEntityMaInterfacePDU::= CHOICE {
 }
 
 MisbehaviorReport ::= SEQUENCE {
-    version 				Uint8(1),
+    version 			Uint8(1),
     policyVersion		PolicyVersion,
     reportType 			ReportType,
     evidentiaryData		SEQUENCE (SIZE(1..3)) OF Evidence,
