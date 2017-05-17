@@ -32,14 +32,13 @@ EndEntityMaInterfacePDU::= CHOICE {
 
 MisbehaviorReport ::= SEQUENCE {
     version 			Uint8(1),
-    policyVersion		PolicyVersion,
+    policyVersion		PolicyFilename,
     reportType 			ReportType,
     evidentiaryData		SEQUENCE (SIZE(1..3)) OF Evidence,
     ...
 }
 
--- Upper limit on the size to be set later
-PolicyVersion ::= UTF8String (SIZE(0..MAX))
+PolicyFilename ::= UTF8String (SIZE(0..26))
 
 ReportType ::= CHOICE {
     proximityPlausibility 	ProximityPlausibility, 
@@ -48,9 +47,9 @@ ReportType ::= CHOICE {
 }
 
 Evidence ::= SEQUENCE {
-    observedNeighborList 	SEQUENCE (SIZE(0..MAX)) OF SignedBSMsWithCertificate,
-    reporterBSMs 			SEQUENCE (SIZE(1..10)) OF SignedBSMsWithCertificate,
-    suspectVehicleList 		SEQUENCE (SIZE(1..10)) OF SuspectVehicleWSMList,
+    observedNeighborList 	SEQUENCE (SIZE(0..MAX)) OF WSMsWithCertificate,
+    reporterWSMs 			SEQUENCE (SIZE(1..10)) OF WSMData,
+    suspectVehicleList 		SEQUENCE (SIZE(1..10)) OF WSMsWithCertificate,
     ...
 }
 
@@ -64,14 +63,14 @@ WarningReport ::= CHOICE {
     ...
 }
 
-SignedBSMsWithCertificate ::= SEQUENCE {
-    signedBSMs 			SEQUENCE (SIZE(1..MAX)) OF WSMData,
+WSMsWithCertificate ::= SEQUENCE {
+    wsmList 				SEQUENCE (SIZE(1..MAX)) OF WSMData,
     signingCertificate 	ImplicitCertificate,
     ... 	
 }
 
-WSMData ::= OCTET STRING -- non-OER encoded signed BSM and security header
+WSMData ::= OCTET STRING -- UPER encoded WSM
 
-SuspectVehicleWSMList ::= SEQUENCE (SIZE(1..10)) OF SignedBSMsWithCertificate
+SuspectVehicleList ::= SEQUENCE (SIZE(1..10)) OF WSMsWithCertificate
 
 END
