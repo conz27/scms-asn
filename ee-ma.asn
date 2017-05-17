@@ -32,7 +32,7 @@ EndEntityMaInterfacePDU::= CHOICE {
 
 MisbehaviorReport ::= SEQUENCE {
     version 			Uint8(1),
-    policyVersion		PolicyFilename,
+    policyFilename		PolicyFilename,
     reportType 			ReportType,
     evidentiaryData		SEQUENCE (SIZE(1..3)) OF Evidence,
     ...
@@ -65,7 +65,7 @@ WarningReport ::= CHOICE {
 
 WSMsWithCertificate ::= SEQUENCE {
     wsmList 				SEQUENCE (SIZE(1..MAX)) OF WSMData,
-    signingCertificate 	ImplicitCertificate,
+    signingCertificate 		ImplicitCertificate,
     ... 	
 }
 
