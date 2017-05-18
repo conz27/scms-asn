@@ -9,32 +9,68 @@ DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 EXPORTS ALL;
 
 IMPORTS 
-  Opaque,
-  Signature,
-  Time32,
-  ThreeDLocation,
-  Uint8
+
+  Uint8,
+  Uint16
+
 FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111) 
 		standards-association-numbered-series-standards(2) wave-stds(1609)  
 		dot2(2) base(1) base-types(2)}
 
+  ImplicitCertificate
+
+FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111)
+	 standards-association-numbered-series-standards(2) wave-stds(1609)
+	 dot2(2) base (1) schema (1)}
+
 ;
 
 EndEntityMaInterfacePDU::= CHOICE {
-    misbehaviorReport   MisbehaviorReportContents,
+    misbehaviorReport   MisbehaviorReport,
     ...
 }
 
-MisbehaviorReportContents ::= SEQUENCE {
-    version Uint8(1),
-    misbehavingDeviceInfo Opaque, -- placeholder
-    misbehavingDeviceBSMs OCTET STRING OPTIONAL, -- non-OER encoded ASN.1 messages
-    reporterDeviceBSMs OCTET STRING OPTIONAL, -- non-OER encoded ASN.1 messages
-    sensorInfo Opaque OPTIONAL, -- placeholder: non-V2V related sensor information, if available
+MisbehaviorReport ::= SEQUENCE {
+    version 			Uint8(1),
+    policyFilename		PolicyFilename,
+    reportType 			ReportType,
+    evidentiaryData		SEQUENCE (SIZE(1..3)) OF Evidence,
     ...
 }
 
+PolicyFilename ::= UTF8String (SIZE(0..26))
 
+ReportType ::= CHOICE {
+    proximityPlausibility 	ProximityPlausibility, 
+    warningReport 			WarningReport,
+    ...
+}
 
+Evidence ::= SEQUENCE {
+    observedNeighborList 	SEQUENCE (SIZE(0..MAX)) OF WSMsWithCertificate,
+    reporterWSMs 			SEQUENCE (SIZE(1..10)) OF WSMData,
+    suspectVehicleList 		SEQUENCE (SIZE(1..10)) OF WSMsWithCertificate,
+    ...
+}
+
+ProximityPlausibility ::= CHOICE {
+    default 		NULL,
+    ...
+}
+
+WarningReport ::= CHOICE {
+    default 		NULL,
+    ...
+}
+
+WSMsWithCertificate ::= SEQUENCE {
+    wsmList 				SEQUENCE (SIZE(1..MAX)) OF WSMData,
+    signingCertificate 		ImplicitCertificate,
+    ... 	
+}
+
+WSMData ::= OCTET STRING -- UPER encoded WSM
+
+SuspectVehicleList ::= SEQUENCE (SIZE(1..10)) OF WSMsWithCertificate
 
 END
