@@ -68,13 +68,32 @@ FROM IEEE1609dot2CrlSsp {iso(1) identified-organization(3) ieee(111)
   BsmPsid, --PSID = 0x20
   SecurityMgmtPsid,  -- PSID = 0x23
   MisbehaviorReportingPsid,  -- PSID = 0x26
+  VulnerableRoadUsersSafetyPsid, -- PSID = 0x27
   DifferentialGpsCorrectionsUncompressedPsid, -- PSID = 0x80
   DifferentialGpsCorrectionsCompressedPsid, -- PSID = 0x81
   IntersectionSafetyAndAwarenessPsid, -- PSID = 0x82
   TravellerInformationAndRoadsideSignagePsid, -- PSID = 0x83
   WaveServiceAdvertisementPsid, -- PSID = 0x87
   PeerToPeerCertDistributionPsid, -- PSID = 0x88
-  
+  CertificateRevocationListPsid, -- PSID = 0x100
+  VehicleInitiatedDistressNotificationPsid, -- PSID = 0x4082
+  TranscoreSoftwareUpdatePsid, -- PSID = 0x204083
+  CVPApplication1Psid, -- PSID = 0x204088
+  CVPApplication2Psid, -- PSID = 0x204089
+  CVPApplication3Psid, -- PSID = 0x20408A
+  CVPApplication4Psid, -- PSID = 0x20408B
+  CVPApplication5Psid, -- PSID = 0x20408C
+  CVPApplication6Psid, -- PSID = 0x20408D
+  CVPApplication7Psid, -- PSID = 0x20408E
+  CVPApplication8Psid, -- PSID = 0x20408F
+  CVPApplication9Psid, -- PSID = 0x204090
+  CVPApplication10Psid, -- PSID = 0x204091
+  CVPApplication11Psid, -- PSID = 0x204092
+  CVPApplication12Psid, -- PSID = 0x204093
+  CVPApplication13Psid, -- PSID = 0x204094
+  CVPApplication14Psid, -- PSID = 0x204095
+  CVPApplication15Psid, -- PSID = 0x204096
+  CVPApplication16Psid, -- PSID = 0x204097
   
   EeEnrollmentCrlSeries,
   EeNonPseudonymCrlSeries,
@@ -275,7 +294,7 @@ EcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     })),
     certIssuePermissions (SequenceOfPsidGroupPermissions (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS {..., 
 	  subjectPermissions (WITH COMPONENTS {..., 
-		explicit (SequenceOfPsidSspRange (SIZE (7)) (CONSTRAINED BY{
+		explicit (SequenceOfPsidSspRange (SIZE (27)) (CONSTRAINED BY{
 		  PsidSspRange (WITH COMPONENTS {
 			psid (BsmPsid), --PSID = 0x20
             sspRange(WITH COMPONENTS{ 
@@ -284,6 +303,10 @@ EcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
 		  }),
           PsidSspRange (WITH COMPONENTS {
 			psid (MisbehaviorReportingPsid), -- PSID = 0x26
+            sspRange ABSENT 
+		  }),
+          PsidSspRange (WITH COMPONENTS {
+			psid (VulnerableRoadUsersSafetyPsid), -- PSID = 0x27
             sspRange ABSENT 
 		  }),
           PsidSspRange (WITH COMPONENTS {
@@ -309,6 +332,82 @@ EcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
             sspRange(WITH COMPONENTS{
               opaque -- single OCTET STRING of length 0 
             }) 
+		  }),
+          PsidSspRange (WITH COMPONENTS {
+			psid (PeerToPeerCertDistributionPsid), -- PSID = 0x88
+            sspRange ABSENT 
+		  }),
+          PsidSspRange (WITH COMPONENTS {
+			psid (VehicleInitiatedDistressNotificationPsid), -- PSID = 0x4082
+            sspRange ABSENT 
+		  }),
+          PsidSspRange (WITH COMPONENTS {
+			psid (TranscoreSoftwareUpdatePsid), -- PSID = 0x204083
+            sspRange ABSENT 
+		  }),
+          PsidSspRange (WITH COMPONENTS {
+			psid (CVPApplication1Psid), -- PSID = 0x204088
+            sspRange ABSENT 
+		  }),
+          PsidSspRange (WITH COMPONENTS {
+			psid (CVPApplication2Psid), -- PSID = 0x204089
+            sspRange ABSENT 
+		  }),
+          PsidSspRange (WITH COMPONENTS {
+			psid (CVPApplication3Psid), -- PSID = 0x20408A
+            sspRange ABSENT 
+		  }),
+          PsidSspRange (WITH COMPONENTS {
+			psid (CVPApplication4Psid), -- PSID = 0x20408B
+            sspRange ABSENT 
+		  }),
+          PsidSspRange (WITH COMPONENTS {
+			psid (CVPApplication5Psid), -- PSID = 0x20408C
+            sspRange ABSENT 
+		  }),
+          PsidSspRange (WITH COMPONENTS {
+			psid (CVPApplication6Psid), -- PSID = 0x20408D
+            sspRange ABSENT 
+		  }),
+          PsidSspRange (WITH COMPONENTS {
+			psid (CVPApplication7Psid), -- PSID = 0x20408E
+            sspRange ABSENT 
+		  }),
+          PsidSspRange (WITH COMPONENTS {
+			psid (CVPApplication8Psid), -- PSID = 0x20408F
+            sspRange ABSENT 
+		  }),
+          PsidSspRange (WITH COMPONENTS {
+			psid (CVPApplication9Psid), -- PSID = 0x204090
+            sspRange ABSENT 
+		  }),
+          PsidSspRange (WITH COMPONENTS {
+			psid (CVPApplication10Psid), -- PSID = 0x204091
+            sspRange ABSENT 
+		  }),
+          PsidSspRange (WITH COMPONENTS {
+			psid (CVPApplication11Psid), -- PSID = 0x204092
+            sspRange ABSENT 
+		  }),
+          PsidSspRange (WITH COMPONENTS {
+			psid (CVPApplication12Psid), -- PSID = 0x204093
+            sspRange ABSENT 
+		  }),
+          PsidSspRange (WITH COMPONENTS {
+			psid (CVPApplication13Psid), -- PSID = 0x204094
+            sspRange ABSENT 
+		  }),
+          PsidSspRange (WITH COMPONENTS {
+			psid (CVPApplication14Psid), -- PSID = 0x204095
+            sspRange ABSENT 
+		  }),
+          PsidSspRange (WITH COMPONENTS {
+			psid (CVPApplication15Psid), -- PSID = 0x204096
+            sspRange ABSENT 
+		  }),
+          PsidSspRange (WITH COMPONENTS {
+			psid (CVPApplication16Psid), -- PSID = 0x204097
+            sspRange ABSENT 
 		  })
 		}))
 	  }),
@@ -368,16 +467,122 @@ IcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
       }),
       PsidGroupPermissions ( WITH COMPONENTS {..., 
         subjectPermissions (WITH COMPONENTS { 
-          explicit (SequenceOfPsidSspRange (SIZE (2)) (CONSTRAINED BY { 
-            PsidSspRange( WITH COMPONENTS {
-              psid (SecurityMgmtPsid), -- PSID = 0x23
-              sspRange (WITH COMPONENTS {all}) 
-            }),
-            PsidSspRange( WITH COMPONENTS {
-              psid (CrlPsid), -- PSID = 0x100
-              sspRange (WITH COMPONENTS {all}) 
-            })
-          }))
+          explicit (SequenceOfPsidSspRange (SIZE (27)) (CONSTRAINED BY{
+          PsidSspRange (WITH COMPONENTS {
+            psid (BsmPsid), --PSID = 0x20
+            sspRange(WITH COMPONENTS{ 
+              opaque -- single OCTET STRING of length 0  
+            }) 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (MisbehaviorReportingPsid), -- PSID = 0x26
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (VulnerableRoadUsersSafetyPsid), -- PSID = 0x27
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (DifferentialGpsCorrectionsUncompressedPsid), -- PSID = 0x80 
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (DifferentialGpsCorrectionsCompressedPsid), -- PSID = 0x81 
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (IntersectionSafetyAndAwarenessPsid), -- PSID = 0x82 
+            sspRange(WITH COMPONENTS{
+              opaque --SSP: 90-01, 90-FF-FF-01, 90-FF-FF-02, 90-FF-FF-03, 90-FF-FF-04  
+            }) 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (TravellerInformationAndRoadsideSignagePsid), -- PSID = 0x83 
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (WaveServiceAdvertisementPsid), -- PSID = 0x87 
+            sspRange(WITH COMPONENTS{
+              opaque -- single OCTET STRING of length 0 
+            }) 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (PeerToPeerCertDistributionPsid), -- PSID = 0x88
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (VehicleInitiatedDistressNotificationPsid), -- PSID = 0x4082
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (TranscoreSoftwareUpdatePsid), -- PSID = 0x204083
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication1Psid), -- PSID = 0x204088
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication2Psid), -- PSID = 0x204089
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication3Psid), -- PSID = 0x20408A
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication4Psid), -- PSID = 0x20408B
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication5Psid), -- PSID = 0x20408C
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication6Psid), -- PSID = 0x20408D
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication7Psid), -- PSID = 0x20408E
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication8Psid), -- PSID = 0x20408F
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication9Psid), -- PSID = 0x204090
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication10Psid), -- PSID = 0x204091
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication11Psid), -- PSID = 0x204092
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication12Psid), -- PSID = 0x204093
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication13Psid), -- PSID = 0x204094
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication14Psid), -- PSID = 0x204095
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication15Psid), -- PSID = 0x204096
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication16Psid), -- PSID = 0x204097
+            sspRange ABSENT 
+          })
+        }))
         }),
         minChainDepth(1), chainDepthRange(-1),
         eeType ({app, enrol})
@@ -659,42 +864,122 @@ PcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     })),
     certIssuePermissions (SequenceOfPsidGroupPermissions (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS {..., 
 	  subjectPermissions (WITH COMPONENTS {..., 
-		explicit (SequenceOfPsidSspRange (SIZE (7)) (CONSTRAINED BY{
-		  PsidSspRange (WITH COMPONENTS {
-			psid (BsmPsid), --PSID = 0x20
+		explicit (SequenceOfPsidSspRange (SIZE (27)) (CONSTRAINED BY{
+          PsidSspRange (WITH COMPONENTS {
+            psid (BsmPsid), --PSID = 0x20
             sspRange(WITH COMPONENTS{ 
               opaque -- single OCTET STRING of length 0  
             }) 
-		  }),
+          }),
           PsidSspRange (WITH COMPONENTS {
-			psid (MisbehaviorReportingPsid), -- PSID = 0x26
+            psid (MisbehaviorReportingPsid), -- PSID = 0x26
             sspRange ABSENT 
-		  }),
+          }),
           PsidSspRange (WITH COMPONENTS {
-			psid (DifferentialGpsCorrectionsUncompressedPsid), -- PSID = 0x80 
+            psid (VulnerableRoadUsersSafetyPsid), -- PSID = 0x27
             sspRange ABSENT 
-		  }),
+          }),
           PsidSspRange (WITH COMPONENTS {
-			psid (DifferentialGpsCorrectionsCompressedPsid), -- PSID = 0x81 
+            psid (DifferentialGpsCorrectionsUncompressedPsid), -- PSID = 0x80 
             sspRange ABSENT 
-		  }),
+          }),
           PsidSspRange (WITH COMPONENTS {
-			psid (IntersectionSafetyAndAwarenessPsid), -- PSID = 0x82 
+            psid (DifferentialGpsCorrectionsCompressedPsid), -- PSID = 0x81 
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (IntersectionSafetyAndAwarenessPsid), -- PSID = 0x82 
             sspRange(WITH COMPONENTS{
               opaque --SSP: 90-01, 90-FF-FF-01, 90-FF-FF-02, 90-FF-FF-03, 90-FF-FF-04  
             }) 
-		  }),
+          }),
           PsidSspRange (WITH COMPONENTS {
-			psid (TravellerInformationAndRoadsideSignagePsid), -- PSID = 0x83 
+            psid (TravellerInformationAndRoadsideSignagePsid), -- PSID = 0x83 
             sspRange ABSENT 
-		  }),
+          }),
           PsidSspRange (WITH COMPONENTS {
-			psid (WaveServiceAdvertisementPsid), -- PSID = 0x87 
+            psid (WaveServiceAdvertisementPsid), -- PSID = 0x87 
             sspRange(WITH COMPONENTS{
               opaque -- single OCTET STRING of length 0 
             }) 
-		  })
-		}))
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (PeerToPeerCertDistributionPsid), -- PSID = 0x88
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (VehicleInitiatedDistressNotificationPsid), -- PSID = 0x4082
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (TranscoreSoftwareUpdatePsid), -- PSID = 0x204083
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication1Psid), -- PSID = 0x204088
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication2Psid), -- PSID = 0x204089
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication3Psid), -- PSID = 0x20408A
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication4Psid), -- PSID = 0x20408B
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication5Psid), -- PSID = 0x20408C
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication6Psid), -- PSID = 0x20408D
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication7Psid), -- PSID = 0x20408E
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication8Psid), -- PSID = 0x20408F
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication9Psid), -- PSID = 0x204090
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication10Psid), -- PSID = 0x204091
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication11Psid), -- PSID = 0x204092
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication12Psid), -- PSID = 0x204093
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication13Psid), -- PSID = 0x204094
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication14Psid), -- PSID = 0x204095
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication15Psid), -- PSID = 0x204096
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication16Psid), -- PSID = 0x204097
+            sspRange ABSENT 
+          })
+        }))
 	  }),
 	  minChainDepth(1), chainDepthRange(0),
       eeType({app})
@@ -789,42 +1074,122 @@ RaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     certIssuePermissions ABSENT,
     certRequestPermissions (SequenceOfPsidGroupPermissions (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS {..., 
 	  subjectPermissions (WITH COMPONENTS {..., 
-		explicit (SequenceOfPsidSspRange (SIZE (6)) (CONSTRAINED BY{
-		  PsidSspRange (WITH COMPONENTS {
-			psid (BsmPsid), --PSID = 0x20
+		explicit (SequenceOfPsidSspRange (SIZE (27)) (CONSTRAINED BY{
+          PsidSspRange (WITH COMPONENTS {
+            psid (BsmPsid), --PSID = 0x20
             sspRange(WITH COMPONENTS{ 
               opaque -- single OCTET STRING of length 0  
             }) 
-		  }),
+          }),
           PsidSspRange (WITH COMPONENTS {
-			psid (MisbehaviorReportingPsid), -- PSID = 0x26
+            psid (MisbehaviorReportingPsid), -- PSID = 0x26
             sspRange ABSENT 
-		  }),
+          }),
           PsidSspRange (WITH COMPONENTS {
-			psid (DifferentialGpsCorrectionsUncompressedPsid), -- PSID = 0x80 
+            psid (VulnerableRoadUsersSafetyPsid), -- PSID = 0x27
             sspRange ABSENT 
-		  }),
+          }),
           PsidSspRange (WITH COMPONENTS {
-			psid (DifferentialGpsCorrectionsCompressedPsid), -- PSID = 0x81 
+            psid (DifferentialGpsCorrectionsUncompressedPsid), -- PSID = 0x80 
             sspRange ABSENT 
-		  }),
+          }),
           PsidSspRange (WITH COMPONENTS {
-			psid (IntersectionSafetyAndAwarenessPsid), -- PSID = 0x82 
+            psid (DifferentialGpsCorrectionsCompressedPsid), -- PSID = 0x81 
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (IntersectionSafetyAndAwarenessPsid), -- PSID = 0x82 
             sspRange(WITH COMPONENTS{
               opaque --SSP: 90-01, 90-FF-FF-01, 90-FF-FF-02, 90-FF-FF-03, 90-FF-FF-04  
             }) 
-		  }),
+          }),
           PsidSspRange (WITH COMPONENTS {
-			psid (TravellerInformationAndRoadsideSignagePsid), -- PSID = 0x83 
+            psid (TravellerInformationAndRoadsideSignagePsid), -- PSID = 0x83 
             sspRange ABSENT 
-		  }),
+          }),
           PsidSspRange (WITH COMPONENTS {
-			psid (WaveServiceAdvertisementPsid), -- PSID = 0x87 
+            psid (WaveServiceAdvertisementPsid), -- PSID = 0x87 
             sspRange(WITH COMPONENTS{
               opaque -- single OCTET STRING of length 0 
             }) 
-		  })
-		}))
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (PeerToPeerCertDistributionPsid), -- PSID = 0x88
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (VehicleInitiatedDistressNotificationPsid), -- PSID = 0x4082
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (TranscoreSoftwareUpdatePsid), -- PSID = 0x204083
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication1Psid), -- PSID = 0x204088
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication2Psid), -- PSID = 0x204089
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication3Psid), -- PSID = 0x20408A
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication4Psid), -- PSID = 0x20408B
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication5Psid), -- PSID = 0x20408C
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication6Psid), -- PSID = 0x20408D
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication7Psid), -- PSID = 0x20408E
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication8Psid), -- PSID = 0x20408F
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication9Psid), -- PSID = 0x204090
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication10Psid), -- PSID = 0x204091
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication11Psid), -- PSID = 0x204092
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication12Psid), -- PSID = 0x204093
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication13Psid), -- PSID = 0x204094
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication14Psid), -- PSID = 0x204095
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication15Psid), -- PSID = 0x204096
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication16Psid), -- PSID = 0x204097
+            sspRange ABSENT 
+          })
+        }))
 	  }),
 	  minChainDepth(0), chainDepthRange(0),
       eeType({app})
