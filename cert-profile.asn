@@ -74,7 +74,6 @@ FROM IEEE1609dot2CrlSsp {iso(1) identified-organization(3) ieee(111)
   IntersectionSafetyAndAwarenessPsid, -- PSID = 0x82
   TravellerInformationAndRoadsideSignagePsid, -- PSID = 0x83
   WaveServiceAdvertisementPsid, -- PSID = 0x87
-  PeerToPeerCertDistributionPsid, -- PSID = 0x88
   CertificateRevocationListPsid, -- PSID = 0x100
   VehicleInitiatedDistressNotificationPsid, -- PSID = 0x4082
   TranscoreSoftwareUpdatePsid, -- PSID = 0x204083
@@ -294,7 +293,7 @@ EcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     })),
     certIssuePermissions (SequenceOfPsidGroupPermissions (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS {..., 
 	  subjectPermissions (WITH COMPONENTS {..., 
-		explicit (SequenceOfPsidSspRange (SIZE (27)) (CONSTRAINED BY{
+		explicit (SequenceOfPsidSspRange (SIZE (26)) (CONSTRAINED BY{
 		  PsidSspRange (WITH COMPONENTS {
 			psid (BsmPsid), --PSID = 0x20
             sspRange(WITH COMPONENTS{ 
@@ -332,10 +331,6 @@ EcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
             sspRange(WITH COMPONENTS{
               opaque -- single OCTET STRING of length 0 
             }) 
-		  }),
-          PsidSspRange (WITH COMPONENTS {
-			psid (PeerToPeerCertDistributionPsid), -- PSID = 0x88
-            sspRange ABSENT 
 		  }),
           PsidSspRange (WITH COMPONENTS {
 			psid (VehicleInitiatedDistressNotificationPsid), -- PSID = 0x4082
@@ -467,7 +462,7 @@ IcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
       }),
       PsidGroupPermissions ( WITH COMPONENTS {..., 
         subjectPermissions (WITH COMPONENTS { 
-          explicit (SequenceOfPsidSspRange (SIZE (27)) (CONSTRAINED BY{
+          explicit (SequenceOfPsidSspRange (SIZE (26)) (CONSTRAINED BY{
           PsidSspRange (WITH COMPONENTS {
             psid (BsmPsid), --PSID = 0x20
             sspRange(WITH COMPONENTS{ 
@@ -505,10 +500,6 @@ IcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
             sspRange(WITH COMPONENTS{
               opaque -- single OCTET STRING of length 0 
             }) 
-          }),
-          PsidSspRange (WITH COMPONENTS {
-            psid (PeerToPeerCertDistributionPsid), -- PSID = 0x88
-            sspRange ABSENT 
           }),
           PsidSspRange (WITH COMPONENTS {
             psid (VehicleInitiatedDistressNotificationPsid), -- PSID = 0x4082
@@ -864,7 +855,7 @@ PcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     })),
     certIssuePermissions (SequenceOfPsidGroupPermissions (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS {..., 
 	  subjectPermissions (WITH COMPONENTS {..., 
-		explicit (SequenceOfPsidSspRange (SIZE (27)) (CONSTRAINED BY{
+		explicit (SequenceOfPsidSspRange (SIZE (26)) (CONSTRAINED BY{
           PsidSspRange (WITH COMPONENTS {
             psid (BsmPsid), --PSID = 0x20
             sspRange(WITH COMPONENTS{ 
@@ -902,10 +893,6 @@ PcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
             sspRange(WITH COMPONENTS{
               opaque -- single OCTET STRING of length 0 
             }) 
-          }),
-          PsidSspRange (WITH COMPONENTS {
-            psid (PeerToPeerCertDistributionPsid), -- PSID = 0x88
-            sspRange ABSENT 
           }),
           PsidSspRange (WITH COMPONENTS {
             psid (VehicleInitiatedDistressNotificationPsid), -- PSID = 0x4082
@@ -1074,7 +1061,7 @@ RaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     certIssuePermissions ABSENT,
     certRequestPermissions (SequenceOfPsidGroupPermissions (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS {..., 
 	  subjectPermissions (WITH COMPONENTS {..., 
-		explicit (SequenceOfPsidSspRange (SIZE (27)) (CONSTRAINED BY{
+		explicit (SequenceOfPsidSspRange (SIZE (26)) (CONSTRAINED BY{
           PsidSspRange (WITH COMPONENTS {
             psid (BsmPsid), --PSID = 0x20
             sspRange(WITH COMPONENTS{ 
@@ -1112,10 +1099,6 @@ RaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
             sspRange(WITH COMPONENTS{
               opaque -- single OCTET STRING of length 0 
             }) 
-          }),
-          PsidSspRange (WITH COMPONENTS {
-            psid (PeerToPeerCertDistributionPsid), -- PSID = 0x88
-            sspRange ABSENT 
           }),
           PsidSspRange (WITH COMPONENTS {
             psid (VehicleInitiatedDistressNotificationPsid), -- PSID = 0x4082
