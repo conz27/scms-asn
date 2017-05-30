@@ -69,7 +69,6 @@ DifferentialGpsCorrectionsCompressedPsid ::= Psid (129) -- PSID = 0x81
 IntersectionSafetyAndAwarenessPsid ::= Psid (130) -- PSID = 0x82
 TravellerInformationAndRoadsideSignagePsid ::= Psid (131) -- PSID = 0x83
 WaveServiceAdvertisementPsid ::= Psid (135) -- PSID = 0x87
-CertificateRevocationListPsid ::= Psid (256) -- PSID = 0x100
 VehicleInitiatedDistressNotificationPsid ::= Psid (16514) -- PSID = 0x4082
 TranscoreSoftwareUpdatePsid ::= Psid (2113667) -- PSID = 0x204083
 CVPApplication1Psid ::= Psid (2113672) -- PSID = 0x204088
