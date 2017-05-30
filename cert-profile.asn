@@ -29,7 +29,7 @@ FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111)
 standards-association-numbered-series-standards(2) wave-stds(1609)  
 dot2(2) base(1) base-types(2)}
 
-  CrlPsid
+  CrlPsid -- PSID = 0x100
 FROM IEEE1609dot2Crl {iso(1) identified-organization(3) ieee(111) 
   standards-association-numbered-series-standards(2) wave-stds(1609)  
   dot2(2) crl(3) protocol(2)}
@@ -74,7 +74,6 @@ FROM IEEE1609dot2CrlSsp {iso(1) identified-organization(3) ieee(111)
   IntersectionSafetyAndAwarenessPsid, -- PSID = 0x82
   TravellerInformationAndRoadsideSignagePsid, -- PSID = 0x83
   WaveServiceAdvertisementPsid, -- PSID = 0x87
-  CertificateRevocationListPsid, -- PSID = 0x100
   VehicleInitiatedDistressNotificationPsid, -- PSID = 0x4082
   TranscoreSoftwareUpdatePsid, -- PSID = 0x204083
   CVPApplication1Psid, -- PSID = 0x204088
