@@ -46,7 +46,7 @@ FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111)
 
   Evidence ::= SEQUENCE {
     observedNeighborList 	SEQUENCE (SIZE(0..MAX)) OF SignedBSMsWithCertificate,
-    reporterWSMs 			SEQUENCE (SIZE(1..10)) OF SignedBSM,
+    reporterBSMs 			SEQUENCE (SIZE(1..10)) OF SignedBSM,
     suspectVehicleList 		SEQUENCE (SIZE(1..10)) OF SignedBSMsWithCertificate,
     ...
   }
