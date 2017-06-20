@@ -67,7 +67,7 @@ FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111)
     ... 	
   }
 
-  -- unsecuredData is UPER encoded BSM
+  -- unsecuredData is UPER encoded BasicSafetyMessage as defined in J2735
   SignedBSM ::= Ieee1609Dot2Data (WITH COMPONENTS { ...,
     content (WITH COMPONENTS { 
       signedData (WITH COMPONENTS { ...,
