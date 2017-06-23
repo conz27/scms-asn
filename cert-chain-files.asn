@@ -94,7 +94,7 @@ CompositeVersion ::= SEQUENCE {
 --
 
 CertificateStore ::= SEQUENCE {
-    rootCAEndorsements SEQUENCE SIZE(1..MAX) OF ElectorBallot,
+    rootCAEndorsements SEQUENCE SIZE(0..MAX) OF ElectorBallot,
     electorEndorsements SEQUENCE SIZE(0..MAX) OF ElectorBallot,
     maCertificate Certificate,
     certs SEQUENCE SIZE(0..MAX) OF Certificate,
