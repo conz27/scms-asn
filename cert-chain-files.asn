@@ -47,7 +47,7 @@ CertificateChainFiles ::= CHOICE {
 ----
 
 GlobalCertificateChainFile ::= SEQUENCE {
-    version Uint16(0),		-- unique version number for this GCCF
+    version Uint16,		-- unique version number for this GCCF
     certStore CertificateStore,	-- list of certificats and all issuers
     ...
 }
@@ -70,8 +70,8 @@ LocalCertificateChainFile ::= SEQUENCE {
 }
 
 CompositeVersion ::= SEQUENCE {
-	gccfVersion Uint16(0), 		-- GCCF version that generatd this file
-	lccfVersion Uint16(0),	       	-- unique local index for this LCCF
+	gccfVersion Uint16, 		-- GCCF version that generatd this file
+	lccfVersion Uint16,	       	-- unique local index for this LCCF
 	raHostname Hostname		-- name of the RA that generated this
 }
 
