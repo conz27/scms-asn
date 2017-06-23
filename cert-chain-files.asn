@@ -70,9 +70,9 @@ LocalCertificateChainFile ::= SEQUENCE {
 }
 
 CompositeVersion ::= SEQUENCE {
-	gccfVersion Uint16, 		-- GCCF version that generatd this file
-	lccfVersion Uint16,	       	-- unique local index for this LCCF
-	raHostname Hostname		-- name of the RA that generated this
+	gccfVersion Uint16, 		-- GCCF version that was used to generate this file
+	lccfVersion Uint16,	       	-- unique local version for this LCCF
+	raHostname Hostname		-- name of the RA that generated this LCCF
 }
 
 
