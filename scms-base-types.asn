@@ -63,12 +63,30 @@ RootCaCertExpiration ::= Duration (WITH COMPONENTS {years(70)})
 BsmPsid ::= Psid (32) --PSID = 0x20
 SecurityMgmtPsid ::= Psid (35)  -- PSID = 0x23
 MisbehaviorReportingPsid ::= Psid (38)  -- PSID = 0x26
+VulnerableRoadUsersSafetyPsid ::= Psid (39) -- PSID = 0x27
 DifferentialGpsCorrectionsUncompressedPsid ::= Psid (128) -- PSID = 0x80
 DifferentialGpsCorrectionsCompressedPsid ::= Psid (129) -- PSID = 0x81
 IntersectionSafetyAndAwarenessPsid ::= Psid (130) -- PSID = 0x82
 TravellerInformationAndRoadsideSignagePsid ::= Psid (131) -- PSID = 0x83
 WaveServiceAdvertisementPsid ::= Psid (135) -- PSID = 0x87
-PeerToPeerCertDistributionPsid ::= Psid (136) -- PSID = 0x88
+VehicleInitiatedDistressNotificationPsid ::= Psid (16514) -- PSID = 0x4082
+TranscoreSoftwareUpdatePsid ::= Psid (2113667) -- PSID = 0x204083
+CVPApplication1Psid ::= Psid (2113672) -- PSID = 0x204088
+CVPApplication2Psid ::= Psid (2113673) -- PSID = 0x204089
+CVPApplication3Psid ::= Psid (2113674) -- PSID = 0x20408A
+CVPApplication4Psid ::= Psid (2113675) -- PSID = 0x20408B
+CVPApplication5Psid ::= Psid (2113676) -- PSID = 0x20408C
+CVPApplication6Psid ::= Psid (2113677) -- PSID = 0x20408D
+CVPApplication7Psid ::= Psid (2113678) -- PSID = 0x20408E
+CVPApplication8Psid ::= Psid (2113679) -- PSID = 0x20408F
+CVPApplication9Psid ::= Psid (2113680) -- PSID = 0x204090
+CVPApplication10Psid ::= Psid (2113681) -- PSID = 0x204091
+CVPApplication11Psid ::= Psid (2113682) -- PSID = 0x204092
+CVPApplication12Psid ::= Psid (2113683) -- PSID = 0x204093
+CVPApplication13Psid ::= Psid (2113684) -- PSID = 0x204094
+CVPApplication14Psid ::= Psid (2113685) -- PSID = 0x204095
+CVPApplication15Psid ::= Psid (2113686) -- PSID = 0x204096
+CVPApplication16Psid ::= Psid (2113687) -- PSID = 0x204097
 
 
 EeEnrollmentCrlSeries ::= CrlSeries (4)
