@@ -9,68 +9,81 @@ DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 EXPORTS ALL;
 
 IMPORTS 
-
   Uint8,
   Uint16
-
 FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111) 
-		standards-association-numbered-series-standards(2) wave-stds(1609)  
-		dot2(2) base(1) base-types(2)}
+	 standards-association-numbered-series-standards(2) wave-stds(1609)  
+	 dot2(2) base(1) base-types(2)}
 
-  ImplicitCertificate
-
+  ImplicitCertificate,
+  Ieee1609Dot2Data
 FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111)
 	 standards-association-numbered-series-standards(2) wave-stds(1609)
 	 dot2(2) base (1) schema (1)}
 
 ;
 
-EndEntityMaInterfacePDU::= CHOICE {
+  EndEntityMaInterfacePDU::= CHOICE {
     misbehaviorReport   MisbehaviorReport,
     ...
-}
+  }
 
-MisbehaviorReport ::= SEQUENCE {
+  MisbehaviorReport ::= SEQUENCE {
     version 			Uint8(1),
     policyFilename		PolicyFilename,
     reportType 			ReportType,
     evidentiaryData		SEQUENCE (SIZE(1..3)) OF Evidence,
     ...
-}
+  }
 
-PolicyFilename ::= UTF8String (SIZE(0..26))
+  PolicyFilename ::= UTF8String (SIZE(0..26))
 
-ReportType ::= CHOICE {
+  ReportType ::= CHOICE {
     proximityPlausibility 	ProximityPlausibility, 
     warningReport 			WarningReport,
     ...
-}
+  }
 
-Evidence ::= SEQUENCE {
-    observedNeighborList 	SEQUENCE (SIZE(0..MAX)) OF WSMsWithCertificate,
-    reporterWSMs 			SEQUENCE (SIZE(1..10)) OF WSMData,
-    suspectVehicleList 		SEQUENCE (SIZE(1..10)) OF WSMsWithCertificate,
+  Evidence ::= SEQUENCE {
+    observedNeighborList 	SEQUENCE (SIZE(0..MAX)) OF SignedBSMsWithCertificate,
+    reporterBSMs 			SEQUENCE (SIZE(1..10)) OF SignedBSM,
+    suspectVehicleList 		SEQUENCE (SIZE(1..10)) OF SignedBSMsWithCertificate,
     ...
-}
+  }
 
-ProximityPlausibility ::= CHOICE {
+  ProximityPlausibility ::= CHOICE {
     default 		NULL,
     ...
-}
+  }
 
-WarningReport ::= CHOICE {
+  WarningReport ::= CHOICE {
     default 		NULL,
     ...
-}
+  }
 
-WSMsWithCertificate ::= SEQUENCE {
-    wsmList 				SEQUENCE (SIZE(1..MAX)) OF WSMData,
+  SignedBSMsWithCertificate ::= SEQUENCE {
+    signedBSMList 			SEQUENCE (SIZE(1..MAX)) OF SignedBSM,
     signingCertificate 		ImplicitCertificate,
     ... 	
-}
+  }
 
-WSMData ::= OCTET STRING -- UPER encoded WSM
+  -- unsecuredData is UPER encoded BasicSafetyMessage as defined in J2735
+  SignedBSM ::= Ieee1609Dot2Data (WITH COMPONENTS { ...,
+    content (WITH COMPONENTS { 
+      signedData (WITH COMPONENTS { ...,
+        tbsData (WITH COMPONENTS { ...,
+          payload (WITH COMPONENTS {
+            data (WITH COMPONENTS { 
+              content (WITH COMPONENTS { 
+                unsecuredData
+              })
+            })
+          })
+        })
+      })
+    })
+  })
 
-SuspectVehicleList ::= SEQUENCE (SIZE(1..10)) OF WSMsWithCertificate
+  SuspectVehicleList ::= SEQUENCE (SIZE(1..10)) OF SignedBSMsWithCertificate
 
 END
