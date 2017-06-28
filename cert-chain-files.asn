@@ -88,7 +88,7 @@ CompositeVersion ::= SEQUENCE {
 -- the EEs that are assigned to that RA.  
 -- Note that these are lists of certificates, not certificate chains as
 -- defined in 1609.2.  The primary reason for not using a list of certificate
--- chains is to eliminate redundancy.  If we used a list of certifiate
+-- chains is to eliminate redundancy.  If we used a list of certificate
 -- chains, each chain would have a copy of the same root CA and some chains
 -- would have copies of the same ICA.
 --
