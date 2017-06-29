@@ -48,7 +48,7 @@ EeEcaCertRequest ::= SEQUENCE {
     version             Uint8(1),
     currentTime         Time32,
     tbsData             ToBeSignedCertificate (WITH COMPONENTS { ..., 
-      id(WITH COMPONENTS {
+      id(WITH COMPONENTS { ...,
         linkageData ABSENT }),
       region PRESENT,
       appPermissions ABSENT,
