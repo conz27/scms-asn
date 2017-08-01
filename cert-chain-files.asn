@@ -1,3 +1,18 @@
+-- 
+--  Copyright 2017 Crash Avoidance Metrics Partner, VSC5 Consortium
+-- 
+--  Licensed under the Apache License, Version 2.0 (the "License");
+--  you may not use this file except in compliance with the License.
+--  You may obtain a copy of the License at
+-- 
+--     http://www.apache.org/licenses/LICENSE-2.0
+-- 
+--  Unless required by applicable law or agreed to in writing, software
+--  distributed under the License is distributed on an "AS IS" BASIS,
+--  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+--  See the License for the specific language governing permissions and
+--  limitations under the License.
+-- 
 IEEE1609dot2-cert-chains {iso(1) identified-organization(3) ieee(111)
 standards-association-numbered-series-standards(2) wave-stds(1609)
 dot2(2) base (1) cert-chains (4) major-version-2(2)}
@@ -88,13 +103,16 @@ CompositeVersion ::= SEQUENCE {
 -- the EEs that are assigned to that RA.  
 -- Note that these are lists of certificates, not certificate chains as
 -- defined in 1609.2.  The primary reason for not using a list of certificate
--- chains it to eliminate redundancy.  If we used a list of certifiate
+-- chains is to eliminate redundancy.  If we used a list of certificate
 -- chains, each chain would have a copy of the same root CA and some chains
 -- would have copies of the same ICA.
 --
+-- rootCAEndorsements are optional for as long as the SCMS OPs project does
+-- not have Electors. As soon as they are introduced a minimum of 1 
+-- rootCAEndorsement is required.
 
 CertificateStore ::= SEQUENCE {
-    rootCAEndorsements SEQUENCE SIZE(1..MAX) OF ElectorBallot,
+    rootCAEndorsements SEQUENCE SIZE(0..MAX) OF ElectorBallot,
     electorEndorsements SEQUENCE SIZE(0..MAX) OF ElectorBallot,
     maCertificate Certificate,
     certs SEQUENCE SIZE(0..MAX) OF Certificate,
