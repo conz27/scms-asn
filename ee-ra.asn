@@ -14,7 +14,6 @@
 --  limitations under the License.
 --
 
----
 -- @namespace Ieee1609Dot2EndEntityRaInterface
 Ieee1609Dot2EndEntityRaInterface
 {iso(1) identified-organization(3) ieee(111)
@@ -70,8 +69,8 @@ FROM Ieee1609Dot2ScmsComponentCertificateManagement {iso(1)
 -- @class EndEntityRaInterfacePDU
 -- @param eeRaCertRequest                      contains a message from an EE to the RA to request a
 --                                             copy of the RA’s currently valid certificate.
--- @param raEeCertResponse                     is a message from the RA to the EE to acknowledge the
---                                             receipt of eeRaCertRequest
+-- @param raEeCertResponse                     is a message from the RA to the EE as a response to
+--                                             eeRaCertRequest
 -- @param eeRaPseudonymCertProvisioningRequest is a message from an EE to the RA to request pseudonym
 --                                             certificates
 -- @param raEePseudonymCertProvisioningAck     is a message from the RA to the EE to acknowledge the
@@ -161,7 +160,7 @@ CommonProvisioningRequestFields ::= SEQUENCE {
 
 ---
 -- @brief This structure defines the parameters (seed and expansion keys) required for butterfly key
--- expansion
+--        expansion
 -- @class UnsignedButterflyParams
 -- @param seed-key  contains the butterfly seed key
 -- @param expansion contains the expansion parameter needed to perform a Butterfly key expansion
