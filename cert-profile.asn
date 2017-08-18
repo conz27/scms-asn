@@ -192,8 +192,6 @@ DcmCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     }),
     region (WITH COMPONENTS {
       identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Canada) }), 
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Mexico) }), 
         IdentifiedRegion ( WITH COMPONENTS { countryOnly(USA) })
       }))
     }),
@@ -293,8 +291,6 @@ EcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     }),
     region (WITH COMPONENTS {
       identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Canada) }), 
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Mexico) }), 
         IdentifiedRegion ( WITH COMPONENTS { countryOnly(USA) })
       }))
     }),
@@ -454,8 +450,6 @@ IcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     }),
     region (WITH COMPONENTS {
       identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Canada) }), 
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Mexico) }), 
         IdentifiedRegion ( WITH COMPONENTS { countryOnly(USA) })
       }))
     }),
@@ -624,8 +618,6 @@ LaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     }),
     region (WITH COMPONENTS {
       identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Canada) }), 
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Mexico) }), 
         IdentifiedRegion ( WITH COMPONENTS { countryOnly(USA) })
       }))
     }),
@@ -712,8 +704,6 @@ ObeEnrollmentCertificate ::= ImplicitCertificate (WITH COMPONENTS { ...,
     }),
     region (WITH COMPONENTS {
       identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Canada) }), 
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Mexico) }), 
         IdentifiedRegion ( WITH COMPONENTS { countryOnly(USA) })
       }))
     }),
@@ -770,8 +760,6 @@ ObeIdentificationCertificate ::= ImplicitCertificate (WITH COMPONENTS { ...,
     }),
     region (WITH COMPONENTS {
       identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Canada) }), 
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Mexico) }), 
         IdentifiedRegion ( WITH COMPONENTS { countryOnly(USA) })
       }))
     }),
@@ -809,8 +797,6 @@ ObePseudonymCertificate ::= ImplicitCertificate (WITH COMPONENTS { ...,
     }),
     region (WITH COMPONENTS {
       identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Canada) }), 
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Mexico) }), 
         IdentifiedRegion ( WITH COMPONENTS { countryOnly(USA) })
       }))
     }),
@@ -855,8 +841,6 @@ PcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     }),
     region (WITH COMPONENTS {
       identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Canada) }), 
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Mexico) }), 
         IdentifiedRegion ( WITH COMPONENTS { countryOnly(USA) })
       }))
     }),
@@ -1060,8 +1044,6 @@ RaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     }),
     region (WITH COMPONENTS {
       identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Canada) }), 
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Mexico) }), 
         IdentifiedRegion ( WITH COMPONENTS { countryOnly(USA) })
       }))
     }),
@@ -1310,8 +1292,6 @@ RseApplicationCertificate ::= ImplicitCertificate (WITH COMPONENTS { ...,
     }),
     region (WITH COMPONENTS {
       identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Canada) }), 
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Mexico) }), 
         IdentifiedRegion ( WITH COMPONENTS { countryOnly(USA) })
       }))
     }),
@@ -1347,8 +1327,6 @@ RseEnrollmentCertificate ::= ImplicitCertificate (WITH COMPONENTS { ...,
     }),
     region (WITH COMPONENTS {
       identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Canada) }), 
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Mexico) }), 
         IdentifiedRegion ( WITH COMPONENTS { countryOnly(USA) })
       }))
     }),
