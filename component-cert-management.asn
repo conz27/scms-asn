@@ -27,7 +27,7 @@ IMPORTS
   Uint8
 FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111) 
   standards-association-numbered-series-standards(2) wave-stds(1609)  
-  dot2(2) base(1) base-types(2)}
+  dot2(2) base(1) base-types(2) }
 
   ScopedComponentCertificateManagementError
 FROM Ieee1609dot2ScmsError {iso(1) identified-organization(3) ieee(111)
