@@ -70,19 +70,19 @@ FROM Ieee1609Dot2ScmsComponentCertificateManagement {iso(1)
 -- @param eeRaCertRequest                      contains a message from an EE to the RA to request a
 --                                             copy of the RA’s currently valid certificate.
 -- @param raEeCertResponse                     is a message from the RA to the EE as a response to
---                                             eeRaCertRequest
+--                                             EeRaCertRequest.
 -- @param eeRaPseudonymCertProvisioningRequest is a message from an EE to the RA to request pseudonym
---                                             certificates
+--                                             certificates.
 -- @param raEePseudonymCertProvisioningAck     is a message from the RA to the EE to acknowledge the
---                                             receipt of eeRaPseudonymCertProvisioningRequest
+--                                             receipt of EeRaPseudonymCertProvisioningRequest.
 -- @param eeRaIdCertProvisioningRequest        is a message from an EE to the RA to request an
---                                             identification certificate
+--                                             identification certificate.
 -- @param raEeIdCertProvisioningAck            is a message from the RA to the EE to acknowledge the
---                                             receipt of eeRaIdCertProvisioningRequest
+--                                             receipt of EeRaIdCertProvisioningRequest.
 -- @param eeRaAppCertProvisioningRequest       is a message from an EE to the RA to request an
---                                             application certificate
+--                                             application certificate.
 -- @param raEeAppCertProvisioningAck           is a message from the RA to the EE to acknowledge the
---                                             receipt of eeRaAppCertProvisioningRequest
+--                                             receipt of EeRaAppCertProvisioningRequest.
 -- @param eeRaAuthenticatedDownloadRequest     is a message from an EE to the RA to request the
 --                                             download of certificates (once they are ready).
 EndEntityRaInterfacePDU::= CHOICE {
@@ -102,7 +102,7 @@ EndEntityRaInterfacePDU::= CHOICE {
 -- @brief This message is sent from an EE to the RA to request the RAs currently valid certificate.
 -- @class EeRaCertRequestMsg
 -- @param version contains the current version of the data type. The version specified in this
---                document is version 1, represented by the integer 1
+--                document is version 1, represented by the integer 1.
 -- @see Uint8
 EeRaCertRequestMsg ::= SEQUENCE {
     version         Uint8(1),
@@ -113,10 +113,10 @@ EeRaCertRequestMsg ::= SEQUENCE {
 -- @brief This message contains an acknowledgement from the RA to an EE's EeRaCertRequestMsg.
 -- @class RaEeCertResponseMsg
 -- @param version contains the current version of the data type. The version specified in this
---                document is version 1, represented by the integer 1
--- @param reply   indicates the contents of the reply message. In this version of this document, only
+--                document is version 1, represented by the integer 1.
+-- @param reply   indicates the contents of the reply message. In this version of the document, only
 --                one choice option is supported, namely an acknowledgement (ack) of type
---                RaEeCertResponseAck
+--                RaEeCertResponseAck.
 -- @see Uint8
 RaEeCertResponseMsg ::= SEQUENCE {
     version         Uint8(1),
@@ -262,13 +262,13 @@ EndEntityEnrollmentPseudonymCertificate ::= ImplicitCertificate (WITH COMPONENTS
 -- @param requestHash contains the hash of the original request, using the HashedId8 type as defined
 --                    in 1609dot2-base-types.asn. In the case when the RA cannot calculate the
 --                    hash of the original request due to a hardError, this field shall be all zeroes.
--- @param reply       contains the acknowledgement (ack).
+-- @param reply       indicates the contents of the reply message. In this version of the document,
+--                    only one choice option is supported, namely an acknowledgement (ack) of type
+--                    PseudonymCertProvisioningAck.
 -- @see Uint8, HashedId8
 RaEePseudonymCertProvisioningAck ::= SEQUENCE {
     version     Uint8(1),
-    -- in case when RA can't calculate hash of the original
-    -- request due to hardError, zero value should be returned
-    requestHash HashedId8,  -- hash of the original request
+    requestHash HashedId8,
     reply       CHOICE {
         ack        PseudonymCertProvisioningAck,
         ...
@@ -281,9 +281,9 @@ RaEePseudonymCertProvisioningAck ::= SEQUENCE {
 --        pseudonym certificate provisioning request.
 -- @class PseudonymCertProvisioningAck
 -- @param certDLTime contains the time at which the download of the generated certificates
---                   is available
+--                   is available.
 -- @param certDLURL  contains the URL at which the EE may download the pseudonym certificates at
---                   the indicated time
+--                   the indicated time.
 -- @see Time32, Hostname
 PseudonymCertProvisioningAck ::= SEQUENCE {
     certDLTime       Time32,
