@@ -561,7 +561,8 @@ ScopedRaPgPolicySignatureRequestReply ::=
      ScopedIdCertProvisioningRequest  |
      ScopedAppCertProvisioningRequest  |
      ScopedRaPcaCertificateRequest |
-     ScopedAuthenticatedDownloadRequest )
+     ScopedAuthenticatedDownloadRequest,
+     ...)
 
 
 
