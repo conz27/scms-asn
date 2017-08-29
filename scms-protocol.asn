@@ -14,6 +14,7 @@
 --  limitations under the License.
 -- 
 
+-- @namespace IEEE1609dot2ScmsProtocol 
 IEEE1609dot2ScmsProtocol {iso(1) identified-organization(3) ieee(111)
 standards-association-numbered-series-standards(2) wave-stds(1609)
 dot2(2) scms(2) interfaces(1) protocol(1)}
@@ -125,6 +126,34 @@ standards-association-numbered-series-standards(2) wave-stds(1609)  dot2(2)
 scms (2) interfaces(1) policy-types (500)}
 ;
 
+---
+-- @brief The ScmsPDU is the parent structure that encompasses all parent structures of interfaces
+--        defined in the SCMS.
+-- @class ScmsPDU
+-- @param version contains the current version of the data type. The version specified in this
+--                document is version 1, represented by the integer 1.
+-- @param content encloses the information of an SCMS interface.
+-- @param ccm     contains the component certificate management interface structure.
+-- @param eca-ee  contains the interface structure defined for interaction between Enrollment
+--                Certificate Authority (ECA) and an End Entity (EE).
+-- @param ee-ma   contains the interface structure defined for interaction between an End Entity
+--                (EE) and Misbehavior Authority (MA).
+-- @param ee-ra   contains the interface structure defined for interaction between an End Entity
+--                (EE) and Registration Authority (RA).
+-- @param la-ma   contains the interface structure defined for interaction between Linkage Authority
+--                (LA) and Misbehavior Authority (MA).
+-- @param la-pca  contains the interface structure defined for interaction between Linkage Authority
+--                (LA) and Pseudonym Certificate Authority (PCA).
+-- @param la-ra   contains the interface structure defined for interaction between Linkage Authority
+--                (LA) and Registration Authority (RA).
+-- @param ma-pca  contains the interface structure defined for interaction between Misbehavior
+--                Authority (MA) and Pseudonym Certificate Authority (PCA).
+-- @param ma-ra   contains the interface structure defined for interactions between Misbehavior
+--                Authority (MA) and Registration Authority (RA).
+-- @param pca-ra  contains the interface structure defined for interactions between Pseudonym
+--                Certificate Authority (PCA) and Registration Authority (RA).
+-- @param ra-pg   contains the interface structure defined for interactions between Registration
+--                Authority (RA) and Policy Generator (PG).
 ScmsPDU ::= SEQUENCE {
   version  Uint8(1),
   content  CHOICE {
@@ -143,6 +172,17 @@ ScmsPDU ::= SEQUENCE {
  }
 }
 
+---
+-- @brief This is a collection structure designed for transferring certificate and policy files
+--        among SCMS entities.
+-- @class ScmsFile
+-- @param version    contains the current version of the data type. The version specified in this
+--                   document is version 1, represented by the integer 1.
+-- @param content    encloses information of an SCMS file. 
+-- @param cert-chain contains the chain of certificates through which the necessary entities can be
+--                   recursively verified.
+-- @param policy     contains files that define policies about certificates (e.g. certificate
+--                   lifetimes)
 ScmsFile ::= SEQUENCE {
   version Uint8(1),
   content CHOICE {
@@ -159,6 +199,10 @@ ScmsFile ::= SEQUENCE {
 -- *************************************************************************
 
 -- *** EE-CA ***************************************************************
+
+---
+-- @brief This structure defines the EeEcaCertRequest as a scoped version of the ScmsPDU.
+-- @class ScopedEeEnrollmentCertRequest
 ScopedEeEnrollmentCertRequest ::=
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
@@ -168,6 +212,9 @@ ScopedEeEnrollmentCertRequest ::=
     })
  })
 
+---
+-- @brief This structure defines the EcaEeCertResponse as a scoped version of the ScmsPDU.
+-- @class ScopedEeEnrollmentCertResponse
 ScopedEeEnrollmentCertResponse ::=
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
@@ -179,6 +226,9 @@ ScopedEeEnrollmentCertResponse ::=
 
 -- *** EE-MA ***************************************************************
 
+---
+-- @brief This structure defines the MisbehaviorReport as a scoped version of the ScmsPDU.
+-- @class ScopedMisbehaviorReport
 ScopedMisbehaviorReport ::=
   ScmsPDU (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
@@ -190,6 +240,9 @@ ScopedMisbehaviorReport ::=
 
 -- *** EE-RA ***************************************************************
 
+---
+-- @brief This structure defines the EeRaCertRequest as a scoped version of the ScmsPDU.
+-- @class ScopedEeRaCertRequest
 ScopedEeRaCertRequest ::=
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
@@ -199,6 +252,9 @@ ScopedEeRaCertRequest ::=
     })
  })
 
+---
+-- @brief This structure defines the RaEeCertResponse as a scoped version of the ScmsPDU.
+-- @class ScopedRaEeCertResponse
 ScopedRaEeCertResponse ::=
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
@@ -208,6 +264,9 @@ ScopedRaEeCertResponse ::=
     })
  })
 
+---
+-- @brief This structure defines the EeRaPseudonymCertProvisioningRequest as a scoped version of the ScmsPDU.
+-- @class ScopedPseudonymCertProvisioningRequest
 ScopedPseudonymCertProvisioningRequest ::=
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
@@ -217,6 +276,9 @@ ScopedPseudonymCertProvisioningRequest ::=
     })
   })
 
+---
+-- @brief This structure defines the RaEePseudonymCertProvisioningAck as a scoped version of the ScmsPDU.
+-- @class ScopedPseudonymCertProvisioningAck
 ScopedPseudonymCertProvisioningAck ::=
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
@@ -226,6 +288,9 @@ ScopedPseudonymCertProvisioningAck ::=
     })
   })
 
+---
+-- @brief This structure defines the EeRaIdCertProvisioningRequest as a scoped version of the ScmsPDU.
+-- @class ScopedIdCertProvisioningRequest
 ScopedIdCertProvisioningRequest ::=
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
@@ -235,6 +300,9 @@ ScopedIdCertProvisioningRequest ::=
     })
   })
 
+---
+-- @brief This structure defines the RaEeIdCertProvisioningAck as a scoped version of the ScmsPDU.
+-- @class ScopedIdCertProvisioningAck
 ScopedIdCertProvisioningAck ::=
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
@@ -244,6 +312,9 @@ ScopedIdCertProvisioningAck ::=
     })
   })
 
+---
+-- @brief This structure defines the EeRaAppCertProvisioningRequest as a scoped version of the ScmsPDU.
+-- @class ScopedAppCertProvisioningRequest
 ScopedAppCertProvisioningRequest ::=
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
@@ -253,6 +324,9 @@ ScopedAppCertProvisioningRequest ::=
     })
   })
 
+---
+-- @brief This structure defines the RaEeAppCertProvisioningAck as a scoped version of the ScmsPDU.
+-- @class ScopedAppCertProvisioningAck
 ScopedAppCertProvisioningAck ::=
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
@@ -262,6 +336,9 @@ ScopedAppCertProvisioningAck ::=
     })
   })
 
+---
+-- @brief This structure defines the GlobalCertificateChainFile as a scoped version of the ScmsPDU.
+-- @class ScopedGlobalCertificateChainFile
 ScopedGlobalCertificateChainFile ::=
   ScmsFile (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
@@ -271,6 +348,9 @@ ScopedGlobalCertificateChainFile ::=
     })
   })
 
+---
+-- @brief This structure defines the LocalCertificateChainFile as a scoped version of the ScmsPDU.
+-- @class ScopedLocalCertificateChainFile
 ScopedLocalCertificateChainFile ::=
   ScmsFile (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
@@ -280,6 +360,9 @@ ScopedLocalCertificateChainFile ::=
     })
   })
 
+---
+-- @brief This structure defines the GlobalPolicyFile as a scoped version of the ScmsPDU.
+-- @class ScopedGlobalPolicyFile
 ScopedGlobalPolicyFile ::=
   ScmsFile (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
@@ -289,6 +372,9 @@ ScopedGlobalPolicyFile ::=
     })
   })
 
+---
+-- @brief This structure defines the LocalPolicyFile as a scoped version of the ScmsPDU.
+-- @class ScopedLocalPolicyFile
 ScopedLocalPolicyFile ::=
   ScmsFile (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
@@ -298,6 +384,9 @@ ScopedLocalPolicyFile ::=
     })
   })
 
+---
+-- @brief This structure defines the EeRaAuthenticatedDownloadRequest as a scoped version of the ScmsPDU.
+-- @class ScopedAuthenticatedDownloadRequest
 ScopedAuthenticatedDownloadRequest ::=
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
@@ -309,6 +398,9 @@ ScopedAuthenticatedDownloadRequest ::=
 
 -- *** LA-MA ***************************************************************
 
+---
+-- @brief This structure defines the MaLaLinkageInfoRequest as a scoped version of the ScmsPDU.
+-- @class ScopedLIRequest
 ScopedLIRequest ::=
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
@@ -318,7 +410,9 @@ ScopedLIRequest ::=
     })
   })
 
-
+---
+-- @brief This structure defines the LaMaLinkageInfoResponse as a scoped version of the ScmsPDU.
+-- @class ScopedLIReply
 ScopedLIReply ::=
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
@@ -328,6 +422,9 @@ ScopedLIReply ::=
     })
   })
 
+---
+-- @brief This structure defines the MaLaLinkageSeedRequest as a scoped version of the ScmsPDU.
+-- @class ScopedLSRequest
 ScopedLSRequest ::=
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
@@ -337,6 +434,9 @@ ScopedLSRequest ::=
     })
   })
 
+---
+-- @brief This structure defines the LaMaLinkageSeedResponse as a scoped version of the ScmsPDU.
+-- @class ScopedLSReply
 ScopedLSReply ::=
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
@@ -349,6 +449,9 @@ ScopedLSReply ::=
 
 -- *** LA-PCA **************************************************************
 
+---
+-- @brief This structure defines the PcaLaKeyAgreementRequest as a scoped version of the ScmsPDU.
+-- @class ScopedPcaLaKeyAgreementRequest
 ScopedPcaLaKeyAgreementRequest ::=
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
@@ -358,6 +461,9 @@ ScopedPcaLaKeyAgreementRequest ::=
     })
   })
 
+---
+-- @brief This structure defines the LaPcaKeyAgreementResponse as a scoped version of the ScmsPDU.
+-- @class ScopedLaPcaKeyAgreementResponse
 ScopedLaPcaKeyAgreementResponse ::=
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
@@ -367,6 +473,9 @@ ScopedLaPcaKeyAgreementResponse ::=
     })
   })
 
+---
+-- @brief This structure defines the PcaLaKeyAgreementAck as a scoped version of the ScmsPDU.
+-- @class ScopedPcaLaKeyAgreementAck
 ScopedPcaLaKeyAgreementAck ::=
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
@@ -378,6 +487,9 @@ ScopedPcaLaKeyAgreementAck ::=
 
 -- *** LA-RA ***************************************************************
 
+---
+-- @brief This structure defines the RaLaIndividualPreLinkageValueRequest as a scoped version of the ScmsPDU.
+-- @class ScopedRaLaIndividualPreLinkageValueRequest
 ScopedRaLaIndividualPreLinkageValueRequest ::=
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
@@ -387,6 +499,9 @@ ScopedRaLaIndividualPreLinkageValueRequest ::=
     })
   })
 
+---
+-- @brief This structure defines the RaLaGroupPreLinkageValueRequest as a scoped version of the ScmsPDU.
+-- @class ScopedRaLaGroupPreLinkageValueRequest
 ScopedRaLaGroupPreLinkageValueRequest ::=
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
@@ -397,6 +512,9 @@ ScopedRaLaGroupPreLinkageValueRequest ::=
   })
 
 
+---
+-- @brief This structure defines the LaRaPreLinkageValueResponse as a scoped version of the ScmsPDU.
+-- @class ScopedLaRaPreLinkageValueResponse
 ScopedLaRaPreLinkageValueResponse ::=
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
@@ -409,6 +527,9 @@ ScopedLaRaPreLinkageValueResponse ::=
 -- *** MA-PCA **************************************************************
 
 
+---
+-- @brief This structure defines the MaPcaPreLinkageValueRequest as a scoped version of the ScmsPDU.
+-- @class ScopedMaPcaPreLinkageValueRequest
 ScopedMaPcaPreLinkageValueRequest ::=
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
@@ -419,6 +540,9 @@ ScopedMaPcaPreLinkageValueRequest ::=
   })
 
 
+---
+-- @brief This structure defines the PcaMaPreLinkageValueResponse as a scoped version of the ScmsPDU.
+-- @class ScopedPcaMaPreLinkageValueResponse
 ScopedPcaMaPreLinkageValueResponse ::=
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
@@ -429,6 +553,9 @@ ScopedPcaMaPreLinkageValueResponse ::=
   })
 
 
+---
+-- @brief This structure defines the MaPcaHPCRRequest as a scoped version of the ScmsPDU.
+-- @class ScopedMaPcaHPCRRequest
 ScopedMaPcaHPCRRequest ::=
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
@@ -439,6 +566,9 @@ ScopedMaPcaHPCRRequest ::=
   })
 
 
+---
+-- @brief This structure defines the PcaMaHPCRResponse as a scoped version of the ScmsPDU.
+-- @class ScopedPcaMaHPCRResponse
 ScopedPcaMaHPCRResponse ::=
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
@@ -451,6 +581,9 @@ ScopedPcaMaHPCRResponse ::=
 -- *** MA-RA **************************************************************
 
 
+---
+-- @brief This structure defines the MaRaBlacklistRequest as a scoped version of the ScmsPDU.
+-- @class ScopedBlacklistRequest
 ScopedBlacklistRequest ::=
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
@@ -460,6 +593,9 @@ ScopedBlacklistRequest ::=
     })
   })
 
+---
+-- @brief This structure defines the RaMaBlacklistResponse as a scoped version of the ScmsPDU.
+-- @class ScopedBlacklistResponse
 ScopedBlacklistResponse ::=
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
@@ -469,6 +605,9 @@ ScopedBlacklistResponse ::=
     })
   })
 
+---
+-- @brief This structure defines the MaRaLCIRequest as a scoped version of the ScmsPDU.
+-- @class ScopedLCIRequest
 ScopedLCIRequest ::=
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
@@ -479,6 +618,9 @@ ScopedLCIRequest ::=
   })
 
 
+---
+-- @brief This structure defines the RaMaLCIResponse as a scoped version of the ScmsPDU.
+-- @class ScopedLCIResponse
 ScopedLCIResponse ::=
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
@@ -489,6 +631,9 @@ ScopedLCIResponse ::=
   })
 
   
+---
+-- @brief This structure defines the MaRaRseObeIdBlacklistRequest as a scoped version of the ScmsPDU.
+-- @class ScopedRseObeIdBlacklistRequest
 ScopedRseObeIdBlacklistRequest ::=
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
@@ -499,6 +644,9 @@ ScopedRseObeIdBlacklistRequest ::=
   })
 
 
+---
+-- @brief This structure defines the RaMaRseObeIdBlacklistResponse as a scoped version of the ScmsPDU.
+-- @class ScopedRseObeIdBlacklistResponse
 ScopedRseObeIdBlacklistResponse ::=
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
@@ -510,6 +658,9 @@ ScopedRseObeIdBlacklistResponse ::=
 
 -- *** PCA-RA *************************************************************
 
+---
+-- @brief This structure defines the RaPcaCertRequest as a scoped version of the ScmsPDU.
+-- @class ScopedRaPcaCertificateRequest
 ScopedRaPcaCertificateRequest ::=
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
@@ -520,6 +671,9 @@ ScopedRaPcaCertificateRequest ::=
   })
 
 
+---
+-- @brief This structure defines the PcaRaCertResponse as a scoped version of the ScmsPDU.
+-- @class ScopedPcaRaCertificateRequestReply
 ScopedPcaRaCertificateRequestReply ::=
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
@@ -532,6 +686,9 @@ ScopedPcaRaCertificateRequestReply ::=
 
 -- *** RA-PG *************************************************************
 
+---
+-- @brief This structure defines the RaPgPolicySignatureRequest as a scoped version of the ScmsPDU.
+-- @class ScopedRaPgPolicySignatureRequest
 ScopedRaPgPolicySignatureRequest ::=
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
@@ -542,6 +699,9 @@ ScopedRaPgPolicySignatureRequest ::=
   })
 
 
+---
+-- @brief This structure defines the RaPgPolicySignatureRequestReply as a scoped version of the ScmsPDU.
+-- @class ScopedRaPgPolicySignatureRequestReply
 ScopedRaPgPolicySignatureRequestReply ::=
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
@@ -554,6 +714,9 @@ ScopedRaPgPolicySignatureRequestReply ::=
   
 -- *** Scoped certificate requests   **************************************
 
+---
+-- @brief This structure defines the all certificate requests messages as scoped version of the ScmsPDU.
+-- @class ScopedCertificateRequest
   ScopedCertificateRequest ::= ScmsPDU (
      ScopedEeRaCertRequest |
      ScopedEeEnrollmentCertRequest |
@@ -572,6 +735,13 @@ ScopedRaPgPolicySignatureRequestReply ::=
 --
 --**********************************************************************
 
+---
+-- @brief This structure defines the a format of a signed certificate request.
+-- @class SignedCertificateRequest
+-- @param hashId     is the hash of the current request.
+-- @param tbsRequest contains the certificate request information that is signed by the recipient.
+-- @param signer     denotes the signing entity's identifier.
+-- @param signature  contains the request sender's signature.
   SignedCertificateRequest ::= SEQUENCE  {
     hashId          HashAlgorithm,
     tbsRequest      ScopedCertificateRequest,
@@ -589,6 +759,10 @@ ScopedRaPgPolicySignatureRequestReply ::=
 -- *************************************************************************
 -- *************************************************************************
 
+---
+-- @brief This structure contains either secured or unsecured data as per need. It follows the same
+--        structure as defined for Ieee1609Dot2Data in 1609dot2-schema.asn.
+-- @class SecuredScmsPDU
 SecuredScmsPDU ::= Ieee1609Dot2Data
 
 -- *************************************************************************
@@ -597,6 +771,11 @@ SecuredScmsPDU ::= Ieee1609Dot2Data
 --
 -- *************************************************************************
 
+---
+-- @brief This structure contains the signed EeEcaCertRequest message that is sent by an end entity
+--        (EE) to the enrollment certificate authority (ECA). The signer of this request message is
+--        the requesting EE.
+-- @class SignedEeEnrollmentCertRequest
 SignedEeEnrollmentCertRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedCertificateRequest  (CONTAINING
@@ -610,6 +789,12 @@ SignedEeEnrollmentCertRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
+---
+-- @brief This structure contains the signed EcaEeCertResponse message sent by the enrollment
+--        certificate authority (ECA) as a response to an end entity's (EE) SignedEeEnrollmentCertResponse.
+-- @class SignedEeEnrollmentCertResponse
+-- @param content contains the signed and SCMSPDU scoped EcaEeCertResponse.
+-- @see EcaEeCertResponse
 SignedEeEnrollmentCertResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -641,12 +826,24 @@ SignedEeEnrollmentCertResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
 --
 -- *************************************************************************
 
+---
+-- @brief This structure is sent encrypted by the an end entity (EE) to the misbehavior authority (MA).
+--        The key for encrypting misbehavior reports is not defined.
+-- @class SecuredMisbehaviorReport
+-- @param content contains the encrypted misbehavior reports generated by an EE; decrypts to a
+--                SignedMisbehaviorReport
 SecuredMisbehaviorReport ::= SecuredScmsPDU(WITH COMPONENTS {...,
   content(WITH COMPONENTS {...,
-    encryptedData -- XXX decrypts to a SignedMisbehaviorReport
+    encryptedData -- XXX 
   })
 })
 
+---
+-- @brief This structure contains the misbehavior reports generated by an end entity (EE) to be
+--        sent to the misbehavior authority (MA) via the regisration authority (RA). It is signed 
+--        by the reporting EE using its private key.
+-- @class SignedMisbehaviorReport
+-- @param content contains the signed misbehavior report by the reporting EE.
 SignedMisbehaviorReport ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -681,18 +878,37 @@ SignedMisbehaviorReport ::= SecuredScmsPDU (WITH COMPONENTS {...,
 --
 -- *************************************************************************
 
+---
+-- @brief This structure contains the encrypted ScopedEeRaCertRequest which contains the
+--        EeRaCertRequestMsg. It is encrypted by the end-entity (EE) using the registration
+--        authority's (RA) public key obtained from RAs certificate. If this request is made for the
+--        first time by the EE, it will use the RAs certificate obtained at the time of device
+--        bootstrapping.
+-- @class SecuredRACertRequest
 SecuredRACertRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
     content (WITH COMPONENTS {...,
       unsecuredData (CONTAINING ScopedEeRaCertRequest)
     })
   })
 
+---
+-- @brief This structure contains the encrypted ScopedRaEeCertResponse which contains the
+--        RaEeCertResponseMsg. It is encrypted by the registration authority (RA) using the the end
+--        entity's (EE) public encryption key found using the following path: SecuredRACertResponse->
+--        ScopedRaEeCertResponse->RaEeCertResponseMsg->RaEeCertResponseAck->Certificate->
+--        CertificateBase->ToBeSignedCertificate->PublicEncryptionKey.
+-- @class SecuredRACertResponse
 SecuredRACertResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
     content (WITH COMPONENTS {...,
       unsecuredData (CONTAINING ScopedRaEeCertResponse)
     })
   })
 
+---
+-- @brief This structure contains the ScopedPseudonymCertProvisioningRequest which contains the
+--        EeRaPseudonymCertProvisioningRequest structure. It is signed by the end entity (EE) and
+--        sent to the registration authority (RA).
+-- @class SignedPseudonymCertProvisioningRequest
 SignedPseudonymCertProvisioningRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedCertificateRequest  (CONTAINING
@@ -706,12 +922,25 @@ SignedPseudonymCertProvisioningRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
+---
+-- @brief This structure contains the encrypted SignedPseudonymCertProvisioningRequest generated by
+--        the requesting EE and sent to the RA. The RA forwards this request to the PCA.
+-- @class SecuredPseudonymCertProvisioningRequest
+-- @param content contains the encrypted pseudonym certificate provisioning request generated by an
+--                EE. Encryption is performed using the PCAs public key obtained during device
+--                bootstrapping.
 SecuredPseudonymCertProvisioningRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     encryptedData  -- XXX decrypts to a SignedPseudonymCertProvisioningRequest or
   })
 })
 
+---
+-- @brief This structure contains the acknowledgement for an EeRaPseudonymCertProvisioningRequest,
+--        signed by the RA and sent to the certificate requesting EE.
+-- @class SignedPseudonymCertProvisioningAck
+-- @param content contains the ScopedPseudonymCertProvisioningAck which encloses the
+--                RaEePseudonymCertProvisioningAck.
 SignedPseudonymCertProvisioningAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -737,12 +966,18 @@ SignedPseudonymCertProvisioningAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
+---
+-- @brief 
+-- @class SecuredPseudonymCertProvisioningAck
 SecuredPseudonymCertProvisioningAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     encryptedData  -- decrypts to a SignedPseudonymCertProvisioningAck
   })
 })
 
+---
+-- @brief 
+-- @class SignedIdCertProvisioningRequest
 SignedIdCertProvisioningRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedCertificateRequest  (CONTAINING
@@ -756,12 +991,18 @@ SignedIdCertProvisioningRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
+---
+-- @brief 
+-- @class SecuredIdCertProvisioningRequest
 SecuredIdCertProvisioningRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     encryptedData  -- decrypts to a SignedIdCertProvisioningRequest or XXX
   })
 })
 
+---
+-- @brief 
+-- @class SignedIdCertProvisioningAck
 SignedIdCertProvisioningAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -787,12 +1028,18 @@ SignedIdCertProvisioningAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
+---
+-- @brief 
+-- @class SecuredIdCertProvisioningAck
 SecuredIdCertProvisioningAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     encryptedData  -- decrypts to a SignedIdCertProvisioningAck
   })
 })
 
+---
+-- @brief 
+-- @class SignedAppCertProvisioningRequest
 SignedAppCertProvisioningRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedCertificateRequest  (CONTAINING
@@ -806,12 +1053,18 @@ SignedAppCertProvisioningRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
+---
+-- @brief 
+-- @class SecuredAppCertProvisioningRequest
 SecuredAppCertProvisioningRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     encryptedData  -- decrypts to a SignedAppCertProvisioningRequest or XXX
   })
 })
 
+---
+-- @brief 
+-- @class SignedAppCertProvisioningAck
 SignedAppCertProvisioningAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -837,12 +1090,18 @@ SignedAppCertProvisioningAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
+---
+-- @brief 
+-- @class SecuredAppCertProvisioningAck
 SecuredAppCertProvisioningAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     encryptedData  -- decrypts to a SignedAppCertProvisioningAck
   })
 })
 
+---
+-- @brief 
+-- @class SignedAuthenticatedDownloadRequest
 SignedAuthenticatedDownloadRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedCertificateRequest  (CONTAINING
@@ -856,12 +1115,18 @@ SignedAuthenticatedDownloadRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
+---
+-- @brief 
+-- @class SecuredAuthenticatedDownloadRequest 
 SecuredAuthenticatedDownloadRequest  ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     encryptedData  -- decrypts to a SignedAuthenticatedDownloadRequest
   })
 })
 
+---
+-- @brief 
+-- @class SignedGlobalPolicyFile
 SignedGlobalPolicyFile ::= Ieee1609Dot2Data( WITH COMPONENTS{...,
     content( WITH COMPONENTS{...,
       signedData( WITH COMPONENTS{...,
@@ -878,6 +1143,9 @@ SignedGlobalPolicyFile ::= Ieee1609Dot2Data( WITH COMPONENTS{...,
    })
 })
 
+---
+-- @brief 
+-- @class SignedLocalPolicyFile
 SignedLocalPolicyFile ::= Ieee1609Dot2Data( WITH COMPONENTS{...,
     content( WITH COMPONENTS{...,
       signedData( WITH COMPONENTS{...,
@@ -900,6 +1168,9 @@ SignedLocalPolicyFile ::= Ieee1609Dot2Data( WITH COMPONENTS{...,
 --
 -- *************************************************************************
 
+---
+-- @brief 
+-- @class SignedLIRequest
 SignedLIRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -925,12 +1196,18 @@ SignedLIRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
+---
+-- @brief 
+-- @class SecuredLIRequest
 SecuredLIRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     encryptedData  -- decrypts to a SignedLIRequest
   })
 })
 
+---
+-- @brief 
+-- @class SignedLIReply
 SignedLIReply ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -956,12 +1233,18 @@ SignedLIReply ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
+---
+-- @brief 
+-- @class SecuredLIReply
 SecuredLIReply ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     encryptedData  -- decrypts to a SignedLIReply
   })
 })
 
+---
+-- @brief 
+-- @class SignedLSRequest
 SignedLSRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -987,12 +1270,18 @@ SignedLSRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
+---
+-- @brief 
+-- @class SecuredLSRequest
 SecuredLSRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     encryptedData  -- decrypts to a SignedLSRequest
   })
 })
 
+---
+-- @brief 
+-- @class SignedLSReply
 SignedLSReply ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -1018,6 +1307,9 @@ SignedLSReply ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
+---
+-- @brief 
+-- @class SecuredLSReply
 SecuredLSReply ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     encryptedData  -- decrypts to a SignedLSReply
@@ -1032,6 +1324,9 @@ SecuredLSReply ::= SecuredScmsPDU (WITH COMPONENTS {...,
 --
 -- *************************************************************************
 
+---
+-- @brief 
+-- @class SignedPcaLaKeyAgreementRequest
 SignedPcaLaKeyAgreementRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -1057,6 +1352,9 @@ SignedPcaLaKeyAgreementRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
+---
+-- @brief 
+-- @class SignedLaPcaKeyAgreementResponse
 SignedLaPcaKeyAgreementResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -1082,6 +1380,9 @@ SignedLaPcaKeyAgreementResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
+---
+-- @brief 
+-- @class SignedPcaLaKeyAgreementAck
 SignedPcaLaKeyAgreementAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -1117,6 +1418,9 @@ SignedPcaLaKeyAgreementAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
 
 -- Generation time present to prevent replay, keep message for replay check until
 -- time corresponding to iMin has been reached.
+---
+-- @brief 
+-- @class SignedRaLaIndividualPreLinkageValueRequest
 SignedRaLaIndividualPreLinkageValueRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -1143,6 +1447,9 @@ SignedRaLaIndividualPreLinkageValueRequest ::= SecuredScmsPDU (WITH COMPONENTS {
 })
 
 
+---
+-- @brief 
+-- @class SignedRaLaGroupPreLinkageValueRequest
 SignedRaLaGroupPreLinkageValueRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -1169,6 +1476,9 @@ SignedRaLaGroupPreLinkageValueRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
 })
 
 
+---
+-- @brief 
+-- @class SignedLaRaPreLinkageValueResponse
 SignedLaRaPreLinkageValueResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -1201,6 +1511,9 @@ SignedLaRaPreLinkageValueResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
 --
 -- *************************************************************************
 
+---
+-- @brief 
+-- @class SignedMaPcaPreLinkageValueRequest
 SignedMaPcaPreLinkageValueRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -1226,6 +1539,9 @@ SignedMaPcaPreLinkageValueRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
+---
+-- @brief 
+-- @class SecuredMaPcaPreLinkageValueRequest
 SecuredMaPcaPreLinkageValueRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     encryptedData  -- decrypts to a SignedMaPcaPreLinkageValueRequest
@@ -1233,6 +1549,9 @@ SecuredMaPcaPreLinkageValueRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
 })
 
 
+---
+-- @brief 
+-- @class SignedPcaMaPreLinkageValueResponse
 SignedPcaMaPreLinkageValueResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -1258,6 +1577,9 @@ SignedPcaMaPreLinkageValueResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
+---
+-- @brief 
+-- @class SecuredPcaMaPreLinkageValueResponse
 SecuredPcaMaPreLinkageValueResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     encryptedData  -- decrypts to a SignedPcaMaPreLinkageValueResponse
@@ -1265,6 +1587,9 @@ SecuredPcaMaPreLinkageValueResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
 })
 
 
+---
+-- @brief 
+-- @class SignedMaPcaHPCRRequest
 SignedMaPcaHPCRRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -1290,6 +1615,9 @@ SignedMaPcaHPCRRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
+---
+-- @brief 
+-- @class SecuredMaPcaHPCRRequest
 SecuredMaPcaHPCRRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     encryptedData  -- decrypts to a SignedMaPcaHPCRRequest
@@ -1297,6 +1625,9 @@ SecuredMaPcaHPCRRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
 })
 
 
+---
+-- @brief 
+-- @class SignedPcaMaHPCRResponse
 SignedPcaMaHPCRResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -1322,6 +1653,9 @@ SignedPcaMaHPCRResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
+---
+-- @brief 
+-- @class SecuredPcaMaHPCRResponse
 SecuredPcaMaHPCRResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     encryptedData  -- decrypts to a SignedPcaMaHPCRResponse
@@ -1335,6 +1669,9 @@ SecuredPcaMaHPCRResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
 --
 -- *************************************************************************
 
+---
+-- @brief 
+-- @class SignedBlacklistRequest
 SignedBlacklistRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -1360,6 +1697,9 @@ SignedBlacklistRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
+---
+-- @brief 
+-- @class SecuredBlacklistRequest
 SecuredBlacklistRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     encryptedData  -- decrypts to a SignedBlacklistRequest
@@ -1367,6 +1707,9 @@ SecuredBlacklistRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
 })
 
 
+---
+-- @brief 
+-- @class SignedBlacklistResponse
 SignedBlacklistResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -1392,6 +1735,9 @@ SignedBlacklistResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
+---
+-- @brief 
+-- @class SecuredBlacklistResponse
 SecuredBlacklistResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     encryptedData  -- decrypts to a SignedBlacklistResponse
@@ -1399,6 +1745,9 @@ SecuredBlacklistResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
 })
 
 
+---
+-- @brief 
+-- @class SignedRseObeIdBlacklistRequest
 SignedRseObeIdBlacklistRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -1424,6 +1773,9 @@ SignedRseObeIdBlacklistRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
+---
+-- @brief 
+-- @class SecuredRseObeIdBlacklistRequest
 SecuredRseObeIdBlacklistRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     encryptedData  -- decrypts to a SignedRseObeIdBlacklistRequest
@@ -1431,6 +1783,9 @@ SecuredRseObeIdBlacklistRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
 })
 
 
+---
+-- @brief 
+-- @class SignedRseObeIdBlacklistResponse
 SignedRseObeIdBlacklistResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -1456,6 +1811,9 @@ SignedRseObeIdBlacklistResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
+---
+-- @brief 
+-- @class SecuredRseObeIdBlacklistResponse
 SecuredRseObeIdBlacklistResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     encryptedData  -- decrypts to a SignedRseObeIdBlacklistResponse
@@ -1463,6 +1821,9 @@ SecuredRseObeIdBlacklistResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
 })
 
 
+---
+-- @brief 
+-- @class SignedLCIRequest
 SignedLCIRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -1488,6 +1849,9 @@ SignedLCIRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
+---
+-- @brief 
+-- @class SecuredLCIRequest
 SecuredLCIRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     encryptedData  -- decrypts to a SignedLCIRequest
@@ -1496,6 +1860,9 @@ SecuredLCIRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
 
 
 
+---
+-- @brief 
+-- @class SignedLCIResponse
 SignedLCIResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -1521,6 +1888,9 @@ SignedLCIResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
+---
+-- @brief 
+-- @class SecuredLCIResponse
 SecuredLCIResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     encryptedData  -- decrypts to a SignedLCIResponse
@@ -1536,6 +1906,9 @@ SecuredLCIResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
 
 
 
+---
+-- @brief 
+-- @class SecuredRaPcaCertificateRequest
 SecuredRaPcaCertificateRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedCertificateRequest  (CONTAINING
@@ -1555,6 +1928,9 @@ SecuredRaPcaCertificateRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
 
 
 
+---
+-- @brief 
+-- @class SecuredPcaRaCertificateRequestReply
 SecuredPcaRaCertificateRequestReply ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -1587,6 +1963,9 @@ SecuredPcaRaCertificateRequestReply ::= SecuredScmsPDU (WITH COMPONENTS {...,
 --
 -- *************************************************************************
 
+---
+-- @brief 
+-- @class SignedRaPgPolicySignatureRequest
 SignedRaPgPolicySignatureRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -1612,6 +1991,9 @@ SignedRaPgPolicySignatureRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
+---
+-- @brief 
+-- @class SecuredRaPgPolicySignatureRequest
 SecuredRaPgPolicySignatureRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     encryptedData  -- decrypts to a SignedRaPgPolicySignatureRquest
@@ -1619,6 +2001,9 @@ SecuredRaPgPolicySignatureRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
 })
 
 
+---
+-- @brief 
+-- @class SignedRaPgPolicySignatureRequestReply
 SignedRaPgPolicySignatureRequestReply ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -1644,6 +2029,9 @@ SignedRaPgPolicySignatureRequestReply ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
+---
+-- @brief 
+-- @class SecuredRaPgPolicySignatureRequestReply
 SecuredRaPgPolicySignatureRequestReply ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     encryptedData  -- decrypts to a SignedRaPgPolicySignatureRequestReply
@@ -1657,6 +2045,9 @@ SecuredRaPgPolicySignatureRequestReply ::= SecuredScmsPDU (WITH COMPONENTS {...,
 --
 -- *************************************************************************
 
+---
+-- @brief 
+-- @class ScopedElectorEndorsement
 ScopedElectorEndorsement ::=
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
@@ -1666,6 +2057,9 @@ ScopedElectorEndorsement ::=
     })
  })
 
+---
+-- @brief 
+-- @class SignedElectorEndorsement
 SignedElectorEndorsement ::= SecuredScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -1700,6 +2094,9 @@ SignedElectorEndorsement ::= SecuredScmsPDU (WITH COMPONENTS {...,
 
 
 
+---
+-- @brief 
+-- @class ScmsSsp
 ScmsSsp ::= CHOICE {
   elector ElectorSsp,
   root RootCaSsp,
@@ -1715,63 +2112,99 @@ ScmsSsp ::= CHOICE {
   ra   RaSsp,
   ...
 }
+---
+-- @brief 
+-- @class ElectorSsp
 ElectorSsp ::= SEQUENCE {
   version Uint8(1),
   ...
 }
 
+---
+-- @brief 
+-- @class RootCaSsp
 RootCaSsp ::= SEQUENCE {
   version Uint8(1),
   ...
 }
 
+---
+-- @brief 
+-- @class PGSsp
 PGSsp ::= SEQUENCE {
   version Uint8(1),
   ...
 }
 
+---
+-- @brief 
+-- @class IcaSsp
 IcaSsp ::= SEQUENCE {
   version Uint8(1),
   ...
 }
 
+---
+-- @brief 
+-- @class EcaSsp
 EcaSsp ::= SEQUENCE {
   version Uint8(1),
   ...
 }
 
+---
+-- @brief 
+-- @class PcaSsp
 PcaSsp ::= SEQUENCE {
   version Uint8(1),
   ...
 }
 
+---
+-- @brief 
+-- @class CrlSignerSsp
 CrlSignerSsp ::= SEQUENCE {
   version Uint8(1),
   ...
 }
 
+---
+-- @brief 
+-- @class DcmSsp
 DcmSsp ::= SEQUENCE {
   version Uint8(1),
   ...
 }
 
+---
+-- @brief 
+-- @class LaSsp
 LaSsp ::= SEQUENCE {
   version Uint8(1),
   laId Uint16,
   ...
 }
 
+---
+-- @brief 
+-- @class LopSsp
 LopSsp ::= SEQUENCE {
   version Uint8(1),
   ...
 }
 
+---
+-- @brief 
+-- @class MaSsp
 MaSsp ::= SEQUENCE {
   version        Uint8(1),
   relevantPsids  SequenceOfPsid,
   ...
 }
 
+---
+-- @brief 
+-- @class RaSsp
 RaSsp ::= SEQUENCE {
   version  Uint8(1),
   ...
