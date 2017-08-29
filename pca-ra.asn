@@ -201,7 +201,7 @@ IdCertRequestInfo ::= SEQUENCE {
 --                    hash of the original request due to a hardError, this field shall be all zeroes.
 -- @param reply       contains the encrypted pseudonym certificates with corresponding linkage values
 --                    for an individual OBE. A failure is sent if any form of error arises in
---                    communication between PCA and RA.
+--                    communication between PCA and RA. Refer pca-ra-error.asn.
 -- @see Uint8, HashedId8, PcaHostnameId, ScopedPcaRaError
 PcaRaCertResponseMsg ::= SEQUENCE {
   version     Uint8(1),
