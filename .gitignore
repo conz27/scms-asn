@@ -1,4 +1,3 @@
 /scms_protocol
 **/*.java
-*.swp
-*.swo
+*.sw[jklmnop]
