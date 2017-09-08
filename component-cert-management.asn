@@ -75,7 +75,6 @@ ScmsComponentCertificateManagementPDU::= CHOICE {
 TbsElectorEndorsement ::= SEQUENCE {
     type 				EndorsementType,	-- defines the action to be taken
     certificateHash  	HashedId32,			-- certificate to be added/removed
-    effectiveTime 		Time64 OPTIONAL		-- effective time for this message
 }
 
 EndorsementType ::= ENUMERATED {
