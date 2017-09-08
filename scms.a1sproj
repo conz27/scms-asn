@@ -1,10 +1,11 @@
-<OssGuiProject version="2.0" productVersion="7.1" product="ASN.1 Studio">
+<OssGuiProject version="2.0" product="ASN.1 Studio" productVersion="8.0">
  <Asn1Files>
   <File>1609dot2-asn/1609dot2-base-types.asn</File>
   <File>1609dot2-asn/1609dot2-P2P.asn</File>
   <File>1609dot2-asn/1609dot2-schema.asn</File>
   <File>1609dot2-asn/crl-base-types.asn</File>
   <File>1609dot2-asn/crl-protocol.asn</File>
+  <File>1609dot2-asn/crl-ssp.asn</File>
   <File>1609dot2-asn/wsa-ssp.asn</File>
   <File>component-cert-management.asn</File>
   <File>component-cert-management-errors.asn</File>
@@ -30,7 +31,6 @@
   <File>scms-policy.asn</File>
   <File>scms-protocol.asn</File>
   <File>cert-profile.asn</File>
-  <File>1609dot2-asn/crl-ssp.asn</File>
   <File>cert-chain-files.asn</File>
   <File>ra-pg-errors.asn</File>
   <File>ra-pg.asn</File>
