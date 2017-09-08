@@ -29,6 +29,3 @@ ScmsCommonError ::= ENUMERATED {
 }
 
 END
-=======
-END
->>>>>>> 2670de15fe6e4dfb600d4f1bed6e6021e334bf66
