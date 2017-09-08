@@ -24,7 +24,6 @@ EXPORTS ALL;
 
 IMPORTS
   HashAlgorithm,
-  HashedId32,
   SequenceOfPsid,
   SequenceOfPsidSsp,
   Uint8,

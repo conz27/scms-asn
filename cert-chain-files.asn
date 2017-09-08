@@ -56,7 +56,7 @@ CertificateChainFiles ::= CHOICE {
 --
 -- Global Certificate Chain File:
 --
--- Contains the full certificate of all SCMS components.
+-- Contains the full certificates of all SCMS components.
 -- This file is signed by the Policy Generator.
 --
 ----
