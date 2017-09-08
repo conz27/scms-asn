@@ -1338,7 +1338,7 @@ RseEnrollmentCertificate ::= ImplicitCertificate (WITH COMPONENTS { ...,
   issuer (WITH COMPONENTS{sha256AndDigest}),
   toBeSigned (WITH COMPONENTS { ...,
     id (WITH COMPONENTS { 
-      name("")
+      binaryId (SIZE(1)) -- !!TBD!!
     }),
     cracaId, --set to HashedId3 of the Root CA cert
     crlSeries(EeEnrollmentCrlSeries),
