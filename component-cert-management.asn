@@ -58,6 +58,7 @@ FROM IEEE1609dot2ScmsProtocol {iso(1) identified-organization(3) ieee(111)
 
 ScmsComponentCertificateManagementPDU::= CHOICE {
     tbsElectorEndorsement TbsElectorEndorsement,
+    electorBallot ElectorBallot,
     ...
 }
 
