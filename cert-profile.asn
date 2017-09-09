@@ -246,7 +246,7 @@ ElectorCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
   issuer (WITH COMPONENTS {self}),
   toBeSigned (WITH COMPONENTS { ...,
     id (WITH COMPONENTS {
-      name ("") -- !!TBD!!
+      binaryId (SIZE(1)) -- !!TBD!!
     }),
     cracaId('000000'H),
     crlSeries(0),                          
@@ -1338,7 +1338,7 @@ RseEnrollmentCertificate ::= ImplicitCertificate (WITH COMPONENTS { ...,
   issuer (WITH COMPONENTS{sha256AndDigest}),
   toBeSigned (WITH COMPONENTS { ...,
     id (WITH COMPONENTS { 
-      binaryId (SIZE(1)) -- !!TBD!!
+      name("")
     }),
     cracaId, --set to HashedId3 of the Root CA cert
     crlSeries(EeEnrollmentCrlSeries),
