@@ -1692,6 +1692,19 @@ SignedElectorEndorsement ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
+ScopedElectorBallot ::= ScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {
+    ccm (WITH COMPONENTS {
+      ElectorBallot
+    })
+  })
+})
+
+SecuredElectorBallot ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {...,
+    unsecuredData (CONTAINING ScopedElectorBallot)
+  })
+})
 
 -- *************************************************************************
 --
