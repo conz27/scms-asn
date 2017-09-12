@@ -134,13 +134,7 @@ CrlgCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     validityPeriod (WITH COMPONENTS { ...,
       duration (CrlgCertExpiration)
     }),
-    region (WITH COMPONENTS {
-      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Canada) }), 
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Mexico) }), 
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(USA) })
-      }))
-    }),
+    region ABSENT,
     assuranceLevel ABSENT,
     appPermissions (SequenceOfPsidSsp (SIZE(2)) (CONSTRAINED BY {
       PsidSsp (WITH COMPONENTS {
@@ -191,9 +185,7 @@ DcmCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
       duration (DcmCertExpiration)
     }),
     region (WITH COMPONENTS {
-      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Canada) }), 
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Mexico) }), 
+      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(1)) (CONSTRAINED BY {
         IdentifiedRegion ( WITH COMPONENTS { countryOnly(USA) })
       }))
     }),
@@ -292,9 +284,7 @@ EcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
       duration (EcaCertExpirationPoc | EcaCertExpirationCvp)
     }),
     region (WITH COMPONENTS {
-      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Canada) }), 
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Mexico) }), 
+      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(1)) (CONSTRAINED BY {
         IdentifiedRegion ( WITH COMPONENTS { countryOnly(USA) })
       }))
     }),
@@ -453,9 +443,7 @@ IcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
       duration (IcaCertExpirationPoc | IcaCertExpirationCvp)
     }),
     region (WITH COMPONENTS {
-      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Canada) }), 
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Mexico) }), 
+      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(1)) (CONSTRAINED BY {
         IdentifiedRegion ( WITH COMPONENTS { countryOnly(USA) })
       }))
     }),
@@ -623,9 +611,7 @@ LaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
       duration (LaCertExpiration)
     }),
     region (WITH COMPONENTS {
-      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Canada) }), 
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Mexico) }), 
+      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(1)) (CONSTRAINED BY {
         IdentifiedRegion ( WITH COMPONENTS { countryOnly(USA) })
       }))
     }),
@@ -666,13 +652,7 @@ MaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     validityPeriod (WITH COMPONENTS { ...,
       duration (MaCertExpiration)
     }),
-    region (WITH COMPONENTS {
-      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Canada) }), 
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Mexico) }), 
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(USA) })
-      }))
-    }),
+    region ABSENT,
     assuranceLevel ABSENT,
     appPermissions (SequenceOfPsidSsp (SIZE(1)) (CONSTRAINED BY {
       PsidSsp (WITH COMPONENTS {
@@ -711,9 +691,7 @@ ObeEnrollmentCertificate ::= ImplicitCertificate (WITH COMPONENTS { ...,
       duration (ObeEnrollmentCertExpirationPoc | ObeEnrollmentCertExpirationCvp)
     }),
     region (WITH COMPONENTS {
-      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Canada) }), 
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Mexico) }), 
+      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(1)) (CONSTRAINED BY {
         IdentifiedRegion ( WITH COMPONENTS { countryOnly(USA) })
       }))
     }),
@@ -769,9 +747,7 @@ ObeIdentificationCertificate ::= ImplicitCertificate (WITH COMPONENTS { ...,
       duration (ObeIdentificationCertExpiration)
     }),
     region (WITH COMPONENTS {
-      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Canada) }), 
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Mexico) }), 
+      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(1)) (CONSTRAINED BY {
         IdentifiedRegion ( WITH COMPONENTS { countryOnly(USA) })
       }))
     }),
@@ -808,9 +784,7 @@ ObePseudonymCertificate ::= ImplicitCertificate (WITH COMPONENTS { ...,
       duration (ObePseudonymCertExpiration)
     }),
     region (WITH COMPONENTS {
-      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Canada) }), 
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Mexico) }), 
+      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(1)) (CONSTRAINED BY {
         IdentifiedRegion ( WITH COMPONENTS { countryOnly(USA) })
       }))
     }),
@@ -854,9 +828,7 @@ PcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
       duration (PcaCertExpiration)
     }),
     region (WITH COMPONENTS {
-      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Canada) }), 
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Mexico) }), 
+      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(1)) (CONSTRAINED BY {
         IdentifiedRegion ( WITH COMPONENTS { countryOnly(USA) })
       }))
     }),
@@ -1014,13 +986,7 @@ PgCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     validityPeriod (WITH COMPONENTS { ...,
       duration (PgCertExpiration)
     }),
-    region (WITH COMPONENTS {
-      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Canada) }), 
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Mexico) }), 
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(USA) })
-      }))
-    }),
+    region ABSENT,
     assuranceLevel ABSENT,
     appPermissions (SequenceOfPsidSsp (SIZE(1)) (CONSTRAINED BY {
       PsidSsp (WITH COMPONENTS {
@@ -1059,9 +1025,7 @@ RaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
       duration (RaCertExpiration)
     }),
     region (WITH COMPONENTS {
-      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Canada) }), 
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Mexico) }), 
+      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(1)) (CONSTRAINED BY {
         IdentifiedRegion ( WITH COMPONENTS { countryOnly(USA) })
       }))
     }),
@@ -1075,7 +1039,7 @@ RaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     certIssuePermissions ABSENT,
     certRequestPermissions (SequenceOfPsidGroupPermissions (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS {..., 
 	  subjectPermissions (WITH COMPONENTS {..., 
-		explicit (SequenceOfPsidSspRange (SIZE (26)) (CONSTRAINED BY{
+		explicit (SequenceOfPsidSspRange (SIZE (25)) (CONSTRAINED BY{
           PsidSspRange (WITH COMPONENTS {
             psid (BsmPsid), --PSID = 0x20
             sspRange(WITH COMPONENTS{ 
@@ -1309,9 +1273,7 @@ RseApplicationCertificate ::= ImplicitCertificate (WITH COMPONENTS { ...,
       duration (RseApplicationCertExpiration)
     }),
     region (WITH COMPONENTS {
-      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Canada) }), 
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Mexico) }), 
+      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(1)) (CONSTRAINED BY {
         IdentifiedRegion ( WITH COMPONENTS { countryOnly(USA) })
       }))
     }),
@@ -1346,9 +1308,7 @@ RseEnrollmentCertificate ::= ImplicitCertificate (WITH COMPONENTS { ...,
       duration (RseEnrollmentCertExpirationPoc | RseEnrollmentCertExpirationCvp)
     }),
     region (WITH COMPONENTS {
-      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Canada) }), 
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Mexico) }), 
+      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(1)) (CONSTRAINED BY {
         IdentifiedRegion ( WITH COMPONENTS { countryOnly(USA) })
       }))
     }),
