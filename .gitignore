@@ -1,3 +1,4 @@
 /scms_protocol
 **/*.java
 *.sw[jklmnop]
+docs/
