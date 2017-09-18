@@ -14,6 +14,7 @@
 --  limitations under the License.
 -- 
 
+-- @namespace Ieee1609dot2ScmsCommonError 
 Ieee1609dot2ScmsCommonError {iso(1) identified-organization(3) ieee(111)
 standards-association-numbered-series-standards(2) wave-stds(1609) dot2(2)
 scms (2) errors(2) common(2)}
@@ -23,6 +24,11 @@ DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 
 EXPORTS ALL;
 
+---
+-- @brief 
+-- @class ScmsCommonError 
+-- @param
+-- @see 
 ScmsCommonError ::= ENUMERATED {
   baseline(1),
   ...
