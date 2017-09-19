@@ -19,11 +19,6 @@ IEEE1609dot2-cert-chains {iso(1) identified-organization(3) ieee(111)
 standards-association-numbered-series-standards(2) wave-stds(1609)
 dot2(2) base (1) cert-chains (4)}
 
----
--- @brief 
--- @class DEFINITIONS 
--- @param
--- @see 
 DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 
 EXPORTS ALL;
@@ -70,7 +65,7 @@ CertificateChainFiles ::= CHOICE {
 -- @brief This data type contains the full certificate of all SCMS components. 
 --        This file is signed by the Policy Generator.
 -- @class GlobalCertificateChainFile 
--- @param Uint16    is the unique version number for this GCCF.
+-- @param version   is the unique version number for this GCCF.
 -- @param certStore is the list of certificats and all issuers.
 -- @see Uint16
 GlobalCertificateChainFile ::= SEQUENCE {

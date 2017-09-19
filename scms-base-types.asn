@@ -340,18 +340,22 @@ CVPApplication16Psid ::= Psid (2113687)
 -- @brief This data type denotes CRL series for EE enrollment.
 -- @class EeEnrollmentCrlSeries 
 EeEnrollmentCrlSeries ::= CrlSeries (4)
+
 ---
 -- @brief  This data type denotes CRL series for EE non pseudonym certificates.
 -- @class EeNonPseudonymCrlSeries 
 EeNonPseudonymCrlSeries ::= CrlSeries (3)
+
 ---
 -- @brief  This data type denotes CRL series for OBE pseudonym certificates.
 -- @class ObePseudonymCrlSeries 
 ObePseudonymCrlSeries ::= CrlSeries (1)
+
 ---
 -- @brief  This data type denotes CRL series for SCMS components.
 -- @class ScmsComponentCrlSeries 
 ScmsComponentCrlSeries ::= CrlSeries (2)
+
 ---
 -- @brief  This data type denotes CRL series for special SCMS components.
 -- @class ScmsSpclComponentCrlSeries 
@@ -384,7 +388,6 @@ EncryptedIndividualPLV ::= SEQUENCE {
             symmRecipInfo
       }))))
     })
-    -- 
 }
 
 ---
@@ -415,7 +418,7 @@ EncryptedGroupPLV ::= SEQUENCE {
 
 ---
 -- @brief This data type denotes 64 0-bits. It is used for padding purposes.
--- @class zero8 
+-- @class zero8
 zero8 OCTET STRING ::= '0000000000000000'H
 
 ---
@@ -485,7 +488,6 @@ PreLinkageValue ::= OCTET STRING (SIZE(9))
 -- @class FullSizeHash 
 FullSizeHash ::= OCTET STRING (SIZE(32))
 
--- Review, matching types of all IDs, except for LaId above. YP
 ---
 -- @brief This data type denotes the 255 bit unique hostname of RA.
 -- @class RaHostnameId  
@@ -593,6 +595,5 @@ LCIAndHostInfo ::= SEQUENCE {
 --        8-byte hash of an enrollment certificate.
 -- @class RIF 
 RIF ::= HashedId8
-
 
 END
