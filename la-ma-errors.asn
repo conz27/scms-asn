@@ -14,6 +14,7 @@
 --  limitations under the License.
 -- 
 
+-- @namespace Ieee1609Dot2LaMaError
 Ieee1609Dot2LaMaError
 {iso(1) identified-organization(3) ieee(111) 
 standards-association-numbered-series-standards(2) wave-stds(1609)  
@@ -23,6 +24,11 @@ DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 
 EXPORTS ALL;
 
+---
+-- @brief 
+-- @class LaMaError 
+-- @param
+-- @see 
 LaMaError ::= CHOICE {
   la-ma-base-error          LaMaBaseErrorCode,
   la-ma-linkage-info-error  LaMaLinkageInfoErrorCode,
@@ -30,6 +36,11 @@ LaMaError ::= CHOICE {
   ...
 }
 
+---
+-- @brief 
+-- @class LaMaBaseErrorCode 
+-- @param
+-- @see 
 LaMaBaseErrorCode ::= ENUMERATED {
   laNoMaAuthorizationSignature, 
   laInvalidMaAuthorizationSignature,
@@ -41,6 +52,11 @@ LaMaBaseErrorCode ::= ENUMERATED {
   ...
 }
 
+---
+-- @brief 
+-- @class LaMaLinkageInfoErrorCode 
+-- @param
+-- @see 
 LaMaLinkageInfoErrorCode ::= ENUMERATED {
   atLeastOnePrelinkageValueUnknown, -- not used yet
   allPrelinkageValuesUnknown, -- not used yet
@@ -49,6 +65,11 @@ LaMaLinkageInfoErrorCode ::= ENUMERATED {
   ...
 }
 
+---
+-- @brief 
+-- @class LaMaLinkageSeedErrorCode 
+-- @param
+-- @see 
 LaMaLinkageSeedErrorCode ::= ENUMERATED {
   linkageChainIdentifierUnknown, -- not used yet
   laInvalidLinkageValue,

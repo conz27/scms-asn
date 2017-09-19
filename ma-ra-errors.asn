@@ -14,6 +14,7 @@
 --  limitations under the License.
 -- 
 
+-- @namespace Ieee1609Dot2MaRaError
 Ieee1609Dot2MaRaError
 {iso(1) identified-organization(3) ieee(111) 
 standards-association-numbered-series-standards(2) wave-stds(1609)  
@@ -24,6 +25,11 @@ DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 EXPORTS ALL;
 
 
+---
+-- @brief 
+-- @class MaRaError 
+-- @param
+-- @see 
 MaRaError ::= CHOICE {
   ma-ra-base-error          MaRaBaseErrorCode,
   ma-ra-blacklist-error     MaRaBlacklistErrorCode,
@@ -32,6 +38,11 @@ MaRaError ::= CHOICE {
   ...
 }
 
+---
+-- @brief 
+-- @class MaRaBaseErrorCode 
+-- @param
+-- @see 
 MaRaBaseErrorCode ::= ENUMERATED {
 	raInternalTimeout,
         maRequestTimeout,
@@ -47,6 +58,11 @@ MaRaBaseErrorCode ::= ENUMERATED {
 	...
 }
 
+---
+-- @brief 
+-- @class MaRaBlacklistErrorCode 
+-- @param
+-- @see 
 MaRaBlacklistErrorCode ::= ENUMERATED {
 	-- HPCR points to already blacklisted certificate
 	alreadyBlacklisted,
@@ -54,12 +70,22 @@ MaRaBlacklistErrorCode ::= ENUMERATED {
 	...
 }
 
+---
+-- @brief 
+-- @class MaRaLCIErrorCode 
+-- @param
+-- @see 
 MaRaLCIErrorCode ::= ENUMERATED {
 	noLinkageChainIdentifiersKnownForHPCR, -- not used yet
 	...
 }
 
 -- Added for RSE application and OBE identification cert revocation
+---
+-- @brief 
+-- @class MaRaCDVErrorCode 
+-- @param
+-- @see 
 MaRaCDVErrorCode ::= ENUMERATED {
     noCertificateDigestValuesKnownForRIF,
     ...

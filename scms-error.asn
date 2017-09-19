@@ -14,6 +14,7 @@
 --  limitations under the License.
 -- 
 
+-- @namespace Ieee1609dot2ScmsError 
 Ieee1609dot2ScmsError {iso(1) identified-organization(3) ieee(111)
 standards-association-numbered-series-standards(2) wave-stds(1609)  dot2(2)
 scms (2) errors(2) complete (1)}
@@ -80,6 +81,11 @@ FROM Ieee1609Dot2PcaRaErrorPcaRaError
 
 ;
 
+---
+-- @brief 
+-- @class ScmsError 
+-- @param
+-- @see 
 ScmsError ::= CHOICE {
   common  ScmsCommonError,
   ccm     ComponentCertificateManagementError,
@@ -94,16 +100,36 @@ ScmsError ::= CHOICE {
 }
 
 
+---
+-- @brief 
+-- @class ScopedComponentCertificateManagementError 
+-- @param
+-- @see 
 ScopedComponentCertificateManagementError ::= 
   ScmsError (WITH COMPONENTS {common} | WITH COMPONENTS {ccm})
 
+---
+-- @brief 
+-- @class ScopedEcaEndEntityError 
+-- @param
+-- @see 
 ScopedEcaEndEntityError ::= 
   ScmsError (WITH COMPONENTS {common} | WITH COMPONENTS {eca-ee})
 
 -- This type is not used (see following la-ma errors)
+---
+-- @brief 
+-- @class ScopedLaMaError 
+-- @param
+-- @see 
 ScopedLaMaError ::=
   ScmsError (WITH COMPONENTS {common} | WITH COMPONENTS {la-ma})
 -- Linkage information request errors
+---
+-- @brief 
+-- @class ScopedLaMaLIError 
+-- @param
+-- @see 
 ScopedLaMaLIError ::=
   ScmsError (WITH COMPONENTS {common} | 
              WITH COMPONENTS {la-ma 
@@ -111,6 +137,11 @@ ScopedLaMaLIError ::=
                  WITH COMPONENTS {la-ma-linkage-info-error})}
             )
 -- Linkage seed request errors
+---
+-- @brief 
+-- @class ScopedLaMaLSError 
+-- @param
+-- @see 
 ScopedLaMaLSError ::=
   ScmsError (WITH COMPONENTS {common} | 
              WITH COMPONENTS {la-ma 
@@ -118,18 +149,43 @@ ScopedLaMaLSError ::=
                  WITH COMPONENTS {la-ma-linkage-seed-error})}
             )
 
+---
+-- @brief 
+-- @class ScopedLaPcaError 
+-- @param
+-- @see 
 ScopedLaPcaError ::= 
   ScmsError (WITH COMPONENTS {common} | WITH COMPONENTS {la-pca})
 
+---
+-- @brief 
+-- @class ScopedLaRaError 
+-- @param
+-- @see 
 ScopedLaRaError ::= 
   ScmsError (WITH COMPONENTS {common} | WITH COMPONENTS {la-ra})
 
+---
+-- @brief 
+-- @class ScopedMaPcaError 
+-- @param
+-- @see 
 ScopedMaPcaError ::= 
   ScmsError (WITH COMPONENTS {common} | WITH COMPONENTS {ma-pca})
 
+---
+-- @brief 
+-- @class ScopedMaRaError 
+-- @param
+-- @see 
 ScopedMaRaError ::= 
   ScmsError (WITH COMPONENTS {common} | WITH COMPONENTS {ma-ra})
 -- Blacklist request errors
+---
+-- @brief 
+-- @class ScopedMaRaBlacklistError 
+-- @param
+-- @see 
 ScopedMaRaBlacklistError ::=
   ScmsError (WITH COMPONENTS {common} | 
              WITH COMPONENTS {ma-ra
@@ -137,6 +193,11 @@ ScopedMaRaBlacklistError ::=
                  WITH COMPONENTS {ma-ra-blacklist-error})}
             )
 -- Linkage chain identifier request errors
+---
+-- @brief 
+-- @class ScopedMaRaLCIError 
+-- @param
+-- @see 
 ScopedMaRaLCIError ::=
   ScmsError (WITH COMPONENTS {common} | 
              WITH COMPONENTS {ma-ra
@@ -146,6 +207,11 @@ ScopedMaRaLCIError ::=
 
 
 
+---
+-- @brief 
+-- @class ScopedPcaRaError 
+-- @param
+-- @see 
 ScopedPcaRaError ::= 
   ScmsError (WITH COMPONENTS {common} | WITH COMPONENTS {pca-ra})
 
