@@ -1706,6 +1706,16 @@ SecuredElectorBallot ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
+-- Note: even though this is an "unsecured" message, this merely states that
+-- "UnsecuredElectorBallot" (ie. Ieee1609Dot2Data wrapper) is not a signed or
+-- encrypted message. However, the ScopedElectorBallot contains contents
+-- that has been signed.
+UnsecuredElectorBallot ::= SecuredScmsPDU (WITH COMPONENTS {...,
+  content (WITH COMPONENTS {...,
+    unsecuredData (CONTAINING ScopedElectorBallot) -- signed payload
+  })
+})
+
 -- *************************************************************************
 --
 --             SSP
