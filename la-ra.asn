@@ -14,6 +14,7 @@
 --  limitations under the License.
 -- 
 
+-- @namespace Ieee1609Dot2LaRaInterface
 Ieee1609Dot2LaRaInterface
 {iso(1) identified-organization(3) ieee(111) 
 standards-association-numbered-series-standards(2) wave-stds(1609)  
@@ -52,9 +53,17 @@ FROM Ieee1609dot2ScmsError {iso(1) identified-organization(3) ieee(111)
     scms (2) errors(2) complete(1)}
 ;
 
-
--- All message types for the LA-RA interface PDU
---
+---
+-- @brief The LaRaInterfacePDU is the parent message type for messages sent
+--        between Linkage Authority (LA) and the Registration Authority (RA).
+-- @class LaRaInterfacePDU
+-- @param raLaIndividualPreLinkageValueRequest contains the PLV request sent
+--                                             by RA to LA.
+-- @param raLaGroupPreLinkageValueRequest      contains the group PLV request
+--                                             sent by RA to LA.
+-- @param laRaPreLinkageValueResponse          contains the response to both
+--                                             individual and group PLV
+--                                             requests from RA.
 LaRaInterfacePDU::= CHOICE {
     raLaIndividualPreLinkageValueRequest   RaLaIndividualPreLinkageValueRequestMsg,
     raLaGroupPreLinkageValueRequest        RaLaGroupPreLinkageValueRequestMsg,
@@ -62,10 +71,18 @@ LaRaInterfacePDU::= CHOICE {
     ...
 }
 
-
---
--- Request pre-linkage values by RA to LA
---
+---
+-- @brief This data type is the header of pre-linkage value request sent by RA
+--        to LA.
+-- @class RaLaPreLinkageValueRequestMsgHeader 
+-- @param version contains the current version of the data type. The version 
+--                specified in this document is version 1, represented by the
+--                integer 1.
+-- @param raId    denotes the unique hostname ID of RA.
+-- @param pcaId   denotes the unique hostname ID of PCA.
+-- @param iMin    denotes the lower bound of i for which the PLVs are requested.
+-- @param iMax    denotes the upper bound of i for which the PLVs are requested.
+-- @see Uint8, RaHostnameId, PcaHostnameId, Uint16
 RaLaPreLinkageValueRequestMsgHeader ::= SEQUENCE {
     version             Uint8(1),
     raId                RaHostnameId,
@@ -74,30 +91,55 @@ RaLaPreLinkageValueRequestMsgHeader ::= SEQUENCE {
     iMax                Uint16
 }
 
-
+---
+-- @brief This data type is used by RA to request PLVs from an LA.
+-- @class RaLaIndividualPreLinkageValueRequestMsg 
+-- @param header           encloses the header information of the request.
+-- @param jMax             denotes the maximum count of linkage values
+--                         requested per i.
+-- @param numberOfFreshInd denotes number of fresh chains for individual
+--                         certificates requested.
+-- @param continuationsInd denotes the continuation values for individual
+--                         certificates.
+-- @see Uint8, Uint32, LinkageChainId
 RaLaIndividualPreLinkageValueRequestMsg ::= SEQUENCE {
     header              RaLaPreLinkageValueRequestMsgHeader,
     jMax                Uint8, 
-    numberOfFreshInd    Uint32 OPTIONAL, -- number of fresh chains for individual certs requested
-    continuationsInd    SEQUENCE OF LinkageChainId OPTIONAL -- continuation values
-                                                            -- for individual certs
+    numberOfFreshInd    Uint32 OPTIONAL,
+    continuationsInd    SEQUENCE OF LinkageChainId OPTIONAL
 }
 (WITH COMPONENTS {..., numberOfFreshInd PRESENT} |
  WITH COMPONENTS {..., continuationsInd PRESENT})
 
-
-
+---
+-- @brief This data type is used by RA to request group PLVs from an LA.
+-- @class RaLaGroupPreLinkageValueRequestMsg 
+-- @param header          encloses the header information of the request.
+-- @param jMax            denotes the maximum count of linkage values
+--                        requested per i.
+-- @param otherLa         is the unique 16 bit ID of the second LA.
+-- @param groupIdentifier is the group identifier to be created or continued.
+-- @see 
 RaLaGroupPreLinkageValueRequestMsg ::= SEQUENCE {
     header              RaLaPreLinkageValueRequestMsgHeader,
     jMax                Uint32, 
     otherLa             LaId,
-    groupIdentifier     OCTET STRING (SIZE(4)) -- the group identifier to be created
-                                               -- or continued
+    groupIdentifier     OCTET STRING (SIZE(4))
 }
 
---
--- Provide pre-linkage values by LA to RA
---
+---
+-- @brief This data type is used by the LA to respond to a
+--        RaLaIndividualPreLinkageValueRequestMsg or a
+--        RaLaGroupPreLinkageValueRequestMsg with the requested PLVs.
+-- @class LaRaPreLinkageValueResponseMsg 
+-- @param version     contains the current version of the data type. The 
+--                    version specified in this document is version 1, 
+--                    represented by the integer 1.
+-- @param requestHash is the has of the original request.
+-- @param laId        denotes the unique hostname ID of the responding LA.
+-- @param reply       contains the requested PLVs if no errors occur,
+--                    otherwise an appropriate error code is sent.
+-- @see Uint8, HashedId8, LaHostnameId, ScopedLaRaError
 LaRaPreLinkageValueResponseMsg ::= SEQUENCE {
     version       Uint8(1),
     requestHash   HashedId8,  -- hash of the original request
@@ -108,6 +150,17 @@ LaRaPreLinkageValueResponseMsg ::= SEQUENCE {
     }
 }
 
+---
+-- @brief LA uses this data type to enclose all requested PLV information in a
+--        response to RA.
+-- @class PreLinkageValueRequestResponse 
+-- @param iMin       denotes the lower bound of i for which the PLVs are
+--                   requested.
+-- @param iMax       denotes the upper bound of i for which the PLVs are
+--                   requested.
+-- @param individual contains the linkage chain information for individual PLVs.
+-- @param group      contains the linkage chain information for group PLVs.
+-- @see Uint16
 PreLinkageValueRequestResponse ::= SEQUENCE {
     iMin                 Uint16,
     iMax                 Uint16, 
@@ -116,19 +169,41 @@ PreLinkageValueRequestResponse ::= SEQUENCE {
     ... 
 }
 
-
+---
+-- @brief LA uses this data type to send individual PLV linkage chain
+--        information to RA.
+-- @class IndividualPlvResponseLinkageChain 
+-- @param jMax           denotes the maximum count of linkage values to be
+--                       sent per i.
+-- @param values         is the outer sequence of size equal to the difference:
+--                       iMax-iMin. It contains an inner sequence of encrypted
+--                       PLVs of size jMax.
+-- @param linkageChainId is the LCI of the requested PLV.
+-- @see Uint8, EncryptedIndividualPLV, LinkageChainId
 IndividualPlvResponseLinkageChain ::= SEQUENCE {
     jMax                Uint8, 
-    values              SEQUENCE OF -- outer sequence of size iMax - iMin
-                          SEQUENCE OF EncryptedIndividualPLV, -- inner sequence of size jMax
+    values              SEQUENCE OF
+                          SEQUENCE OF EncryptedIndividualPLV,
     linkageChainId      LinkageChainId
 }
 
+---
+-- @brief LA uses this data type to send group PLV linkage chain information
+--        to RA.
+-- @class GroupPlvResponseLinkageChain 
+-- @param jMax            denotes the maximum count of linkage values to be
+--                        sent per i.
+-- @param otherLa         is the unique 16 bit ID of the second LA.
+-- @param values          is the outer sequence of size equal to the
+--                        difference: iMax-iMin. It contains an inner sequence
+--                        of encrypted PLVs of size jMax.
+-- @param groupIdentifier denotes the 32 bit string ID of a group.
+-- @see Uint32, LaId, EncryptedGroupPLV
 GroupPlvResponseLinkageChain ::= SEQUENCE {
     jMax                Uint32,
     otherLa             LaId, 
-    values              SEQUENCE OF -- outer sequence of size iMax - iMin
-                          SEQUENCE OF EncryptedGroupPLV, -- inner sequence of size jMax
+    values              SEQUENCE OF
+                          SEQUENCE OF EncryptedGroupPLV,
     groupIdentifier OCTET STRING (SIZE(4))
 }
 
