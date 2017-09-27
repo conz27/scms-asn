@@ -77,11 +77,15 @@ ScmsComponentCertificateManagementPDU::= CHOICE {
 -- @class TbsElectorEndorsement 
 -- @param type             defines the action (add/remove) to be taken over a
 --                         certificate.
--- @param certificateHash  defines the effective time for this message.
+-- @param certificateHash  the hash of the certificate with respect to which the 
+--                         action is to be taken.
+-- @param effectiveTime    defines the time after which this message takes effect.
 -- @see HashedId32
 TbsElectorEndorsement ::= SEQUENCE {
     type 				EndorsementType,
     certificateHash  	HashedId32,
+    effectiveTime       Time32,
+    ...
 }
 
 ---
