@@ -14,6 +14,7 @@
 --  limitations under the License.
 -- 
 
+-- @namespace Ieee1609Dot2PcaRaError
 Ieee1609Dot2PcaRaError
 {iso(1) identified-organization(3) ieee(111) 
 standards-association-numbered-series-standards(2) wave-stds(1609)  
@@ -23,18 +24,33 @@ DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 
 EXPORTS ALL;
 
+---
+-- @brief 
+-- @class PcaRaError 
+-- @param
+-- @see 
 PcaRaError ::= CHOICE {
 	pca-ra-base-error    PcaRaBaseErrorCode,
 	pca-ra-request-error PcaRaRequestErrorCode,
 	...
 }
 
+---
+-- @brief 
+-- @class PcaRaBaseErrorCode 
+-- @param
+-- @see 
 PcaRaBaseErrorCode ::= ENUMERATED {
 	-- Unknown error
 	unknownError,
 	...
 }
 
+---
+-- @brief 
+-- @class PcaRaRequestErrorCode 
+-- @param
+-- @see 
 PcaRaRequestErrorCode ::= ENUMERATED {
 	-- invalid certificate type requested
 	invalidCertificateRequestType,

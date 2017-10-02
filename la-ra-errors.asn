@@ -14,6 +14,7 @@
 --  limitations under the License.
 -- 
 
+-- @namespace Ieee1609Dot2LaRaError
 Ieee1609Dot2LaRaError
 {iso(1) identified-organization(3) ieee(111) 
 standards-association-numbered-series-standards(2) wave-stds(1609)  
@@ -23,11 +24,21 @@ DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 
 EXPORTS ALL;
 
+---
+-- @brief 
+-- @class LaRaError 
+-- @param
+-- @see 
 LaRaError ::= CHOICE {
 	la-ra	LaRaErrorCode,
 	...
 }
 
+---
+-- @brief 
+-- @class LaRaErrorCode 
+-- @param
+-- @see 
 LaRaErrorCode ::= ENUMERATED {
   invalidPcaKey,        -- no valid key for encryption to PCA available
   invalidIMin,          -- iMin is invalid

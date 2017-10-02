@@ -14,6 +14,7 @@
 --  limitations under the License.
 -- 
 
+-- @namespace Ieee1609Dot2LaPcaError
 Ieee1609Dot2LaPcaError
 {iso(1) identified-organization(3) ieee(111) 
 standards-association-numbered-series-standards(2) wave-stds(1609)  
@@ -23,11 +24,21 @@ DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 
 EXPORTS ALL;
 
+---
+-- @brief 
+-- @class LaPcaError 
+-- @param
+-- @see 
 LaPcaError ::= CHOICE {
 	la-pca	LaPcaErrorCode,
   ...
 }
 
+---
+-- @brief 
+-- @class LaPcaErrorCode 
+-- @param
+-- @see 
 LaPcaErrorCode ::= ENUMERATED {
   invalidSignature,
   invalidCertificate,
