@@ -84,7 +84,7 @@ ScmsComponentCertificateManagementPDU::= CHOICE {
 TbsElectorEndorsement ::= SEQUENCE {
     type 				EndorsementType,
     certificateHash  	HashedId32,
-    effectiveTime       Time32,
+    generationTime       Time32,
     ...
 }
 
