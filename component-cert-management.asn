@@ -75,11 +75,18 @@ ScmsComponentCertificateManagementPDU::= CHOICE {
 --        A signed endorsement is a copy of that whole structure with a
 --        signature.
 -- @class TbsElectorEndorsement 
--- @param type             defines the action (add/remove) to be taken over a
+-- @param type             Defines the action (add/remove) to be taken over a
 --                         certificate.
--- @param certificateHash  the hash of the certificate with respect to which the 
+-- @param certificateHash  The hash of the certificate with respect to which the 
 --                         action is to be taken.
--- @param effectiveTime    defines the time after which this message takes effect.
+-- @param generationTime   Defines the time at which the message was generated.
+--                         The message takes effect immediately on generation.
+--                         For an add action type, the added certificate is considered
+--                         to be valid from the start of its validity period, no matter
+--                         what the generation time value in this message is. For a
+--                         revoke action type, the revoked certificate is considered
+--                         revoked from the time of the earliest generation time on 
+--                         a valid revoke message.
 -- @see HashedId32
 TbsElectorEndorsement ::= SEQUENCE {
     type 				EndorsementType,
