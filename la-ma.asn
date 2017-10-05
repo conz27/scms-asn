@@ -18,7 +18,7 @@
 Ieee1609Dot2LaMaInterface
 {iso(1) identified-organization(3) ieee(111) 
 standards-association-numbered-series-standards(2) wave-stds(1609)  
-dot2(2) scms(2) interfaces(1) la-ma(9)}
+dot2(2) scms(4) interfaces(1) la-ma(9) major-version-2(2)}
 
 DEFINITIONS AUTOMATIC TAGS ::= BEGIN 
 
@@ -31,12 +31,12 @@ IMPORTS
   HashedId8
 FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111) 
     standards-association-numbered-series-standards(2) wave-stds(1609)  
-    dot2(2) base(1) base-types(2)}
+    dot2(2) base(1) base-types(2) major-version-2(2)}
 
   Countersignature
 FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111) 
     standards-association-numbered-series-standards(2) wave-stds(1609)  
-    dot2(2) base (1) schema (1)}
+    dot2(2) base(1) schema(1) major-version-2(2)}
 
   LinkageSeedAndLaId,
   PreLinkageValue,
@@ -46,13 +46,13 @@ FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111)
   EncryptedIndividualPLV
 FROM Ieee1609dot2ScmsBaseTypes {iso(1) identified-organization(3) ieee(111)
      standards-association-numbered-series-standards(2) wave-stds(1609)  dot2(2)
-     scms (2) interfaces(1) base-types (2)}
+     scms(4) interfaces(1) base-types(2) major-version-2(2)}
 
   ScopedLaMaLIError,
   ScopedLaMaLSError
 FROM Ieee1609dot2ScmsError {iso(1) identified-organization(3) ieee(111)
     standards-association-numbered-series-standards(2) wave-stds(1609) dot2(2)
-    scms(2) errors(2) complete(1)}
+    scms(4) errors(2) complete(1) major-version-2(2)}
 ;
 
 ---
@@ -108,7 +108,7 @@ MaLaLinkageInfoRequestMsg ::= SEQUENCE {
 --                               from LA.
 -- @see MaHostnameId
 ToBeSignedLIRequestMsg ::= SEQUENCE {
-    maId 						MaHostnameId,
+    maId                        MaHostnameId,
     encryptedPLVPair 			SEQUENCE (SIZE(0..MAX)) OF EncryptedPrelinkageValuePair,
     ...
 }
@@ -149,8 +149,7 @@ LaMaLinkageInfoResponseMsg ::= SEQUENCE {
 LinkageInformation ::= SEQUENCE {
     groups SEQUENCE (SIZE (0..MAX)) OF GroupOverThreshold,
     ...
-}
-
+    }
 --
 -- If matchCount/uniqueReporters > 65535, return 65535
 --
@@ -160,6 +159,7 @@ GroupOverThreshold  ::= SEQUENCE {
     uniqueReporters 	Uint16,
     ...
 }
+
 ---
 -- @brief This data type is used by the MA to request a linkage seed from LA
 --        for Revocation purposes.
