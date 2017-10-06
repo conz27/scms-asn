@@ -19,12 +19,8 @@ var searchData=
   ['encryptedcertificatedata',['EncryptedCertificateData',['../struct_ieee1609_dot2_pca_ra_interface_1_1_encrypted_certificate_data.html',1,'Ieee1609Dot2PcaRaInterface']]],
   ['encryptedgroupplv',['EncryptedGroupPLV',['../struct_ieee1609dot2_scms_base_types_1_1_encrypted_group_p_l_v.html',1,'Ieee1609dot2ScmsBaseTypes']]],
   ['encryptedgroupplvandhostinfo',['EncryptedGroupPlvAndHostInfo',['../struct_ieee1609dot2_scms_base_types_1_1_encrypted_group_plv_and_host_info.html',1,'Ieee1609dot2ScmsBaseTypes']]],
-  ['encryptedgroupprelinkagevalueanddontcareflag',['EncryptedGroupPrelinkageValueAndDontCareFlag',['../struct_ieee1609_dot2_la_ma_interface_1_1_encrypted_group_prelinkage_value_and_dont_care_flag.html',1,'Ieee1609Dot2LaMaInterface']]],
   ['encryptedindividualplv',['EncryptedIndividualPLV',['../struct_ieee1609dot2_scms_base_types_1_1_encrypted_individual_p_l_v.html',1,'Ieee1609dot2ScmsBaseTypes']]],
   ['encryptedplvandhostinfo',['EncryptedPlvAndHostInfo',['../struct_ieee1609dot2_scms_base_types_1_1_encrypted_plv_and_host_info.html',1,'Ieee1609dot2ScmsBaseTypes']]],
-  ['encryptedprelinkagevalueanddontcareflag',['EncryptedPrelinkageValueAndDontCareFlag',['../struct_ieee1609_dot2_la_ma_interface_1_1_encrypted_prelinkage_value_and_dont_care_flag.html',1,'Ieee1609Dot2LaMaInterface']]],
   ['endentityenrollmentpseudonymcertificate',['EndEntityEnrollmentPseudonymCertificate',['../struct_ieee1609_dot2_end_entity_ra_interface_1_1_end_entity_enrollment_pseudonym_certificate.html',1,'Ieee1609Dot2EndEntityRaInterface']]],
-  ['endentitymainterfacepdu',['EndEntityMaInterfacePDU',['../struct_ieee1609_dot2_end_entity_ma_interface_1_1_end_entity_ma_interface_p_d_u.html',1,'Ieee1609Dot2EndEntityMaInterface']]],
-  ['endentityrainterfacepdu',['EndEntityRaInterfacePDU',['../struct_ieee1609_dot2_end_entity_ra_interface_1_1_end_entity_ra_interface_p_d_u.html',1,'Ieee1609Dot2EndEntityRaInterface']]],
-  ['expectedreply',['ExpectedReply',['../struct_ieee1609_dot2_la_ma_interface_1_1_expected_reply.html',1,'Ieee1609Dot2LaMaInterface']]]
+  ['endentityrainterfacepdu',['EndEntityRaInterfacePDU',['../struct_ieee1609_dot2_end_entity_ra_interface_1_1_end_entity_ra_interface_p_d_u.html',1,'Ieee1609Dot2EndEntityRaInterface']]]
 ];

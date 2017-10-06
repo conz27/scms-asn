@@ -3,8 +3,6 @@ var searchData=
   ['macertexpiration',['MaCertExpiration',['../struct_ieee1609dot2_scms_base_types_1_1_ma_cert_expiration.html',1,'Ieee1609dot2ScmsBaseTypes']]],
   ['macertificate',['MaCertificate',['../struct_i_e_e_e1609dot2profiles_1_1_ma_certificate.html',1,'IEEE1609dot2profiles']]],
   ['mahostnameid',['MaHostnameId',['../struct_ieee1609dot2_scms_base_types_1_1_ma_hostname_id.html',1,'Ieee1609dot2ScmsBaseTypes']]],
-  ['malalinkageinforequestmsg',['MaLaLinkageInfoRequestMsg',['../struct_ieee1609_dot2_la_ma_interface_1_1_ma_la_linkage_info_request_msg.html',1,'Ieee1609Dot2LaMaInterface']]],
-  ['malalinkageseedrequestmsg',['MaLaLinkageSeedRequestMsg',['../struct_ieee1609_dot2_la_ma_interface_1_1_ma_la_linkage_seed_request_msg.html',1,'Ieee1609Dot2LaMaInterface']]],
   ['mapcaerror',['MaPcaError',['../struct_ieee1609_dot2_ma_pca_error_1_1_ma_pca_error.html',1,'Ieee1609Dot2MaPcaError']]],
   ['mapcaerrorcode',['MaPcaErrorCode',['../struct_ieee1609_dot2_ma_pca_error_1_1_ma_pca_error_code.html',1,'Ieee1609Dot2MaPcaError']]],
   ['mapcahpcrrequestmsg',['MaPcaHPCRRequestMsg',['../struct_ieee1609_dot2_ma_pca_interface_1_1_ma_pca_h_p_c_r_request_msg.html',1,'Ieee1609Dot2MaPcaInterface']]],
@@ -25,6 +23,5 @@ var searchData=
   ['maxgpfgccfretrievalinterval',['MaxGpfGccfRetrievalInterval',['../struct_ieee1609dot2_scms_policy_types_1_1_max_gpf_gccf_retrieval_interval.html',1,'Ieee1609dot2ScmsPolicyTypes']]],
   ['mexico',['Mexico',['../struct_ieee1609dot2_scms_base_types_1_1_mexico.html',1,'Ieee1609dot2ScmsBaseTypes']]],
   ['mincertsperiperiod',['MinCertsPerIPeriod',['../struct_ieee1609dot2_scms_policy_types_1_1_min_certs_per_i_period.html',1,'Ieee1609dot2ScmsPolicyTypes']]],
-  ['misbehaviorreportcontents',['MisbehaviorReportContents',['../struct_ieee1609_dot2_end_entity_ma_interface_1_1_misbehavior_report_contents.html',1,'Ieee1609Dot2EndEntityMaInterface']]],
   ['misbehaviorreportingpsid',['MisbehaviorReportingPsid',['../struct_ieee1609dot2_scms_base_types_1_1_misbehavior_reporting_psid.html',1,'Ieee1609dot2ScmsBaseTypes']]]
 ];

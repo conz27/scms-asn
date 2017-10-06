@@ -8,8 +8,6 @@ var searchData=
   ['tobesignedcustompolicyfile',['ToBeSignedCustomPolicyFile',['../struct_ieee1609_dot2_ra_pg_interface_1_1_to_be_signed_custom_policy_file.html',1,'Ieee1609Dot2RaPgInterface']]],
   ['tobesignedencryptedcertificateresponse',['ToBeSignedEncryptedCertificateResponse',['../struct_ieee1609_dot2_pca_ra_interface_1_1_to_be_signed_encrypted_certificate_response.html',1,'Ieee1609Dot2PcaRaInterface']]],
   ['tobesignedlcirequestmsg',['ToBeSignedLCIRequestMsg',['../struct_ieee1609_dot2_ma_ra_interface_1_1_to_be_signed_l_c_i_request_msg.html',1,'Ieee1609Dot2MaRaInterface']]],
-  ['tobesignedlirequestmsg',['ToBeSignedLIRequestMsg',['../struct_ieee1609_dot2_la_ma_interface_1_1_to_be_signed_l_i_request_msg.html',1,'Ieee1609Dot2LaMaInterface']]],
-  ['tobesignedlsrequestmsg',['ToBeSignedLSRequestMsg',['../struct_ieee1609_dot2_la_ma_interface_1_1_to_be_signed_l_s_request_msg.html',1,'Ieee1609Dot2LaMaInterface']]],
   ['tobesignedmapcahpcrrequestmsg',['ToBeSignedMaPcaHPCRRequestMsg',['../struct_ieee1609_dot2_ma_pca_interface_1_1_to_be_signed_ma_pca_h_p_c_r_request_msg.html',1,'Ieee1609Dot2MaPcaInterface']]],
   ['tobesignedmapcaprelinkagevaluerequestmsg',['ToBeSignedMaPcaPreLinkageValueRequestMsg',['../struct_ieee1609_dot2_ma_pca_interface_1_1_to_be_signed_ma_pca_pre_linkage_value_request_msg.html',1,'Ieee1609Dot2MaPcaInterface']]],
   ['tobesignedpolicydata',['ToBeSignedPolicyData',['../struct_ieee1609dot2_scms_policy_types_1_1_to_be_signed_policy_data.html',1,'Ieee1609dot2ScmsPolicyTypes']]],

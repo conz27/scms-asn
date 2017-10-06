@@ -325,8 +325,8 @@ and limitations under the <br class="typebreak"/>
 <div class="line">    standards-association-numbered-series-standards(2) wave-stds(1609)  </div>
 <div class="line">    dot2(2) base(1) base-types(2) major-version-2(2)}</div>
 <div class="line"></div>
-<div class="line">  <a class="code" href="la-ma_8asn.html#a1f38b6e85b7f6f898bdbfa56da3a358c">EncryptedGroupPLV</a></div>
-<div class="ttc" id="la-ma_8asn_html_a1f38b6e85b7f6f898bdbfa56da3a358c"><div class="ttname"><a href="la-ma_8asn.html#a1f38b6e85b7f6f898bdbfa56da3a358c">EncryptedGroupPLV</a></div><div class="ttdeci">IMPORTS HashedId8 FROM EncryptedGroupPLV</div><div class="ttdef"><b>Definition:</b> <a href="la-ma_8asn_source.html#l00030">la-ma.asn:30</a></div></div>
+<div class="line">  <a class="code" href="pca-ra_8asn.html#ac72827188a8eaebe1c5f6a2812aeb145">EncryptedGroupPLV</a></div>
+<div class="ttc" id="pca-ra_8asn_html_ac72827188a8eaebe1c5f6a2812aeb145"><div class="ttname"><a href="pca-ra_8asn.html#ac72827188a8eaebe1c5f6a2812aeb145">EncryptedGroupPLV</a></div><div class="ttdeci">IMPORTS Uint32 FROM ToBeSignedCertificate FROM EncryptedGroupPLV</div><div class="ttdef"><b>Definition:</b> <a href="pca-ra_8asn_source.html#l00054">pca-ra.asn:54</a></div></div>
 </div><!-- fragment -->
 <p>Definition at line <a class="el" href="la-ra_8asn_source.html#l00034">34</a> of file <a class="el" href="la-ra_8asn_source.html">la-ra.asn</a>.</p>
 
@@ -367,10 +367,10 @@ and limitations under the <br class="typebreak"/>
 <div class="line">    scms(4) interfaces(1) base-types(2) major-version-2(2)}</div>
 <div class="line"></div>
 <div class="line">  ScopedLaRaError</div>
-<div class="line">FROM <a class="code" href="la-ma_8asn.html#af1c6f6d1571667a184d0aee0e86132c1">Ieee1609dot2ScmsError</a> {iso(1) identified-organization(3) ieee(111)</div>
+<div class="line">FROM <a class="code" href="ma-ra_8asn.html#a2a96099fb06197ed822bc3b130eb0600">Ieee1609dot2ScmsError</a> {iso(1) identified-organization(3) ieee(111)</div>
 <div class="line">    standards-association-numbered-series-standards(2) wave-stds(1609) dot2(2)</div>
 <div class="line">    scms(4) errors(2) complete(1) major-version-2(2)}</div>
-<div class="ttc" id="la-ma_8asn_html_af1c6f6d1571667a184d0aee0e86132c1"><div class="ttname"><a href="la-ma_8asn.html#af1c6f6d1571667a184d0aee0e86132c1">Ieee1609dot2ScmsError</a></div><div class="ttdeci">IMPORTS HashedId8 FROM EncryptedIndividualPLV FROM ScopedLaMaLSError FROM Ieee1609dot2ScmsError</div><div class="ttdef"><b>Definition:</b> <a href="la-ma_8asn_source.html#l00052">la-ma.asn:52</a></div></div>
+<div class="ttc" id="ma-ra_8asn_html_a2a96099fb06197ed822bc3b130eb0600"><div class="ttname"><a href="ma-ra_8asn.html#a2a96099fb06197ed822bc3b130eb0600">Ieee1609dot2ScmsError</a></div><div class="ttdeci">IMPORTS Uint32 FROM SignerIdentifier FROM RIF FROM ScopedMaRaLCIError FROM Ieee1609dot2ScmsError</div><div class="ttdef"><b>Definition:</b> <a href="ma-ra_8asn_source.html#l00055">ma-ra.asn:55</a></div></div>
 </div><!-- fragment -->
 <p>Definition at line <a class="el" href="la-ra_8asn_source.html#l00044">44</a> of file <a class="el" href="la-ra_8asn_source.html">la-ra.asn</a>.</p>
 
