@@ -2342,7 +2342,7 @@ SignedElectorEndorsement ::= SecuredScmsPDU (WITH COMPONENTS {...,
 ScopedElectorBallot ::= ScmsPDU (WITH COMPONENTS {...,
   content (WITH COMPONENTS {
     ccm (WITH COMPONENTS {
-      ElectorBallot
+      electorBallot
     })
   })
 })
