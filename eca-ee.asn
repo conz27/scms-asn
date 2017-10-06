@@ -89,6 +89,7 @@ EeEcaCertRequest ::= SEQUENCE {
       appPermissions ABSENT,
       certIssuePermissions ABSENT,
       certRequestPermissions PRESENT,
+      encryptionKey ABSENT,
       verifyKeyIndicator (WITH COMPONENTS {
         verificationKey }) }),
     ...
