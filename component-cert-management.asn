@@ -40,7 +40,7 @@ FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111)
   standards-association-numbered-series-standards(2) wave-stds(1609)  
   dot2(2) base(1) schema(1) major-version-2(2)}
 
-  Time64
+  Time32
 FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111)
    standards-association-numbered-series-standards(2) wave-stds(1609)
    dot2(2) base(1) base-types(2) major-version-2(2)}
@@ -56,6 +56,8 @@ FROM IEEE1609dot2ScmsProtocol {iso(1) identified-organization(3) ieee(111)
   dot2(2) scms(4) interfaces(1) protocol(1) major-version-2(2)}
 
 ;
+
+HashedId32  ::= OCTET STRING (SIZE(32))
 
 ---
 -- @brief This data type is the parent structure for all component certificate
