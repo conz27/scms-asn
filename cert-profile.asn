@@ -258,7 +258,7 @@ ElectorCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
   issuer (WITH COMPONENTS {self}),
   toBeSigned (WITH COMPONENTS { ...,
     id (WITH COMPONENTS {
-      name ("") -- !!TBD!!
+      binaryId (SIZE(1)) -- !!TBD!!
     }),
     cracaId('000000'H),
     crlSeries(0),                          

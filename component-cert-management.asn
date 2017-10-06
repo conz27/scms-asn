@@ -65,6 +65,7 @@ FROM IEEE1609dot2ScmsProtocol {iso(1) identified-organization(3) ieee(111)
 --        signed by the respective Elector.
 ScmsComponentCertificateManagementPDU::= CHOICE {
     tbsElectorEndorsement TbsElectorEndorsement,
+    electorBallot ElectorBallot,
     ...
 }
 
@@ -74,15 +75,24 @@ ScmsComponentCertificateManagementPDU::= CHOICE {
 --        A signed endorsement is a copy of that whole structure with a
 --        signature.
 -- @class TbsElectorEndorsement 
--- @param type          defines the action (add/remove) to be taken over a
---                      certificate.
--- @param certificate   denotes the certificate to be added or removed.
--- @param effectiveTime defines the effective time for this message.
--- @see ExplicitCertificate, Time64
+-- @param type             Defines the action (add/remove) to be taken over a
+--                         certificate.
+-- @param certificateHash  The hash of the certificate with respect to which the 
+--                         action is to be taken.
+-- @param generationTime   Defines the time at which the message was generated.
+--                         The message takes effect immediately on generation.
+--                         For an add action type, the added certificate is considered
+--                         to be valid from the start of its validity period, no matter
+--                         what the generation time value in this message is. For a
+--                         revoke action type, the revoked certificate is considered
+--                         revoked from the time of the earliest generation time on 
+--                         a valid revoke message.
+-- @see HashedId32
 TbsElectorEndorsement ::= SEQUENCE {
-    type EndorsementType,
-    certificate ExplicitCertificate,
-    effectiveTime Time64 OPTIONAL
+    type 				EndorsementType,
+    certificateHash  	HashedId32,
+    generationTime       Time32,
+    ...
 }
 
 ---
@@ -112,6 +122,8 @@ EndorsementType ::= ENUMERATED {
 -- @see SignedElectorEndorsement
 ElectorBallot ::= SEQUENCE {
     -- ballot TbsBallot,
+    -- each signature shall contain a copy of the same TbsElectorEndorsement 
+    certificate  ExplicitCertificate, -- root CA or elector 
     endorsements SEQUENCE SIZE(1..MAX) OF SignedElectorEndorsement,
     ...
 }
