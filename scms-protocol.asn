@@ -765,15 +765,15 @@ ScopedRaPgPolicySignatureRequestReply ::=
 -- @brief This structure defines the all certificate requests messages as 
 --        scoped version of the ScmsPDU.
 -- @class ScopedCertificateRequest
-  ScopedCertificateRequest ::= ScmsPDU (
+ScopedCertificateRequest ::= ScmsPDU (
      ScopedEeRaCertRequest |
      ScopedEeEnrollmentCertRequest |
      ScopedPseudonymCertProvisioningRequest |
      ScopedIdCertProvisioningRequest  |
      ScopedAppCertProvisioningRequest  |
      ScopedRaPcaCertificateRequest |
-     ScopedAuthenticatedDownloadRequest,
-     ...)
+     ScopedAuthenticatedDownloadRequest
+)
 
 
 
