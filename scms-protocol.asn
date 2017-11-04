@@ -2232,9 +2232,8 @@ SecuredLCIResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
 
 ---
 -- @brief This structure contains ScopedRaPcaCertificateRequest which contains 
---        RaPcaCertRequestMsg. RA encrypts this message before sending it to 
---        PCA using encryptionKey in PCA's PcaCertificate sent by the ICA
---        during Add PCA stage.
+--        RaPcaCertRequestMsg. RA signs this message before sending it to 
+--        PCA.
 -- @class SecuredRaPcaCertificateRequest
 -- @param content contains ScopedRaPcaCertificateRequest and RA's certificate.
 -- @see RaPcaCertRequestMsg
@@ -2246,9 +2245,6 @@ SecuredRaPcaCertificateRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
         signer (WITH COMPONENTS {
           certificate (SequenceOfCertificate (SIZE(1))
           )
---          certificate (SequenceOfCertificate (SIZE(1)) (CONSTRAINED BY {
---              Certificate(EndEntityEnrollmentPseudonymCertificate)
---          }))
         })
       })
     )
