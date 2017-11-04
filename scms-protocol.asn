@@ -1050,20 +1050,6 @@ SignedPseudonymCertProvisioningAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
 })
 
 ---
--- @brief This structure contains the SignedPseudonymCertProvisioningAck.
---        NOTE ERROR: PCA cannot encrypt this message since EE does not send an encryptionKey in ObeEnrollmentCertificate in SignedPseudonymCertProvisioningRequest. 
--- @class SecuredPseudonymCertProvisioningAck
--- @param content contains the encrypted acknowledgement for pseudonym 
---                certificate provisioning; decrypts to
---                SignedPseudonymCertProvisioningAck.
--- @see RaEePseudonymCertProvisioningAck, ObeEnrollmentCertificate 
-SecuredPseudonymCertProvisioningAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
-  content (WITH COMPONENTS {...,
-    encryptedData
-  })
-})
-
----
 -- @brief This structure contains the ScopedIdCertProvisioningRequest 
 --        which contains the EeRaIdCertProvisioningRequest structure. 
 --        EE signs this message using its private key corresponding to its
