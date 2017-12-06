@@ -295,10 +295,7 @@ EndEntityEnrollmentPseudonymCertificate ::= ImplicitCertificate (WITH COMPONENTS
 -- @param version     contains the current version of the data type. The 
 --                    version specified this document is version 1.
 -- @param requestHash contains the hash of the original request, using the 
---                    HashedId8 type as defined in 1609dot2-base-types.asn. In 
---                    the case when the RA cannot calculate the hash of the
---                    original request due to a hardError, this field shall be
---                    all zeroes.
+--                    HashedId8 type as defined in 1609dot2-base-types.asn.
 -- @param reply       indicates the contents of the reply message. In this 
 --                    version of the document, only one choice option is 
 --                    supported, namely an acknowledgement (ack) of type
