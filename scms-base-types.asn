@@ -86,13 +86,13 @@ EcaCertExpirationCvp ::= Duration (WITH COMPONENTS {years(7)})
 -- @brief This data type denotes the expiration period of a ECA certificate
 --        for Proof-of-Concept.
 -- @class EcaCertExpirationPoc 
-EcaCertExpirationPoc ::= Duration (WITH COMPONENTS {years(40)})
+EcaCertExpirationPoc ::= Duration (WITH COMPONENTS {years(11)})
 
 ---
 -- @brief This data type denotes the expiration period of an Elector
 --        certificate.
 -- @class ElectorCertExpiration 
-ElectorCertExpiration ::= Duration (WITH COMPONENTS {years(60)})
+ElectorCertExpiration ::= Duration (WITH COMPONENTS {years(12)})
 
 ---
 -- @brief This data type denotes the expiration period of a ICA certificate
@@ -136,7 +136,7 @@ ObeEnrollmentCertExpirationCvp ::= Duration (WITH COMPONENTS {years(1..7)})
 -- @brief This data type denotes the expiration period of a OBE enrollment
 --        certificate for Proof-of-Concept.
 -- @class ObeEnrollmentCertExpirationPoc 
-ObeEnrollmentCertExpirationPoc ::= Duration (WITH COMPONENTS {years(30)})
+ObeEnrollmentCertExpirationPoc ::= Duration (WITH COMPONENTS {years(6)})
 
 ---
 -- @brief This data type denotes the expiration period of a OBE identification
@@ -171,12 +171,18 @@ RseEnrollmentCertExpirationCvp ::= Duration (WITH COMPONENTS {years(1..7)})
 -- @brief This data type denotes the expiration period of a RSE enrollment
 --        certificate for Proof-of-Concept.
 -- @class RseEnrollmentCertExpirationPoc 
-RseEnrollmentCertExpirationPoc ::= Duration (WITH COMPONENTS {years(30)})
+RseEnrollmentCertExpirationPoc ::= Duration (WITH COMPONENTS {years(6)})
 
 ---
 -- @brief This data type denotes the expiration period of a Root CA certificate.
 -- @class RootCaCertExpiration 
-RootCaCertExpiration ::= Duration (WITH COMPONENTS {years(70)})
+RootCaCertExpiration ::= Duration (WITH COMPONENTS {years(17)})
+
+---
+-- @brief This data type denotes the expiration period of a Root CA certificate
+-- for CV pilots
+-- @class RootCaCertExpiration 
+RootCaCertExpirationCvp ::= Duration (WITH COMPONENTS {years(70)})
 
 ---
 -- @brief This data type denotes the PSID for BSM usage i.e. 0x20.
