@@ -28,18 +28,12 @@ EXPORTS ALL;
 IMPORTS
   Duration,
   EccP256CurvePoint,
-  GroupLinkageValue,
   HashedId8,
-  LinkageValue,
-  Opaque,
   SequenceOfPsidSsp,
-  Signature,
   SubjectAssurance,
   GeographicRegion,
   Time32,
-  Uint8,
-  Uint16,
-  Uint32
+  Uint8
 FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111)
     standards-association-numbered-series-standards(2) wave-stds(1609) dot2(2)
     base(1) base-types(2) major-version-2(2)}
@@ -49,8 +43,6 @@ FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111)
   Ieee1609Dot2Data,
   RecipientInfo,
   SignedData,
-  SignerIdentifier,
-  SymmetricCiphertext,
   ToBeSignedCertificate
 FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111)
     standards-association-numbered-series-standards(2) wave-stds(1609) dot2(2)
@@ -58,7 +50,6 @@ FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111)
 
   EccP256PrivateKeyReconstruction,
   EncryptedIndividualPLV,
-  EncryptedGroupPLV,
   IValue,
   LaHostnameId,
   RaHostnameId,
@@ -153,12 +144,6 @@ PseudonymCertRequestInfo ::= SEQUENCE {
   la2-id                 LaHostnameId,
   enc-plv1               EncryptedIndividualPLV,
   enc-plv2               EncryptedIndividualPLV,
-  group-linkage-info     SEQUENCE {
-      gla1-id                LaHostnameId,
-      gla2-id                LaHostnameId,
-      enc-gplv1              EncryptedGroupPLV,
-      enc-gplv2              EncryptedGroupPLV
-  } OPTIONAL,
   -- used to encrypt the response
   enc-butterfly-key-H    EccP256CurvePoint
 }
