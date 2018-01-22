@@ -26,27 +26,17 @@ EXPORTS ALL;
 
 IMPORTS
   EccP256CurvePoint,
-  EncryptionKey,
-  HashAlgorithm,
   Hostname,
-  Signature,
   HashedId8,
   PublicEncryptionKey,
   PublicVerificationKey,
   Time32,
-  Time64,
-  Uint8,
-  Uint16,
-  Uint32
+  Uint8
 FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111)
     standards-association-numbered-series-standards(2) wave-stds(1609) dot2(2)
     base(1) base-types(2) major-version-2(2)}
 
-  Certificate,
-  ExplicitCertificate,
-  Ieee1609Dot2Data,
-  ImplicitCertificate,
-  SignerIdentifier
+  Certificate
 FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111)
     standards-association-numbered-series-standards(2) wave-stds(1609) dot2(2)
     base(1) schema(1) major-version-2(2)}
@@ -272,19 +262,6 @@ EeRaPseudonymCertProvisioningRequest ::= SEQUENCE {
     common                       CommonProvisioningRequestFields,
     ...
 }
-
----
--- @brief Enrollment certificate of the end entity, for pseudonym certificate
---        requests
--- @class EndEntityEnrollmentPseudonymCertificate
--- @param toBeSigned contains certificate permissions that are signed by the
---                   EE at scms-protocol level.
--- @see ImplicitCertificate
-EndEntityEnrollmentPseudonymCertificate ::= ImplicitCertificate (WITH COMPONENTS {...,
-      toBeSigned(WITH COMPONENTS {...,
-          certRequestPermissions PRESENT
-      })
-  })
 
 ---
 -- @brief This structure represents the acknowledgement of the RA that it has 
