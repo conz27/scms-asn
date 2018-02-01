@@ -109,7 +109,6 @@ MaLaLinkageInfoRequestMsg ::= SEQUENCE {
 ToBeSignedLIRequestMsg ::= SEQUENCE {
     maId                        MaHostnameId,
     encryptedPLVsAndFlags       SEQUENCE (SIZE(0..MAX)) OF EncryptedPrelinkageValueAndDontCareFlag,
-    encryptedGPLVsAndFlags      SEQUENCE (SIZE(0..MAX)) OF EncryptedGroupPrelinkageValueAndDontCareFlag,
     expectedReply               ExpectedReply,
     ...
 }
