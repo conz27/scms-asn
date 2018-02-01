@@ -61,25 +61,54 @@ FROM IEEE1609dot2CrlSsp {iso(1) identified-organization(3) ieee(111)
   USA,
 
   CrlgCertExpiration,
-  DcmCertExpiration,
-  EcaCertExpirationCvp,
+  DcmCertExpirationPoc,
+  DcmCertExpirationCvpQa,
+  DcmCertExpirationCvpPrd1,
+  DcmCertExpirationCvpPrd2,
+  DcmCertExpirationCvpPrd3,
   EcaCertExpirationPoc,
-  ElectorCertExpiration,
-  IcaCertExpirationCvp,
+  EcaCertExpirationCvpQa,
+  EcaCertExpirationCvpPrd1,
+  EcaCertExpirationCvpPrd2,
+  ElectorCertExpirationPoc,
+  ElectorCertExpirationCvp,
   IcaCertExpirationPoc,
-  LaCertExpiration,
-  MaCertExpiration,
-  ObeEnrollmentCertExpirationCvp,
+  IcaCertExpirationCvpQa,
+  IcaCertExpirationCvpPrd,
+  LaCertExpirationPoc,
+  LaCertExpirationCvpQa,
+  LaCertExpirationCvpPrd1,
+  LaCertExpirationCvpPrd2,
+  LaCertExpirationCvpPrd3,
+  MaCertExpirationPoc,
+  MaCertExpirationCvpQa,
   ObeEnrollmentCertExpirationPoc,
+  ObeEnrollmentCertExpirationCvpQa,
+  ObeEnrollmentCertExpirationCvpPrd,
   ObeIdentificationCertExpiration,
   ObePseudonymCertExpiration,
-  PcaCertExpiration,
-  PgCertExpiration,
-  RaCertExpiration,
-  RootCaCertExpiration,
+  PcaCertExpirationPoc,
+  PcaCertExpirationCvpQa,
+  PcaCertExpirationCvpPrd1,
+  PcaCertExpirationCvpPrd2,
+  PcaCertExpirationCvpPrd3,
+  PcaCertExpirationCvpPrd4,
+  PcaCertExpirationCvpPrd5,
+  PcaCertExpirationCvpPrd6,
+  PgCertExpirationPoc,
+  PgCertExpirationCvpQa,
+  RaCertExpirationPoc,
+  RaCertExpirationCvpQa,
+  RaCertExpirationCvpPrd1,
+  RaCertExpirationCvpPrd2,
+  RaCertExpirationCvpPrd3,
+  RootCaCertExpirationPoc,
+  RootCaCertExpirationCvpQa,
+  RootCaCertExpirationCvpPrd,
   RseApplicationCertExpiration,
-  RseEnrollmentCertExpirationCvp,
   RseEnrollmentCertExpirationPoc,
+  RseEnrollmentCertExpirationCvpQa,
+  RseEnrollmentCertExpirationCvpPrd,
   
   BsmPsid, --PSID = 0x20
   SecurityMgmtPsid,  -- PSID = 0x23
@@ -140,7 +169,7 @@ CrlgCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     cracaId, --set to HashedId3 of the Root CA cert
     crlSeries(ScmsSpclComponentCrlSeries),
     validityPeriod (WITH COMPONENTS { ...,
-      duration (CrlgCertExpiration)
+      duration (CrlgCertExpirationPoc | CrlgCertExpirationCvp)
     }),
     region ABSENT,
     assuranceLevel ABSENT,
@@ -196,7 +225,7 @@ DcmCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     cracaId, --set to HashedId3 of the Root CA cert
     crlSeries(ScmsComponentCrlSeries),
     validityPeriod (WITH COMPONENTS { ...,
-      duration (DcmCertExpiration)
+      duration (DcmCertExpirationPoc | DcmCertExpirationCvpQa | DcmCertExpirationCvpPrd1 | DcmCertExpirationCvpPrd2 | DcmCertExpirationCvpPrd3)
     }),
     region (WITH COMPONENTS {
       identifiedRegion (SequenceOfIdentifiedRegion (SIZE(1)) (CONSTRAINED BY {
@@ -263,7 +292,7 @@ ElectorCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     cracaId('000000'H),
     crlSeries(0),                          
     validityPeriod (WITH COMPONENTS { ...,
-      duration (ElectorCertExpiration)
+      duration (ElectorCertExpirationPoc | ElectorCertExpirationCvp)
     }),
     region ABSENT,
     assuranceLevel ABSENT,
@@ -307,7 +336,7 @@ EcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     cracaId, --set to HashedId3 of the Root CA cert
     crlSeries(ScmsComponentCrlSeries),
     validityPeriod (WITH COMPONENTS { ...,
-      duration (EcaCertExpirationPoc | EcaCertExpirationCvp)
+      duration (EcaCertExpirationPoc | EcaCertExpirationCvpQa | EcaCertExpirationCvpPrd1 | EcaCertExpirationCvpPrd2)
     }),
     region (WITH COMPONENTS {
       identifiedRegion (SequenceOfIdentifiedRegion (SIZE(1)) (CONSTRAINED BY {
@@ -471,7 +500,7 @@ IcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     cracaId, --set to HashedId3 of the Root CA cert
     crlSeries(ScmsComponentCrlSeries),
     validityPeriod (WITH COMPONENTS { ...,
-      duration (IcaCertExpirationPoc | IcaCertExpirationCvp)
+      duration (IcaCertExpirationPoc | IcaCertExpirationCvpQa | IcaCertExpirationCvpPrd)
     }),
     region (WITH COMPONENTS {
       identifiedRegion (SequenceOfIdentifiedRegion (SIZE(1)) (CONSTRAINED BY {
@@ -645,7 +674,7 @@ LaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     cracaId, --set to HashedId3 of the Root CA cert
     crlSeries(ScmsComponentCrlSeries),
     validityPeriod (WITH COMPONENTS { ...,
-      duration (LaCertExpiration)
+      duration (LaCertExpirationPoc | LaCertExpirationCvpQa | LaCertExpirationCvpPrd1 | LaCertExpirationCvpPrd2 | LaCertExpirationCvpPrd3)
     }),
     region (WITH COMPONENTS {
       identifiedRegion (SequenceOfIdentifiedRegion (SIZE(1)) (CONSTRAINED BY {
@@ -691,7 +720,7 @@ MaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     cracaId, --set to HashedId3 of the Root CA cert
     crlSeries(ScmsSpclComponentCrlSeries),
     validityPeriod (WITH COMPONENTS { ...,
-      duration (MaCertExpiration)
+      duration (MaCertExpirationPoc | MaCertExpirationCvpQa)
     }),
     region ABSENT,
     assuranceLevel ABSENT,
@@ -732,7 +761,7 @@ ObeEnrollmentCertificate ::= ImplicitCertificate (WITH COMPONENTS { ...,
     cracaId, --set to HashedId3 of the Root CA cert
     crlSeries(EeEnrollmentCrlSeries),
     validityPeriod (WITH COMPONENTS { ...,
-      duration (ObeEnrollmentCertExpirationPoc | ObeEnrollmentCertExpirationCvp)
+      duration (ObeEnrollmentCertExpirationPoc | ObeEnrollmentCertExpirationCvpQa | ObeEnrollmentCertExpirationCvpPrd)
     }),
     region (WITH COMPONENTS {
       identifiedRegion (SequenceOfIdentifiedRegion (SIZE(1)) (CONSTRAINED BY {
@@ -879,7 +908,7 @@ PcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     cracaId, --set to HashedId3 of the Root CA cert
     crlSeries(ScmsComponentCrlSeries),
     validityPeriod (WITH COMPONENTS { ...,
-      duration (PcaCertExpiration)
+      duration (PcaCertExpirationPoc | PcaCertExpirationCvpQa | PcaCertExpirationCvpPrd1 | PcaCertExpirationCvpPrd2 | PcaCertExpirationCvpPrd3 | PcaCertExpirationCvpPrd4 | PcaCertExpirationCvpPrd5 | PcaCertExpirationCvpPrd6)
     }),
     region (WITH COMPONENTS {
       identifiedRegion (SequenceOfIdentifiedRegion (SIZE(1)) (CONSTRAINED BY {
@@ -1040,7 +1069,7 @@ PgCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     cracaId, --set to HashedId3 of the Root CA cert
     crlSeries(ScmsSpclComponentCrlSeries),
     validityPeriod (WITH COMPONENTS { ...,
-      duration (PgCertExpiration)
+      duration (PgCertExpirationPoc | PgCertExpirationCvpQa)
     }),
     region ABSENT,
     assuranceLevel ABSENT,
@@ -1243,7 +1272,7 @@ RootCaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     cracaId('000000'H),
     crlSeries(0),                          
     validityPeriod (WITH COMPONENTS { ...,
-      duration (RootCaCertExpiration)
+      duration (RootCaCertExpirationPoc | RootCaCertExpirationCvpQa | RootCaCertExpirationCvpPrd)
     }),
     region ABSENT,
     assuranceLevel ABSENT,
@@ -1373,7 +1402,7 @@ RseEnrollmentCertificate ::= ImplicitCertificate (WITH COMPONENTS { ...,
     cracaId, --set to HashedId3 of the Root CA cert
     crlSeries(EeEnrollmentCrlSeries),
     validityPeriod (WITH COMPONENTS { ...,
-      duration (RseEnrollmentCertExpirationPoc | RseEnrollmentCertExpirationCvp)
+      duration (RseEnrollmentCertExpirationPoc | RseEnrollmentCertExpirationCvpQa | RseEnrollmentCertExpirationCvpPrd)
     }),
     region (WITH COMPONENTS {
       identifiedRegion (SequenceOfIdentifiedRegion (SIZE(1)) (CONSTRAINED BY {
