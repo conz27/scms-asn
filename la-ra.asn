@@ -163,7 +163,6 @@ PreLinkageValueRequestResponse ::= SEQUENCE {
     iMin                 Uint16,
     iMax                 Uint16, 
     individual           SEQUENCE (SIZE (0..MAX)) OF IndividualPlvResponseLinkageChain,
-    group                SEQUENCE (SIZE (0..MAX)) OF GroupPlvResponseLinkageChain,
     ... 
 }
 
