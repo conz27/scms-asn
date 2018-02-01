@@ -42,7 +42,6 @@ FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111)
   LinkageChainId,
   MaHostnameId,
   LaHostnameId,
-  EncryptedGroupPLV,
   EncryptedIndividualPLV
 FROM Ieee1609dot2ScmsBaseTypes {iso(1) identified-organization(3) ieee(111)
      standards-association-numbered-series-standards(2) wave-stds(1609)  dot2(2)
@@ -126,20 +125,6 @@ EncryptedPrelinkageValueAndDontCareFlag ::= SEQUENCE {
     encryptedPLV  EncryptedIndividualPLV,
     dontCareFlag  BOOLEAN    
 }
-
----
--- @brief As the name suggests, this data type contains a group's ePLV and its
---        corresponding don't care flag.
--- @class EncryptedGroupPrelinkageValueAndDontCareFlag 
--- @param encryptedGroupPLV is the encrypted pre-linkage value corresponding
---                          to a group of EE pseudonym certificates.
--- @param dontCareFlag defines if an LA should process this group ePLV.
--- @see EncryptedGroupPLV
-EncryptedGroupPrelinkageValueAndDontCareFlag ::= SEQUENCE {
-    encryptedGroupPLV  EncryptedGroupPLV,
-    dontCareFlag  BOOLEAN    
-}
-
 
 ---
 -- @brief This data type defines the types of responses an MA expects from LA
