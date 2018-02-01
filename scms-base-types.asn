@@ -65,19 +65,37 @@ USA ::= CountryOnly (840)
 
 ---
 -- @brief This data type denotes the expiration period of a CRL certificate.
--- @class CrlgCertExpiration 
-CrlgCertExpiration ::= Duration (WITH COMPONENTS {hours(26448)}) -- 3 years + 1 week = 26448 hourss
+--        for Proof-of-Concept.
+-- @class CrlgCertExpirationPoc 
+CrlgCertExpirationPoc::= Duration (WITH COMPONENTS {hours(35208)}) -- 4 years + 1 week = 35,208 hours
+
+---
+-- @brief This data type denotes the expiration period of a CRL certificate.
+--        for CV pilots.
+-- @class CrlgCertExpirationCvp 
+CrlgCertExpirationCvp::= Duration (WITH COMPONENTS {hours(17688)}) -- 2 years + 1 week = 17,688 hours
 
 ---
 -- @brief This data type denotes the expiration period of a DCM certificate.
--- @class DcmCertExpiration 
-DcmCertExpiration ::= Duration (WITH COMPONENTS {hours(26448)}) 
+--        for Proof-of-Concept.
+-- @class DcmCertExpirationPoc 
+DcmCertExpirationPoc ::= Duration (WITH COMPONENTS {hours(26448)})  -- 3 years + 1 week = 26,448 hours
 
 ---
--- @brief This data type denotes the expiration period of a ECA certificate
---        for CV pilots.
--- @class EcaCertExpirationCvp 
-EcaCertExpirationCvp ::= Duration (WITH COMPONENTS {years(7)})
+-- @brief This data type denotes the expiration period of a DCM certificate.
+--        for QA CV pilots.
+-- @class DcmCertExpirationCvp 
+DcmCertExpirationCvpQa ::= Duration (WITH COMPONENTS {hours(17688)})  -- 2 years + 1 week = 17,688 hours
+
+---
+-- @brief This data type denotes the expiration period of a DCM certificate.
+--        for PROD CV pilots.
+-- @class DcmCertExpirationCvpPrd1
+-- @class DcmCertExpirationCvpPrd2
+-- @class DcmCertExpirationCvpPrd3
+DcmCertExpirationCvpPrd1 ::= Duration (WITH COMPONENTS {hours(26472)})  -- 1,103 days
+DcmCertExpirationCvpPrd2 ::= Duration (WITH COMPONENTS {hours(26448)})  -- 1,102 days
+DcmCertExpirationCvpPrd3 ::= Duration (WITH COMPONENTS {hours(12456)})  -- 519 days
 
 ---
 -- @brief This data type denotes the expiration period of a ECA certificate
@@ -86,54 +104,140 @@ EcaCertExpirationCvp ::= Duration (WITH COMPONENTS {years(7)})
 EcaCertExpirationPoc ::= Duration (WITH COMPONENTS {years(11)})
 
 ---
--- @brief This data type denotes the expiration period of an Elector
---        certificate.
--- @class ElectorCertExpiration 
-ElectorCertExpiration ::= Duration (WITH COMPONENTS {years(12)})
+-- @brief This data type denotes the expiration period of a ECA certificate
+--        for QA CV pilots.
+-- @class EcaCertExpirationCvpQa
+EcaCertExpirationCvpQa ::= Duration (WITH COMPONENTS {years(3)})
 
 ---
--- @brief This data type denotes the expiration period of a ICA certificate
---        for CV pilots.
--- @class IcaCertExpirationCvp 
-IcaCertExpirationCvp ::= Duration (WITH COMPONENTS {years(11)})
+-- @brief This data type denotes the expiration period of a ECA certificate
+--        for PROD CV pilots.
+-- @class EcaCertExpirationCvpPrd1
+-- @class EcaCertExpirationCvpPrd2
+EcaCertExpirationCvpPrd1 ::= Duration (WITH COMPONENTS {sixtyHours(1084)}) -- 2,710 days, ~7.42 years
+EcaCertExpirationCvpPrd2 ::= Duration (WITH COMPONENTS {hours(38736)}) -- 1,614 days, ~4.42 years
+
+---
+-- @brief This data type denotes the expiration period of an Elector
+--        certificate for Proof-of-Concept.
+-- @class ElectorCertExpirationPoc 
+ElectorCertExpirationPoc ::= Duration (WITH COMPONENTS {years(12)})
+
+---
+-- @brief This data type denotes the expiration period of an Elector
+--        certificate for CV pilots.
+-- @class ElectorCertExpirationCvp 
+ElectorCertExpirationCvp ::= Duration (WITH COMPONENTS {years(6)})
 
 ---
 -- @brief This data type denotes the expiration period of a ICA certificate
 --        for Proof-of-Concept.
 -- @class IcaCertExpirationPoc 
-IcaCertExpirationPoc ::= Duration (WITH COMPONENTS {years(50)})
+IcaCertExpirationPoc ::= Duration (WITH COMPONENTS {years(13)})
 
 ---
--- @brief This data type denotes the expiration period of a LA certificate.
--- @class LaCertExpiration 
-LaCertExpiration ::= Duration (WITH COMPONENTS {hours(26448)})
+-- @brief This data type denotes the expiration period of a ICA certificate
+--        for QA CV pilots.
+-- @class IcaCertExpirationCvpQa
+IcaCertExpirationCvpQa ::= Duration (WITH COMPONENTS {years(5)})
 
 ---
--- @brief This data type denotes the expiration period of a MA certificate.
--- @class MaCertExpiration 
-MaCertExpiration ::= Duration (WITH COMPONENTS {hours(26448)})
+-- @brief This data type denotes the expiration period of a ICA certificate
+--        for PROD CV pilots.
+-- @class IcaCertExpirationCvpPrd
+IcaCertExpirationCvpPrd ::= Duration (WITH COMPONENTS {sixtyHours(1169)}) -- 2,922.5 days, ~8 years
 
 ---
--- @brief This data type denotes the expiration period of a PCA certificate.
--- @class PcaCertExpiration 
-PcaCertExpiration ::= Duration (WITH COMPONENTS {years(4)})
+-- @brief This data type denotes the expiration period of a LA certificate
+--        for Proof-of-Concept.
+-- @class LaCertExpirationPoc
+LaCertExpirationPoc ::= Duration (WITH COMPONENTS {hours(26448)}) -- 3 years + 1 week = 26,448 hours
 
 ---
--- @brief This data type denotes the expiration period of a PG certificate.
--- @class PgCertExpiration 
-PgCertExpiration ::= Duration (WITH COMPONENTS {hours(26448)})
+-- @brief This data type denotes the expiration period of a LA certificate
+--        for QA CV pilots.
+-- @class LaCertExpirationCvpQa
+LaCertExpirationCvpQa ::= Duration (WITH COMPONENTS {hours(17688)}) -- 2 years + 1 week = 17,688 hours
 
 ---
--- @brief This data type denotes the expiration period of a OBE enrollment
---        certificate for CV pilots.
--- @class ObeEnrollmentCertExpirationCvp 
-ObeEnrollmentCertExpirationCvp ::= Duration (WITH COMPONENTS {years(1..7)})
+-- @brief This data type denotes the expiration period of a LA certificate
+--        for PROD CV pilots.
+-- @class LaCertExpirationCvpPrd1
+-- @class LaCertExpirationCvpPrd2
+-- @class LaCertExpirationCvpPrd3
+LaCertExpirationCvpPrd1 ::= Duration (WITH COMPONENTS {hours(26472)}) -- 1,103 days
+LaCertExpirationCvpPrd2 ::= Duration (WITH COMPONENTS {hours(26448)}) -- 1,102 days
+LaCertExpirationCvpPrd3 ::= Duration (WITH COMPONENTS {hours(12456)}) -- 519 days
+
+---
+-- @brief This data type denotes the expiration period of a MA certificate
+--        for Proof-of-Concept.
+-- @class MaCertExpirationPoc 
+MaCertExpirationPoc ::= Duration (WITH COMPONENTS {hours(35208)}) -- 4 years + 1 week = 35,208 hours
+
+---
+-- @brief This data type denotes the expiration period of a MA certificate
+--        for QA CV pilots.
+-- @class MaCertExpirationCvpQa 
+MaCertExpirationCvpQa ::= Duration (WITH COMPONENTS {hours(17688)}) -- 2 years + 1 week = 17,688 hours
+
+---
+-- @brief This data type denotes the expiration period of a PCA certificate
+--        for Proof-of-Concept.
+-- @class PcaCertExpirationPoc 
+PcaCertExpirationPoc ::= Duration (WITH COMPONENTS {years(4)})
+
+---
+-- @brief This data type denotes the expiration period of a PCA certificate
+--        for QA CV pilots.
+-- @class PcaCertExpirationCvpQa 
+PcaCertExpirationCvpQa ::= Duration (WITH COMPONENTS {hours(13140)}) -- 1.5 years = 13,140 hours
+
+---
+-- @brief This data type denotes the expiration period of a PCA certificate
+--        for PROD CV pilots.
+-- @class PcaCertExpirationCvpPrd1 
+-- @class PcaCertExpirationCvpPrd2 
+-- @class PcaCertExpirationCvpPrd3 
+-- @class PcaCertExpirationCvpPrd4 
+-- @class PcaCertExpirationCvpPrd5 
+-- @class PcaCertExpirationCvpPrd6
+PcaCertExpirationCvpPrd1 ::= Duration (WITH COMPONENTS {hours(35281)}) -- 35,281 hours, ~1,470.04 days, ~ 4.02 years
+PcaCertExpirationCvpPrd2 ::= Duration (WITH COMPONENTS {hours(35113)}) -- 35,113 hours, ~1,463.04 days, ~ 4.008 years
+PcaCertExpirationCvpPrd3 ::= Duration (WITH COMPONENTS {hours(30099)}) -- 30,099 hours = 1,254.125 days, ~ 3.44 years
+PcaCertExpirationCvpPrd4 ::= Duration (WITH COMPONENTS {hours(21363)}) -- 21,363 hours = 890.125 days, ~ 2.44 years
+PcaCertExpirationCvpPrd5 ::= Duration (WITH COMPONENTS {hours(12459)}) -- 12,459 hours = 519.125 days, ~ 1.42 years
+PcaCertExpirationCvpPrd6 ::= Duration (WITH COMPONENTS {hours(3723)}) -- 3,723 hours = 155.125 days = 0.425 years
+
+---
+-- @brief This data type denotes the expiration period of a PG certificate
+--        for Proof-of-Concept.
+-- @class PgCertExpirationPoc 
+PgCertExpirationPoc ::= Duration (WITH COMPONENTS {hours(35208)}) -- 4 years + 1 week = 35,208 hours
+
+---
+-- @brief This data type denotes the expiration period of a PG certificate
+--        for QA CV pilots.
+-- @class PgCertExpirationCvpQa
+PgCertExpirationCvpQa ::= Duration (WITH COMPONENTS {hours(17688)}) -- 2 years + 1 week = 17,688 hours
 
 ---
 -- @brief This data type denotes the expiration period of a OBE enrollment
 --        certificate for Proof-of-Concept.
 -- @class ObeEnrollmentCertExpirationPoc 
 ObeEnrollmentCertExpirationPoc ::= Duration (WITH COMPONENTS {years(6)})
+
+---
+-- @brief This data type denotes the expiration period of a OBE enrollment
+--        certificate for QA CV pilots.
+-- @class ObeEnrollmentCertExpirationCvpQa 
+ObeEnrollmentCertExpirationCvpQa ::= Duration (WITH COMPONENTS {hours(0..4380)}) -- 6 month = 4,380 hours
+
+---
+-- @brief This data type denotes the expiration period of a OBE enrollment
+--        certificate for PROD CV pilots.
+-- @class ObeEnrollmentCertExpirationCvpPrd 
+ObeEnrollmentCertExpirationCvpPrd ::= Duration (WITH COMPONENTS {years(1..7)})
 
 ---
 -- @brief This data type denotes the expiration period of a OBE identification
@@ -148,21 +252,32 @@ ObeIdentificationCertExpiration ::= Duration (WITH COMPONENTS {hours(721)}) -- 1
 ObePseudonymCertExpiration ::= Duration (WITH COMPONENTS {hours(169)}) -- 1 week + 1 hour = 169 hours
 
 ---
--- @brief This data type denotes the expiration period of a RA certificate.
--- @class RaCertExpiration 
-RaCertExpiration ::= Duration (WITH COMPONENTS {hours(26448)})
+-- @brief This data type denotes the expiration period of a RA certificate
+--        for Proof-of-Concept.
+-- @class RaCertExpirationPoc 
+RaCertExpirationPoc ::= Duration (WITH COMPONENTS {hours(26448)}) -- 3 years + 1 week = 26,448 hours
+
+---
+-- @brief This data type denotes the expiration period of a RA certificate
+--        for QA CV pilots.
+-- @class RaCertExpirationCvpQa 
+RaCertExpirationCvpQa ::= Duration (WITH COMPONENTS {hours(17688)}) -- 2 years + 1 week = 17,688 hours
+
+---
+-- @brief This data type denotes the expiration period of a RA certificate
+--        for PROD CV pilots.
+-- @class RaCertExpirationCvpPrd1
+-- @class RaCertExpirationCvpPrd2
+-- @class RaCertExpirationCvpPrd3
+RaCertExpirationCvpPrd1 ::= Duration (WITH COMPONENTS {hours(26472)})  -- 1,103 days
+RaCertExpirationCvpPrd2 ::= Duration (WITH COMPONENTS {hours(26448)})  -- 1,102 days
+RaCertExpirationCvpPrd3 ::= Duration (WITH COMPONENTS {hours(12456)})  -- 519 days
 
 ---
 -- @brief This data type denotes the expiration period of a RSE application
 --        certificate.
 -- @class RseApplicationCertExpiration 
-RseApplicationCertExpiration ::= Duration (WITH COMPONENTS {hours(169)})
-
----
--- @brief This data type denotes the expiration period of a RSE enrollment
---        certificate for CV pilots.
--- @class RseEnrollmentCertExpirationCvp 
-RseEnrollmentCertExpirationCvp ::= Duration (WITH COMPONENTS {years(1..7)})
+RseApplicationCertExpiration ::= Duration (WITH COMPONENTS {hours(169)}) -- 1 week + 1 hour = 169 hours
 
 ---
 -- @brief This data type denotes the expiration period of a RSE enrollment
@@ -171,15 +286,33 @@ RseEnrollmentCertExpirationCvp ::= Duration (WITH COMPONENTS {years(1..7)})
 RseEnrollmentCertExpirationPoc ::= Duration (WITH COMPONENTS {years(6)})
 
 ---
+-- @brief This data type denotes the expiration period of a RSE enrollment
+--        certificate for QA CV pilots.
+-- @class RseEnrollmentCertExpirationCvpQa
+RseEnrollmentCertExpirationCvpQa ::= Duration (WITH COMPONENTS {years(0..1)})
+
+---
+-- @brief This data type denotes the expiration period of a RSE enrollment
+--        certificate for PROD CV pilots.
+-- @class RseEnrollmentCertExpirationCvpPrd
+RseEnrollmentCertExpirationCvpPrd ::= Duration (WITH COMPONENTS {years(1..7)})
+
+---
 -- @brief This data type denotes the expiration period of a Root CA certificate.
--- @class RootCaCertExpiration 
-RootCaCertExpiration ::= Duration (WITH COMPONENTS {years(17)})
+-- @class RootCaCertExpirationPoc 
+RootCaCertExpirationPoc ::= Duration (WITH COMPONENTS {years(17)})
 
 ---
 -- @brief This data type denotes the expiration period of a Root CA certificate
--- for CV pilots
--- @class RootCaCertExpiration 
-RootCaCertExpirationCvp ::= Duration (WITH COMPONENTS {years(70)})
+-- for QA CV pilots
+-- @class RootCaCertExpirationCvpQa 
+RootCaCertExpirationCvpQa ::= Duration (WITH COMPONENTS {years(9)})
+
+---
+-- @brief This data type denotes the expiration period of a Root CA certificate
+-- for PROD CV pilots
+-- @class RootCaCertExpirationCvpPrd 
+RootCaCertExpirationCvpPrd ::= Duration (WITH COMPONENTS {years(70)})
 
 ---
 -- @brief This data type denotes the PSID for BSM usage i.e. 0x20.
