@@ -854,7 +854,7 @@ ObePseudonymCertificate ::= ImplicitCertificate (WITH COMPONENTS { ...,
   toBeSigned (WITH COMPONENTS { ...,
     id (WITH COMPONENTS { 
       linkageData (WITH COMPONENTS {
-        group-linkage-value PRESENT
+        linkage-value PRESENT
       })
     }),
     cracaId, --set to HashedId3 of the Root CA cert
