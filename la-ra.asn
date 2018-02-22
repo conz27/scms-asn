@@ -36,7 +36,6 @@ FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111)
     standards-association-numbered-series-standards(2) wave-stds(1609)  
     dot2(2) base(1) base-types(2) major-version-2(2)}
 
-  EncryptedGroupPLV,
   EncryptedIndividualPLV,
   LinkageChainId,
   PcaHostnameId,
@@ -164,7 +163,6 @@ PreLinkageValueRequestResponse ::= SEQUENCE {
     iMin                 Uint16,
     iMax                 Uint16, 
     individual           SEQUENCE (SIZE (0..MAX)) OF IndividualPlvResponseLinkageChain,
-    group                SEQUENCE (SIZE (0..MAX)) OF GroupPlvResponseLinkageChain,
     ... 
 }
 
@@ -184,26 +182,6 @@ IndividualPlvResponseLinkageChain ::= SEQUENCE {
     values              SEQUENCE OF
                           SEQUENCE OF EncryptedIndividualPLV,
     linkageChainId      LinkageChainId
-}
-
----
--- @brief LA uses this data type to send group PLV linkage chain information
---        to RA.
--- @class GroupPlvResponseLinkageChain 
--- @param jMax            denotes the maximum count of linkage values to be
---                        sent per i.
--- @param otherLa         is the unique 16 bit ID of the second LA.
--- @param values          is the outer sequence of size equal to the
---                        difference: iMax-iMin. It contains an inner sequence
---                        of encrypted PLVs of size jMax.
--- @param groupIdentifier denotes the 32 bit string ID of a group.
--- @see Uint32, LaId, EncryptedGroupPLV
-GroupPlvResponseLinkageChain ::= SEQUENCE {
-    jMax                Uint32,
-    otherLa             LaId, 
-    values              SEQUENCE OF
-                          SEQUENCE OF EncryptedGroupPLV,
-    groupIdentifier OCTET STRING (SIZE(4))
 }
 
 END
