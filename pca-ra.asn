@@ -28,18 +28,12 @@ EXPORTS ALL;
 IMPORTS
   Duration,
   EccP256CurvePoint,
-  GroupLinkageValue,
   HashedId8,
-  LinkageValue,
-  Opaque,
   SequenceOfPsidSsp,
-  Signature,
   SubjectAssurance,
   GeographicRegion,
   Time32,
-  Uint8,
-  Uint16,
-  Uint32
+  Uint8
 FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111)
     standards-association-numbered-series-standards(2) wave-stds(1609) dot2(2)
     base(1) base-types(2) major-version-2(2)}
@@ -49,8 +43,6 @@ FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111)
   Ieee1609Dot2Data,
   RecipientInfo,
   SignedData,
-  SignerIdentifier,
-  SymmetricCiphertext,
   ToBeSignedCertificate
 FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111)
     standards-association-numbered-series-standards(2) wave-stds(1609) dot2(2)
@@ -58,7 +50,6 @@ FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111)
 
   EccP256PrivateKeyReconstruction,
   EncryptedIndividualPLV,
-  EncryptedGroupPLV,
   IValue,
   LaHostnameId,
   RaHostnameId,
@@ -67,11 +58,6 @@ FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111)
 FROM Ieee1609dot2ScmsBaseTypes {iso(1) identified-organization(3) ieee(111)
     standards-association-numbered-series-standards(2) wave-stds(1609) dot2(2)
     scms(4) interfaces(1) base-types(2) major-version-2(2)}
-
-  ScopedPcaRaError
-FROM Ieee1609dot2ScmsError {iso(1) identified-organization(3) ieee(111)
-    standards-association-numbered-series-standards(2) wave-stds(1609) dot2(2)
-    scms(4) errors(2) complete(1) major-version-2(2)}
 
 ;
 
@@ -158,12 +144,6 @@ PseudonymCertRequestInfo ::= SEQUENCE {
   la2-id                 LaHostnameId,
   enc-plv1               EncryptedIndividualPLV,
   enc-plv2               EncryptedIndividualPLV,
-  group-linkage-info     SEQUENCE {
-      gla1-id                LaHostnameId,
-      gla2-id                LaHostnameId,
-      enc-gplv1              EncryptedGroupPLV,
-      enc-gplv2              EncryptedGroupPLV
-  } OPTIONAL,
   -- used to encrypt the response
   enc-butterfly-key-H    EccP256CurvePoint
 }
@@ -203,11 +183,11 @@ IdCertRequestInfo ::= SEQUENCE {
 --                    document is version 1, represented by the integer 1.
 -- @param requestHash contains the hash of the original request, using the HashedId8 type as defined in
 --                    1609dot2-base-types.asn of [2]. In the case when the PCA cannot calculate the
---                    hash of the original request due to a hardError, this field shall be all zeroes.
+--                    hash of the original request due to an error, this field shall be all zeroes.
 -- @param reply       contains the encrypted pseudonym certificates with corresponding linkage values
 --                    for an individual OBE. A failure is sent if any form of error arises in
---                    communication between PCA and RA. Refer pca-ra-error.asn.
--- @see Uint8, HashedId8, PcaHostnameId, ScopedPcaRaError
+--                    communication between PCA and RA.
+-- @see Uint8, HashedId8, PcaHostnameId
 PcaRaCertResponseMsg ::= SEQUENCE {
   version     Uint8(1),
   requestHash HashedId8,
@@ -216,8 +196,7 @@ PcaRaCertResponseMsg ::= SEQUENCE {
       success      CHOICE {
           signed-encrypted	SignedEncryptedCertificateResponse,
           raw               PlaintextCertificateResponse
-      },
-      failure ScopedPcaRaError
+      }
   },
   ...
 }
