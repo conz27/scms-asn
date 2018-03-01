@@ -1,3 +1,19 @@
+--
+--  Copyright 2017, 2018 Crash Avoidance Metrics Partner, VSC5 Consortium
+--
+--  Licensed under the Apache License, Version 2.0 (the "License");
+--  you may not use this file except in compliance with the License.
+--  You may obtain a copy of the License at
+--
+--     http://www.apache.org/licenses/LICENSE-2.0
+--
+--  Unless required by applicable law or agreed to in writing, software
+--  distributed under the License is distributed on an "AS IS" BASIS,
+--  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+--  See the License for the specific language governing permissions and
+--  limitations under the License.
+--
+
 -------------------------------------------------------------------------------
 -- ECA-EE 
 --
@@ -15,10 +31,11 @@
 -- It depends on the IEEE 1609.2 protocol specification
 -------------------------------------------------------------------------------
 
+-- @namespace Ieee1609Dot2EcaEndEntityInterface
 Ieee1609Dot2EcaEndEntityInterface
 {iso(1) identified-organization(3) ieee(111)
 standards-association-numbered-series-standards(2) wave-stds(1609)
-dot2(2) scms(2) interfaces(1) eca-ee (5)}
+dot2(2) scms(4) interfaces(1) eca-ee (5) major-version-2(2)}
 
 DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 
@@ -26,194 +43,102 @@ EXPORTS ALL;
 
 IMPORTS
 
-  CrlSeries,
-  EccP256CurvePoint,
-  GeographicRegion,
-  HashedId3,
   HashedId8,
-  Hostname,
-  PublicEncryptionKey,
-  PublicVerificationKey,
-  SubjectAssurance,
   Time32,
-  Uint8,
-  Uint16
-
+  Uint8
 FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111)
 	 standards-association-numbered-series-standards(2) wave-stds(1609)
-	 dot2(2) base(1) base-types(2)}
+	 dot2(2) base(1) base-types(2) major-version-2(2)}
 
   Certificate,
-  CertificateId,
-  Ieee1609Dot2Data,
   ImplicitCertificate,
-  SequenceOfPsidGroupPermissions,
-  SequenceOfPsidSsp,
-  ValidityPeriod,
-  VerificationKeyIndicator
-
+  ToBeSignedCertificate
 FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111)
 	 standards-association-numbered-series-standards(2) wave-stds(1609)
-	 dot2(2) base (1) schema (1)}
+	 dot2(2) base (1) schema (1) major-version-2(2)}
 
-  SecurityMgmtPsid
-
+  EccP256PrivateKeyReconstruction
 FROM Ieee1609dot2ScmsBaseTypes {iso(1) identified-organization(3) ieee(111)
      standards-association-numbered-series-standards(2) wave-stds(1609)  dot2(2)
-     scms (2) interfaces(1) base-types (2)}
+     scms(4) interfaces(1) base-types (2) major-version-2(2)}
 
 ;
 
+---
+-- @brief The EcaEndEntityInterfacePDU is the parent message type for messages 
+--        sent between Enrollment Certificate Authority (ECA) and End Entities
+--        (EE).
+-- @class EcaEndEntityInterfacePDU
+-- @param eeEcaCertRequest  contains the enrollment certificate request sent
+--                          by the EE to the ECA.
+-- @param ecaEeCertResponse contains the enrollment certificate response sent
+--                          by the ECA to an EE.
 EcaEndEntityInterfacePDU::= CHOICE {
-    obeEcaCertRequest     ObeEcaEnrollmentCertificateRequest,
-    ecaObeCertResponse    EcaObeEnrollmentCertificateResponse,
-    rseEcaCertRequest     RseEcaEnrollmentCertificateRequest,
-    ecaRseCertResponse    EcaRseEnrollmentCertificateResponse,
+    eeEcaCertRequest 	EeEcaCertRequest,
+    ecaEeCertResponse 	EcaEeCertResponse,
     ...
 }
 
---------------------------------------------------------------------------------------
---
--- Enrollment Sequence Diagram (OBE/RSE)
---
---              OBE                                                     ECA
---               |                                                       |
---   ================================                                    |
---   | Generate Enrollment Key Pair |                                    |
---   ================================                                    |
---               |                                                       |
---   ===============================                                     |
---   |Include Public Key in Request|                                     |
---   ===============================                                     |
---               |                                                       |
---               |============ObeEnrollmentCertificateRequest===========>|
---               |             (TBS Data + PublicKey)                    |
---               |                                              ====================
---               |                                              |Create Enrollment |
---               |                                              |   Certificate    |
---               |                                              |        +         |
---               |                                              |  Reconstruction  |
---               |                                              |      Values      |
---               |                                              ====================
---               |                                                       |
---               |<==========ObeEnrollmentCertificateResponse============|
---               |    (Enrollment Cert + Pub/Priv Reconstruction Data)   |
---               |                                                       |
---     ======================                                            |
---     |     Reconstruct    |                                            |
---     |     Private Key    |                                            |
---     ======================                                            |
---               |                                                       |
---     =======================                                           |
---     | Enrollment Complete |                                           |
---     =======================                                           |
---               |                                                       |
---               |                                                       |
---
--- Refer to ee-ra.asn for description of enrollment procedure.
---
---------------------------------------------------------------------------------------
-
-
--------------------------------------------------------------------------------
--- Requests / Responses
--------------------------------------------------------------------------------
-
--- If the DCM needs to sign the enrollment request, it would use
--- SignedObeEnrollmentRequest or SignedRseEnrollmentRequest. For encryption
--- purposes, the DCM would use SecureObeEnrollmentRequest or
--- SecureRseEnrollmentRequest.
--- The operations for responses are analagous to those for requests.
-
-ObeEcaEnrollmentCertificateRequest ::= CommonEnrollmentCertificateRequest
-EcaObeEnrollmentCertificateResponse ::= CommonEnrollmentCertificateResponse
-RseEcaEnrollmentCertificateRequest ::= CommonEnrollmentCertificateRequest
-EcaRseEnrollmentCertificateResponse ::= CommonEnrollmentCertificateResponse
-
-
---------------------------------
--- CommonEnrollmentCertificateRequest
---
--- Enrollment certificate request sent from an EE to an ECA.
---
--- version            version of this response structure
--- currentTime        time when the request was signed
--- requestedStartTime requested validity start time for the enrollment cert
--- tbsData            structure containing requested certificate properties
--- verifyKey          public verification key needed for implicit cert request
---------------------------------
-CommonEnrollmentCertificateRequest ::= SEQUENCE {
+---
+-- @brief This data type is used by the EE to request an enrollment 
+--        certificate from the ECA. It is signed using the private key 
+--        generated by the EE and the corresponding public key is placed in 
+--        verificationKey for use by the ECA to generate the enrollment
+--        certificate. All the fields of ToBeSignedCertificate are filled by
+--        the EE/DCM, but the ECA may override them.
+-- @class EeEcaCertRequest
+-- @param version     contains the current version of the data type. The 
+--                    version specified in this document is version 1,
+--                    represented by the integer 1.
+-- @param currentTime contains the time of creation of EeEcaCertRequest.
+-- @param tbsData     contains the ToBeSignedCertificate data used by the ECA 
+--                    to generate the EE’s enrollment certificate. The 
+--                    ToBeSignedCertificate is specified in Section 6.4.8 of
+--                    IEEE 1609.2-2016.
+-- @see Uint8, Time32, ToBeSignedCertificate
+EeEcaCertRequest ::= SEQUENCE {
     version             Uint8(1),
     currentTime         Time32,
-    requestedStartTime  Time32, -- certificate start time
-    tbsData             ToBeSignedEnrollmentCertificate,
-    verifyKey           PublicVerificationKey,
+    tbsData             ToBeSignedCertificate (WITH COMPONENTS { ...,
+      id(WITH COMPONENTS { ...,
+        linkageData ABSENT }),
+      region PRESENT,
+      appPermissions ABSENT,
+      certIssuePermissions ABSENT,
+      certRequestPermissions PRESENT,
+      encryptionKey ABSENT,
+      verifyKeyIndicator (WITH COMPONENTS {
+        verificationKey }) }),
     ...
 }
 
-
---------------------------------
--- CommonEnrollmentCertificateResponse
--- 
--- Response sent from ECA to an EE to fulfill a certificate request.  The same
--- structure is used for both RSE and OBE enrollment certs.
---
--- version         version of this response structure
--- requestHash     hash of the original certificate request sent to the ECA
--- ecaCert         copy of the ECA certificate
--- raCert          RA certificate used to validate the RA identity
--- raHostname      hostname of the RA that the EE must use 
--- enrollmentCert  signed implicit enrollment certificate
--- privKeyReconstructionS reconstruction value needed for implicit certs
---------------------------------
-CommonEnrollmentCertificateResponse ::= SEQUENCE {
+---
+-- @brief This data type is used by the ECA to respond to an EE’s enrollment 
+--        certificate request. Additional bootstrapping information including 
+--        the RA's certificate are provided by the DCM in a zipped file.
+-- @class EcaEeCertResponse
+-- @param version               contains the current version of the data type. 
+--                              The version specified in this document is 
+--                              version 1, represented by the integer 1.
+-- @param requestHash           contains the hash of the original
+--                              EeEcaCertRequest message.
+-- @param ecaCert               contains the Enrollment Certificate Authority
+--                              certificate.
+-- @param enrollmentCert        contains the Implicit Certificate structure of 
+--                              the enrollment certificate, as specified in
+--                              Section 6.4.5 of IEEE 1609.2-2016.
+-- @param privKeyReconstruction contains the private key reconstruction value 
+--                              required by the EE to transform its private
+--                              key into an operational private key.
+-- @see Uint8, HashedId8, Certificate, ImplicitCertificate,
+--      EccP256PrivateKeyReconstruction
+EcaEeCertResponse ::= SEQUENCE {
 	version         Uint8(1),
-    requestHash     HashedId8,  -- hash of the original request
+    requestHash     			HashedId8,
     ecaCert         Certificate,
-    raCert          Certificate,
-    raHostname      Hostname,
-    enrollmentCert  Certificate (WITH COMPONENTS { ...,
-        type(implicit),
-        issuer(WITH COMPONENTS {sha256AndDigest})
-    }),
-    privKeyReconstructionS EccP256PrivateKeyReconstruction,
+    enrollmentCert  			ImplicitCertificate,
+    privKeyReconstruction 		EccP256PrivateKeyReconstruction,
     ...
 }
-
-
---------------------------------
--- ToBeSignedEnrollmentCertificate
--- 
--- This structure populated by an EE when requesting an enrollment certificate. 
---
--- validityPeriod     requested validity period
--- region             list of valid operating regions for the certificate
--- assuranceLevel     octet string that encodes component security properties
--- certRequestPermissions list of PSID/SSP pairs requested for the cert
--- canRequestRollover flag, indicates that certificate can rollover when true
--- encryptionKey      encryption key for use by EE that is requesting the cert
---------------------------------
-ToBeSignedEnrollmentCertificate ::= SEQUENCE  {
-    id                     CertificateId (
-        WITH COMPONENTS {..., name PRESENT } |
-        WITH COMPONENTS {..., binaryId PRESENT } |
-        WITH COMPONENTS {..., none PRESENT }
-    ),
-    validityPeriod         ValidityPeriod,
-    region                 GeographicRegion OPTIONAL,
-    assuranceLevel         SubjectAssurance OPTIONAL,
-    certRequestPermissions SequenceOfPsidGroupPermissions OPTIONAL,
-    canRequestRollover     NULL OPTIONAL,
-    encryptionKey          PublicEncryptionKey OPTIONAL,
-    ...
-}
-
-
---------------------------------
--- EccP256PrivateKeyReconstruction
---
--- Reconstruction value needed for implicit certificates
---------------------------------
-EccP256PrivateKeyReconstruction ::= OCTET STRING(SIZE(32))
 
 END

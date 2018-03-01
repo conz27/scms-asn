@@ -1,3 +1,19 @@
+-- 
+--  Copyright 2017, 2018 Crash Avoidance Metrics Partner, VSC5 Consortium
+-- 
+--  Licensed under the Apache License, Version 2.0 (the "License");
+--  you may not use this file except in compliance with the License.
+--  You may obtain a copy of the License at
+-- 
+--     http://www.apache.org/licenses/LICENSE-2.0
+-- 
+--  Unless required by applicable law or agreed to in writing, software
+--  distributed under the License is distributed on an "AS IS" BASIS,
+--  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+--  See the License for the specific language governing permissions and
+--  limitations under the License.
+-- 
+
 -------------------------------------------------------------------------------
 -- MA-PCA-ERRORS
 --
@@ -8,43 +24,43 @@
 -- It depends on the IEEE 1609.2 protocol specification
 -------------------------------------------------------------------------------
 
+-- @namespace Ieee1609Dot2MaPcaError
 Ieee1609Dot2MaPcaError
 {iso(1) identified-organization(3) ieee(111) 
 standards-association-numbered-series-standards(2) wave-stds(1609)  
-dot2(2) scms(2) errors(2) ma-pca (13)}
+dot2(2) scms(4) errors(2) ma-pca (13) major-version-2(2)}
 
 DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 
 EXPORTS ALL;
 
-
---------------------------------
--- LaMaError
---
--- Generic structure containing the possible errors returned by the PCA.
---------------------------------
+---
+-- @brief Generic structure containing the possible errors returned by the PCA.
+-- @class MaPcaError 
+-- @param
+-- @see 
 MaPcaError ::= CHOICE {
 	ma-pca	MaPcaErrorCode,
   ...
 }
 
+---
+-- @brief 
+-- @class MaPcaErrorCode 
+-- @param
+-- @see 
 MaPcaErrorCode ::= ENUMERATED {
-    pcaInternalTimeout,                  -- internal timeout at the PCA
-    maRequestTimeout,                    -- request timeout by the MA
-    pcaNoMaAuthorizationSignature,       -- the MA is not authorized to acces the
-                                         -- requested information
-    pcaInvalidMaAuthorizationSignature,  -- the signature in the request from the
-                                         -- MA is invalid
-    numberofRequestsExceeded,            -- not used yet
-    pcaNumberOfLinkageValuesExceeded,    -- the number of linkage values 
-                                         -- requested allowed has been exceeded
-    noSecureConnectiontoRequestor,       -- not used yet
-    tooManyUsers,                        -- not used yet
-    linkageValueUnknown,                 -- not used yet
-    pcaInvalidLinkageValue,              -- the linkage value sent in the 
-                                         -- request is invalid
-    pcaInvalidInputValueFormat,          -- generic invalid format in the 
-                                         -- request
+    pcaInternalTimeout,
+    maRequestTimeout,
+    pcaNoMaAuthorizationSignature,
+    pcaInvalidMaAuthorizationSignature,
+    numberofRequestsExceeded, -- not used yet
+    pcaNumberOfLinkageValuesExceeded,
+    noSecureConnectiontoRequestor, -- not used yet
+    tooManyUsers, -- not used yet
+    linkageValueUnknown, -- not used yet
+    pcaInvalidLinkageValue,
+    pcaInvalidInputValueFormat,
   ...
 }
 

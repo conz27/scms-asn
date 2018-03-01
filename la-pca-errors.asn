@@ -1,3 +1,18 @@
+-- 
+--  Copyright 2017, 2018 Crash Avoidance Metrics Partner, VSC5 Consortium
+-- 
+--  Licensed under the Apache License, Version 2.0 (the "License");
+--  you may not use this file except in compliance with the License.
+--  You may obtain a copy of the License at
+-- 
+--     http://www.apache.org/licenses/LICENSE-2.0
+-- 
+--  Unless required by applicable law or agreed to in writing, software
+--  distributed under the License is distributed on an "AS IS" BASIS,
+--  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+--  See the License for the specific language governing permissions and
+--  limitations under the License.
+-- 
 -------------------------------------------------------------------------------
 -- LA-PCA-ERRORS
 --
@@ -8,27 +23,43 @@
 -- It depends on the IEEE 1609.2 protocol specification
 -------------------------------------------------------------------------------
 
+-- @namespace Ieee1609Dot2LaPcaError
 Ieee1609Dot2LaPcaError
 {iso(1) identified-organization(3) ieee(111) 
 standards-association-numbered-series-standards(2) wave-stds(1609)  
-dot2(2) scms(2) errors(2) la-pca(10)}
+dot2(2) scms(4) errors(2) la-pca(10) major-version-2(2)}
 
 DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 
 EXPORTS ALL;
 
+---
+-- @brief 
+-- @class LaPcaError 
+-- @param
+-- @see 
 LaPcaError ::= CHOICE {
 	la-pca	LaPcaErrorCode,
   ...
 }
 
+---
+-- @brief 
+-- @class LaPcaErrorCode 
+-- @param invalidSignature     the signature in the request is invalid
+-- @param invalidCertificate   the PCA certificate is invalid
+-- @param invalidStartTime     the start time for the session key is invalid
+-- @param invalidEndTime       the end time for the session key is invalid
+-- @param invalidAlgorithm     the algorithm specified is invalid
+-- @param invalidMacValue      the MAC verification failed
+-- @see 
 LaPcaErrorCode ::= ENUMERATED {
-  invalidSignature,         -- the signature in the request is invalid
-  invalidCertificate,       -- the PCA certificate is invalid
-  invalidStartTime,         -- the start time for the session key is invalid
-  invalidEndTime,           -- the end time for the session key is invalid
-  invalidAlgorithm,         -- the algorithm specified is invalid
-  invalidMacValue,          -- the MAC verification failed
+  invalidSignature,
+  invalidCertificate,
+  invalidStartTime,
+  invalidEndTime,
+  invalidAlgorithm,
+  invalidMacValue,
   ...
 }
 

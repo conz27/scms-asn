@@ -1,3 +1,19 @@
+-- 
+--  Copyright 2017, 2018 Crash Avoidance Metrics Partner, VSC5 Consortium
+-- 
+--  Licensed under the Apache License, Version 2.0 (the "License");
+--  you may not use this file except in compliance with the License.
+--  You may obtain a copy of the License at
+-- 
+--     http://www.apache.org/licenses/LICENSE-2.0
+-- 
+--  Unless required by applicable law or agreed to in writing, software
+--  distributed under the License is distributed on an "AS IS" BASIS,
+--  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+--  See the License for the specific language governing permissions and
+--  limitations under the License.
+-- 
+
 -------------------------------------------------------------------------------
 -- CERT-PROFILE
 --
@@ -7,83 +23,130 @@
 -- It depends on the IEEE 1609.2 protocol specification
 -------------------------------------------------------------------------------
 
-IEEE1609dot2-profiles {iso(1) identified-organization(3) ieee(111)
-standards-association-numbered-series-standards(2) wave-stds(1609)
-dot2(2) base (1) profiles (3)}
+-- @namespace IEEE1609dot2-profiles
+IEEE1609dot2-profiles {iso(1) identified-organization(3) ieee(111) 
+standards-association-numbered-series-standards(2) wave-stds(1609)  
+dot2(2) base(1) profiles(3) major-version-2(2)}
 
 DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 
 EXPORTS ALL;
 
-IMPORTS
+IMPORTS 
   Certificate,
   Countersignature,
-  ExplicitCertificate,
+  ExplicitCertificate, 
   ImplicitCertificate,
   PsidGroupPermissions,
   PsidSsp,
   SequenceOfPsidGroupPermissions,
   SequenceOfPsidSsp,
   SequenceOfPsidSspRange
-FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111)
-    standards-association-numbered-series-standards(2) wave-stds(1609)
-    dot2(2) base(1) schema(1)}
+FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111) 
+    standards-association-numbered-series-standards(2) wave-stds(1609)  
+    dot2(2) base(1) schema(1) major-version-2(2)}
 
   CrlSeries,
   IdentifiedRegion,
   Psid,
   PsidSspRange,
   SequenceOfIdentifiedRegion
-FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111)
-standards-association-numbered-series-standards(2) wave-stds(1609)
-dot2(2) base(1) base-types(2)}
+FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111) 
+standards-association-numbered-series-standards(2) wave-stds(1609)  
+dot2(2) base(1) base-types(2) major-version-2(2)}
 
-  CrlPsid
-FROM IEEE1609dot2Crl {iso(1) identified-organization(3) ieee(111)
-  standards-association-numbered-series-standards(2) wave-stds(1609)
-  dot2(2) crl(3) protocol(2)}
+  CrlPsid -- PSID = 0x100
+FROM IEEE1609dot2Crl {iso(1) identified-organization(3) ieee(111) 
+  standards-association-numbered-series-standards(2) wave-stds(1609)  
+  dot2(2) crl(3) protocol(1) major-version-2(2)}
 
   CrlSsp,
   PermissibleCrls
-FROM IEEE1609dot2CrlSsp {iso(1) identified-organization(3) ieee(111)
-    standards-association-numbered-series-standards(2) wave-stds(1609)
-    dot2(2) crl(3) service-specific-permissions (3)}
+FROM IEEE1609dot2CrlSsp {iso(1) identified-organization(3) ieee(111) 
+    standards-association-numbered-series-standards(2) wave-stds(1609)  
+    dot2(2) crl(3) service-specific-permissions(3) major-version-2(2)}
 
   Canada,
   Mexico,
   USA,
 
   CrlgCertExpiration,
-  DcmCertExpiration,
-  EcaCertExpirationCvp,
+  DcmCertExpirationPoc,
+  DcmCertExpirationCvpQa,
+  DcmCertExpirationCvpPrd1,
+  DcmCertExpirationCvpPrd2,
+  DcmCertExpirationCvpPrd3,
   EcaCertExpirationPoc,
-  ElectorCertExpiration,
-  IcaCertExpirationCvp,
+  EcaCertExpirationCvpQa,
+  EcaCertExpirationCvpPrd1,
+  EcaCertExpirationCvpPrd2,
+  ElectorCertExpirationPoc,
+  ElectorCertExpirationCvp,
   IcaCertExpirationPoc,
-  LaCertExpiration,
-  MaCertExpiration,
-  ObeEnrollmentCertExpirationCvp,
+  IcaCertExpirationCvpQa,
+  IcaCertExpirationCvpPrd,
+  LaCertExpirationPoc,
+  LaCertExpirationCvpQa,
+  LaCertExpirationCvpPrd1,
+  LaCertExpirationCvpPrd2,
+  LaCertExpirationCvpPrd3,
+  MaCertExpirationPoc,
+  MaCertExpirationCvpQa,
   ObeEnrollmentCertExpirationPoc,
+  ObeEnrollmentCertExpirationCvpQa,
+  ObeEnrollmentCertExpirationCvpPrd,
   ObeIdentificationCertExpiration,
   ObePseudonymCertExpiration,
-  PcaCertExpiration,
-  PgCertExpiration,
-  RaCertExpiration,
-  RootCaCertExpiration,
+  PcaCertExpirationPoc,
+  PcaCertExpirationCvpQa,
+  PcaCertExpirationCvpPrd1,
+  PcaCertExpirationCvpPrd2,
+  PcaCertExpirationCvpPrd3,
+  PcaCertExpirationCvpPrd4,
+  PcaCertExpirationCvpPrd5,
+  PcaCertExpirationCvpPrd6,
+  PgCertExpirationPoc,
+  PgCertExpirationCvpQa,
+  RaCertExpirationPoc,
+  RaCertExpirationCvpQa,
+  RaCertExpirationCvpPrd1,
+  RaCertExpirationCvpPrd2,
+  RaCertExpirationCvpPrd3,
+  RootCaCertExpirationPoc,
+  RootCaCertExpirationCvpQa,
+  RootCaCertExpirationCvpPrd,
   RseApplicationCertExpiration,
-  RseEnrollmentCertExpirationCvp,
   RseEnrollmentCertExpirationPoc,
+  RseEnrollmentCertExpirationCvpQa,
+  RseEnrollmentCertExpirationCvpPrd,
   
   BsmPsid, --PSID = 0x20
   SecurityMgmtPsid,  -- PSID = 0x23
   MisbehaviorReportingPsid,  -- PSID = 0x26
+  VulnerableRoadUsersSafetyPsid, -- PSID = 0x27
   DifferentialGpsCorrectionsUncompressedPsid, -- PSID = 0x80
   DifferentialGpsCorrectionsCompressedPsid, -- PSID = 0x81
   IntersectionSafetyAndAwarenessPsid, -- PSID = 0x82
   TravellerInformationAndRoadsideSignagePsid, -- PSID = 0x83
   WaveServiceAdvertisementPsid, -- PSID = 0x87
-  PeerToPeerCertDistributionPsid, -- PSID = 0x88
-  
+  VehicleInitiatedDistressNotificationPsid, -- PSID = 0x4082
+  TranscoreSoftwareUpdatePsid, -- PSID = 0x204083
+  CVPApplication1Psid, -- PSID = 0x204088
+  CVPApplication2Psid, -- PSID = 0x204089
+  CVPApplication3Psid, -- PSID = 0x20408A
+  CVPApplication4Psid, -- PSID = 0x20408B
+  CVPApplication5Psid, -- PSID = 0x20408C
+  CVPApplication6Psid, -- PSID = 0x20408D
+  CVPApplication7Psid, -- PSID = 0x20408E
+  CVPApplication8Psid, -- PSID = 0x20408F
+  CVPApplication9Psid, -- PSID = 0x204090
+  CVPApplication10Psid, -- PSID = 0x204091
+  CVPApplication11Psid, -- PSID = 0x204092
+  CVPApplication12Psid, -- PSID = 0x204093
+  CVPApplication13Psid, -- PSID = 0x204094
+  CVPApplication14Psid, -- PSID = 0x204095
+  CVPApplication15Psid, -- PSID = 0x204096
+  CVPApplication16Psid, -- PSID = 0x204097
   
   EeEnrollmentCrlSeries,
   EeNonPseudonymCrlSeries,
@@ -92,24 +155,21 @@ FROM IEEE1609dot2CrlSsp {iso(1) identified-organization(3) ieee(111)
   ScmsSpclComponentCrlSeries
 FROM Ieee1609dot2ScmsBaseTypes {iso(1) identified-organization(3) ieee(111)
 standards-association-numbered-series-standards(2) wave-stds(1609)  dot2(2)
-scms (2) interfaces(1) base-types (2)}
+scms(4) interfaces(1) base-types(2) major-version-2(2)}
 ;
 
 
---------------------------------
--- CRL Generator
---
--- Compiles and signs the CRL which contains linkage information that all
--- receiving devices can use to identify the non-trustworthy devices.
---
--- CRL generator certificates are issued by the Root CA and can be used only
--- to sign CRLs, and nothing else. As revocation of CRL generator certificates
--- is difficult (i.e., can be done by either root CA or ICA), validity period
--- of CRL generator certificates is kept as low as possible. For a given CRACA
--- and CRL series, there is only one valid CRL generator certificate at any
--- time, except for a short overlap
---------------------------------
-
+---
+-- @brief This data type defines the CRL generator's certificate structure and 
+--        its contents generated by the Root CA. The CRL generator does not
+--        provide a public key (encryptionKey) for encryption of data sent by
+--        other components in the SCMS ecosystem.
+-- @class CrlgCertificate
+-- @param issuer     contains the hash of the certificate contents generated by
+--                   the Root CA.
+-- @param toBeSigned contains certificate content that is signed by the CRL
+--                   generator.
+-- @see IssuerIdentifier
 CrlgCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
   issuer (WITH COMPONENTS {sha256AndDigest}),
   toBeSigned (WITH COMPONENTS { ...,
@@ -119,15 +179,9 @@ CrlgCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     cracaId, --set to HashedId3 of the Root CA cert
     crlSeries(ScmsSpclComponentCrlSeries),
     validityPeriod (WITH COMPONENTS { ...,
-      duration (CrlgCertExpiration)
+      duration (CrlgCertExpirationPoc | CrlgCertExpirationCvp)
     }),
-    region (WITH COMPONENTS {
-      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Canada) }),
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Mexico) }),
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(USA) })
-      }))
-    }),
+    region ABSENT,
     assuranceLevel ABSENT,
     appPermissions (SequenceOfPsidSsp (SIZE(2)) (CONSTRAINED BY {
       PsidSsp (WITH COMPONENTS {
@@ -161,16 +215,16 @@ CrlgCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
   })
 })
 
-
---------------------------------
--- Device Configuation Manager
---
--- The DCM is responsible for giving devices access to new information. Use
--- cases include the moving of an authority to a new address, updating the
--- certificates of one or more authorities, and relaying policy decision or
--- technical guidelines issued by the SCMS Manager to the device.
---------------------------------
-
+---
+-- @brief This data type defines the Device Configuration Manager's (DCM)
+--        certificate structure and its contents is generated by the ICA. 
+--        DCM provides a public key (encryptionKey) so that other SCMS 
+--        components can send data securely to the DCM.
+-- @class DcmCertificate
+-- @param issuer     contains the hash of the certificate contents generated by
+--                   the ICA.
+-- @param toBeSigned contains certificate content that is signed by the ICA.
+-- @see IssuerIdentifier
 DcmCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
   issuer (WITH COMPONENTS{sha256AndDigest}),
   toBeSigned (WITH COMPONENTS { ...,
@@ -180,12 +234,10 @@ DcmCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     cracaId, --set to HashedId3 of the Root CA cert
     crlSeries(ScmsComponentCrlSeries),
     validityPeriod (WITH COMPONENTS { ...,
-      duration (DcmCertExpiration)
+      duration (DcmCertExpirationPoc | DcmCertExpirationCvpQa | DcmCertExpirationCvpPrd1 | DcmCertExpirationCvpPrd2 | DcmCertExpirationCvpPrd3)
     }),
     region (WITH COMPONENTS {
-      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Canada) }),
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Mexico) }),
+      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(1)) (CONSTRAINED BY {
         IdentifiedRegion ( WITH COMPONENTS { countryOnly(USA) })
       }))
     }),
@@ -213,7 +265,7 @@ DcmCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
 		    })
           }))
         }),
-        minChainDepth(0), chainDepthRange(0),
+        minChainLength(0), chainLengthRange(0),
         eeType({enrol})
       })
     })),
@@ -230,31 +282,30 @@ DcmCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
 })
 
 
---------------------------------
--- Elector
---
--- Elector certificates are not part of the PKI hierarchy of the SCMS, i.e.,
--- verifying a certificate chain in the system does not involve verifying
--- elector certificates. They are used primarily for root CA certificate
--- management, including adding and removing a Root CA. The signature on the
--- elector certificate does not have any cryptographic value, is there only
--- for namesake, as the signature is by the elector itself, and therefore the
--- trust in an elector certificate is established through out-of-band means.
--- Elector certificate does not have an encryption key, as the electors are
--- mostly offline and do not accept any incoming messages, whether encrypted
--- or not.
---------------------------------
-
+---
+-- @brief This data type defines an Elector's certificate structure and its 
+--        contents generated by the SCMS Manager. An Elector does not provide 
+--        a public key (encryptionKey). 
+--        Elector certificates are not part of the PKI hierarchy of the SCMS, meaning
+--        they do not sign certificates. They are used primarily for root CA certificate
+--        management, including adding and removing a Root CA, by signing management
+--        messages. Elector certificates are self signed.
+-- @class ElectorCertificate
+-- @param issuer     contains the hash of the certificate contents generated by
+--                   the SCMS Manager.
+-- @param toBeSigned contains certificate content that is signed by the CRL
+--                   generator.
+-- @see IssuerIdentifier
 ElectorCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
   issuer (WITH COMPONENTS {self}),
   toBeSigned (WITH COMPONENTS { ...,
     id (WITH COMPONENTS {
-      name ("") -- !!TBD!!
+      binaryId (SIZE(1)) -- !!TBD!!
     }),
     cracaId('000000'H),
-    crlSeries(0),
+    crlSeries(0),                          
     validityPeriod (WITH COMPONENTS { ...,
-      duration (ElectorCertExpiration)
+      duration (ElectorCertExpirationPoc | ElectorCertExpirationCvp)
     }),
     region ABSENT,
     assuranceLevel ABSENT,
@@ -278,84 +329,31 @@ ElectorCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
   })
 })
 
-
-----------------------------------------------
--- Enrollment Certificate Authority
---
--- ECA certificates are only used to issue certificates to end-entities
--- including OBEs and RSEs. These certificates do not have encryption keys.
--- To receive encrypted messages, the owner of these certificates can include
--- an ephemeral response encryption key in the request messages.	
-----------------------------------------------
---      POC ECA 
-----------------------------------------------
-
-PocEcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
+---
+-- @brief This data type defines an Enrollment Certificate Authority's (ECA) 
+--        certificate structure and its contents generated by the Intermediate 
+--        Certificate Authority (ICA). The ECA provides a public key (
+--        encryptionKey) so that other SCMS components can send data securely
+--        to this ECA.
+--        ECA certificates are only used to issue enrollment certificates.
+-- @class EcaCertificate
+-- @param issuer     contains the hash of the certificate contents generated by
+--                   the ICA.
+-- @param toBeSigned contains certificate content that is signed by the ECA.
+-- @see IssuerIdentifier
+EcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
   issuer (WITH COMPONENTS {sha256AndDigest}),
   toBeSigned (WITH COMPONENTS { ...,
     id (WITH COMPONENTS {
-      name ("eca.v2xscms.com" | "v2v-eca.cvp.v2xscms.com" | "v2i-eca.cvp.v2xscms.com") -- !!TBD!!
+      name ("eca.prod.v2xscms.com" | "eca.qa.v2xscms.com" | "eca.test.v2xscms.com")
     }),
     cracaId, --set to HashedId3 of the Root CA cert
     crlSeries(ScmsComponentCrlSeries),
     validityPeriod (WITH COMPONENTS { ...,
-      duration (EcaCertExpirationPoc | EcaCertExpirationCvp)
+      duration (EcaCertExpirationPoc | EcaCertExpirationCvpQa | EcaCertExpirationCvpPrd1 | EcaCertExpirationCvpPrd2)
     }),
     region (WITH COMPONENTS {
-      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Canada) }), 
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Mexico) }), 
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(USA) })
-      }))
-    }),
-    assuranceLevel ABSENT,
-    appPermissions (SequenceOfPsidSsp (SIZE(1)) (CONSTRAINED BY {
-      PsidSsp (WITH COMPONENTS {
-        psid (SecurityMgmtPsid), -- PSID = 0x23
-        ssp --OER encoding of ScmsSsp indicating Ecassp
-      })
-    })),
-    certIssuePermissions (SequenceOfPsidGroupPermissions (SIZE(1)) (CONSTRAINED BY {
-      PsidGroupPermissions ( WITH COMPONENTS {..., 
-	    subjectPermissions (WITH COMPONENTS { 
-          all
-        }),
-        minChainDepth(1), chainDepthRange(0),
-	    eeType ({enrol})
-      })
-    })),
-    certRequestPermissions ABSENT,
-    canRequestRollover (NULL),
-    encryptionKey PRESENT,
-    verifyKeyIndicator (WITH COMPONENTS {
-      verificationKey (WITH COMPONENTS {
-        ecdsaNistP256 (WITH COMPONENTS {
-          compressed-y-0, compressed-y-1
-        })
-      })
-    })
-  })
-})
-
-----------------------------------------------
---      CVP-V2V ECA 
-----------------------------------------------
-
-CvpV2vEcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
-  issuer (WITH COMPONENTS {sha256AndDigest}),
-  toBeSigned (WITH COMPONENTS { ...,
-    id (WITH COMPONENTS {
-      name ("v2v-eca.cvp.v2xscms.com") -- !!TBD!!
-    }),
-    cracaId, --set to HashedId3 of the Root CA cert
-    crlSeries(ScmsComponentCrlSeries),
-    validityPeriod (WITH COMPONENTS { ...,
-      duration (EcaCertExpirationPoc | EcaCertExpirationCvp)
-    }),
-    region (WITH COMPONENTS {
-      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Canada) }), 
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Mexico) }), 
+      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(1)) (CONSTRAINED BY {
         IdentifiedRegion ( WITH COMPONENTS { countryOnly(USA) })
       }))
     }),
@@ -368,69 +366,19 @@ CvpV2vEcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     })),
     certIssuePermissions (SequenceOfPsidGroupPermissions (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS {..., 
 	  subjectPermissions (WITH COMPONENTS {..., 
-		explicit (SequenceOfPsidSspRange (SIZE (2)) (CONSTRAINED BY{
+		explicit (SequenceOfPsidSspRange (SIZE (26)) (CONSTRAINED BY{
 		  PsidSspRange (WITH COMPONENTS {
 			psid (BsmPsid), --PSID = 0x20
             sspRange(WITH COMPONENTS{ 
               opaque -- single OCTET STRING of length 0  
             }) 
 		  }),
-		  PsidSspRange (WITH COMPONENTS {
+          PsidSspRange (WITH COMPONENTS {
 			psid (MisbehaviorReportingPsid), -- PSID = 0x26
             sspRange ABSENT 
-		  })
-		}))
-	  }),
-	  minChainDepth(1), chainDepthRange(0),
-	  eeType({enrol})
-    }))),
-    certRequestPermissions ABSENT,
-    canRequestRollover (NULL),
-    encryptionKey PRESENT,
-    verifyKeyIndicator (WITH COMPONENTS {
-      verificationKey (WITH COMPONENTS {
-        ecdsaNistP256 (WITH COMPONENTS {
-          compressed-y-0, compressed-y-1
-        })
-      })
-    })
-  })
-})
-
-----------------------------------------------
---      CVP-V2I ECA 
-----------------------------------------------
-
-CvpV2iEcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
-  issuer (WITH COMPONENTS {sha256AndDigest}),
-  toBeSigned (WITH COMPONENTS { ...,
-    id (WITH COMPONENTS {
-      name ("v2i-eca.cvp.v2xscms.com") -- !!TBD!!
-    }),
-    cracaId, --set to HashedId3 of the Root CA cert
-    crlSeries(ScmsComponentCrlSeries),
-    validityPeriod (WITH COMPONENTS { ...,
-      duration (EcaCertExpirationPoc | EcaCertExpirationCvp)
-    }),
-    region (WITH COMPONENTS {
-      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Canada) }), 
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Mexico) }), 
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(USA) })
-      }))
-    }),
-    assuranceLevel ABSENT,
-    appPermissions (SequenceOfPsidSsp (SIZE(1)) (CONSTRAINED BY {
-      PsidSsp (WITH COMPONENTS {
-        psid (SecurityMgmtPsid), -- PSID = 0x23
-        ssp --OER encoding of ScmsSsp indicating Ecassp
-      })
-    })),
-    certIssuePermissions (SequenceOfPsidGroupPermissions (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS {..., 
-	  subjectPermissions (WITH COMPONENTS {..., 
-		explicit (SequenceOfPsidSspRange (SIZE (6)) (CONSTRAINED BY{
-		  PsidSspRange (WITH COMPONENTS {
-			psid (MisbehaviorReportingPsid), -- PSID = 0x26
+		  }),
+          PsidSspRange (WITH COMPONENTS {
+			psid (VulnerableRoadUsersSafetyPsid), -- PSID = 0x27
             sspRange ABSENT 
 		  }),
           PsidSspRange (WITH COMPONENTS {
@@ -456,10 +404,82 @@ CvpV2iEcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
             sspRange(WITH COMPONENTS{
               opaque -- single OCTET STRING of length 0 
             }) 
+		  }),
+          PsidSspRange (WITH COMPONENTS {
+			psid (VehicleInitiatedDistressNotificationPsid), -- PSID = 0x4082
+            sspRange ABSENT 
+		  }),
+          PsidSspRange (WITH COMPONENTS {
+			psid (TranscoreSoftwareUpdatePsid), -- PSID = 0x204083
+            sspRange ABSENT 
+		  }),
+          PsidSspRange (WITH COMPONENTS {
+			psid (CVPApplication1Psid), -- PSID = 0x204088
+            sspRange ABSENT 
+		  }),
+          PsidSspRange (WITH COMPONENTS {
+			psid (CVPApplication2Psid), -- PSID = 0x204089
+            sspRange ABSENT 
+		  }),
+          PsidSspRange (WITH COMPONENTS {
+			psid (CVPApplication3Psid), -- PSID = 0x20408A
+            sspRange ABSENT 
+		  }),
+          PsidSspRange (WITH COMPONENTS {
+			psid (CVPApplication4Psid), -- PSID = 0x20408B
+            sspRange ABSENT 
+		  }),
+          PsidSspRange (WITH COMPONENTS {
+			psid (CVPApplication5Psid), -- PSID = 0x20408C
+            sspRange ABSENT 
+		  }),
+          PsidSspRange (WITH COMPONENTS {
+			psid (CVPApplication6Psid), -- PSID = 0x20408D
+            sspRange ABSENT 
+		  }),
+          PsidSspRange (WITH COMPONENTS {
+			psid (CVPApplication7Psid), -- PSID = 0x20408E
+            sspRange ABSENT 
+		  }),
+          PsidSspRange (WITH COMPONENTS {
+			psid (CVPApplication8Psid), -- PSID = 0x20408F
+            sspRange ABSENT 
+		  }),
+          PsidSspRange (WITH COMPONENTS {
+			psid (CVPApplication9Psid), -- PSID = 0x204090
+            sspRange ABSENT 
+		  }),
+          PsidSspRange (WITH COMPONENTS {
+			psid (CVPApplication10Psid), -- PSID = 0x204091
+            sspRange ABSENT 
+		  }),
+          PsidSspRange (WITH COMPONENTS {
+			psid (CVPApplication11Psid), -- PSID = 0x204092
+            sspRange ABSENT 
+		  }),
+          PsidSspRange (WITH COMPONENTS {
+			psid (CVPApplication12Psid), -- PSID = 0x204093
+            sspRange ABSENT 
+		  }),
+          PsidSspRange (WITH COMPONENTS {
+			psid (CVPApplication13Psid), -- PSID = 0x204094
+            sspRange ABSENT 
+		  }),
+          PsidSspRange (WITH COMPONENTS {
+			psid (CVPApplication14Psid), -- PSID = 0x204095
+            sspRange ABSENT 
+		  }),
+          PsidSspRange (WITH COMPONENTS {
+			psid (CVPApplication15Psid), -- PSID = 0x204096
+            sspRange ABSENT 
+		  }),
+          PsidSspRange (WITH COMPONENTS {
+			psid (CVPApplication16Psid), -- PSID = 0x204097
+            sspRange ABSENT 
 		  })
 		}))
 	  }),
-	  minChainDepth(1), chainDepthRange(0),
+	  minChainLength(1), chainLengthRange(0),
       eeType({enrol})
     }))),
     certRequestPermissions ABSENT,
@@ -475,36 +495,35 @@ CvpV2iEcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
   })
 })
 
---------------------------------
--- Intermediate Certificate Authority
---
--- This entity is a CA, the certificate of which was issued by a different
--- Root CA or ICA. Its value is that it shields the Root CA from traffic and
--- attacks. It may also allow for greater granularity in permission granting:
--- for example, ICAs (and the CAs below them) may be limited to a particular
--- geographic region or to a particular manufacturer or type of device, to
--- make auditing simpler.
---
--- ICA certificates can be used to only issue certificates to other SCMS
--- components and nothing else. Only the root CA or the ICA can issue (or,
--- authorize someone to issue) a CRL to revoke ICA certificate.
---------------------------------
-
+---
+-- @brief This data type defines an Intermediate Certificate Authority's (ICA) 
+--        certificate structure and its contents. An ICA certificate is
+--        generated by the Root CA. The ICA does not provide a public key
+--        (encryptionKey).
+--        ICA certificates can be used only to issue certificates to other SCMS
+--        components and nothing else. Only the Root CA can issue (or,
+--        authorize someone to issue) a CRL to revoke an ICA certificate. An ICA
+--        protects the Root CA from traffic. It may also allow for greater granularity
+--        in permission granting, e.g., by being limited to a particular geographic region,
+--        a particular manufacturer, or type of device.
+-- @class IcaCertificate
+-- @param issuer     contains the hash of the certificate contents generated by
+--                   the ICA.
+-- @param toBeSigned contains certificate content that is signed by the ICA.
+-- @see IssuerIdentifier
 IcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
   issuer (WITH COMPONENTS {sha256AndDigest}),
   toBeSigned (WITH COMPONENTS { ...,
     id (WITH COMPONENTS {
-      name ("ica.v2xscms.com" | "v2v-ica.cvp.v2xscms.com" | "v2i-ica.cvp.v2xscms.com") -- !!TBD!!
+      name ("ica.prod.v2xscms.com" | "ica.qa.v2xscms.com" | "ica.test.v2xscms.com")
     }),
     cracaId, --set to HashedId3 of the Root CA cert
     crlSeries(ScmsComponentCrlSeries),
     validityPeriod (WITH COMPONENTS { ...,
-      duration (IcaCertExpirationPoc | IcaCertExpirationCvp)
+      duration (IcaCertExpirationPoc | IcaCertExpirationCvpQa | IcaCertExpirationCvpPrd)
     }),
     region (WITH COMPONENTS {
-      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Canada) }), 
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Mexico) }), 
+      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(1)) (CONSTRAINED BY {
         IdentifiedRegion ( WITH COMPONENTS { countryOnly(USA) })
       }))
     }),
@@ -520,23 +539,125 @@ IcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
 	    subjectPermissions (WITH COMPONENTS { 
           all
         }),
-        minChainDepth(2), chainDepthRange(0),
+        minChainLength(2), chainLengthRange(0),
 	    eeType ({app, enrol})
       }),
       PsidGroupPermissions ( WITH COMPONENTS {..., 
         subjectPermissions (WITH COMPONENTS { 
-          explicit (SequenceOfPsidSspRange (SIZE (2)) (CONSTRAINED BY { 
-            PsidSspRange( WITH COMPONENTS {
-              psid (SecurityMgmtPsid), -- PSID = 0x23
-              sspRange (WITH COMPONENTS {all}) 
-            }),
-            PsidSspRange( WITH COMPONENTS {
-              psid (CrlPsid), -- PSID = 0x100
-              sspRange (WITH COMPONENTS {all}) 
-            })
-          }))
+          explicit (SequenceOfPsidSspRange (SIZE (26)) (CONSTRAINED BY{
+          PsidSspRange (WITH COMPONENTS {
+            psid (BsmPsid), --PSID = 0x20
+            sspRange(WITH COMPONENTS{ 
+              opaque -- single OCTET STRING of length 0  
+            }) 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (MisbehaviorReportingPsid), -- PSID = 0x26
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (VulnerableRoadUsersSafetyPsid), -- PSID = 0x27
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (DifferentialGpsCorrectionsUncompressedPsid), -- PSID = 0x80 
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (DifferentialGpsCorrectionsCompressedPsid), -- PSID = 0x81 
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (IntersectionSafetyAndAwarenessPsid), -- PSID = 0x82 
+            sspRange(WITH COMPONENTS{
+              opaque --SSP: 90-01, 90-FF-FF-01, 90-FF-FF-02, 90-FF-FF-03, 90-FF-FF-04  
+            }) 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (TravellerInformationAndRoadsideSignagePsid), -- PSID = 0x83 
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (WaveServiceAdvertisementPsid), -- PSID = 0x87 
+            sspRange(WITH COMPONENTS{
+              opaque -- single OCTET STRING of length 0 
+            }) 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (VehicleInitiatedDistressNotificationPsid), -- PSID = 0x4082
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (TranscoreSoftwareUpdatePsid), -- PSID = 0x204083
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication1Psid), -- PSID = 0x204088
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication2Psid), -- PSID = 0x204089
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication3Psid), -- PSID = 0x20408A
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication4Psid), -- PSID = 0x20408B
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication5Psid), -- PSID = 0x20408C
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication6Psid), -- PSID = 0x20408D
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication7Psid), -- PSID = 0x20408E
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication8Psid), -- PSID = 0x20408F
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication9Psid), -- PSID = 0x204090
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication10Psid), -- PSID = 0x204091
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication11Psid), -- PSID = 0x204092
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication12Psid), -- PSID = 0x204093
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication13Psid), -- PSID = 0x204094
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication14Psid), -- PSID = 0x204095
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication15Psid), -- PSID = 0x204096
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication16Psid), -- PSID = 0x204097
+            sspRange ABSENT 
+          })
+        }))
         }),
-        minChainDepth(1), chainDepthRange(-1),
+        minChainLength(1), chainLengthRange(-1),
         eeType ({app, enrol})
       })
     })),
@@ -553,30 +674,30 @@ IcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
   })
 })
 
-
---------------------------------
--- Linkage Authority
---
--- The linkage authority generates linkage values. The certificates for a
--- given device make use of linkage values from two LAs in order to make
--- tracking more difficult.
---------------------------------
-
+---
+-- @brief This data type defines a Linkage Authority's (LA) certificate 
+--        structure and its contents is generated by the Intermediate Certificate 
+--        Authority (ICA). The LA does not provide a public key (encryptionKey)
+--        for secure communication. Instead it uses shared symmetric key
+--        encryption for secure communication with the PCA.
+-- @class LaCertificate
+-- @param issuer     contains the hash of the certificate contents generated by
+--                   the ICA.
+-- @param toBeSigned contains certificate content that is signed by the LA.
+-- @see IssuerIdentifier
 LaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
   issuer (WITH COMPONENTS{sha256AndDigest}),
   toBeSigned (WITH COMPONENTS { ...,
     id (WITH COMPONENTS {
-      name ("la1.v2xscms.com" | "la2.v2xscms.com" | "v2v-la1.cvp.v2xscms.com" | "v2v-la2.cvp.v2xscms.com" | "v2i-la1.cvp.v2xscms.com" | "v2i-la2.cvp.v2xscms.com") -- !!TBD!!
+      name ("la1.prod.v2xscms.com" | "la2.prod.v2xscms.com" | "la1.qa.v2xscms.com" | "la2.qa.v2xscms.com" | "la1.test.v2xscms.com" | "la2.test.v2xscms.com")
     }),
     cracaId, --set to HashedId3 of the Root CA cert
     crlSeries(ScmsComponentCrlSeries),
     validityPeriod (WITH COMPONENTS { ...,
-      duration (LaCertExpiration)
+      duration (LaCertExpirationPoc | LaCertExpirationCvpQa | LaCertExpirationCvpPrd1 | LaCertExpirationCvpPrd2 | LaCertExpirationCvpPrd3)
     }),
     region (WITH COMPONENTS {
-      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Canada) }), 
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Mexico) }), 
+      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(1)) (CONSTRAINED BY {
         IdentifiedRegion ( WITH COMPONENTS { countryOnly(USA) })
       }))
     }),
@@ -601,36 +722,32 @@ LaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
   })
 })
 
-
---------------------------------
--- Misbehavior Authority
---
--- Responsible for processing misbehavior reports to identify potential
--- misbehavior by end-entity devices. If necessary, it initiates the
--- process to link a certificate identifier to the corresponding enrollment
--- certificates. Further, it possibly revokes the enrollment certificate
--- by adding the enrollment certificate to an internal blacklist and
--- sending out an updated CRL to the devices in the field.
---------------------------------
-
+---
+-- @brief This data type defines a Misbehavior Authority's (MA) certificate 
+--        structure and its contents. The MA provides a public key
+--        (encryptionKey) so that other SCMS components can send data securely 
+--        to this MA.
+--        The MA is responsible for processing misbehavior reports to identify
+--        misbehavior by end-entity devices. If necessary, it initiates the
+--        process to link a certificate identifier to the corresponding enrollment
+--        certificates, revokes the enrollment certificate by adding it to a blacklist and
+--        the misbehaving device's pseudonym certificates by providing an updated CRL.
+-- @class MaCertificate
+-- @param issuer     contains the hash of the certificate contents.
+-- @param toBeSigned contains certificate content that is signed by the MA.
+-- @see IssuerIdentifier
 MaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
   issuer (WITH COMPONENTS {sha256AndDigest}),
   toBeSigned (WITH COMPONENTS { ...,
     id (WITH COMPONENTS {
-      name ("ma.v2xscms.com" | "ma.cvp.v2xscms.com") -- !!TBD!!
+      name ("ma.prod.v2xscms.com" | "ma.qa.v2xscms.com" | "ma.test.v2xscms.com")
     }),
     cracaId, --set to HashedId3 of the Root CA cert
     crlSeries(ScmsSpclComponentCrlSeries),
     validityPeriod (WITH COMPONENTS { ...,
-      duration (MaCertExpiration)
+      duration (MaCertExpirationPoc | MaCertExpirationCvpQa)
     }),
-    region (WITH COMPONENTS {
-      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Canada) }), 
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Mexico) }), 
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(USA) })
-      }))
-    }),
+    region ABSENT,
     assuranceLevel ABSENT,
     appPermissions (SequenceOfPsidSsp (SIZE(1)) (CONSTRAINED BY {
       PsidSsp (WITH COMPONENTS {
@@ -652,36 +769,34 @@ MaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
   })
 })
 
-
---------------------------------
--- OBE Enrollment
---
--- The enrollment certificate is like a passport for the OBE that it uses to
--- request other certificates: pseudonym and identification certificates. It
--- is provided to OBE during its bootstrap process, and is signed by an ECA.
--- Each enrollment certificate has at least one PSID; however, an OBE cannot
--- have more than one enrollment certificate associated with a particular
--- (PSID, SSP) combination.
--- An enrollment certificate typically has a long validity period.
--- Its revocation is done through internal blacklist at RA.
--- The enrollment certificate is an implicit certificate.
---------------------------------
-
+---
+-- @brief This data type defines an On-Board Equipment's (OBE) enrollment 
+--        certificate structure and its contents. The ECA provides this
+--        certificate on request from the DCM while bootstrapping the device.
+--        The enrollment certificate is like a passport for the OBE that it uses to
+--        request other certificates from the RA: pseudonym and identification certificates.
+--        It is provided to OBE during its bootstrap process, and is signed by an ECA.
+--        Each enrollment certificate has at least one PSID; however, an OBE cannot
+--        have more than one enrollment certificate associated with a particular
+--        (PSID, SSP) combination.
+--        Its revocation is done through internal blacklist at RA.
+-- @class ObeEnrollmentCertificate
+-- @param issuer     contains the hash of the certificate contents.
+-- @param toBeSigned contains certificate content that is signed by the OBE.
+-- @see IssuerIdentifier
 ObeEnrollmentCertificate ::= ImplicitCertificate (WITH COMPONENTS { ...,
-  issuer (WITH COMPONENTS{sha256AndDigest}),	-- HashedId8 of PCA
+  issuer (WITH COMPONENTS{sha256AndDigest}),
   toBeSigned (WITH COMPONENTS { ...,
     id (WITH COMPONENTS { 
       name("")
     }),
     cracaId, --set to HashedId3 of the Root CA cert
-    crlSeries(EeEnrollmentCrlSeries),	-- defined in scms-base-types.asns
+    crlSeries(EeEnrollmentCrlSeries),
     validityPeriod (WITH COMPONENTS { ...,
-      duration (ObeEnrollmentCertExpirationPoc | ObeEnrollmentCertExpirationCvp) -- defined in scms-base-types.asn
+      duration (ObeEnrollmentCertExpirationPoc | ObeEnrollmentCertExpirationCvpQa | ObeEnrollmentCertExpirationCvpPrd)
     }),
     region (WITH COMPONENTS {
-      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Canada) }), 
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Mexico) }), 
+      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(1)) (CONSTRAINED BY {
         IdentifiedRegion ( WITH COMPONENTS { countryOnly(USA) })
       }))
     }),
@@ -692,13 +807,13 @@ ObeEnrollmentCertificate ::= ImplicitCertificate (WITH COMPONENTS { ...,
       PsidGroupPermissions ( WITH COMPONENTS {..., 
 	    subjectPermissions (WITH COMPONENTS { 
           explicit (SequenceOfPsidSspRange (SIZE (2)) (CONSTRAINED BY {
-		    PsidSspRange (WITH COMPONENTS { -- defined in scms-base-types.asn
+		    PsidSspRange (WITH COMPONENTS {
 			  psid (BsmPsid), --PSID = 0x20
               sspRange(WITH COMPONENTS{ 
                 opaque -- single OCTET STRING of length 0  
               }) 
 		    }),
-		    PsidSspRange (WITH COMPONENTS { -- defined in scms-base-types.asn
+		    PsidSspRange (WITH COMPONENTS {
 			  psid (MisbehaviorReportingPsid), -- PSID = 0x26
               sspRange(WITH COMPONENTS{ 
                 opaque -- single OCTET STRING of length 0  
@@ -706,7 +821,7 @@ ObeEnrollmentCertificate ::= ImplicitCertificate (WITH COMPONENTS { ...,
 		    })
           }))
         }),
-        minChainDepth(0), chainDepthRange(0),
+        minChainLength(0), chainLengthRange(0),
         eeType({app})
       })
     })),
@@ -720,24 +835,25 @@ ObeEnrollmentCertificate ::= ImplicitCertificate (WITH COMPONENTS { ...,
   })
 })
 
-
---------------------------------
--- OBE Identification
---
--- Identification certificates are used by an OBE primarily for authorization in
--- V2I applications. If an encryption key is used, it is determined by the
--- butterfly key mechanism. The provisioning process is similar to that of
--- pseudonym certificates.
--- An OBE has only one identification certificate valid at a time for a given
--- application. There is a one-to-one mapping of the (PSID, SSP) combination
--- from enrollment certificates to identification certificates.
--- Revocation of identification certificates is done through CRLs.
---------------------------------
-
+---
+-- @brief This data type defines an On-Board Equipment's (OBE) identifcation
+--        certificate structure and its contents. The RA brokers the
+--        communication for provisioning this certificate from PCA to the OBE.
+--        An OBE uses identification certificates for authorization purposes within
+--        V2I applications. The provisioning process is similar to that of
+--        pseudonym certificates.
+--        An OBE has only one identification certificate valid at a time for a given
+--        application. There is a one-to-one mapping of the (PSID, SSP) combination
+--        from enrollment certificates to identification certificates.
+--        Revocation of identification certificates is done through CRLs.
+-- @class ObeIdentificationCertificate
+-- @param issuer     contains the hash of the certificate contents.
+-- @param toBeSigned contains certificate content that is signed by the OBE.
+-- @see IssuerIdentifier
 ObeIdentificationCertificate ::= ImplicitCertificate (WITH COMPONENTS { ...,
   issuer (WITH COMPONENTS {sha256AndDigest}),
-  toBeSigned (WITH COMPONENTS { ...,
-    id (WITH COMPONENTS {
+    toBeSigned (WITH COMPONENTS { ...,
+      id (WITH COMPONENTS {
         binaryId (SIZE (8))  -- RIF value shall be used as the certificate ID
       }),
     cracaId, --set to HashedId3 of the Root CA cert
@@ -746,9 +862,7 @@ ObeIdentificationCertificate ::= ImplicitCertificate (WITH COMPONENTS { ...,
       duration (ObeIdentificationCertExpiration)
     }),
     region (WITH COMPONENTS {
-      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Canada) }), 
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Mexico) }), 
+      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(1)) (CONSTRAINED BY {
         IdentifiedRegion ( WITH COMPONENTS { countryOnly(USA) })
       }))
     }),
@@ -766,24 +880,26 @@ ObeIdentificationCertificate ::= ImplicitCertificate (WITH COMPONENTS { ...,
   })
 })
 
-
---------------------------------
--- OBE Pseudonym
---
--- Pseudonym certificates are used by an OBE primarily for BSM authentication
--- and misbehavior reporting. They are signed in batches by a PCA and
--- downloaded by the OBE from an RA. Pseudonym certs are only used for a short
--- period of time so that an OBE cannot be tracked by any other entity, but
--- contain linkage values that allow for revocation and linkability in the case
--- of misbehavior.
---------------------------------
-
+---
+-- @brief This data type defines an On-Board Equipment's (OBE) pseudonym
+--        certificate structure and its contents. The RA brokers the
+--        communication for provisioning this certificate from PCA to the OBE.
+--        OBEs use pseudonym certificates for BSM authentication
+--        and misbehavior reporting. They are signed by a PCA, zipped into batches 
+--        and provided for download by the RA. Pseudonym certs do not contain any 
+--        idenifying informatoin and are only used for a short period of time to make
+--        tracking of an OBE a hard problem. They contain linkage values that allow for
+--        efficient revocation and linkability in the case of misbehavior by the OBE.
+-- @class ObePseudonymCertificate
+-- @param issuer     contains the hash of the certificate contents.
+-- @param toBeSigned contains certificate content that is signed by the OBE.
+-- @see IssuerIdentifier
 ObePseudonymCertificate ::= ImplicitCertificate (WITH COMPONENTS { ...,
   issuer (WITH COMPONENTS {sha256AndDigest}),
   toBeSigned (WITH COMPONENTS { ...,
     id (WITH COMPONENTS { 
       linkageData (WITH COMPONENTS {
-        group-linkage-value PRESENT
+        linkage-value PRESENT
       })
     }),
     cracaId, --set to HashedId3 of the Root CA cert
@@ -792,9 +908,7 @@ ObePseudonymCertificate ::= ImplicitCertificate (WITH COMPONENTS { ...,
       duration (ObePseudonymCertExpiration)
     }),
     region (WITH COMPONENTS {
-      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Canada) }), 
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Mexico) }), 
+      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(1)) (CONSTRAINED BY {
         IdentifiedRegion ( WITH COMPONENTS { countryOnly(USA) })
       }))
     }),
@@ -821,86 +935,32 @@ ObePseudonymCertificate ::= ImplicitCertificate (WITH COMPONENTS { ...,
   })
 })
 
-
-----------------------------------------------
--- Pseudonym Certificate Authority
---
--- PCA certificates are only used to issue certificates to end-entities,
--- including OBEs and RSEs. To receive encrypted messages, the owner of these
--- certificates can include an ephemeral response encryption key in the request
--- messages. PCA certificates need to have validity periods that are at least
--- as long as the longest validity certificates issued using them. Revocation
--- of PCA certificate is done through CRLs issued by CRL generator.
-----------------------------------------------
---      POC PCA 
-----------------------------------------------
-
-PocPcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
+---
+-- @brief This data type defines a Pseudonym Certificate Authority's (PCA) 
+--        certificate structure and its contents generated by the ICA. The PCA 
+--        provides a public key (encryptionKey) so that other SCMS components 
+--        can send data securely to this PCA.
+--        PCA certificates are only used to sign certificates of end-entities.
+--        PCA certificates need to have validity periods that are at least
+--        as long as the longest validity certificates issued using them. Revocation
+--        of PCA certificate is done through a CRL issued by the CRL generator.
+-- @class PcaCertificate
+-- @param issuer     contains the hash of the certificate contents.
+-- @param toBeSigned contains certificate content that is signed by the PCA.
+-- @see IssuerIdentifier
+PcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
   issuer (WITH COMPONENTS {sha256AndDigest}),
   toBeSigned (WITH COMPONENTS { ...,
     id (WITH COMPONENTS {
-      name ("pca.v2xscms.com") -- !!TBD!!
+      name ("pca.prod.v2xscms.com" | "pca.qa.v2xscms.com" | "pca.test.v2xscms.com")
     }),
     cracaId, --set to HashedId3 of the Root CA cert
     crlSeries(ScmsComponentCrlSeries),
     validityPeriod (WITH COMPONENTS { ...,
-      duration (PcaCertExpiration)
+      duration (PcaCertExpirationPoc | PcaCertExpirationCvpQa | PcaCertExpirationCvpPrd1 | PcaCertExpirationCvpPrd2 | PcaCertExpirationCvpPrd3 | PcaCertExpirationCvpPrd4 | PcaCertExpirationCvpPrd5 | PcaCertExpirationCvpPrd6)
     }),
     region (WITH COMPONENTS {
-      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Canada) }), 
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Mexico) }), 
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(USA) })
-      }))
-    }),
-    assuranceLevel ABSENT,
-    appPermissions (SequenceOfPsidSsp (SIZE(1)) (CONSTRAINED BY {
-      PsidSsp (WITH COMPONENTS {
-        psid (SecurityMgmtPsid), -- PSID = 0x23
-        ssp --OER encoding of ScmsSsp indicating Pcassp
-      })
-    })),
-    certIssuePermissions (SequenceOfPsidGroupPermissions (SIZE(1)) (CONSTRAINED BY {
-      PsidGroupPermissions ( WITH COMPONENTS {..., 
-	    subjectPermissions (WITH COMPONENTS { 
-          all
-        }),
-        minChainDepth(1), chainDepthRange(0),
-	    eeType ({app})
-      })
-    })),
-    certRequestPermissions ABSENT,
-    canRequestRollover (NULL),
-    encryptionKey PRESENT,
-    verifyKeyIndicator (WITH COMPONENTS {
-      verificationKey (WITH COMPONENTS {
-        ecdsaNistP256 (WITH COMPONENTS {
-          compressed-y-0, compressed-y-1
-        })
-      })
-    })
-  })
-})
-
-----------------------------------------------
---      CVP-V2V PCA 
-----------------------------------------------
-
-CvpV2vPcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
-  issuer (WITH COMPONENTS {sha256AndDigest}),
-  toBeSigned (WITH COMPONENTS { ...,
-    id (WITH COMPONENTS {
-      name ("v2v-pca.cvp.v2xscms.com") -- !!TBD!!
-    }),
-    cracaId, --set to HashedId3 of the Root CA cert
-    crlSeries(ScmsComponentCrlSeries),
-    validityPeriod (WITH COMPONENTS { ...,
-      duration (PcaCertExpiration)
-    }),
-    region (WITH COMPONENTS {
-      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Canada) }), 
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Mexico) }), 
+      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(1)) (CONSTRAINED BY {
         IdentifiedRegion ( WITH COMPONENTS { countryOnly(USA) })
       }))
     }),
@@ -913,98 +973,120 @@ CvpV2vPcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     })),
     certIssuePermissions (SequenceOfPsidGroupPermissions (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS {..., 
 	  subjectPermissions (WITH COMPONENTS {..., 
-		explicit (SequenceOfPsidSspRange (SIZE (2)) (CONSTRAINED BY{
-		  PsidSspRange (WITH COMPONENTS {
-			psid (BsmPsid), --PSID = 0x20
+		explicit (SequenceOfPsidSspRange (SIZE (26)) (CONSTRAINED BY{
+          PsidSspRange (WITH COMPONENTS {
+            psid (BsmPsid), --PSID = 0x20
             sspRange(WITH COMPONENTS{ 
               opaque -- single OCTET STRING of length 0  
             }) 
-		  }),
-		  PsidSspRange (WITH COMPONENTS {
-			psid (MisbehaviorReportingPsid), -- PSID = 0x26
-            sspRange ABSENT 
-		  })
-		}))
-	  }),
-	  minChainDepth(1), chainDepthRange(0),
-      eeType({app})
-    }))),
-    certRequestPermissions ABSENT,
-    canRequestRollover (NULL),
-    encryptionKey PRESENT,
-    verifyKeyIndicator (WITH COMPONENTS {
-      verificationKey (WITH COMPONENTS {
-        ecdsaNistP256 (WITH COMPONENTS {
-          compressed-y-0, compressed-y-1
-        })
-      })
-    })
-  })
-})
-
-----------------------------------------------
---      CVP-V2I PCA 
-----------------------------------------------
-
-CvpV2iPcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
-  issuer (WITH COMPONENTS {sha256AndDigest}),
-  toBeSigned (WITH COMPONENTS { ...,
-    id (WITH COMPONENTS {
-      name ("v2i-pca.cvp.v2xscms.com") -- !!TBD!!
-    }),
-    cracaId, --set to HashedId3 of the Root CA cert
-    crlSeries(ScmsComponentCrlSeries),
-    validityPeriod (WITH COMPONENTS { ...,
-      duration (PcaCertExpiration)
-    }),
-    region (WITH COMPONENTS {
-      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Canada) }), 
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Mexico) }), 
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(USA) })
-      }))
-    }),
-    assuranceLevel ABSENT,
-    appPermissions (SequenceOfPsidSsp (SIZE(1)) (CONSTRAINED BY {
-      PsidSsp (WITH COMPONENTS {
-        psid (SecurityMgmtPsid), -- PSID = 0x23
-        ssp --OER encoding of ScmsSsp indicating Pcassp
-      })
-    })),
-    certIssuePermissions (SequenceOfPsidGroupPermissions (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS {..., 
-	  subjectPermissions (WITH COMPONENTS {..., 
-		explicit (SequenceOfPsidSspRange (SIZE (6)) (CONSTRAINED BY{
-		  PsidSspRange (WITH COMPONENTS {
-			psid (MisbehaviorReportingPsid), -- PSID = 0x26
-            sspRange ABSENT 
-		  }),
+          }),
           PsidSspRange (WITH COMPONENTS {
-			psid (DifferentialGpsCorrectionsUncompressedPsid), -- PSID = 0x80 
+            psid (MisbehaviorReportingPsid), -- PSID = 0x26
             sspRange ABSENT 
-		  }),
+          }),
           PsidSspRange (WITH COMPONENTS {
-			psid (DifferentialGpsCorrectionsCompressedPsid), -- PSID = 0x81 
+            psid (VulnerableRoadUsersSafetyPsid), -- PSID = 0x27
             sspRange ABSENT 
-		  }),
+          }),
           PsidSspRange (WITH COMPONENTS {
-			psid (IntersectionSafetyAndAwarenessPsid), -- PSID = 0x82 
+            psid (DifferentialGpsCorrectionsUncompressedPsid), -- PSID = 0x80 
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (DifferentialGpsCorrectionsCompressedPsid), -- PSID = 0x81 
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (IntersectionSafetyAndAwarenessPsid), -- PSID = 0x82 
             sspRange(WITH COMPONENTS{
               opaque --SSP: 90-01, 90-FF-FF-01, 90-FF-FF-02, 90-FF-FF-03, 90-FF-FF-04  
             }) 
-		  }),
+          }),
           PsidSspRange (WITH COMPONENTS {
-			psid (TravellerInformationAndRoadsideSignagePsid), -- PSID = 0x83 
+            psid (TravellerInformationAndRoadsideSignagePsid), -- PSID = 0x83 
             sspRange ABSENT 
-		  }),
+          }),
           PsidSspRange (WITH COMPONENTS {
-			psid (WaveServiceAdvertisementPsid), -- PSID = 0x87 
+            psid (WaveServiceAdvertisementPsid), -- PSID = 0x87 
             sspRange(WITH COMPONENTS{
               opaque -- single OCTET STRING of length 0 
             }) 
-		  })
-		}))
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (VehicleInitiatedDistressNotificationPsid), -- PSID = 0x4082
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (TranscoreSoftwareUpdatePsid), -- PSID = 0x204083
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication1Psid), -- PSID = 0x204088
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication2Psid), -- PSID = 0x204089
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication3Psid), -- PSID = 0x20408A
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication4Psid), -- PSID = 0x20408B
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication5Psid), -- PSID = 0x20408C
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication6Psid), -- PSID = 0x20408D
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication7Psid), -- PSID = 0x20408E
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication8Psid), -- PSID = 0x20408F
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication9Psid), -- PSID = 0x204090
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication10Psid), -- PSID = 0x204091
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication11Psid), -- PSID = 0x204092
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication12Psid), -- PSID = 0x204093
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication13Psid), -- PSID = 0x204094
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication14Psid), -- PSID = 0x204095
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication15Psid), -- PSID = 0x204096
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication16Psid), -- PSID = 0x204097
+            sspRange ABSENT 
+          })
+        }))
 	  }),
-	  minChainDepth(1), chainDepthRange(0),
+	  minChainLength(1), chainLengthRange(0),
       eeType({app})
     }))),
     certRequestPermissions ABSENT,
@@ -1020,38 +1102,29 @@ CvpV2iPcaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
   })
 })
 
-
--------------------------------
--- Policy Generator
---
--- The Policy Generator (PG) is the component which is used to compile and sign
--- Global Policy files and Global Certificate Chain File. It is a component of
--- the MA.
--- Policy generator certificates are issued by the root CA and can be used only
--- to sign the global policy configuration files that are distributed to SCMS
--- components, typically, through the RA.
--- The policies governing the PG certificate validity are the same as for CRL
--- generator certificates.
--------------------------------
-
+---
+-- @brief This data type defines a Policy Generator's (PG) certificate 
+--        structure and its contents generated by the Root CA.
+--        The Policy Generator (PG) compiles and signs the Global Policy File
+--        the Global Certificate Chain File.
+--        The Policy generator certificate is signed by the root CA and can be used only
+--        to sign the Global Policy File and the Global Certificate Chain File.
+-- @class PgCertificate
+-- @param issuer     contains the hash of the certificate contents.
+-- @param toBeSigned contains certificate content that is signed by the PG.
+-- @see IssuerIdentifier
 PgCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
   issuer (WITH COMPONENTS {sha256AndDigest}),
   toBeSigned (WITH COMPONENTS { ...,
     id (WITH COMPONENTS {
-      name ("pg.v2xscms.com" | "pg.cvp.v2xscms.com") -- !!TBD!!
+      name ("pg.prod.v2xscms.com" | "pg.qa.v2xscms.com" | "pg.test.v2xscms.com")
     }),
     cracaId, --set to HashedId3 of the Root CA cert
     crlSeries(ScmsSpclComponentCrlSeries),
     validityPeriod (WITH COMPONENTS { ...,
-      duration (PgCertExpiration)
+      duration (PgCertExpirationPoc | PgCertExpirationCvpQa)
     }),
-    region (WITH COMPONENTS {
-      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Canada) }), 
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Mexico) }), 
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(USA) })
-      }))
-    }),
+    region ABSENT,
     assuranceLevel ABSENT,
     appPermissions (SequenceOfPsidSsp (SIZE(1)) (CONSTRAINED BY {
       PsidSsp (WITH COMPONENTS {
@@ -1073,23 +1146,23 @@ PgCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
   })
 })
 
-
-----------------------------------
--- Registration Authority
---
--- The RA is an entity authorized to validate, process and forward certificate
--- requests. Although multiple RAs may exist, a given device may access only
--- one RA. The RA is the gateway through which OBEs can request and download
--- pseudonym certificates.
-----------------------------------
---      POC RA 
-----------------------------------------------
-
-PocRaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
+---
+-- @brief This data type defines a Registration Authority's (RA) certificate 
+--        structure and its contents generated by the ICA. The RA provides a 
+--        public key (encryptionKey) so that other SCMS components can send
+--        data securely to this RA.
+--        The RA authorizes, processes and forwards certificate requests to the
+--        PCA. Although multiple RAs may exist, a given device may access only
+--        one RA.
+-- @class RaCertificate
+-- @param issuer     contains the hash of the certificate contents.
+-- @param toBeSigned contains certificate content that is signed by the RA.
+-- @see IssuerIdentifier
+RaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
   issuer (WITH COMPONENTS{sha256AndDigest}),
   toBeSigned (WITH COMPONENTS { ...,
     id (WITH COMPONENTS {
-      name ("ra.v2xscms.com") -- !!TBD!!
+      name ("ra.prod.v2xscms.com" | "ra.qa.v2xscms.com" | "ra.test.v2xscms.com")
     }),
     cracaId, --set to HashedId3 of the Root CA cert
     crlSeries(ScmsComponentCrlSeries),
@@ -1097,60 +1170,7 @@ PocRaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
       duration (RaCertExpiration)
     }),
     region (WITH COMPONENTS {
-      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Canada) }), 
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Mexico) }), 
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(USA) })
-      }))
-    }),
-    assuranceLevel ABSENT,
-    appPermissions (SequenceOfPsidSsp (SIZE(1)) (CONSTRAINED BY {
-      PsidSsp (WITH COMPONENTS {
-        psid (SecurityMgmtPsid), -- PSID = 0x23
-        ssp --OER encoding of ScmsSsp indicating Rassp
-      })
-    })),
-    certIssuePermissions ABSENT,
-    certRequestPermissions (SequenceOfPsidGroupPermissions (SIZE(1)) (CONSTRAINED BY {
-      PsidGroupPermissions ( WITH COMPONENTS {..., 
-	    subjectPermissions (WITH COMPONENTS { 
-          all
-        }),
-        minChainDepth(0), chainDepthRange(0),
-        eeType({app})
-      })
-    })),
-    canRequestRollover(NULL),
-    encryptionKey PRESENT,
-    verifyKeyIndicator (WITH COMPONENTS {
-      verificationKey (WITH COMPONENTS {
-        ecdsaNistP256 (WITH COMPONENTS {
-          compressed-y-0, compressed-y-1
-        })
-      })
-    })
-  })
-})
-
-----------------------------------
---      CVP-V2V RA 
-----------------------------------------------
-
-CvpV2vRaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
-  issuer (WITH COMPONENTS{sha256AndDigest}),
-  toBeSigned (WITH COMPONENTS { ...,
-    id (WITH COMPONENTS {
-      name ("v2v-ra.cvp.v2xscms.com") -- !!TBD!!
-    }),
-    cracaId, --set to HashedId3 of the Root CA cert
-    crlSeries(ScmsComponentCrlSeries),
-    validityPeriod (WITH COMPONENTS { ...,
-      duration (RaCertExpiration)
-    }),
-    region (WITH COMPONENTS {
-      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Canada) }), 
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Mexico) }), 
+      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(1)) (CONSTRAINED BY {
         IdentifiedRegion ( WITH COMPONENTS { countryOnly(USA) })
       }))
     }),
@@ -1164,98 +1184,120 @@ CvpV2vRaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     certIssuePermissions ABSENT,
     certRequestPermissions (SequenceOfPsidGroupPermissions (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS {..., 
 	  subjectPermissions (WITH COMPONENTS {..., 
-		explicit (SequenceOfPsidSspRange (SIZE (2)) (CONSTRAINED BY{
-		  PsidSspRange (WITH COMPONENTS {
-			psid (BsmPsid), --PSID = 0x20
+		explicit (SequenceOfPsidSspRange (SIZE (25)) (CONSTRAINED BY{
+          PsidSspRange (WITH COMPONENTS {
+            psid (BsmPsid), --PSID = 0x20
             sspRange(WITH COMPONENTS{ 
               opaque -- single OCTET STRING of length 0  
             }) 
-		  }),
-		  PsidSspRange (WITH COMPONENTS {
-			psid (MisbehaviorReportingPsid), -- PSID = 0x26
-            sspRange ABSENT 
-		  })
-		}))
-	  }),
-	  minChainDepth(0), chainDepthRange(0),
-      eeType({app})
-    }))),
-    canRequestRollover(NULL),
-    encryptionKey PRESENT,
-    verifyKeyIndicator (WITH COMPONENTS {
-      verificationKey (WITH COMPONENTS {
-        ecdsaNistP256 (WITH COMPONENTS {
-          compressed-y-0, compressed-y-1
-        })
-      })
-    })
-  })
-})
-
-----------------------------------
---      CVP-V2I RA 
-----------------------------------------------
-
-CvpV2iRaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
-  issuer (WITH COMPONENTS{sha256AndDigest}),
-  toBeSigned (WITH COMPONENTS { ...,
-    id (WITH COMPONENTS {
-      name ("v2i-ra.cvp.v2xscms.com") -- !!TBD!!
-    }),
-    cracaId, --set to HashedId3 of the Root CA cert
-    crlSeries(ScmsComponentCrlSeries),
-    validityPeriod (WITH COMPONENTS { ...,
-      duration (RaCertExpiration)
-    }),
-    region (WITH COMPONENTS {
-      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Canada) }), 
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Mexico) }), 
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(USA) })
-      }))
-    }),
-    assuranceLevel ABSENT,
-    appPermissions (SequenceOfPsidSsp (SIZE(1)) (CONSTRAINED BY {
-      PsidSsp (WITH COMPONENTS {
-        psid (SecurityMgmtPsid), -- PSID = 0x23
-        ssp --OER encoding of ScmsSsp indicating Rassp
-      })
-    })),
-    certIssuePermissions ABSENT,
-    certRequestPermissions (SequenceOfPsidGroupPermissions (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS {..., 
-	  subjectPermissions (WITH COMPONENTS {..., 
-		explicit (SequenceOfPsidSspRange (SIZE (6)) (CONSTRAINED BY{
-		  PsidSspRange (WITH COMPONENTS {
-			psid (MisbehaviorReportingPsid), -- PSID = 0x26
-            sspRange ABSENT 
-		  }),
+          }),
           PsidSspRange (WITH COMPONENTS {
-			psid (DifferentialGpsCorrectionsUncompressedPsid), -- PSID = 0x80 
+            psid (MisbehaviorReportingPsid), -- PSID = 0x26
             sspRange ABSENT 
-		  }),
+          }),
           PsidSspRange (WITH COMPONENTS {
-			psid (DifferentialGpsCorrectionsCompressedPsid), -- PSID = 0x81 
+            psid (VulnerableRoadUsersSafetyPsid), -- PSID = 0x27
             sspRange ABSENT 
-		  }),
+          }),
           PsidSspRange (WITH COMPONENTS {
-			psid (IntersectionSafetyAndAwarenessPsid), -- PSID = 0x82 
+            psid (DifferentialGpsCorrectionsUncompressedPsid), -- PSID = 0x80 
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (DifferentialGpsCorrectionsCompressedPsid), -- PSID = 0x81 
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (IntersectionSafetyAndAwarenessPsid), -- PSID = 0x82 
             sspRange(WITH COMPONENTS{
               opaque --SSP: 90-01, 90-FF-FF-01, 90-FF-FF-02, 90-FF-FF-03, 90-FF-FF-04  
             }) 
-		  }),
+          }),
           PsidSspRange (WITH COMPONENTS {
-			psid (TravellerInformationAndRoadsideSignagePsid), -- PSID = 0x83 
+            psid (TravellerInformationAndRoadsideSignagePsid), -- PSID = 0x83 
             sspRange ABSENT 
-		  }),
+          }),
           PsidSspRange (WITH COMPONENTS {
-			psid (WaveServiceAdvertisementPsid), -- PSID = 0x87 
+            psid (WaveServiceAdvertisementPsid), -- PSID = 0x87 
             sspRange(WITH COMPONENTS{
               opaque -- single OCTET STRING of length 0 
             }) 
-		  })
-		}))
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (VehicleInitiatedDistressNotificationPsid), -- PSID = 0x4082
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (TranscoreSoftwareUpdatePsid), -- PSID = 0x204083
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication1Psid), -- PSID = 0x204088
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication2Psid), -- PSID = 0x204089
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication3Psid), -- PSID = 0x20408A
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication4Psid), -- PSID = 0x20408B
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication5Psid), -- PSID = 0x20408C
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication6Psid), -- PSID = 0x20408D
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication7Psid), -- PSID = 0x20408E
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication8Psid), -- PSID = 0x20408F
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication9Psid), -- PSID = 0x204090
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication10Psid), -- PSID = 0x204091
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication11Psid), -- PSID = 0x204092
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication12Psid), -- PSID = 0x204093
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication13Psid), -- PSID = 0x204094
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication14Psid), -- PSID = 0x204095
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication15Psid), -- PSID = 0x204096
+            sspRange ABSENT 
+          }),
+          PsidSspRange (WITH COMPONENTS {
+            psid (CVPApplication16Psid), -- PSID = 0x204097
+            sspRange ABSENT 
+          })
+        }))
 	  }),
-	  minChainDepth(0), chainDepthRange(0),
+	  minChainLength(0), chainLengthRange(0),
       eeType({app})
     }))),
     canRequestRollover(NULL),
@@ -1270,26 +1312,27 @@ CvpV2iRaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
   })
 })
 
-
-----------------------------------------------
--- Root Certificate Authority
---
--- The Root CA is a trust anchor. It resides at the top of the certificate
--- chain and issues certificates for other CAs (as well as the MA / LAs / RAs).
--- It uses a self-signed certificate and can only be trusted by an
--- established and secure out-of-band means.
-----------------------------------------------
-
+---
+-- @brief This data type defines a Root Certificate Authority's (RCA) certificate 
+--        structure and its contents generated by the SCMS Manager.
+--        The RCA is a trust anchor. It resides at the top of a certificate
+--        chain and signs certificates of ICAs (as well as the MA / CRLG / PG).
+--        It uses a self-signed certificate and can only be trusted by
+--        secure out-of-band means.
+-- @class RcaCertificate
+-- @param issuer     contains the hash of the certificate contents.
+-- @param toBeSigned contains certificate content that is signed by the RCA.
+-- @see IssuerIdentifier
 RootCaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
   issuer (WITH COMPONENTS {self}),
   toBeSigned (WITH COMPONENTS { ...,
     id (WITH COMPONENTS {
-      name ("rca.v2xscms.com" | "v2xrootca.ghsiss.com")
+      name ("v2xrootca.ghsiss.com" | "rca.qa.v2xscms.com" | "rca.test.v2xscms.com")
     }),
     cracaId('000000'H),
-    crlSeries(0),
+    crlSeries(0),                          
     validityPeriod (WITH COMPONENTS { ...,
-      duration (RootCaCertExpiration)
+      duration (RootCaCertExpirationPoc | RootCaCertExpirationCvpQa | RootCaCertExpirationCvpPrd)
     }),
     region ABSENT,
     assuranceLevel ABSENT,
@@ -1309,47 +1352,47 @@ RootCaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
       })
     })),
     certIssuePermissions (SequenceOfPsidGroupPermissions (SIZE(4)) (CONSTRAINED BY {
-      PsidGroupPermissions ( WITH COMPONENTS {...,
-	    subjectPermissions (WITH COMPONENTS {
+      PsidGroupPermissions ( WITH COMPONENTS {..., 
+	    subjectPermissions (WITH COMPONENTS { 
           all
         }),
-        minChainDepth(3),
-        chainDepthRange(-1),
+        minChainLength(3), 
+        chainLengthRange(-1),
         eeType ({app, enrol})
       }),
-      PsidGroupPermissions ( WITH COMPONENTS {...,
-	    subjectPermissions (WITH COMPONENTS{
+      PsidGroupPermissions ( WITH COMPONENTS {..., 
+	    subjectPermissions (WITH COMPONENTS{ 
           explicit (SequenceOfPsidSspRange (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS {
             psid (SecurityMgmtPsid), -- PSID = 0x23
             sspRange ABSENT 
           })))
         }),
-        minChainDepth(1),
-        chainDepthRange(-1),
-	    eeType ({app, enrol})
+        minChainLength(1), 
+        chainLengthRange(-1), 
+	    eeType ({app, enrol}) 
       }),
-      PsidGroupPermissions ( WITH COMPONENTS {...,
-	    subjectPermissions (WITH COMPONENTS{
+      PsidGroupPermissions ( WITH COMPONENTS {..., 
+	    subjectPermissions (WITH COMPONENTS{ 
           explicit (SequenceOfPsidSspRange (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS {
             psid (MisbehaviorReportingPsid), -- PSID = 0x26
             sspRange ABSENT 
           })))
         }),
-        minChainDepth(1),
-        chainDepthRange(-1),
-	    eeType ({app, enrol})
+        minChainLength(1), 
+        chainLengthRange(-1), 
+	    eeType ({app, enrol}) 
       }),
-      PsidGroupPermissions ( WITH COMPONENTS {...,
-	    subjectPermissions (WITH COMPONENTS{
+      PsidGroupPermissions ( WITH COMPONENTS {..., 
+	    subjectPermissions (WITH COMPONENTS{ 
           explicit (SequenceOfPsidSspRange (SIZE (1)) (WITH COMPONENT (WITH COMPONENTS {
             psid (CrlPsid), -- PSID = 0x100
             sspRange ABSENT 
           })))
         }),
-        minChainDepth(1),
-        chainDepthRange(-1),
-	    eeType ({app, enrol})
-      })
+        minChainLength(1), 
+        chainLengthRange(-1), 
+	    eeType ({app, enrol}) 
+      })                      
     })),
     certRequestPermissions ABSENT,
     canRequestRollover ABSENT,
@@ -1364,20 +1407,24 @@ RootCaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
   })
 })
 
-
--------------------------------
--- RSE Application
---
--- Application certificates are used by an RSE for authentication and, possibly, for encryption.
--- Only one application certificate is valid at a time for a given application.
--- Revocation of application certificates are dependent on their validity periods:
--- (1) Short validity periods (e.g., daily, hourly, etc.) require frequent
--- certificate renewal, and hence no CRL except under exceptional circumstances.
--- (2) Long validity periods (e.g., monthly, annually, etc.) require CRLs.
--- Note: for PoC, only option #1 will be used and implemented since RSEs are
--- assumed to have a regular online connection to renew certificates.
--- The application certificate is an implicit certificate.
--------------------------------
+---
+-- @brief This data type defines a Road-Side Equipment's (RSE) application
+--        certificate structure and its contents. The RA brokers the
+--        communication for provisioning this certificate from PCA to the RSE.
+--        Application certificates are used by an RSE for authentication and, 
+--        possibly, for encryption. Only one application certificate is valid at
+--        any time for a given PSID. Revocation of application certificates are
+--        dependent on their validity periods:
+--        (1) Short validity periods (e.g., daily, hourly, etc.) require frequent
+--        certificate renewal, and hence no CRL, but blacklisting.
+--        (2) Long validity periods (e.g., monthly, annually, etc.) require CRLs.
+--        Note: for PoC, only option #1 will be used and implemented since RSEs are
+--        assumed to have a regular online connection to renew certificates.
+--        The application certificate is an implicit certificate.
+-- @class RseApplicationCertificate
+-- @param issuer     contains the hash of the certificate contents.
+-- @param toBeSigned contains certificate content that is signed by the RSE.
+-- @see IssuerIdentifier
 RseApplicationCertificate ::= ImplicitCertificate (WITH COMPONENTS { ...,
   issuer (WITH COMPONENTS {sha256AndDigest}),
     toBeSigned (WITH COMPONENTS { ...,
@@ -1390,9 +1437,7 @@ RseApplicationCertificate ::= ImplicitCertificate (WITH COMPONENTS { ...,
       duration (RseApplicationCertExpiration)
     }),
     region (WITH COMPONENTS {
-      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Canada) }),
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Mexico) }),
+      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(1)) (CONSTRAINED BY {
         IdentifiedRegion ( WITH COMPONENTS { countryOnly(USA) })
       }))
     }),
@@ -1410,34 +1455,34 @@ RseApplicationCertificate ::= ImplicitCertificate (WITH COMPONENTS { ...,
   })
 })
 
-
--------------------------------
--- RSE Enrollment
---
--- The enrollment certificate is like a passport for the RSE that it uses to
--- request application certificates. It does not have an encryption key. It is
--- provided to RSE during its bootstrap process. Each enrollment certificate has
--- at least one PSID; however, an RSE cannot have more than one enrollment
--- certificate associated with a particular (PSID, SSP) combination.
--- An enrollment certificate typically has a long validity period.
--- Its revocation is done through internal blacklist at RA.
--- The enrollment certificate is an implicit certificate.
--------------------------------
+---
+-- @brief This data type defines an Road-Side Equipment's (RSE) enrollment 
+--        certificate structure and its contents. The ECA provides this
+--        certificate on request from the DCM while bootstrapping the device.
+--        The enrollment certificate is like a passport for the RSE that it uses to
+--        request application certificates from the RA.
+--        It is provided to the RSE during its bootstrap process, and is signed by an ECA.
+--        Each enrollment certificate has at least one PSID; however, an RSE cannot
+--        have more than one enrollment certificate associated with a particular
+--        (PSID, SSP) combination.
+--        Its revocation is done through blacklist at the RA.
+-- @class RseEnrollmentCertificate
+-- @param issuer     contains the hash of the certificate contents.
+-- @param toBeSigned contains certificate content that is signed by the RSE.
+-- @see IssuerIdentifier
 RseEnrollmentCertificate ::= ImplicitCertificate (WITH COMPONENTS { ...,
   issuer (WITH COMPONENTS{sha256AndDigest}),
   toBeSigned (WITH COMPONENTS { ...,
-    id (WITH COMPONENTS {
+    id (WITH COMPONENTS { 
       name("")
     }),
     cracaId, --set to HashedId3 of the Root CA cert
     crlSeries(EeEnrollmentCrlSeries),
     validityPeriod (WITH COMPONENTS { ...,
-      duration (RseEnrollmentCertExpirationPoc | RseEnrollmentCertExpirationCvp)
+      duration (RseEnrollmentCertExpirationPoc | RseEnrollmentCertExpirationCvpQa | RseEnrollmentCertExpirationCvpPrd)
     }),
     region (WITH COMPONENTS {
-      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(3)) (CONSTRAINED BY {
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Canada) }),
-        IdentifiedRegion ( WITH COMPONENTS { countryOnly(Mexico) }),
+      identifiedRegion (SequenceOfIdentifiedRegion (SIZE(1)) (CONSTRAINED BY {
         IdentifiedRegion ( WITH COMPONENTS { countryOnly(USA) })
       }))
     }),

@@ -1,25 +1,24 @@
--------------------------------------------------------------------------------
--- LA-PCA 
---
--- The structures in this file define the protocol for messages between an LA
--- and the PCA for the purpose of key agreement and key refresh in case the key
--- duration is about to expire or is expired
---
--- It is assumed that the key derivation function KDF() is known a-priori by 
--- both the PCA and the LA. Furthermore, we assume that the LA and the PCA 
--- potentially know each other's certificate.
- 
---
--- Both of these processes are initiated by the PCA.
---
--- This file is part of the SCMS protocol developed by CAMP VSC5
--- It depends on the IEEE 1609.2 protocol specification
--------------------------------------------------------------------------------
+-- 
+--  Copyright 2017, 2018 Crash Avoidance Metrics Partner, VSC5 Consortium
+-- 
+--  Licensed under the Apache License, Version 2.0 (the "License");
+--  you may not use this file except in compliance with the License.
+--  You may obtain a copy of the License at
+-- 
+--     http://www.apache.org/licenses/LICENSE-2.0
+-- 
+--  Unless required by applicable law or agreed to in writing, software
+--  distributed under the License is distributed on an "AS IS" BASIS,
+--  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+--  See the License for the specific language governing permissions and
+--  limitations under the License.
+-- 
 
+-- @namespace Ieee1609Dot2LaPcaInterface
 Ieee1609Dot2LaPcaInterface
 {iso(1) identified-organization(3) ieee(111) 
 standards-association-numbered-series-standards(2) wave-stds(1609)  
-dot2(2) scms(2) interfaces(1) la-pca (10)}
+dot2(2) scms(4) interfaces(1) la-pca (10) major-version-2(2)}
 
 DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 
@@ -33,34 +32,39 @@ IMPORTS
   Uint32
 FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111) 
     standards-association-numbered-series-standards(2) wave-stds(1609) dot2(2)
-    base(1) base-types(2)}
+    base(1) base-types(2) major-version-2(2)}
 
   Certificate,
   EncryptedData,
   RecipientInfo
 FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111) 
     standards-association-numbered-series-standards(2) wave-stds(1609) dot2(2)
-    base(1) schema(1)}
+    base(1) schema(1) major-version-2(2)}
 
   ScopedLaPcaError
 FROM Ieee1609dot2ScmsError {iso(1) identified-organization(3) ieee(111)
     standards-association-numbered-series-standards(2) wave-stds(1609) dot2(2)
-    scms(2) errors(2) complete(1)}
+    scms(4) errors(2) complete(1) major-version-2(2)}
 
   FullSizeHash,
   LaHostnameId,
   PcaHostnameId
 FROM Ieee1609dot2ScmsBaseTypes {iso(1) identified-organization(3) ieee(111)
     standards-association-numbered-series-standards(2) wave-stds(1609) dot2(2)
-    scms(2) interfaces(1) base-types(2)}
+    scms(4) interfaces(1) base-types(2) major-version-2(2)}
 ;
 
-
---------------------------------
--- LaPcaInterfacePDU
---
--- All message types for the LA-PCA interface PDU
---------------------------------
+---
+-- @brief The LaPcaInterfacePDU is the parent message type for messages sent
+--        between Linkage Authority (LA) and Pseudonym Certificate Authority 
+--        (PCA).
+-- @class LaPcaInterfacePDU
+-- @param pcaLaKeyAgreementRequest  contains the key agreement request sent
+--                                  from PCA to LA.
+-- @param laPcaKeyAgreementResponse contains the response to key agreement
+--                                  request. Sent from LA to PCA.
+-- @param pcaLaKeyAgreementAck      contains the acknowledgement of receipt of
+--                                  response from LA for key agreement.
 LaPcaInterfacePDU::= CHOICE {
   pcaLaKeyAgreementRequest    PcaLaKeyAgreementRequestMsg,
   laPcaKeyAgreementResponse   LaPcaKeyAgreementResponseMsg,
@@ -68,75 +72,72 @@ LaPcaInterfacePDU::= CHOICE {
   ...
 }
 
-
---------------------------------
--- PcaLaKeyAgreementRequestMsg 
---
--- Request to initiate the key agreement sent by the PCA to the LA
---
--- version            version of this request structure
--- pcaId              hostname of the PCA
--- pcaCertificate     certificate of the PCA in case the LA doesn't possess it 
--- enc-R-pca          encrypted PCA's random contribution, with the following 
---                    fields 
---   recipient          the LA's certificate digest info (RecipientInfo has type
---                      of PKRecipientInfo, which contains the ID of the LA's 
---                      certificate and encrypted by ECIES symmetric key 
---                      Enc(AES_key))
---   ciphertext         the PCA's encrypted 32-byte contribution R_pca of type 
---                      PcaRandomContribution. (the random contribution is 
---                      encrypted by AES_key from RecipientInfo)
--- startDate          start date of validity of the agreed symmetric session 
---                    key
--- endDate            end date of validity of the agreed symmetric session key
---------------------------------
+---
+-- @brief PCA uses this data type to initiate key agreement with an LA.
+-- @class PcaLaKeyAgreementRequestMsg 
+-- @param version        contains the current version of the data type. The 
+--                       version specified in this document is version 1,
+--                       represented by the integer 1.
+-- @param pcaId          is the unique hostname ID of a PCA.
+-- @param pcaCertificate encloses PCA's certificate. This field is optional in
+--                       the case when LA already has PCA's certificate.
+-- @param enc-R-pca      is the encrypted data generated by using PCA's random
+--                       contribution. The encrypted data contains recipient's
+--                       certificate information.
+-- @param recipient      the LA's certificate digest info (RecipientInfo has type
+--                       of PKRecipientInfo, which contains the ID of the LA's 
+--                       certificate and encrypted by ECIES symmetric key 
+--                       Enc(AES_key))
+-- @param ciphertext     the PCA's encrypted 32-byte contribution R_pca of type 
+--                       PcaRandomContribution. (the random contribution is 
+--                       encrypted by AES_key from RecipientInfo)
+-- @param startDate      denotes the start date from which the request is
+--                       valid.
+-- @param endDate        denotes the end date until which the request in valid.
+-- @see Uint8, PcaHostnameId, Certificate, EncryptedData, Time32
 PcaLaKeyAgreementRequestMsg ::= SEQUENCE {
   version        Uint8(1),
   pcaId          PcaHostnameId,
-  pcaCertificate Certificate OPTIONAL, -- optional, when the LA already has the 
-                                       -- PCA's certificate
+  pcaCertificate Certificate OPTIONAL,
   enc-R-pca      EncryptedData (WITH COMPONENTS {
     recipients (SIZE (1) INTERSECTION (WITH COMPONENT (
         RecipientInfo (WITH COMPONENTS {
-            certRecipInfo              -- using hash of the LA certificate
+            certRecipInfo -- using hash of the LA certificate
     })))),
-    ciphertext                         -- when decrypted it contains 
-                                       -- PcaRandomContribution, R_pca
+    ciphertext -- when decrypted it contains PcaRandomContribution, R_pca
   }),
   startDate      Time32,
   endDate        Time32
 }
 
-
---------------------------------
--- PcaRandomContribution 
---
--- The random contribution sent by the PCA for the key derivation
---------------------------------
+---
+-- @brief This data type denotes the 256 bit random number from PCA. It is
+--        used to encrypt data while requesting key agreement with an LA by
+--        PCA.
+-- @class PcaRandomContribution 
 PcaRandomContribution ::= OCTET STRING (SIZE(32))
 
-
---------------------------------
--- LaPcaKeyAgreementResponseMsg 
---
--- Response sent by the LA to the PCA to the key agreement request 
---
--- version            version of this response structure
--- requestHash        hash of the original request
--- laId               hostname of the LA
--- enc-R-la           encrypted random contribution from the LA, with the 
---                    following fields 
---   recipient          the PCA's certificate digest info (RecipientInfo has 
---                      type of PKRecipientInfo, which contains ID of the PCA's
---                      certificate and encrypted by ECIES symmetric key 
---                      Enc(AES_key))
---   ciphertext         the LA's encrypted 32-byte contribution R_la of type 
---                      LaRandomContribution. (the random contribution is 
---                      encrypted by AES_key from RecipientInfo)
--- reply              structure containing (in case of)
---                    a) success: the acknowledgement MAC calculated by the LA
---                    b) failure: the corresponding error
---------------------------------
+---
+-- @brief This data type is used by the LA to respond to a
+--        PcaLaKeyAgreementRequestMsg from a PCA.
+-- @class LaPcaKeyAgreementResponseMsg 
+--- @param version    contains the current version of the data type. The 
+--                    version specified in this document is version 1,
+--                    represented by the integer 1.
+-- @param requestHash is the hash of the original request.
+-- @param laId        is the unique hostname ID of a LA.
+-- @param enc-R-la    is the encrypted data generated by using LA's random
+--                    contribution. The encrypted data contains recipient's
+--                    certificate information.
+-- @param reply       in case of no errors in PCA's request, LA responds with
+--                    a full hash that is computed as follows:
+--                    MAC_la computed as HMAC(mac_key, R_pca || R_la || "scms-la")
+--                    where (enc_key, mac_key) = KDF(R_pca || R_la || "scms-la-pca")
+--                    enc_key is the negotiated symmetric key to be used by LA 
+--                    for PLV encryption. In case of an error, an appropriate 
+--                    error code is sent in the response. 
+-- @see Uint8, HashedId8, LaHostnameId, EncryptedData, FullSizeHash,
+--      ScopedLaPcaError
 LaPcaKeyAgreementResponseMsg ::= SEQUENCE {
   version       Uint8(1),
   requestHash   HashedId8,  -- hash of the original request
@@ -144,55 +145,46 @@ LaPcaKeyAgreementResponseMsg ::= SEQUENCE {
   enc-R-la      EncryptedData (WITH COMPONENTS {
     recipients (SIZE (1) INTERSECTION (WITH COMPONENT (
         RecipientInfo (WITH COMPONENTS {
-            certRecipInfo   -- using hash of the PCA certificate
+            certRecipInfo -- using hash of the PCA certificate
     })))),
-    ciphertext              -- when decrypted it contains LaRandomContribution,
-                            -- R_la
+    ciphertext -- when decrypted it contains LaRandomContribution, R_la
   }),
   reply         CHOICE {
-      success FullSizeHash, -- MAC_la computed as 
-                            --   HMAC(mac_key, R_pca || R_la || "scms-la")
-                            -- where (enc_key, mac_key) = 
-                            --   KDF(R_pca || R_la || "scms-la-pca")
-                            -- enc_key is the negotiated symmetric key to be 
-                            -- used by the LA for PLV encryption
+      success FullSizeHash, 
       failure ScopedLaPcaError
   } 
 }
 
-
---------------------------------
--- LaRandomContribution 
---
--- The random contribution sent by the LA for the key derivation
---------------------------------
+---
+-- @brief This data type denotes the 256 bit random number from LA. It is used
+--        to encrypt data while reponding to a key agreement request from LA
+--        to PCA.
+-- @class LaRandomContribution 
 LaRandomContribution ::= OCTET STRING (SIZE(32))
 
-
-
---------------------------------
--- PcaLaKeyAgreementAckMsg 
--- 
--- Key agreement acknowledgement sent by PCA to LA
---
--- version            version of this acknowledgement structure
--- requestHash        hash of the original request
--- pcaId              hostname of the PCA
--- reply              structure containing (in case of)
---                    a) success: the acknowledgement MAC calculated by the PCA
---                    b) failure: the corresponding error
---------------------------------
+---
+-- @brief This data type is used by the PCA to acknowledge receipt of key
+--        agreement response sent by LA.
+-- @class PcaLaKeyAgreementAckMsg 
+--- @param version    contains the current version of the data type. The 
+--                    version specified in this document is version 1,
+--                    represented by the integer 1.
+-- @param requestHash is the hash of the original request.
+-- @param pcaId       is the unique hostname ID of a PCA.
+-- @param reply       in case of no errors in LA's response, PCA responds with
+--                    a full hash that is computed as follows:
+--                    MAC_pca computed as HMAC(mac_key, R_pca || R_la || "scms-pca")
+--                    where (enc_key, mac_key) = KDF(R_pca || R_la || "scms-la-pca")
+--                    enc_key is the negotiated symmetric key to be used by
+--                    PCA for PLV decryption. In the case of an error, an
+--                    appropriate error code is sent in the acknowledgement.
+-- @see Uint8, HashedId8, PcaHostnameId, FullSizeHash, ScopedLaPcaError
 PcaLaKeyAgreementAckMsg ::= SEQUENCE {
   version       Uint8(1),
   requestHash   HashedId8,  -- hash of the initial request
   pcaId         PcaHostnameId,
   reply         CHOICE {
-      success FullSizeHash, -- MAC_pca computed as 
-                            --   HMAC(mac_key, R_pca || R_la || "scms-pca")
-                            -- where (enc_key, mac_key) = 
-                            --   KDF(R_pca || R_la || "scms-la-pca")
-                            -- enc_key is the negotiated symmetric key to be 
-                            -- used by PCA for PLV decryption
+      success FullSizeHash,
       failure ScopedLaPcaError
   } 
 }
