@@ -42,52 +42,58 @@ standards-association-numbered-series-standards(2) wave-stds(1609) dot2(2)
 scms(4) errors(2) common(2) major-version-2(2)}
 
   ComponentCertificateManagementError
-FROM Ieee1609Dot2ScmsComponentCertificateManagementErrorScmsComponentCertificateManagementError
+FROM Ieee1609Dot2ScmsComponentCertificateManagementError
     {iso(1) identified-organization(3) ieee(111) 
     standards-association-numbered-series-standards(2) wave-stds(1609)  
     dot2(2) scms(4) errors(2) component-certificate-management(3) major-version-2(2)}
 
   EcaEndEntityError
-FROM Ieee1609Dot2EcaEndEntityErrorEcaEndEntityError
+FROM Ieee1609Dot2EcaEndEntityError
     {iso(1) identified-organization(3) ieee(111) 
     standards-association-numbered-series-standards(2) wave-stds(1609)  
     dot2(2) scms(4) errors(2) eca-ee(5) major-version-2(2)}
 
   LaMaError
-FROM Ieee1609Dot2LaMaErrorLaMaError
+FROM Ieee1609Dot2LaMaError
     {iso(1) identified-organization(3) ieee(111) 
     standards-association-numbered-series-standards(2) wave-stds(1609)  
     dot2(2) scms(4) errors(2) la-ma(9) major-version-2(2)}
 
   LaPcaError
-FROM Ieee1609Dot2LaPcaErrorLaPcaError
+FROM Ieee1609Dot2LaPcaError
     {iso(1) identified-organization(3) ieee(111) 
     standards-association-numbered-series-standards(2) wave-stds(1609)  
     dot2(2) scms(4) errors(2) la-pca(10) major-version-2(2)}
 
   LaRaError
-FROM Ieee1609Dot2LaRaErrorLaRaError
+FROM Ieee1609Dot2LaRaError
     {iso(1) identified-organization(3) ieee(111) 
     standards-association-numbered-series-standards(2) wave-stds(1609)  
     dot2(2) scms(4) errors(2) la-ra(11) major-version-2(2)}
 
   MaPcaError
-FROM Ieee1609Dot2MaPcaErrorMaPcaError
+FROM Ieee1609Dot2MaPcaError
     {iso(1) identified-organization(3) ieee(111) 
     standards-association-numbered-series-standards(2) wave-stds(1609)  
     dot2(2) scms(4) errors(2) ma-pca(13) major-version-2(2)}
 
   MaRaError
-FROM Ieee1609Dot2MaRaErrorMaRaError
+FROM Ieee1609Dot2MaRaError
     {iso(1) identified-organization(3) ieee(111) 
     standards-association-numbered-series-standards(2) wave-stds(1609)  
     dot2(2) scms(4) errors(2) ma-ra(14) major-version-2(2)}
 
   PcaRaError
-FROM Ieee1609Dot2PcaRaErrorPcaRaError
+FROM Ieee1609Dot2PcaRaError
     {iso(1) identified-organization(3) ieee(111) 
     standards-association-numbered-series-standards(2) wave-stds(1609)  
     dot2(2) scms(4) errors(2) pca-ra(15) major-version-2(2)}
+	
+  RaPgError
+FROM Ieee1609Dot2RaPgError
+{iso(1) identified-organization(3) ieee(111) 
+standards-association-numbered-series-standards(2) wave-stds(1609)  
+dot2(2) scms(4) errors(2) ra-pg(16) major-version-2(2)}
 
 ;
 
@@ -106,6 +112,7 @@ ScmsError ::= CHOICE {
   ma-pca  MaPcaError,
   ma-ra   MaRaError,
   pca-ra  PcaRaError,
+  ra-pg   RaPgError,
   ...
 }
 
@@ -220,6 +227,14 @@ ScopedMaRaLCIError ::=
 -- @see 
 ScopedPcaRaError ::= 
   ScmsError (WITH COMPONENTS {common} | WITH COMPONENTS {pca-ra})
+  
+---
+-- @brief 
+-- @class ScopedPcaRaError 
+-- @param
+-- @see 
+ScopedRaPgError ::= 
+  ScmsError (WITH COMPONENTS {common} | WITH COMPONENTS {ra-pg})
 
 
 END
