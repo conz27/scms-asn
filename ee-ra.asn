@@ -161,7 +161,7 @@ RaEeCertResponseAck ::= SEQUENCE {
 -- @see Time32
 CommonProvisioningRequestFields ::= SEQUENCE {
     current-time                 Time32,
-    requested-start-time         Time32,
+    requested-start-time         Time32 OPTIONAL,
     ...
 }
 
@@ -259,7 +259,7 @@ EeRaPseudonymCertProvisioningRequest ::= SEQUENCE {
     version                      Uint8(1),
     verify-key-info              UnsignedButterflyParams,
     resp-enc-key-info            UnsignedButterflyParams,
-    current-time                 Time32,
+    common                       CommonProvisioningRequestFields,
     ...
 }
 
