@@ -259,7 +259,7 @@ EeRaPseudonymCertProvisioningRequest ::= SEQUENCE {
     version                      Uint8(1),
     verify-key-info              UnsignedButterflyParams,
     resp-enc-key-info            UnsignedButterflyParams,
-    common                       CommonProvisioningRequestFields,
+    current-time                 Time32,
     ...
 }
 
