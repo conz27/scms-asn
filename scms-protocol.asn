@@ -961,21 +961,6 @@ SecuredRACertRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 
 ---
--- @brief This structure contains the encrypted ScopedRaEeCertResponse which 
---        contains the RaEeCertResponseMsg. RA responds to
---        SecuredRACertRequest using this structure with its active
---        RaCertificate.
---        NOTE ERROR: RA cannot encrypt this message since EE does not send its encryptionKey in its ObeEnrollmentCertificate with SecuredRACertRequest.
--- @class SecuredRACertResponse
--- @param content contains the ScopedRaEeCertResponse
--- @see RaEeCertResponseMsg, ObeEnrollmentCertificate 
-SecuredRACertResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
-    content (WITH COMPONENTS {...,
-      unsecuredData (CONTAINING ScopedRaEeCertResponse)
-    })
-  })
-
----
 -- @brief This structure contains the ScopedPseudonymCertProvisioningRequest 
 --        which contains the EeRaPseudonymCertProvisioningRequest structure. 
 --        EE sends this message to PCA through RA to request 
@@ -1090,8 +1075,7 @@ SecuredIdCertProvisioningRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
 ---
 -- @brief This structure contains the ScopedIdCertProvisioningAck which 
 --        contains the RaEeIdCertProvisioningAck. RA signs this message using 
---        its private key corresponding to its RaCertificate. RA sends this 
---        message to an EE in the form of SecuredIdCertProvisioningAck. 
+--        its private key corresponding to its RaCertificate.
 -- @class SignedIdCertProvisioningAck
 -- @param content contains the ScopedIdCertProvisioningAck which encloses the
 --                RaEeIdCertProvisioningAck.
@@ -1118,20 +1102,6 @@ SignedIdCertProvisioningAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
         })
       })
     })
-  })
-})
-
----
--- @brief This structure contains the SignedIdCertProvisioningAck.
---        NOTE ERROR: PCA cannot encrypt this message since EE does not send an encryptionKey in ObeEnrollmentCertificate in SignedIdCertProvisioningRequest. 
--- @class SecuredIdCertProvisioningAck
--- @param content contains the encrypted acknowledgement for identification
---                certificate provisioning; decrypts to
---                SignedIdCertProvisioningAck.
--- @see RaEeIdCertProvisioningAck, ObeEnrollmentCertificate 
-SecuredIdCertProvisioningAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
-  content (WITH COMPONENTS {...,
-    encryptedData
   })
 })
 
@@ -1176,8 +1146,7 @@ SecuredAppCertProvisioningRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
 ---
 -- @brief This structure contains the ScopedAppCertProvisioningAck which 
 --        contains the RaEeAppCertProvisioningAck. RA signs this message using 
---        its private key corresponding to its RaCertificate. RA sends this 
---        message to an EE in the form of SecuredAppCertProvisioningAck. 
+--        its private key corresponding to its RaCertificate.
 -- @class SignedAppCertProvisioningAck
 -- @param content contains the ScopedAppCertProvisioningAck which encloses the
 --                RaEeAppCertProvisioningAck.
@@ -1204,20 +1173,6 @@ SignedAppCertProvisioningAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
         })
       })
     })
-  })
-})
-
----
--- @brief This structure contains the SignedAppCertProvisioningAck.
---        NOTE ERROR: PCA cannot encrypt this message since EE does not send an encryptionKey in ObeEnrollmentCertificate in SignedAppCertProvisioningRequest. 
--- @class SecuredAppCertProvisioningAck
--- @param content contains the encrypted acknowledgement for application
---                certificate provisioning; decrypts to
---                SignedAppCertProvisioningAck.
--- @see RaEeAppCertProvisioningAck, ObeEnrollmentCertificate 
-SecuredAppCertProvisioningAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
-  content (WITH COMPONENTS {...,
-    encryptedData
   })
 })
 
