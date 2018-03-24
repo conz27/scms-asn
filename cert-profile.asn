@@ -60,7 +60,8 @@ FROM IEEE1609dot2CrlSsp {iso(1) identified-organization(3) ieee(111)
   Mexico,
   USA,
 
-  CrlgCertExpiration,
+  CrlgCertExpirationPoc,
+  CrlgCertExpirationCvp,
   DcmCertExpirationPoc,
   DcmCertExpirationCvpQa,
   DcmCertExpirationCvpPrd1,
@@ -853,9 +854,7 @@ ObePseudonymCertificate ::= ImplicitCertificate (WITH COMPONENTS { ...,
   issuer (WITH COMPONENTS {sha256AndDigest}),
   toBeSigned (WITH COMPONENTS { ...,
     id (WITH COMPONENTS { 
-      linkageData (WITH COMPONENTS {
-        linkage-value PRESENT
-      })
+      linkageData
     }),
     cracaId, --set to HashedId3 of the Root CA cert
     crlSeries(ObePseudonymCrlSeries),
@@ -1111,7 +1110,7 @@ RaCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     cracaId, --set to HashedId3 of the Root CA cert
     crlSeries(ScmsComponentCrlSeries),
     validityPeriod (WITH COMPONENTS { ...,
-      duration (RaCertExpiration)
+      duration (RaCertExpirationPoc | RaCertExpirationCvpQa | RaCertExpirationCvpPrd1 | RaCertExpirationCvpPrd2 | RaCertExpirationCvpPrd3)
     }),
     region (WITH COMPONENTS {
       identifiedRegion (SequenceOfIdentifiedRegion (SIZE(1)) (CONSTRAINED BY {
