@@ -14,24 +14,35 @@
 --  limitations under the License.
 --
 
+-------------------------------------------------------------------------------
+-- EE-MA 
+--
+-- The structures in this file define the protocol for messages between an
+-- EE (OBE or RSE) and the MA for the purpose of reporting a misbehaving 
+-- device.
+--
+-- This file is part of the SCMS protocol developed by CAMP VSC5
+-- It depends on the IEEE 1609.2 protocol specification
+-------------------------------------------------------------------------------
+
 -- @namespace Ieee1609Dot2EndEntityMaInterface
 Ieee1609Dot2EndEntityMaInterface
-{iso(1) identified-organization(3) ieee(111)
-standards-association-numbered-series-standards(2) wave-stds(1609)
+{iso(1) identified-organization(3) ieee(111) 
+standards-association-numbered-series-standards(2) wave-stds(1609)  
 dot2(2) scms(4) interfaces(1) ee-ma (7) major-version-2(2)}
 
 DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 
 EXPORTS ALL;
 
-IMPORTS
+IMPORTS 
   Opaque,
   Signature,
   Time32,
   ThreeDLocation,
   Uint8
 FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111)
-		standards-association-numbered-series-standards(2) wave-stds(1609)
+  standards-association-numbered-series-standards(2) wave-stds(1609)  
 		dot2(2) base(1) base-types(2) major-version-2(2)}
 
 ;
@@ -59,14 +70,11 @@ EndEntityMaInterfacePDU::= CHOICE {
 -- @see Uint8, Opaque, BasicSafetyMessage
 MisbehaviorReportContents ::= SEQUENCE {
     version Uint8(1),
-    misbehavingDeviceInfo Opaque, -- placeholder
+    misbehavingDeviceInfo Opaque,  -- placeholder
     misbehavingDeviceBSMs OCTET STRING OPTIONAL, -- non-OER encoded ASN.1 messages
     reporterDeviceBSMs OCTET STRING OPTIONAL, -- non-OER encoded ASN.1 messages
     sensorInfo Opaque OPTIONAL, -- placeholder: non-V2V related sensor information, if available
     ...
 }
-
-
-
 
 END

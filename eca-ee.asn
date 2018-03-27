@@ -14,6 +14,23 @@
 --  limitations under the License.
 --
 
+-------------------------------------------------------------------------------
+-- ECA-EE 
+--
+-- The structures in this file define the protocol for messages between the
+-- ECA and any EE (OBE or RSE) for the purpose of requesting and receiving
+-- a new enrollment certificate.
+--
+-- The enrollment process is always initiated by the EE, typically with the aid
+-- of a DCM which provides a trusted connection between the new EE and the
+-- ECA.  The enrollment protocol assumes that the DCM does not take an active
+-- roll in the enrollment certificate request/response, it is just a trusted
+-- network connection point for the EE.  
+--
+-- This file is part of the SCMS protocol developed by CAMP VSC5
+-- It depends on the IEEE 1609.2 protocol specification
+-------------------------------------------------------------------------------
+
 -- @namespace Ieee1609Dot2EcaEndEntityInterface
 Ieee1609Dot2EcaEndEntityInterface
 {iso(1) identified-organization(3) ieee(111)
@@ -75,7 +92,7 @@ EcaEndEntityInterfacePDU::= CHOICE {
 --                    represented by the integer 1.
 -- @param currentTime contains the time of creation of EeEcaCertRequest.
 -- @param tbsData     contains the ToBeSignedCertificate data used by the ECA 
---                    to generate the EEâ€™s enrollment certificate. The 
+--                    to generate the EE’s enrollment certificate. The 
 --                    ToBeSignedCertificate is specified in Section 6.4.8 of
 --                    IEEE 1609.2-2016.
 -- @see Uint8, Time32, ToBeSignedCertificate
@@ -96,7 +113,7 @@ EeEcaCertRequest ::= SEQUENCE {
 }
 
 ---
--- @brief This data type is used by the ECA to respond to an EEâ€™s enrollment 
+-- @brief This data type is used by the ECA to respond to an EE’s enrollment 
 --        certificate request. Additional bootstrapping information including 
 --        the RA's certificate are provided by the DCM in a zipped file.
 -- @class EcaEeCertResponse
@@ -116,9 +133,9 @@ EeEcaCertRequest ::= SEQUENCE {
 -- @see Uint8, HashedId8, Certificate, ImplicitCertificate,
 --      EccP256PrivateKeyReconstruction
 EcaEeCertResponse ::= SEQUENCE {
-    version         			Uint8(1),
+	version         Uint8(1),
     requestHash     			HashedId8,
-    ecaCert         			Certificate,
+    ecaCert         Certificate,
     enrollmentCert  			ImplicitCertificate,
     privKeyReconstruction 		EccP256PrivateKeyReconstruction,
     ...

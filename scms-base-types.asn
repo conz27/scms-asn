@@ -14,6 +14,17 @@
 --  limitations under the License.
 -- 
 
+-------------------------------------------------------------------------------
+-- SCMS-BASE-TYPES 
+--
+-- The structures in this file define some common messages, or base types, used
+-- by different entities in the system, as well some constants related to the 
+-- SCMS protocols.
+--
+-- This file is part of the SCMS protocol developed by CAMP VSC5
+-- It depends on the IEEE 1609.2 protocol specification
+-------------------------------------------------------------------------------
+
 -- @namespace Ieee1609dot2ScmsBaseTypes 
 Ieee1609dot2ScmsBaseTypes {iso(1) identified-organization(3) ieee(111)
 standards-association-numbered-series-standards(2) wave-stds(1609)  dot2(2)
@@ -45,7 +56,6 @@ FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111)
 FROM IEEE1609dot2 {iso(1) identified-organization(3) ieee(111) 
     standards-association-numbered-series-standards(2) wave-stds(1609)  
     dot2(2) base(1) schema(1) major-version-2(2)}
-
 ;
 
 ---
@@ -504,7 +514,7 @@ EccP256PrivateKeyReconstruction ::= OCTET STRING(SIZE(32))
 
 ---
 -- @brief This data type is used by LA to respond to linkage value requests
---        from MA.
+--        from MA with an encrypted individual pre-linkage value.
 -- @class EncryptedIndividualPLV 
 -- @param version contains the current version of the data type. The version 
 --                specified in this document is version 1, represented by the
@@ -513,7 +523,7 @@ EccP256PrivateKeyReconstruction ::= OCTET STRING(SIZE(32))
 -- @param enc-plv the ciphertext field in enc-plv decrypts to a
 --                ToBeEncryptedIndividualPLV. It contains a Pointer to the
 --                used encryption key. The encryption key is identified by the
---                hash of key agreement (PCA’s initial request).
+--                hash of key agreement (PCA's initial request).
 -- @see Uint8, LaId, EncryptedData
 EncryptedIndividualPLV ::= SEQUENCE {
     version         Uint8(1),
@@ -597,7 +607,8 @@ HPCR            ::= FullSizeHash
 
 ---
 -- @brief This data type encloses a linkage seed and the ID of an LA providing
---        it.
+--        it. This structure is sent by the LA to the MA in response to a 
+--        linkage a seed request.
 -- @class LinkageSeedAndLaId 
 -- @param linkageSeed denotes a linkage seed corresponding to an entity in the
 --                    SCMS.
@@ -632,7 +643,10 @@ EncryptedPlvAndHostInfo ::= SEQUENCE {
 }
 
 ---
--- @brief This data type encloses an HPCR and its corresponding host.
+-- @brief This data type groups the hash of the pseudonym certificate 
+--        request (HPCR) and the hostname of the RA that requested the 
+--        certificate. Appears in messages exchanged between the MA and 
+--        the PCA.
 -- @class HPCRAndHostInfo 
 -- @param hpcr     is the hash of pseudonym certificate of the host.
 -- @param hostname is the name of the host corresponding to hpcr in this data
@@ -644,7 +658,8 @@ HPCRAndHostInfo ::= SEQUENCE {
 }
 
 ---
--- @brief This data type encloses the LCI and its host information.
+-- @brief This data type cotains pairs of LCI and its host information. This
+--        structure appears in messages exchanged between the MA and the RA.
 -- @class LCIAndHostInfo 
 -- @param iMax    denotes the upper bound of i for which the PLVs are requested.
 -- @param la1-lci is the linkage chain ID of LA1.

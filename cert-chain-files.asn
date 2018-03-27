@@ -14,6 +14,17 @@
 --  limitations under the License.
 -- 
 
+-------------------------------------------------------------------------------
+-- Certificate Chain Files
+--
+-- Defines structures for storing and exchanging global and local certificate
+-- chain files (GCCF and LCCF).  Includes properties for root management
+-- messages.
+--
+-- This file is part of the SCMS protocol developed by CAMP VSC5
+-- It depends on the IEEE 1609.2 protocol specification
+-------------------------------------------------------------------------------
+
 -- @namespace IEEE1609dot2-cert-chains 
 IEEE1609dot2-cert-chains {iso(1) identified-organization(3) ieee(111)
 standards-association-numbered-series-standards(2) wave-stds(1609)
@@ -104,6 +115,7 @@ CompositeVersion ::= SEQUENCE {
 	raHostname Hostname
 }
 
+
 ---
 -- @brief A certificate store is a list of root and elector endorsements plus
 --        lists of ICA and PCA certificates needed by EEs to validate message.
@@ -136,6 +148,5 @@ CertificateStore ::= SEQUENCE {
     certs SEQUENCE SIZE(0..MAX) OF Certificate,
     ...
 }
-
 
 END

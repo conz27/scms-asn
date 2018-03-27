@@ -14,6 +14,22 @@
 --  limitations under the License.
 --
 
+-------------------------------------------------------------------------------
+-- EE-RA 
+--
+-- The structures in this file define the protocol for messages between an
+-- EE (OBE or RSE) and the RA for the purposes of 
+-- a) requesting and receiving the RA certificate in the event that the EE 
+-- possess an expired or invalid RA certificate, as an alternative method
+-- to aquiring the RA certificate through the DCM,
+-- b) requesting a batch of pseudonym certificates, identity certificates
+-- or application certificates
+-- Both of these processes are initiated by the EE, possibly with the aid
+-- of a DCM.  
+-- This file is part of the SCMS protocol developed by CAMP VSC5
+-- It depends on the IEEE 1609.2 protocol specification
+-------------------------------------------------------------------------------
+
 -- @namespace Ieee1609Dot2EndEntityRaInterface
 Ieee1609Dot2EndEntityRaInterface
 {iso(1) identified-organization(3) ieee(111)
@@ -152,7 +168,8 @@ RaEeCertResponseAck ::= SEQUENCE {
 
 ---
 -- @brief This structure defines the parameters (seed and expansion keys) 
---        required for butterfly key expansion
+--        required for butterfly key expansion. The RA generates caterpillar keys using a linear formula based on the
+--        two fields described in this structure.
 -- @class UnsignedButterflyParams
 -- @param seed-key  contains the butterfly seed key
 -- @param expansion contains the expansion parameter needed to perform a 
@@ -165,8 +182,9 @@ UnsignedButterflyParams ::= SEQUENCE {
 }
 
 ---
--- @brief These are signed and encrypted before sending, see scms-protocol.asn
---        . Note that Identification certificates use Butterfly keys.
+-- @brief Identification certificate provisioning request sent by an EE (OBE) to the RA.
+--        These are signed and encrypted before sending, see scms-protocol.asn. Note that
+--        Identification certificates use Butterfly keys.
 -- @class EeRaIdCertProvisioningRequest
 -- @param version           contains the current version of the data type. The 
 --                          version specified in this document is version 1.
@@ -200,8 +218,9 @@ EeRaIdCertProvisioningRequest ::= SEQUENCE {
 }
 
 ---
--- @brief Application certificate provisioning requests are similar to 
---        Identification cert except there is no use of butterfly keys.
+-- @brief Application certificate provisioning request sent by an EE (RSE) to the RA.
+--        Similar to the EeRaIdCertProvisioningRequest defined above, except that 
+--        butterfly keys are not used in this case.
 -- @class EeRaAppCertProvisioningRequest
 -- @param version                  contains the current version of the data 
 --                                 type. The version specified in this

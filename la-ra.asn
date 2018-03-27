@@ -94,11 +94,15 @@ RaLaPreLinkageValueRequestMsgHeader ::= SEQUENCE {
 -- @class RaLaIndividualPreLinkageValueRequestMsg 
 -- @param header           encloses the header information of the request.
 -- @param jMax             denotes the maximum count of linkage values
---                         requested per i.
+--                         requested per time period i.
 -- @param numberOfFreshInd denotes number of fresh chains for individual
 --                         certificates requested.
 -- @param continuationsInd denotes the continuation values for individual
---                         certificates.
+--                         linkage chains that were provided
+--                         by the LA as a response to an earlier request. The content 
+--                         is ENC_LA(ls(0)) with ls(0) being the initial linkage seed 
+--                         value and ENC_LA being the AES-128-CCM encryption using a 
+--                         128-bit key for LA that is only known to LA..
 -- @see Uint8, Uint32, LinkageChainId
 RaLaIndividualPreLinkageValueRequestMsg ::= SEQUENCE {
     header              RaLaPreLinkageValueRequestMsgHeader,
@@ -116,7 +120,12 @@ RaLaIndividualPreLinkageValueRequestMsg ::= SEQUENCE {
 -- @param jMax            denotes the maximum count of linkage values
 --                        requested per i.
 -- @param otherLa         is the unique 16 bit ID of the second LA.
--- @param groupIdentifier is the group identifier to be created or continued.
+-- @param groupIdentifier is the group identifier to be created or continued. This is 
+--                        used to either start a new group linkage chain (if the RA 
+--                        selected this as a new group identifier) or to continue an
+--                        existing group linkage chain (if the RA used this identifier
+--                        before). Note that the chain linkage identifier might be used 
+--                        here, or another mapping to group chains might be used by the RA.
 -- @see 
 RaLaGroupPreLinkageValueRequestMsg ::= SEQUENCE {
     header              RaLaPreLinkageValueRequestMsgHeader,
@@ -152,12 +161,11 @@ LaRaPreLinkageValueResponseMsg ::= SEQUENCE {
 -- @brief LA uses this data type to enclose all requested PLV information in a
 --        response to RA.
 -- @class PreLinkageValueRequestResponse 
--- @param iMin       denotes the lower bound of i for which the PLVs are
+-- @param iMin       denotes the lower bound of time period i for which the PLVs are
 --                   requested.
--- @param iMax       denotes the upper bound of i for which the PLVs are
+-- @param iMax       denotes the upper bound of time period i for which the PLVs are
 --                   requested.
 -- @param individual contains the linkage chain information for individual PLVs.
--- @param group      contains the linkage chain information for group PLVs.
 -- @see Uint16
 PreLinkageValueRequestResponse ::= SEQUENCE {
     iMin                 Uint16,
@@ -170,12 +178,11 @@ PreLinkageValueRequestResponse ::= SEQUENCE {
 -- @brief LA uses this data type to send individual PLV linkage chain
 --        information to RA.
 -- @class IndividualPlvResponseLinkageChain 
--- @param jMax           denotes the maximum count of linkage values to be
---                       sent per i.
--- @param values         is the outer sequence of size equal to the difference:
---                       iMax-iMin. It contains an inner sequence of encrypted
---                       PLVs of size jMax.
--- @param linkageChainId is the LCI of the requested PLV.
+-- @param jMax            denotes the maximum count of linkage values to be
+--                        sent per time period i.
+-- @param values          bi-dimensional array of size [(iMax-iMin) x jMax] of 
+--                        encrypted individual pre-linkage values 
+-- @param linkageChainId  is the LCI of the requested PLV.
 -- @see Uint8, EncryptedIndividualPLV, LinkageChainId
 IndividualPlvResponseLinkageChain ::= SEQUENCE {
     jMax                Uint8, 

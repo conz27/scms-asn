@@ -13,6 +13,21 @@
 --  See the License for the specific language governing permissions and
 --  limitations under the License.
 --
+-------------------------------------------------------------------------------
+-- PCA-RA 
+--
+-- The structures in this file define the protocol for messages between the
+-- PCA and the RA for the purpose of requesting and receiving pseudonym or 
+-- identification certificates on behalf of the EE.
+--
+-- The certificate provisioning process is initiated by the EE, which initially
+-- issues a request to the RA, as specified in ee-ra.asn. This request is 
+-- processed by the RA which forwards the request to the PCA, as defined by the 
+-- structures described in this file.
+--
+-- This file is part of the SCMS protocol developed by CAMP VSC5
+-- It depends on the IEEE 1609.2 protocol specification
+-------------------------------------------------------------------------------
 
 -- @namespace Ieee1609Dot2PcaRaInterface
 Ieee1609Dot2PcaRaInterface
@@ -104,15 +119,21 @@ RaPcaCertRequestMsg ::= SEQUENCE {
 --        additional CertRequestInfo type within RaPcaCertRequestMsg. In particular, this doesn't
 --        allow pseudonym certs to have encryption keys, although it would in principle be possible to
 --        support this if the CA added a value to the encryption key as well as modifying the signing
---        key. It's probably best for pseudonymous devices that want encrypted responses to do it via
---        a response encryption key in the SignedData anyway.
+--        key.
 -- @class PseudonymCertRequestInfo 
+--
+-- The following fields are directly included into the certificate
+--
 -- @param psidSsp                   is a sequence of PSIDs with corresponding SSPs.
 -- @param performanceAssuranceLevel indicates the assurance level of the certificate holder. This field is optional.
 -- @param region                    defines the GeographicRegion for which a certificate is being
 --                                  requested. This field is optional.
 -- @param iValue                    denotes the week number from i=0 (i.e. 4:00 am Eastern Time on
 --                                  Tuesday, January 6, 2015)
+--
+-- The following fields are used to generate material that goes in the 
+-- certificate but are not included in the certificate directly
+--
 -- @param pca-id                    contains the PCA's hostname.
 -- @param sig-butterfly-key-B       used to generate the hash of the pseudonym certificate request
 --                                  from RA.
@@ -185,8 +206,7 @@ IdCertRequestInfo ::= SEQUENCE {
 --                    1609dot2-base-types.asn of [2]. In the case when the PCA cannot calculate the
 --                    hash of the original request due to an error, this field shall be all zeroes.
 -- @param reply       contains the encrypted pseudonym certificates with corresponding linkage values
---                    for an individual OBE. A failure is sent if any form of error arises in
---                    communication between PCA and RA.
+--                    for an individual OBE or a certificate either implicit or explicit.
 -- @see Uint8, HashedId8, PcaHostnameId
 PcaRaCertResponseMsg ::= SEQUENCE {
   version     Uint8(1),
