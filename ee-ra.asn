@@ -47,7 +47,8 @@ IMPORTS
   PublicEncryptionKey,
   PublicVerificationKey,
   Time32,
-  Uint8
+  Uint8,
+  GeographicRegion
 FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111)
     standards-association-numbered-series-standards(2) wave-stds(1609) dot2(2)
     base(1) base-types(2) major-version-2(2)}
@@ -165,22 +166,6 @@ RaEeCertResponseAck ::= SEQUENCE {
     ...
 }
 
-
----
--- @brief This structure defines the time when (and for which start date of 
---        validity) a request is made to obtain pseudonym certificates.
--- @class CommonProvisioningRequestFields
--- @param current-time         indicates the time of request generation
--- @param requested-start-time indicates the requested start time for the 
---                             requested certificates to take effect (in terms
---                             of validity).
--- @see Time32
-CommonProvisioningRequestFields ::= SEQUENCE {
-    current-time                 Time32,
-    requested-start-time         Time32,
-    ...
-}
-
 ---
 -- @brief This structure defines the parameters (seed and expansion keys) 
 --        required for butterfly key expansion. The RA generates caterpillar keys using a linear formula based on the
@@ -213,16 +198,22 @@ UnsignedButterflyParams ::= SEQUENCE {
 -- @param resp-enc-key-info provides the information for SCMS to uniquely 
 --                          encrypt each ID certificate prior to responding to
 --                          the EE.
+-- @param region            indicates the operational region for the EE
+--                          device. Describes a circular or rectangular
+--							region. Must be a sub-region of the region 
+--							contained in the EE's enrollment certificate.
 -- @param common            provides the structure for indicating the time of 
 --                          the request and the requested start time of the
 --                          certificates.
--- @see Uint8
+-- @param current-time      indicates the time of request generation
+-- @see Uint8, Time32, UnsignedButterflyParams
 EeRaIdCertProvisioningRequest ::= SEQUENCE {
     version                      Uint8(1),
     verify-key-info              UnsignedButterflyParams,
     cert-enc-key-info            UnsignedButterflyParams OPTIONAL,
     resp-enc-key-info            UnsignedButterflyParams,
-    common                       CommonProvisioningRequestFields,
+	region                       GeographicRegion,
+    current-time                 Time32,
     ...
 }
 
@@ -243,16 +234,26 @@ EeRaIdCertProvisioningRequest ::= SEQUENCE {
 -- @param resp-encryption-key      provides the discrete PublicEncryptionKey 
 --                                 to be used by the SCMS to encrypt the
 --                                 certificate response back to the EE.
+-- @param region                   indicates the operational region for the EE
+--                                 device. Describes a circular or rectangular
+--								   region. Must be a sub-region of the region 
+--								   contained in the EE's enrollment certificate.
 -- @param common                   provides the structure for indicating the 
 --                                 time of the request and the requested start
 --                                 time of the certificates.
--- @see Uint8, PublicVerificationKey, PublicEncryptionKey, PublicEncryptionKey
+-- @param current-time             indicates the time of request generation
+-- @param requested-start-time     indicates the requested start time for the 
+--                                 requested certificates to take effect (in terms
+--                                 of validity).
+-- @see Uint8, Time32 PublicVerificationKey, PublicEncryptionKey
 EeRaAppCertProvisioningRequest ::= SEQUENCE {
     version                 Uint8(1),
     verify-key              PublicVerificationKey,
     cert-encryption-key     PublicEncryptionKey OPTIONAL,
     response-encryption-key PublicEncryptionKey,
-    common                  CommonProvisioningRequestFields,
+	region                  GeographicRegion,
+    current-time            Time32,
+    requested-start-time    Time32,
     ...
 }
 
@@ -273,12 +274,13 @@ EeRaAppCertProvisioningRequest ::= SEQUENCE {
 -- @param common            provides the structure for indicating the time of 
 --                          the request and the requested start time of the
 --                          certificates.
--- @see Uint8
+-- @param current-time      indicates the time of request generation
+-- @see Uint8, Time32, UnsignedButterflyParams
 EeRaPseudonymCertProvisioningRequest ::= SEQUENCE {
     version                      Uint8(1),
     verify-key-info              UnsignedButterflyParams,
     resp-enc-key-info            UnsignedButterflyParams,
-    common                       CommonProvisioningRequestFields,
+    current-time                 Time32,
     ...
 }
 

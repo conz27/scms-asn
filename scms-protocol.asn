@@ -219,7 +219,11 @@ ScmsFile ::= SEQUENCE {
 --
 -- *************************************************************************
 
--- *** EE-CA ***************************************************************
+-- *************************************************************************
+--
+--             EE-ECA (Scoped)
+--
+-- *************************************************************************
 
 ---
 -- @brief This structure defines the EeEcaCertRequest as a scoped version of
@@ -247,7 +251,11 @@ ScopedEeEnrollmentCertResponse ::=
     })
  })
 
--- *** EE-MA ***************************************************************
+-- *************************************************************************
+--
+--             EE-MA (Scoped)
+--
+-- *************************************************************************
 
 ---
 -- @brief This structure defines the MisbehaviorReport as a scoped version of
@@ -262,7 +270,11 @@ ScopedMisbehaviorReport ::=
     })
  })
 
--- *** EE-RA ***************************************************************
+-- *************************************************************************
+--
+--             EE-RA (Scoped)
+--
+-- *************************************************************************
 
 ---
 -- @brief This structure defines the EeRaCertRequest as a scoped version of the
@@ -433,7 +445,11 @@ ScopedAuthenticatedDownloadRequest ::=
     })
   })
 
--- *** LA-MA ***************************************************************
+-- *************************************************************************
+--
+--             LA-MA (Scoped)
+--
+-- *************************************************************************
 
 ---
 -- @brief This structure defines the MaLaLinkageInfoRequest as a scoped 
@@ -487,8 +503,11 @@ ScopedLSReply ::=
     })
   })
 
-
--- *** LA-PCA **************************************************************
+-- *************************************************************************
+--
+--             LA-PCA (Scoped)
+--
+-- *************************************************************************
 
 ---
 -- @brief This structure defines the PcaLaKeyAgreementRequest as a scoped 
@@ -529,7 +548,11 @@ ScopedPcaLaKeyAgreementAck ::=
     })
   })
 
--- *** LA-RA ***************************************************************
+-- *************************************************************************
+--
+--             LA-RA (Scoped)
+--
+-- *************************************************************************
 
 ---
 -- @brief This structure defines the RaLaIndividualPreLinkageValueRequest as a 
@@ -571,8 +594,11 @@ ScopedLaRaPreLinkageValueResponse ::=
     })
   })
 
--- *** MA-PCA **************************************************************
-
+-- *************************************************************************
+--
+--             MA-PCA (Scoped)
+--
+-- *************************************************************************
 
 ---
 -- @brief This structure defines the MaPcaPreLinkageValueRequest as a scoped 
@@ -629,8 +655,11 @@ ScopedPcaMaHPCRResponse ::=
     })
   })
 
--- *** MA-RA **************************************************************
-
+-- *************************************************************************
+--
+--             MA-RA (Scoped)
+--
+-- *************************************************************************
 
 ---
 -- @brief This structure defines the MaRaBlacklistRequest as a scoped version 
@@ -671,7 +700,6 @@ ScopedLCIRequest ::=
     })
   })
 
-
 ---
 -- @brief This structure defines the RaMaLCIResponse as a scoped version of 
 --        the ScmsPDU.
@@ -685,7 +713,6 @@ ScopedLCIResponse ::=
     })
   })
 
-  
 ---
 -- @brief This structure defines the MaRaRseObeIdBlacklistRequest as a scoped 
 --        version of the ScmsPDU.
@@ -698,7 +725,6 @@ ScopedRseObeIdBlacklistRequest ::=
       })
     })
   })
-
 
 ---
 -- @brief This structure defines the RaMaRseObeIdBlacklistResponse as a scoped 
@@ -713,7 +739,11 @@ ScopedRseObeIdBlacklistResponse ::=
     })
   })
 
--- *** PCA-RA *************************************************************
+-- *************************************************************************
+--
+--             PCA-RA (Scoped)
+--
+-- *************************************************************************
 
 ---
 -- @brief This structure defines the RaPcaCertRequest as a scoped version of 
@@ -742,8 +772,11 @@ ScopedPcaRaCertificateRequestReply ::=
     })
   })
 
-
--- *** RA-PG *************************************************************
+-- *************************************************************************
+--
+--             RA-PG (Scoped)
+--
+-- *************************************************************************
 
 ---
 -- @brief This structure defines the RaPgPolicySignatureRequest as a scoped 
@@ -788,8 +821,6 @@ ScopedCertificateRequest ::= ScmsPDU (
      ScopedRaPcaCertificateRequest |
      ScopedAuthenticatedDownloadRequest
 )
-
-
 
 
 --*************************************************************************
@@ -840,7 +871,7 @@ SecuredScmsPDU ::= Ieee1609Dot2Data
 
 -- *************************************************************************
 --
---             EE-ECA
+--             EE-ECA (Secured)
 --
 -- *************************************************************************
 
@@ -901,7 +932,7 @@ SignedEeEnrollmentCertResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
 
 -- *************************************************************************
 --
---             EE-MA
+--             EE-MA (Secured)
 --
 -- *************************************************************************
 
@@ -960,7 +991,7 @@ SignedMisbehaviorReport ::= SecuredScmsPDU (WITH COMPONENTS {...,
 
 -- *************************************************************************
 --
---             EE-RA
+--             EE-RA (Secured)
 --
 -- *************************************************************************
 
@@ -977,21 +1008,6 @@ SignedMisbehaviorReport ::= SecuredScmsPDU (WITH COMPONENTS {...,
 SecuredRACertRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
     content (WITH COMPONENTS {...,
       unsecuredData (CONTAINING ScopedEeRaCertRequest)
-    })
-  })
-
----
--- @brief This structure contains the encrypted ScopedRaEeCertResponse which 
---        contains the RaEeCertResponseMsg. RA responds to
---        SecuredRACertRequest using this structure with its active
---        RaCertificate.
---        NOTE ERROR: RA cannot encrypt this message since EE does not send its encryptionKey in its ObeEnrollmentCertificate with SecuredRACertRequest.
--- @class SecuredRACertResponse
--- @param content contains the ScopedRaEeCertResponse
--- @see   RaEeCertResponseMsg, ObeEnrollmentCertificate 
-SecuredRACertResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
-    content (WITH COMPONENTS {...,
-      unsecuredData (CONTAINING ScopedRaEeCertResponse)
     })
   })
 
@@ -1143,20 +1159,6 @@ SignedIdCertProvisioningAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
 })
 
 ---
--- @brief This structure contains the SignedIdCertProvisioningAck.
---        NOTE ERROR: PCA cannot encrypt this message since EE does not send an encryptionKey in ObeEnrollmentCertificate in SignedIdCertProvisioningRequest. 
--- @class SecuredIdCertProvisioningAck
--- @param content contains the encrypted acknowledgement for identification
---                certificate provisioning; decrypts to
---                SignedIdCertProvisioningAck.
--- @see   RaEeIdCertProvisioningAck, ObeEnrollmentCertificate 
-SecuredIdCertProvisioningAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
-  content (WITH COMPONENTS {...,
-    encryptedData
-  })
-})
-
----
 -- @brief This structure contains the ScopedAppCertProvisioningRequest 
 --        which contains the EeRaAppCertProvisioningRequest structure. 
 --        EE signs this message using its private key corresponding to its
@@ -1225,20 +1227,6 @@ SignedAppCertProvisioningAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
         })
       })
     })
-  })
-})
-
----
--- @brief This structure contains the SignedAppCertProvisioningAck.
---        NOTE ERROR: PCA cannot encrypt this message since EE does not send an encryptionKey in ObeEnrollmentCertificate in SignedAppCertProvisioningRequest. 
--- @class SecuredAppCertProvisioningAck
--- @param content contains the encrypted acknowledgement for application
---                certificate provisioning; decrypts to
---                SignedAppCertProvisioningAck.
--- @see RaEeAppCertProvisioningAck, ObeEnrollmentCertificate 
-SecuredAppCertProvisioningAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
-  content (WITH COMPONENTS {...,
-    encryptedData
   })
 })
 
@@ -1325,7 +1313,11 @@ SignedLocalPolicyFile ::= Ieee1609Dot2Data( WITH COMPONENTS{...,
    })
 })
 
--- ************ LA-MA (Secured) ************ --
+-- *************************************************************************
+--
+--             LA-MA (Secured)
+--
+-- *************************************************************************
 
 ---
 -- @brief This structure contains ScopedLIRequest which contains 
@@ -1512,8 +1504,11 @@ SecuredLSReply ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
-
--- ************ LA-PCA (Secured ************ --
+-- *************************************************************************
+--
+--             LA-PCA (Secured)
+--
+-- *************************************************************************
 
 ---
 -- @brief This structure contains ScopedPcaLaKeyAgreementRequest which 
@@ -1613,9 +1608,11 @@ SignedPcaLaKeyAgreementAck ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
-
--- ************ LA-RA (Secured) ************ --
-
+-- *************************************************************************
+--
+--             LA-RA (Secured)
+--
+-- *************************************************************************
 
 ---
 -- @brief This structure contains ScopedRaLaIndividualPreLinkageValueRequest
@@ -1724,7 +1721,11 @@ SignedLaRaPreLinkageValueResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
--- ************ MA-PCA (Secured) ************ --
+-- *************************************************************************
+--
+--             MA-PCA (Secured)
+--
+-- *************************************************************************
 
 ---
 -- @brief This structure contains ScopedMaPcaPreLinkageValueRequest which
@@ -1914,8 +1915,11 @@ SecuredPcaMaHPCRResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
-
--- ************ MA-RA (Secured) ************ --
+-- *************************************************************************
+--
+--             MA-RA (Secured)
+--
+-- *************************************************************************
 
 ---
 -- @brief This structure contains ScopedBlacklistRequest which contains
@@ -1964,7 +1968,6 @@ SecuredBlacklistRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
-
 ---
 -- @brief This structure contains ScopedBlacklistResponse which contains
 --        RaMaBlacklistResponse and is sent by RA to MA. RA signs this message
@@ -2011,7 +2014,6 @@ SecuredBlacklistResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
     encryptedData
   })
 })
-
 
 ---
 -- @brief This structure contains ScopedRseObeIdBlacklistRequest which
@@ -2060,7 +2062,6 @@ SecuredRseObeIdBlacklistRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
     encryptedData
   })
 })
-
 
 ---
 -- @brief This structure contains ScopedBlacklistResponse which contains
@@ -2111,7 +2112,6 @@ SecuredRseObeIdBlacklistResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
-
 ---
 -- @brief This structure contains ScopedLCIRequest which contains
 --        MaRaLCIRequest and is sent by MA to RA. MA signs this message using
@@ -2157,8 +2157,6 @@ SecuredLCIRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
     encryptedData  --
   })
 })
-
-
 
 ---
 -- @brief This structure contains ScopedLCIResponse which contains
@@ -2206,10 +2204,11 @@ SecuredLCIResponse ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
-
--- ************ PCA-RA (Secured) ************ --
-
-
+-- *************************************************************************
+--
+--             PCA-RA (Secured)
+--
+-- *************************************************************************
 
 ---
 -- @brief This structure contains ScopedRaPcaCertificateRequest which contains 
@@ -2231,8 +2230,6 @@ SecuredRaPcaCertificateRequest ::= SecuredScmsPDU (WITH COMPONENTS {...,
     )
   })
 })
-
-
 
 ---
 -- @brief This structure contains ScopedPcaRaCertificateRequestReply which 
@@ -2266,7 +2263,11 @@ SecuredPcaRaCertificateRequestReply ::= SecuredScmsPDU (WITH COMPONENTS {...,
   })
 })
 
--- ************ Root Management / Electors (Secured) ************ --
+-- *************************************************************************
+--
+--             Root Management / Electors (Secured)
+--
+-- *************************************************************************
 
 ---
 -- @brief This structure defines the TbsElectorEndorsement as a scoped version 
@@ -2346,8 +2347,6 @@ UnsecuredElectorBallot ::= SecuredScmsPDU (WITH COMPONENTS {...,
 --             SSP
 --
 -- *************************************************************************
-
-
 
 ---
 -- @brief The ScmsSsp is the parent structure that encompasses all Service 
@@ -2528,7 +2527,5 @@ RaSsp ::= SEQUENCE {
   version  Uint8(1),
   ...
 }
-
-
 
 END
