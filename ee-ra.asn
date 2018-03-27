@@ -150,22 +150,6 @@ RaEeCertResponseAck ::= SEQUENCE {
     ...
 }
 
-
----
--- @brief This structure defines the time when (and for which start date of 
---        validity) a request is made to obtain pseudonym certificates.
--- @class CommonProvisioningRequestFields
--- @param current-time         indicates the time of request generation
--- @param requested-start-time indicates the requested start time for the 
---                             requested certificates to take effect (in terms
---                             of validity).
--- @see Time32
-CommonProvisioningRequestFields ::= SEQUENCE {
-    current-time                 Time32,
-    requested-start-time         Time32,
-    ...
-}
-
 ---
 -- @brief This structure defines the parameters (seed and expansion keys) 
 --        required for butterfly key expansion
@@ -203,14 +187,15 @@ UnsignedButterflyParams ::= SEQUENCE {
 -- @param common            provides the structure for indicating the time of 
 --                          the request and the requested start time of the
 --                          certificates.
--- @see Uint8
+-- @param current-time      indicates the time of request generation
+-- @see Uint8, Time32, UnsignedButterflyParams
 EeRaIdCertProvisioningRequest ::= SEQUENCE {
     version                      Uint8(1),
     verify-key-info              UnsignedButterflyParams,
     cert-enc-key-info            UnsignedButterflyParams OPTIONAL,
     resp-enc-key-info            UnsignedButterflyParams,
 	region                       GeographicRegion,
-    common                       CommonProvisioningRequestFields,
+    current-time                 Time32,
     ...
 }
 
@@ -237,14 +222,19 @@ EeRaIdCertProvisioningRequest ::= SEQUENCE {
 -- @param common                   provides the structure for indicating the 
 --                                 time of the request and the requested start
 --                                 time of the certificates.
--- @see Uint8, PublicVerificationKey, PublicEncryptionKey, PublicEncryptionKey
+-- @param current-time             indicates the time of request generation
+-- @param requested-start-time     indicates the requested start time for the 
+--                                 requested certificates to take effect (in terms
+--                                 of validity).
+-- @see Uint8, Time32 PublicVerificationKey, PublicEncryptionKey
 EeRaAppCertProvisioningRequest ::= SEQUENCE {
     version                 Uint8(1),
     verify-key              PublicVerificationKey,
     cert-encryption-key     PublicEncryptionKey OPTIONAL,
     response-encryption-key PublicEncryptionKey,
 	region                  GeographicRegion,
-    common                  CommonProvisioningRequestFields,
+    current-time            Time32,
+    requested-start-time    Time32,
     ...
 }
 
@@ -265,12 +255,13 @@ EeRaAppCertProvisioningRequest ::= SEQUENCE {
 -- @param common            provides the structure for indicating the time of 
 --                          the request and the requested start time of the
 --                          certificates.
--- @see Uint8
+-- @param current-time      indicates the time of request generation
+-- @see Uint8, Time32, UnsignedButterflyParams
 EeRaPseudonymCertProvisioningRequest ::= SEQUENCE {
     version                      Uint8(1),
     verify-key-info              UnsignedButterflyParams,
     resp-enc-key-info            UnsignedButterflyParams,
-    common                       CommonProvisioningRequestFields,
+    current-time                 Time32,
     ...
 }
 
