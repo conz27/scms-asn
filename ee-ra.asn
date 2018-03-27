@@ -31,7 +31,8 @@ IMPORTS
   PublicEncryptionKey,
   PublicVerificationKey,
   Time32,
-  Uint8
+  Uint8,
+  GeographicRegion
 FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111)
     standards-association-numbered-series-standards(2) wave-stds(1609) dot2(2)
     base(1) base-types(2) major-version-2(2)}
@@ -179,6 +180,10 @@ UnsignedButterflyParams ::= SEQUENCE {
 -- @param resp-enc-key-info provides the information for SCMS to uniquely 
 --                          encrypt each ID certificate prior to responding to
 --                          the EE.
+-- @param region            indicates the operational region for the EE
+--                          device. Describes a circular or rectangular
+--							region. Must be a sub-region of the region 
+--							contained in the EE's enrollment certificate.
 -- @param common            provides the structure for indicating the time of 
 --                          the request and the requested start time of the
 --                          certificates.
@@ -189,6 +194,7 @@ EeRaIdCertProvisioningRequest ::= SEQUENCE {
     verify-key-info              UnsignedButterflyParams,
     cert-enc-key-info            UnsignedButterflyParams OPTIONAL,
     resp-enc-key-info            UnsignedButterflyParams,
+	region                       GeographicRegion,
     current-time                 Time32,
     ...
 }
@@ -209,6 +215,10 @@ EeRaIdCertProvisioningRequest ::= SEQUENCE {
 -- @param resp-encryption-key      provides the discrete PublicEncryptionKey 
 --                                 to be used by the SCMS to encrypt the
 --                                 certificate response back to the EE.
+-- @param region                   indicates the operational region for the EE
+--                                 device. Describes a circular or rectangular
+--								   region. Must be a sub-region of the region 
+--								   contained in the EE's enrollment certificate.
 -- @param common                   provides the structure for indicating the 
 --                                 time of the request and the requested start
 --                                 time of the certificates.
@@ -222,6 +232,7 @@ EeRaAppCertProvisioningRequest ::= SEQUENCE {
     verify-key              PublicVerificationKey,
     cert-encryption-key     PublicEncryptionKey OPTIONAL,
     response-encryption-key PublicEncryptionKey,
+	region                  GeographicRegion,
     current-time            Time32,
     requested-start-time    Time32,
     ...
