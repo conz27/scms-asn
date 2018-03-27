@@ -14,6 +14,16 @@
 --  limitations under the License.
 -- 
 
+-------------------------------------------------------------------------------
+-- LA-MA-ERRORS
+--
+-- The structures in this file define the possible error occuring during a 
+-- message exchange between an LA and the MA.
+--
+-- This file is part of the SCMS protocol developed by CAMP VSC5
+-- It depends on the IEEE 1609.2 protocol specification
+-------------------------------------------------------------------------------
+
 -- @namespace Ieee1609Dot2LaMaError
 Ieee1609Dot2LaMaError
 {iso(1) identified-organization(3) ieee(111) 
@@ -25,10 +35,12 @@ DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 EXPORTS ALL;
 
 ---
--- @brief 
--- @class LaMaError 
--- @param
+-- @brief Generic structure containing the possible errors returned by the LA.
+-- @param la-ma-base-error          base error codes for LA-MA communication
+-- @param la-ma-linkage-info-error  error codes in response to a linkage info request
+-- @param la-ma-linkage-seed-error  error codes in response to a linkage seed request
 -- @see 
+-- @class LaMaError 
 LaMaError ::= CHOICE {
   la-ma-base-error          LaMaBaseErrorCode,
   la-ma-linkage-info-error  LaMaLinkageInfoErrorCode,

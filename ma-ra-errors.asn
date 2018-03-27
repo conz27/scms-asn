@@ -14,6 +14,16 @@
 --  limitations under the License.
 -- 
 
+-------------------------------------------------------------------------------
+-- MA-RA-ERRORS
+--
+-- The structures in this file define the possible error occuring during a 
+-- message exchange between the MA and the RA.
+--
+-- This file is part of the SCMS protocol developed by CAMP VSC5
+-- It depends on the IEEE 1609.2 protocol specification
+-------------------------------------------------------------------------------
+
 -- @namespace Ieee1609Dot2MaRaError
 Ieee1609Dot2MaRaError
 {iso(1) identified-organization(3) ieee(111) 
@@ -26,7 +36,7 @@ EXPORTS ALL;
 
 
 ---
--- @brief 
+-- @brief Generic structure containing the possible errors returned by the RA.
 -- @class MaRaError 
 -- @param
 -- @see 

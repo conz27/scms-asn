@@ -13,6 +13,26 @@
 --  See the License for the specific language governing permissions and
 --  limitations under the License.
 -- 
+-------------------------------------------------------------------------------
+-- MA-RA 
+--
+-- The structures in this file define the protocol for messages between the MA
+-- and the RA for the purposes of
+-- 
+-- a) Blacklisting: the MA sends a request to blacklist an enrollment 
+-- certificate so that the RA can add the corresponding certificate to its
+-- internal blacklist. This can be done either using the hash of the RA-to-PCA
+-- pseudonym certificate request (HPCR) or a revocation identifier (RIF).
+-- 
+-- b) Revocation: requesting and receiving the linkage chain identifier, i.e., 
+-- the encrypted linkage seed to the LA and the LA's contact information, given  
+-- the HPCR, for the purpose of revocation.
+--
+-- Both of these processes are initiated by the MA.
+--
+-- This file is part of the SCMS protocol developed by CAMP VSC5
+-- It depends on the IEEE 1609.2 protocol specification
+-------------------------------------------------------------------------------
 
 -- @namespace Ieee1609Dot2MaRaInterface
 Ieee1609Dot2MaRaInterface
@@ -103,8 +123,10 @@ MaRaInterfacePDU ::= CHOICE {
 --                   the integer 1.
 -- @param tbs        contains information of MA and requested HPCR. MA signs
 --                   this at scms-protocol level.
--- @param signatures is the list of counter signatures that the MA has to
---                   obtain from Auditors before sending this request. Size 0
+-- @param signatures is an array of signatures proving that the MA is authorized
+--                    to perform this instruction; signatures can either be
+--                    a) the signature of the MA
+--                    b) the signature of the MA and of multiple Auditors. Size 0
 --                   is used when no countersignatures are necessary
 -- @see Uint8, Countersignature
 MaRaBlacklistRequestMsg ::= SEQUENCE {
@@ -148,7 +170,7 @@ RaMaBlacklistResponseMsg ::= SEQUENCE {
 ---
 -- @brief RA uses this data type to enclose the blacklisting status of HPCRs.
 -- @class BlacklistingStatus 
--- @param hpcr  is the hash of pseudonym certificate (HPCR).
+-- @param hpcr  is the hash of the pseudonym certificate request (HPCR).
 -- @param reply contains nothing in the case when request of MA is correct.
 --              Otherwise includes an appropriate error code.
 -- @see HPCR, ScopedMaRaBlacklistError
@@ -161,7 +183,7 @@ BlacklistingStatus ::= SEQUENCE {
 }
 	
 ---
--- @brief MA uses this data type to request linkage chain identifiers from RA.
+-- @brief MA uses this data type to request linkage chain identifiers (LCI) from RA.
 --        Note that this is actually signed by the MA at the scms-protocol
 --        level.
 -- @class MaRaLCIRequestMsg 
@@ -214,7 +236,7 @@ RaMaLCIResponseMsg ::= SEQUENCE {
 ---
 -- @brief RA uses this data type to map HPCR with their LCIs.
 -- @class HPCR2LCI 
--- @param hpcr  is the hash of pseudonym certificate (HPCR).
+-- @param hpcr  is the hash of the pseudonym certificate request (HPCR).
 -- @param reply contains the LCI and group identifier information in case of
 --              no errors in request from MA. Otherwise, an appropriate error
 --              code is included.
@@ -241,8 +263,10 @@ HPCR2LCI ::= SEQUENCE {
 --                   represented by the integer 1.
 -- @param tbs        contains information of MA and requested RIFs. MA signs
 --                   this at scms-protocol level.
--- @param signatures is the list of signatures that the MA has to obtain from
---                   auditors before sending this message. Size 0 is used when
+-- @param signatures is an array of signatures proving that the MA is authorized
+--                    to perform this instruction; signatures can either be
+--                    a) the signature of the MA
+--                    b) the signature of the MA and of multiple Auditors. Size 0 is used when
 --                   no countersignatures are necessary.
 -- @see Uint8, Countersignature
 MaRaRseObeIdBlacklistRequestMsg ::= SEQUENCE {
@@ -308,8 +332,10 @@ RseObeIdBlacklistingStatus ::= SEQUENCE {
 --                   represented by the integer 1.
 -- @param tbs        contains information of MA and requested CDVs. MA signs
 --                   this at scms-protocol level.
--- @param signatures is the list of signatures that the MA has to obtain from
---                   auditors before sending this message. Size 0 is used when
+-- @param signatures is an array of signatures proving that the MA is authorized
+--                    to perform this instruction; signatures can either be
+--                    a) the signature of the MA
+--                    b) the signature of the MA and of multiple Auditors. Size 0 is used when
 --                   no countersignatures are necessary.
 -- @see Uint8, Countersignature
 MaRaCDVRequestMsg ::= SEQUENCE {
@@ -350,7 +376,7 @@ RaMaCDVResponseMsg ::= SEQUENCE {
 }
 
 ---
--- @brief RA uses this data type to map RIFs with their CDVs.
+-- @brief RA uses this data type to map Revocation Identifiers (RIF) with their Certificate Digest Values (CDV).
 -- @class CdvInfo 
 -- @param rif  is an 8-byte revocation identifier array in scms-base-types.asn.
 -- @param reply contains the CDV for each input in case of no errors in request
@@ -365,6 +391,4 @@ CdvInfo ::= SEQUENCE {
 	}
 }
 
-
 END
-

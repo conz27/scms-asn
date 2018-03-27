@@ -14,6 +14,16 @@
 --  limitations under the License.
 -- 
 
+-------------------------------------------------------------------------------
+-- COMPONENT-CERT-MANAGEMENT-ERRORS
+--
+-- The structure in this file defines a possible error occuring during the 
+-- management of component certificates.
+--
+-- This file is part of the SCMS protocol developed by CAMP VSC5
+-- It depends on the IEEE 1609.2 protocol specification
+-------------------------------------------------------------------------------
+
 -- @namespace Ieee1609Dot2ScmsComponentCertificateManagementError
 Ieee1609Dot2ScmsComponentCertificateManagementError
 {iso(1) identified-organization(3) ieee(111) 

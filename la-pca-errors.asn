@@ -13,6 +13,15 @@
 --  See the License for the specific language governing permissions and
 --  limitations under the License.
 -- 
+-------------------------------------------------------------------------------
+-- LA-PCA-ERRORS
+--
+-- The structure in this file defines the possible errors that could occur  
+-- during the key agreement process between the LA and the PCA.
+--
+-- This file is part of the SCMS protocol developed by CAMP VSC5
+-- It depends on the IEEE 1609.2 protocol specification
+-------------------------------------------------------------------------------
 
 -- @namespace Ieee1609Dot2LaPcaError
 Ieee1609Dot2LaPcaError
@@ -37,7 +46,12 @@ LaPcaError ::= CHOICE {
 ---
 -- @brief 
 -- @class LaPcaErrorCode 
--- @param
+-- @param invalidSignature     the signature in the request is invalid
+-- @param invalidCertificate   the PCA certificate is invalid
+-- @param invalidStartTime     the start time for the session key is invalid
+-- @param invalidEndTime       the end time for the session key is invalid
+-- @param invalidAlgorithm     the algorithm specified is invalid
+-- @param invalidMacValue      the MAC verification failed
 -- @see 
 LaPcaErrorCode ::= ENUMERATED {
   invalidSignature,

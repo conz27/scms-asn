@@ -14,6 +14,26 @@
 --  limitations under the License.
 -- 
 
+-------------------------------------------------------------------------------
+-- LA-MA 
+--
+-- The structures in this file define the protocol for messages between an
+-- LA and the MA for the purposes of
+--
+-- a) Misbehaviour detection: the MA requests and receives information about
+-- the correlation of pre-linkage values to other prelinkage values originating
+-- from the same EEs linkage chain. This happens after having requested the PCA 
+-- to map the linkage values of the misbehaving EE to the pre-linkage value.
+-- 
+-- b) Revocation: the MA requests and receives the linkage seed of an EE in 
+-- order to add these values to the CRL.
+--
+-- Both of these processes are initiated by the MA.
+--
+-- This file is part of the SCMS protocol developed by CAMP VSC5
+-- It depends on the IEEE 1609.2 protocol specification
+-------------------------------------------------------------------------------
+
 -- @namespace Ieee1609Dot2LaMaInterface
 Ieee1609Dot2LaMaInterface
 {iso(1) identified-organization(3) ieee(111) 

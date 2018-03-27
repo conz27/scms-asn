@@ -14,6 +14,16 @@
 --  limitations under the License.
 -- 
 
+-------------------------------------------------------------------------------
+-- RA-PG-ERRORS
+--
+-- The structure in this file defines the possible error returned by the PG
+-- following a request by the MA for signing a custom policy.
+--
+-- This file is part of the SCMS protocol developed by CAMP VSC5
+-- It depends on the IEEE 1609.2 protocol specification
+-------------------------------------------------------------------------------
+
 -- @namespace Ieee1609Dot2RaPgError
 Ieee1609Dot2RaPgError
 {iso(1) identified-organization(3) ieee(111) 
@@ -26,7 +36,7 @@ EXPORTS ALL;
 
 
 ---
--- @brief 
+-- @brief Possible errors returned by the PG.
 -- @class RaPgError 
 -- @param
 -- @see 

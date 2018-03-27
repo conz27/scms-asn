@@ -14,6 +14,17 @@
 --  limitations under the License.
 --
 
+-------------------------------------------------------------------------------
+-- EE-MA 
+--
+-- The structures in this file define the protocol for messages between an
+-- EE (OBE or RSE) and the MA for the purpose of reporting a misbehaving 
+-- device.
+--
+-- This file is part of the SCMS protocol developed by CAMP VSC5
+-- It depends on the IEEE 1609.2 protocol specification
+-------------------------------------------------------------------------------
+
 -- @namespace Ieee1609Dot2EndEntityMaInterface
 Ieee1609Dot2EndEntityMaInterface
 {iso(1) identified-organization(3) ieee(111)
