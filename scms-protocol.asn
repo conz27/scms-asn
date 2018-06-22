@@ -199,165 +199,19 @@ ScmsFile ::= SEQUENCE {
   }
 }
 
--- *************************************************************************
+-- ****************************************************************************
 --
 --             Scoped
 --
--- *************************************************************************
+-- ****************************************************************************
 
--- *** EE-CA ***************************************************************
-
----
--- @brief This structure defines the EeEcaCertRequest as a scoped version of
---        the ScmsPDU.
--- @class ScopedEeEnrollmentCertRequest
-ScopedEeEnrollmentCertRequest ::=
-  ScmsPDU  (WITH COMPONENTS {...,
-    content (WITH COMPONENTS {
-      eca-ee (WITH COMPONENTS {
-        eeEcaCertRequest
-      })
-    })
- })
-
----
--- @brief This structure defines the EcaEeCertResponse as a scoped version of
---        the ScmsPDU.
--- @class ScopedEeEnrollmentCertResponse
-ScopedEeEnrollmentCertResponse ::=
-  ScmsPDU  (WITH COMPONENTS {...,
-    content (WITH COMPONENTS {
-      eca-ee (WITH COMPONENTS {
-        ecaEeCertResponse
-      })
-    })
- })
-
--- *** EE-MA ***************************************************************
-
----
--- @brief This structure defines the MisbehaviorReport as a scoped version of
---        the ScmsPDU.
--- @class ScopedMisbehaviorReport
-ScopedMisbehaviorReport ::=
-  ScmsPDU (WITH COMPONENTS {...,
-    content (WITH COMPONENTS {
-      ee-ma (WITH COMPONENTS {
-        misbehaviorReport
-      })
-    })
- })
-
--- *** EE-RA ***************************************************************
-
----
--- @brief This structure defines the EeRaCertRequest as a scoped version of the
---        ScmsPDU.
--- @class ScopedEeRaCertRequest
-ScopedEeRaCertRequest ::=
-  ScmsPDU  (WITH COMPONENTS {...,
-    content (WITH COMPONENTS {
-      ee-ra (WITH COMPONENTS {
-        eeRaCertRequest
-      })
-    })
- })
-
----
--- @brief This structure defines the RaEeCertResponse as a scoped version of
---        the ScmsPDU.
--- @class ScopedRaEeCertResponse
-ScopedRaEeCertResponse ::=
-  ScmsPDU  (WITH COMPONENTS {...,
-    content (WITH COMPONENTS {
-      ee-ra (WITH COMPONENTS {
-        raEeCertResponse
-      })
-    })
- })
-
----
--- @brief This structure defines the EeRaPseudonymCertProvisioningRequest as a
---        scoped version of the ScmsPDU.
--- @class ScopedPseudonymCertProvisioningRequest
-ScopedPseudonymCertProvisioningRequest ::=
-  ScmsPDU  (WITH COMPONENTS {...,
-    content (WITH COMPONENTS {
-      ee-ra (WITH COMPONENTS {
-        eeRaPseudonymCertProvisioningRequest
-      })
-    })
-  })
-
----
--- @brief This structure defines the RaEePseudonymCertProvisioningAck as a 
---        scoped version of the ScmsPDU.
--- @class ScopedPseudonymCertProvisioningAck
-ScopedPseudonymCertProvisioningAck ::=
-  ScmsPDU  (WITH COMPONENTS {...,
-    content (WITH COMPONENTS {
-      ee-ra (WITH COMPONENTS {
-        raEePseudonymCertProvisioningAck
-      })
-    })
-  })
-
----
--- @brief This structure defines the EeRaIdCertProvisioningRequest as a scoped
---        version of the ScmsPDU.
--- @class ScopedIdCertProvisioningRequest
-ScopedIdCertProvisioningRequest ::=
-  ScmsPDU  (WITH COMPONENTS {...,
-    content (WITH COMPONENTS {
-      ee-ra (WITH COMPONENTS {
-        eeRaIdCertProvisioningRequest
-      })
-    })
-  })
-
----
--- @brief This structure defines the RaEeIdCertProvisioningAck as a scoped 
---        version of the ScmsPDU. 
--- @class ScopedIdCertProvisioningAck
-ScopedIdCertProvisioningAck ::=
-  ScmsPDU  (WITH COMPONENTS {...,
-    content (WITH COMPONENTS {
-      ee-ra (WITH COMPONENTS {
-        raEeIdCertProvisioningAck
-      })
-    })
-  })
-
----
--- @brief This structure defines the EeRaAppCertProvisioningRequest as a 
---        scoped version of the ScmsPDU.
--- @class ScopedAppCertProvisioningRequest
-ScopedAppCertProvisioningRequest ::=
-  ScmsPDU  (WITH COMPONENTS {...,
-    content (WITH COMPONENTS {
-      ee-ra (WITH COMPONENTS {
-        eeRaAppCertProvisioningRequest
-      })
-    })
-  })
-
----
--- @brief This structure defines the RaEeAppCertProvisioningAck as a scoped 
---        version of the ScmsPDU.
--- @class ScopedAppCertProvisioningAck
-ScopedAppCertProvisioningAck ::=
-  ScmsPDU  (WITH COMPONENTS {...,
-    content (WITH COMPONENTS {
-      ee-ra (WITH COMPONENTS {
-        raEeAppCertProvisioningAck
-      })
-    })
-  })
+-- *** Cert Chain Files *******************************************************
 
 ---
 -- @brief This structure defines the GlobalCertificateChainFile as a scoped 
 --        version of the ScmsPDU.
 -- @class ScopedGlobalCertificateChainFile
+-- @see GlobalCertificateChainFile
 ScopedGlobalCertificateChainFile ::=
   ScmsFile (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
@@ -371,6 +225,7 @@ ScopedGlobalCertificateChainFile ::=
 -- @brief This structure defines the LocalCertificateChainFile as a scoped 
 --        version of the ScmsPDU.
 -- @class ScopedLocalCertificateChainFile
+-- @see LocalCertificateChainFile
 ScopedLocalCertificateChainFile ::=
   ScmsFile (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
@@ -380,28 +235,165 @@ ScopedLocalCertificateChainFile ::=
     })
   })
 
+
+-- *** ECA-EE *****************************************************************
+
 ---
--- @brief This structure defines the GlobalPolicyFile as a scoped version of 
+-- @brief This structure defines the EeEcaCertRequest as a scoped version of
 --        the ScmsPDU.
--- @class ScopedGlobalPolicyFile
-ScopedGlobalPolicyFile ::=
-  ScmsFile (WITH COMPONENTS {...,
+-- @class ScopedEeEcaCertRequest
+-- @see EeEcaCertRequest
+ScopedEeEcaCertRequest ::=
+  ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
-      policy( WITH COMPONENTS {
-        globalPolicyFile
+      eca-ee (WITH COMPONENTS {
+        eeEcaCertRequest
+      })
+    })
+ })
+
+---
+-- @brief This structure defines the EcaEeCertResponse as a scoped version of
+--        the ScmsPDU.
+-- @class ScopedEcaEeCertResponse
+-- @see EcaEeCertResponse
+ScopedEcaEeCertResponse ::=
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      eca-ee (WITH COMPONENTS {
+        ecaEeCertResponse
+      })
+    })
+ })
+
+
+-- *** EE-MA ******************************************************************
+
+---
+-- @brief This structure defines the MisbehaviorReport as a scoped version of
+--        the ScmsPDU.
+-- @class ScopedEeMaMisbehaviorReport
+-- @see MisbehaviorReportContents
+ScopedEeMaMisbehaviorReport ::=
+  ScmsPDU (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      ee-ma (WITH COMPONENTS {
+        misbehaviorReport
+      })
+    })
+ })
+
+
+-- *** EE-RA ******************************************************************
+
+---
+-- @brief This structure defines the EeRaCertRequest as a scoped version of the
+--        ScmsPDU.
+-- @class ScopedEeRaCertRequest
+-- @see EeRaCertRequestMsg
+ScopedEeRaCertRequest ::=
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      ee-ra (WITH COMPONENTS {
+        eeRaCertRequest
+      })
+    })
+ })
+
+---
+-- @brief This structure defines the RaEeCertResponse as a scoped version of
+--        the ScmsPDU.
+-- @class ScopedRaEeCertResponse
+-- @see RaEeCertResponseMsg
+ScopedRaEeCertResponse ::=
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      ee-ra (WITH COMPONENTS {
+        raEeCertResponse
+      })
+    })
+ })
+
+---
+-- @brief This structure defines the EeRaPseudonymCertProvisioningRequest as a
+--        scoped version of the ScmsPDU.
+-- @class ScopedEeRaPseudonymCertRequest
+-- @see EeRaPseudonymCertProvisioningRequest
+ScopedEeRaPseudonymCertRequest ::=
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      ee-ra (WITH COMPONENTS {
+        eeRaPseudonymCertProvisioningRequest
       })
     })
   })
 
 ---
--- @brief This structure defines the LocalPolicyFile as a scoped version of 
---        the ScmsPDU.
--- @class ScopedLocalPolicyFile
-ScopedLocalPolicyFile ::=
-  ScmsFile (WITH COMPONENTS {...,
+-- @brief This structure defines the RaEePseudonymCertProvisioningAck as a 
+--        scoped version of the ScmsPDU.
+-- @class ScopedRaEePseudonymCertAck
+-- @see RaEePseudonymCertProvisioningAck
+ScopedRaEePseudonymCertAck ::=
+  ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
-      policy( WITH COMPONENTS {
-        localPolicyFile
+      ee-ra (WITH COMPONENTS {
+        raEePseudonymCertProvisioningAck
+      })
+    })
+  })
+
+---
+-- @brief This structure defines the EeRaIdCertProvisioningRequest as a scoped
+--        version of the ScmsPDU.
+-- @class ScopedEeRaIdCertRequest
+-- @see EeRaIdCertProvisioningRequest
+ScopedEeRaIdCertRequest ::=
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      ee-ra (WITH COMPONENTS {
+        eeRaIdCertProvisioningRequest
+      })
+    })
+  })
+
+---
+-- @brief This structure defines the RaEeIdCertProvisioningAck as a scoped 
+--        version of the ScmsPDU. 
+-- @class ScopedRaEeIdCertAck
+-- @see RaEeIdCertProvisioningAck
+ScopedRaEeIdCertAck ::=
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      ee-ra (WITH COMPONENTS {
+        raEeIdCertProvisioningAck
+      })
+    })
+  })
+
+---
+-- @brief This structure defines the EeRaAppCertProvisioningRequest as a 
+--        scoped version of the ScmsPDU.
+-- @class ScopedEeRaAppCertRequest
+-- @see EeRaAppCertProvisioningRequest
+ScopedEeRaAppCertRequest ::=
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      ee-ra (WITH COMPONENTS {
+        eeRaAppCertProvisioningRequest
+      })
+    })
+  })
+
+---
+-- @brief This structure defines the RaEeAppCertProvisioningAck as a scoped 
+--        version of the ScmsPDU.
+-- @class ScopedRaEeAppCertAck
+-- @see RaEeAppCertProvisioningAck
+ScopedRaEeAppCertAck ::=
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      ee-ra (WITH COMPONENTS {
+        raEeAppCertProvisioningAck
       })
     })
   })
@@ -409,8 +401,9 @@ ScopedLocalPolicyFile ::=
 ---
 -- @brief This structure defines the EeRaAuthenticatedDownloadRequest as a 
 --        scoped version of the ScmsPDU.
--- @class ScopedAuthenticatedDownloadRequest
-ScopedAuthenticatedDownloadRequest ::=
+-- @class ScopedEeRaAuthenticatedDownloadRequest
+-- @see AuthenticatedDownloadRequest
+ScopedEeRaAuthenticatedDownloadRequest ::=
   ScmsPDU  (WITH COMPONENTS {...,
     content (WITH COMPONENTS {
       ee-ra (WITH COMPONENTS {
@@ -419,346 +412,8 @@ ScopedAuthenticatedDownloadRequest ::=
     })
   })
 
--- *** LA-MA ***************************************************************
 
----
--- @brief This structure defines the MaLaLinkageInfoRequest as a scoped 
---        version of the ScmsPDU.
--- @class ScopedLIRequest
-ScopedLIRequest ::=
-  ScmsPDU  (WITH COMPONENTS {...,
-    content (WITH COMPONENTS {
-      la-ma (WITH COMPONENTS {
-        maLaLinkageInfoRequest
-      })
-    })
-  })
-
----
--- @brief This structure defines the LaMaLinkageInfoResponse as a scoped 
---        version of the ScmsPDU.
--- @class ScopedLIReply
-ScopedLIReply ::=
-  ScmsPDU  (WITH COMPONENTS {...,
-    content (WITH COMPONENTS {
-      la-ma (WITH COMPONENTS {
-        laMaLinkageInfoResponse
-      })
-    })
-  })
-
----
--- @brief This structure defines the MaLaLinkageSeedRequest as a scoped 
---        version of the ScmsPDU.
--- @class ScopedLSRequest
-ScopedLSRequest ::=
-  ScmsPDU  (WITH COMPONENTS {...,
-    content (WITH COMPONENTS {
-      la-ma (WITH COMPONENTS {
-        maLaLinkageSeedRequest
-      })
-    })
-  })
-
----
--- @brief This structure defines the LaMaLinkageSeedResponse as a scoped 
---        version of the ScmsPDU.
--- @class ScopedLSReply
-ScopedLSReply ::=
-  ScmsPDU  (WITH COMPONENTS {...,
-    content (WITH COMPONENTS {
-      la-ma (WITH COMPONENTS {
-        laMaLinkageSeedResponse
-      })
-    })
-  })
-
-
--- *** LA-PCA **************************************************************
-
----
--- @brief This structure defines the PcaLaKeyAgreementRequest as a scoped 
---        version of the ScmsPDU.
--- @class ScopedPcaLaKeyAgreementRequest
-ScopedPcaLaKeyAgreementRequest ::=
-  ScmsPDU  (WITH COMPONENTS {...,
-    content (WITH COMPONENTS {
-      la-pca (WITH COMPONENTS {
-        pcaLaKeyAgreementRequest
-      })
-    })
-  })
-
----
--- @brief This structure defines the LaPcaKeyAgreementResponse as a scoped 
---        version of the ScmsPDU.
--- @class ScopedLaPcaKeyAgreementResponse
-ScopedLaPcaKeyAgreementResponse ::=
-  ScmsPDU  (WITH COMPONENTS {...,
-    content (WITH COMPONENTS {
-      la-pca (WITH COMPONENTS {
-        laPcaKeyAgreementResponse
-      })
-    })
-  })
-
----
--- @brief This structure defines the PcaLaKeyAgreementAck as a scoped version 
---        of the ScmsPDU.
--- @class ScopedPcaLaKeyAgreementAck
-ScopedPcaLaKeyAgreementAck ::=
-  ScmsPDU  (WITH COMPONENTS {...,
-    content (WITH COMPONENTS {
-      la-pca (WITH COMPONENTS {
-        pcaLaKeyAgreementAck
-      })
-    })
-  })
-
--- *** LA-RA ***************************************************************
-
----
--- @brief This structure defines the RaLaIndividualPreLinkageValueRequest as a 
---        scoped version of the ScmsPDU.
--- @class ScopedRaLaIndividualPreLinkageValueRequest
-ScopedRaLaIndividualPreLinkageValueRequest ::=
-  ScmsPDU  (WITH COMPONENTS {...,
-    content (WITH COMPONENTS {
-      la-ra (WITH COMPONENTS {
-        raLaIndividualPreLinkageValueRequest
-      })
-    })
-  })
-
----
--- @brief This structure defines the RaLaGroupPreLinkageValueRequest as a 
---        scoped version of the ScmsPDU.
--- @class ScopedRaLaGroupPreLinkageValueRequest
-ScopedRaLaGroupPreLinkageValueRequest ::=
-  ScmsPDU  (WITH COMPONENTS {...,
-    content (WITH COMPONENTS {
-      la-ra (WITH COMPONENTS {
-        raLaGroupPreLinkageValueRequest
-      })
-    })
-  })
-
-
----
--- @brief This structure defines the LaRaPreLinkageValueResponse as a scoped 
---        version of the ScmsPDU.
--- @class ScopedLaRaPreLinkageValueResponse
-ScopedLaRaPreLinkageValueResponse ::=
-  ScmsPDU  (WITH COMPONENTS {...,
-    content (WITH COMPONENTS {
-      la-ra (WITH COMPONENTS {
-        laRaPreLinkageValueResponse
-      })
-    })
-  })
-
--- *** MA-PCA **************************************************************
-
-
----
--- @brief This structure defines the MaPcaPreLinkageValueRequest as a scoped 
---        version of the ScmsPDU.
--- @class ScopedMaPcaPreLinkageValueRequest
-ScopedMaPcaPreLinkageValueRequest ::=
-  ScmsPDU  (WITH COMPONENTS {...,
-    content (WITH COMPONENTS {
-      ma-pca (WITH COMPONENTS {
-        maPcaPreLinkageValueRequest
-      })
-    })
-  })
-
-
----
--- @brief This structure defines the PcaMaPreLinkageValueResponse as a scoped 
---        version of the ScmsPDU.
--- @class ScopedPcaMaPreLinkageValueResponse
-ScopedPcaMaPreLinkageValueResponse ::=
-  ScmsPDU  (WITH COMPONENTS {...,
-    content (WITH COMPONENTS {
-      ma-pca (WITH COMPONENTS {
-        pcaMaPreLinkageValueResponse
-      })
-    })
-  })
-
-
----
--- @brief This structure defines the MaPcaHPCRRequest as a scoped version of 
---        the ScmsPDU.
--- @class ScopedMaPcaHPCRRequest
-ScopedMaPcaHPCRRequest ::=
-  ScmsPDU  (WITH COMPONENTS {...,
-    content (WITH COMPONENTS {
-      ma-pca (WITH COMPONENTS {
-        maPcaHPCRRequest
-      })
-    })
-  })
-
-
----
--- @brief This structure defines the PcaMaHPCRResponse as a scoped version of 
---        the ScmsPDU.
--- @class ScopedPcaMaHPCRResponse
-ScopedPcaMaHPCRResponse ::=
-  ScmsPDU  (WITH COMPONENTS {...,
-    content (WITH COMPONENTS {
-      ma-pca (WITH COMPONENTS {
-        pcaMaHPCRResponse
-      })
-    })
-  })
-
--- *** MA-RA **************************************************************
-
-
----
--- @brief This structure defines the MaRaBlacklistRequest as a scoped version 
---        of the ScmsPDU.
--- @class ScopedBlacklistRequest
-ScopedBlacklistRequest ::=
-  ScmsPDU  (WITH COMPONENTS {...,
-    content (WITH COMPONENTS {
-      ma-ra (WITH COMPONENTS {
-        maRaBlacklistRequest
-      })
-    })
-  })
-
----
--- @brief This structure defines the RaMaBlacklistResponse as a scoped version 
---        of the ScmsPDU.
--- @class ScopedBlacklistResponse
-ScopedBlacklistResponse ::=
-  ScmsPDU  (WITH COMPONENTS {...,
-    content (WITH COMPONENTS {
-      ma-ra (WITH COMPONENTS {
-        raMaBlacklistResponse
-      })
-    })
-  })
-
----
--- @brief This structure defines the MaRaLCIRequest as a scoped version of the 
---        ScmsPDU.
--- @class ScopedLCIRequest
-ScopedLCIRequest ::=
-  ScmsPDU  (WITH COMPONENTS {...,
-    content (WITH COMPONENTS {
-      ma-ra (WITH COMPONENTS {
-        maRaLCIRequest
-      })
-    })
-  })
-
-
----
--- @brief This structure defines the RaMaLCIResponse as a scoped version of 
---        the ScmsPDU.
--- @class ScopedLCIResponse
-ScopedLCIResponse ::=
-  ScmsPDU  (WITH COMPONENTS {...,
-    content (WITH COMPONENTS {
-      ma-ra (WITH COMPONENTS {
-        raMaLCIResponse
-      })
-    })
-  })
-
-  
----
--- @brief This structure defines the MaRaRseObeIdBlacklistRequest as a scoped 
---        version of the ScmsPDU.
--- @class ScopedRseObeIdBlacklistRequest
-ScopedRseObeIdBlacklistRequest ::=
-  ScmsPDU  (WITH COMPONENTS {...,
-    content (WITH COMPONENTS {
-      ma-ra (WITH COMPONENTS {
-        maRaRseObeIdBlacklistRequest
-      })
-    })
-  })
-
-
----
--- @brief This structure defines the RaMaRseObeIdBlacklistResponse as a scoped 
---        version of the ScmsPDU.
--- @class ScopedRseObeIdBlacklistResponse
-ScopedRseObeIdBlacklistResponse ::=
-  ScmsPDU  (WITH COMPONENTS {...,
-    content (WITH COMPONENTS {
-      ma-ra (WITH COMPONENTS {
-        raMaRseObeIdBlacklistResponse
-      })
-    })
-  })
-
--- *** PCA-RA *************************************************************
-
----
--- @brief This structure defines the RaPcaCertRequest as a scoped version of 
---        the ScmsPDU.
--- @class ScopedRaPcaCertificateRequest
-ScopedRaPcaCertificateRequest ::=
-  ScmsPDU  (WITH COMPONENTS {...,
-    content (WITH COMPONENTS {
-      pca-ra (WITH COMPONENTS {
-        raPcaCertRequest
-      })
-    })
-  })
-
-
----
--- @brief This structure defines the PcaRaCertResponse as a scoped version of 
---        the ScmsPDU.
--- @class ScopedPcaRaCertificateRequestReply
-ScopedPcaRaCertificateRequestReply ::=
-  ScmsPDU  (WITH COMPONENTS {...,
-    content (WITH COMPONENTS {
-      pca-ra (WITH COMPONENTS {
-        pcaRaCertResponse
-      })
-    })
-  })
-
-
--- *** RA-PG *************************************************************
-
----
--- @brief This structure defines the RaPgPolicySignatureRequest as a scoped 
---        version of the ScmsPDU.
--- @class ScopedRaPgPolicySignatureRequest
-ScopedRaPgPolicySignatureRequest ::=
-  ScmsPDU  (WITH COMPONENTS {...,
-    content (WITH COMPONENTS {
-      ra-pg (WITH COMPONENTS {
-        raPgPolicySignatureRequest
-      })
-    })
-  })
-
-
----
--- @brief This structure defines the RaPgPolicySignatureRequestReply as a 
---        scoped version of the ScmsPDU.
--- @class ScopedRaPgPolicySignatureRequestReply
-ScopedRaPgPolicySignatureRequestReply ::=
-  ScmsPDU  (WITH COMPONENTS {...,
-    content (WITH COMPONENTS {
-      ra-pg (WITH COMPONENTS {
-        raPgPolicySignatureRequestReply
-      })
-    })
-  })
-
--- *** Electors *************************************************************
+-- *** Electors ***************************************************************
 
 ---
 -- @brief This structure defines the TbsElectorEndorsement as a scoped version 
@@ -789,7 +444,397 @@ ScopedElectorBallot ::= ScmsPDU (WITH COMPONENTS {...,
   })
 })
 
--- *** Scoped certificate requests   **************************************
+
+-- *** LA-MA ***************************************************************
+
+---
+-- @brief This structure defines the MaLaLinkageInfoRequest as a scoped 
+--        version of the ScmsPDU.
+-- @class ScopedMaLaLinkageInfoRequest
+-- @see MaLaLinkageInfoRequestMsg
+ScopedMaLaLinkageInfoRequest ::=
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      la-ma (WITH COMPONENTS {
+        maLaLinkageInfoRequest
+      })
+    })
+  })
+
+---
+-- @brief This structure defines the LaMaLinkageInfoResponse as a scoped 
+--        version of the ScmsPDU.
+-- @class ScopedLaMaLinkageInfoResponse
+-- @see LaMaLinkageInfoResponseMsg
+ScopedLaMaLinkageInfoResponse ::=
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      la-ma (WITH COMPONENTS {
+        laMaLinkageInfoResponse
+      })
+    })
+  })
+
+---
+-- @brief This structure defines the MaLaLinkageSeedRequest as a scoped 
+--        version of the ScmsPDU.
+-- @class ScopedMaLaLinkageSeedRequest
+-- @see MaLaLinkageSeedRequestMsg
+ScopedMaLaLinkageSeedRequest ::=
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      la-ma (WITH COMPONENTS {
+        maLaLinkageSeedRequest
+      })
+    })
+  })
+
+---
+-- @brief This structure defines the LaMaLinkageSeedResponse as a scoped 
+--        version of the ScmsPDU.
+-- @class ScopedLaMaLinkageSeedResponse
+-- @see LaMaLinkageSeedResponseMsg
+ScopedLaMaLinkageSeedResponse ::=
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      la-ma (WITH COMPONENTS {
+        laMaLinkageSeedResponse
+      })
+    })
+  })
+
+
+-- *** LA-PCA ****************************************************************
+
+---
+-- @brief This structure defines the PcaLaKeyAgreementRequest as a scoped 
+--        version of the ScmsPDU.
+-- @class ScopedPcaLaKeyAgreementRequest
+-- @see PcaLaKeyAgreementRequestMsg
+ScopedPcaLaKeyAgreementRequest ::=
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      la-pca (WITH COMPONENTS {
+        pcaLaKeyAgreementRequest
+      })
+    })
+  })
+
+---
+-- @brief This structure defines the LaPcaKeyAgreementResponse as a scoped 
+--        version of the ScmsPDU.
+-- @class ScopedLaPcaKeyAgreementResponse
+-- @see LaPcaKeyAgreementResponseMsg
+ScopedLaPcaKeyAgreementResponse ::=
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      la-pca (WITH COMPONENTS {
+        laPcaKeyAgreementResponse
+      })
+    })
+  })
+
+---
+-- @brief This structure defines the PcaLaKeyAgreementAck as a scoped version 
+--        of the ScmsPDU.
+-- @class ScopedPcaLaKeyAgreementAck
+-- @see PcaLaKeyAgreementAckMsg
+ScopedPcaLaKeyAgreementAck ::=
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      la-pca (WITH COMPONENTS {
+        pcaLaKeyAgreementAck
+      })
+    })
+  })
+
+
+-- *** LA-RA ******************************************************************
+
+---
+-- @brief This structure defines the RaLaIndividualPreLinkageValueRequest as a 
+--        scoped version of the ScmsPDU.
+-- @class ScopedRaLaIndividualPreLinkageValueRequest
+-- @see RaLaIndividualPreLinkageValueRequestMsg
+ScopedRaLaIndividualPreLinkageValueRequest ::=
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      la-ra (WITH COMPONENTS {
+        raLaIndividualPreLinkageValueRequest
+      })
+    })
+  })
+
+---
+-- @brief This structure defines the RaLaGroupPreLinkageValueRequest as a 
+--        scoped version of the ScmsPDU.
+-- @class ScopedRaLaGroupPreLinkageValueRequest
+-- @see RaLaGroupPreLinkageValueRequestMsg
+ScopedRaLaGroupPreLinkageValueRequest ::=
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      la-ra (WITH COMPONENTS {
+        raLaGroupPreLinkageValueRequest
+      })
+    })
+  })
+
+
+---
+-- @brief This structure defines the LaRaPreLinkageValueResponse as a scoped 
+--        version of the ScmsPDU.
+-- @class ScopedLaRaPreLinkageValueResponse
+-- @see LaRaPreLinkageValueResponseMsg
+ScopedLaRaPreLinkageValueResponse ::=
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      la-ra (WITH COMPONENTS {
+        laRaPreLinkageValueResponse
+      })
+    })
+  })
+
+
+-- *** MA-PCA *****************************************************************
+
+---
+-- @brief This structure defines the MaPcaPreLinkageValueRequest as a scoped 
+--        version of the ScmsPDU.
+-- @class ScopedMaPcaPreLinkageValueRequest
+-- @see MaPcaPreLinkageValueRequestMsg
+ScopedMaPcaPreLinkageValueRequest ::=
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      ma-pca (WITH COMPONENTS {
+        maPcaPreLinkageValueRequest
+      })
+    })
+  })
+
+---
+-- @brief This structure defines the PcaMaPreLinkageValueResponse as a scoped 
+--        version of the ScmsPDU.
+-- @class ScopedPcaMaPreLinkageValueResponse
+-- @see PcaMaPreLinkageValueResponseMsg
+ScopedPcaMaPreLinkageValueResponse ::=
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      ma-pca (WITH COMPONENTS {
+        pcaMaPreLinkageValueResponse
+      })
+    })
+  })
+
+---
+-- @brief This structure defines the MaPcaHPCRRequest as a scoped version of 
+--        the ScmsPDU.
+-- @class ScopedMaPcaHPCRRequest
+-- @see MaPcaHPCRRequestMsg
+ScopedMaPcaHPCRRequest ::=
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      ma-pca (WITH COMPONENTS {
+        maPcaHPCRRequest
+      })
+    })
+  })
+
+---
+-- @brief This structure defines the PcaMaHPCRResponse as a scoped version of 
+--        the ScmsPDU.
+-- @class ScopedPcaMaHPCRResponse
+-- @see PcaMaHPCRResponseMsg
+ScopedPcaMaHPCRResponse ::=
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      ma-pca (WITH COMPONENTS {
+        pcaMaHPCRResponse
+      })
+    })
+  })
+
+
+-- *** MA-RA ******************************************************************
+
+---
+-- @brief This structure defines the MaRaBlacklistRequest as a scoped version 
+--        of the ScmsPDU.
+-- @class ScopedMaRaBlacklistRequest
+-- @see MaRaBlacklistRequestMsg
+ScopedMaRaBlacklistRequest ::=
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      ma-ra (WITH COMPONENTS {
+        maRaBlacklistRequest
+      })
+    })
+  })
+
+---
+-- @brief This structure defines the RaMaBlacklistResponse as a scoped version 
+--        of the ScmsPDU.
+-- @class ScopedRaMaBlacklistResponse
+-- @see RaMaBlacklistResponseMsg
+ScopedRaMaBlacklistResponse ::=
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      ma-ra (WITH COMPONENTS {
+        raMaBlacklistResponse
+      })
+    })
+  })
+
+---
+-- @brief This structure defines the MaRaLCIRequest as a scoped version of the 
+--        ScmsPDU.
+-- @class ScopedMaRaLCIRequest
+-- @see MaRaLCIRequestMsg
+ScopedMaRaLCIRequest ::=
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      ma-ra (WITH COMPONENTS {
+        maRaLCIRequest
+      })
+    })
+  })
+
+---
+-- @brief This structure defines the RaMaLCIResponse as a scoped version of 
+--        the ScmsPDU.
+-- @class ScopedRaMaLCIResponse
+-- @see RaMaLCIResponseMsg
+ScopedRaMaLCIResponse ::=
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      ma-ra (WITH COMPONENTS {
+        raMaLCIResponse
+      })
+    })
+  })
+  
+---
+-- @brief This structure defines the MaRaRseObeIdBlacklistRequest as a scoped 
+--        version of the ScmsPDU.
+-- @class ScopedMaRaIdBlacklistRequest
+-- @see MaRaRseObeIdBlacklistRequestMsg
+ScopedMaRaIdBlacklistRequest ::=
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      ma-ra (WITH COMPONENTS {
+        maRaRseObeIdBlacklistRequest
+      })
+    })
+  })
+
+---
+-- @brief This structure defines the RaMaRseObeIdBlacklistResponse as a scoped 
+--        version of the ScmsPDU.
+-- @class ScopedRaMaIdBlacklistResponse
+-- @see RaMaRseObeIdBlacklistResponseMsg
+ScopedRaMaIdBlacklistResponse ::=
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      ma-ra (WITH COMPONENTS {
+        raMaRseObeIdBlacklistResponse
+      })
+    })
+  })
+
+
+-- *** PCA-RA *************************************************************
+
+---
+-- @brief This structure defines the RaPcaCertRequest as a scoped version of 
+--        the ScmsPDU.
+-- @class ScopedRaPcaCertificateRequest
+-- @see RaPcaCertRequestMsg
+ScopedRaPcaCertificateRequest ::=
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      pca-ra (WITH COMPONENTS {
+        raPcaCertRequest
+      })
+    })
+  })
+
+---
+-- @brief This structure defines the PcaRaCertResponse as a scoped version of 
+--        the ScmsPDU.
+-- @class ScopedPcaRaCertResponse
+-- @see PcaRaCertResponseMsg
+ScopedPcaRaCertResponse ::=
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      pca-ra (WITH COMPONENTS {
+        pcaRaCertResponse
+      })
+    })
+  })
+
+
+-- *** RA-PG ******************************************************************
+
+---
+-- @brief This structure defines the RaPgPolicySignatureRequest as a scoped 
+--        version of the ScmsPDU.
+-- @class ScopedRaPgPolicySignatureRequest
+-- @see RaPgPolicySignatureRequestMsg
+ScopedRaPgPolicySignatureRequest ::=
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      ra-pg (WITH COMPONENTS {
+        raPgPolicySignatureRequest
+      })
+    })
+  })
+
+---
+-- @brief This structure defines the RaPgPolicySignatureRequestReply as a 
+--        scoped version of the ScmsPDU.
+-- @class ScopedRaPgPolicySignatureResponse
+-- @see RaPgPolicySignatureRequestReplyMsg
+ScopedRaPgPolicySignatureResponse ::=
+  ScmsPDU  (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      ra-pg (WITH COMPONENTS {
+        raPgPolicySignatureRequestReply
+      })
+    })
+  })
+
+
+-- *** SCMS Policy ************************************************************
+
+---
+-- @brief This structure defines the GlobalPolicyFile as a scoped version of 
+--        the ScmsPDU.
+-- @class ScopedGlobalPolicyFile
+-- @see GlobalPolicyFile
+ScopedGlobalPolicyFile ::=
+  ScmsFile (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      policy( WITH COMPONENTS {
+        globalPolicyFile
+      })
+    })
+  })
+
+---
+-- @brief This structure defines the LocalPolicyFile as a scoped version of 
+--        the ScmsPDU.
+-- @class ScopedLocalPolicyFile
+-- @see LocalPolicyFile
+ScopedLocalPolicyFile ::=
+  ScmsFile (WITH COMPONENTS {...,
+    content (WITH COMPONENTS {
+      policy( WITH COMPONENTS {
+        localPolicyFile
+      })
+    })
+  })
+
+-- Until here for Scoped structure renaming
+-- *** Scoped certificate requests   ******************************************
 
 ---
 -- @brief This structure defines the all certificate requests structures as 
@@ -797,22 +842,20 @@ ScopedElectorBallot ::= ScmsPDU (WITH COMPONENTS {...,
 -- @class ScopedCertificateRequest
 ScopedCertificateRequest ::= ScmsPDU (
      ScopedEeRaCertRequest |
-     ScopedEeEnrollmentCertRequest |
-     ScopedPseudonymCertProvisioningRequest |
-     ScopedIdCertProvisioningRequest  |
-     ScopedAppCertProvisioningRequest  |
+     ScopedEeEcaCertRequest |
+     ScopedEeRaPseudonymCertRequest |
+     ScopedEeRaIdCertRequest  |
+     ScopedEeRaAppCertRequest  |
      ScopedRaPcaCertificateRequest |
-     ScopedAuthenticatedDownloadRequest
+     ScopedEeRaAuthenticatedDownloadRequest
 )
 
 
-
-
---*************************************************************************
+--*****************************************************************************
 --
---  Certificate Request
+--  Signed Certificate Request
 --
---**********************************************************************
+--*****************************************************************************
 
 ---
 -- @brief This structure defines the a format of a signed certificate 
@@ -853,15 +896,15 @@ ScopedCertificateRequest ::= ScmsPDU (
 EeEnrollmentCertRequestSPDU ::= SignedEeEnrollmentCertRequest
 
 ---
--- @brief This structure contains ScopedEeEnrollmentCertRequest. EE signs this
+-- @brief This structure contains ScopedEeEcaCertRequest. EE signs this
 --        structure using its private key generated during bootstrap.
 -- @class SignedEeEnrollmentCertRequest
--- @see ScopedEeEnrollmentCertRequest
+-- @see ScopedEeEcaCertRequest
 SignedEeEnrollmentCertRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedCertificateRequest  (CONTAINING
       SignedCertificateRequest (WITH COMPONENTS {...,
-        tbsRequest (ScopedEeEnrollmentCertRequest),
+        tbsRequest (ScopedEeEcaCertRequest),
         signer (WITH COMPONENTS {
           self
         })
@@ -877,10 +920,10 @@ SignedEeEnrollmentCertRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
 EeEnrollmentCertResponseSPDU ::= SignedEeEnrollmentCertResponse
 
 ---
--- @brief This structure contains ScopedEeEnrollmentCertResponse. ECA signs this
+-- @brief This structure contains ScopedEcaEeCertResponse. ECA signs this
 --        structure using the private key corresponding to its certificate.
 -- @class SignedEeEnrollmentCertResponse
--- @see ScopedEeEnrollmentCertResponse
+-- @see ScopedEcaEeCertResponse
 SignedEeEnrollmentCertResponse ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -888,7 +931,7 @@ SignedEeEnrollmentCertResponse ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
         payload (WITH COMPONENTS {...,
           data (WITH COMPONENTS {...,
              content (WITH COMPONENTS {
-                unsecuredData (CONTAINING ScopedEeEnrollmentCertResponse)
+                unsecuredData (CONTAINING ScopedEcaEeCertResponse)
             })
           })
         }),
@@ -930,10 +973,10 @@ EncryptedSignedMisbehaviorReport ::= Ieee1609Dot2Data(WITH COMPONENTS {...,
 })
 
 ---
--- @brief This structure contains ScopedMisbehaviorReport. EE signs this 
+-- @brief This structure contains ScopedEeMaMisbehaviorReport. EE signs this 
 --        structure using the private key corresponding to its certificate.
 -- @class SignedMisbehaviorReport
--- @see ScopedMisbehaviorReport
+-- @see ScopedEeMaMisbehaviorReport
 SignedMisbehaviorReport ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -941,7 +984,7 @@ SignedMisbehaviorReport ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
         payload (WITH COMPONENTS {...,
           data (WITH COMPONENTS {...,
              content (WITH COMPONENTS {
-                unsecuredData (CONTAINING ScopedMisbehaviorReport)
+                unsecuredData (CONTAINING ScopedEeMaMisbehaviorReport)
             })
           })
         }),
@@ -1019,15 +1062,15 @@ EncryptedSignedPseudonymCertProvisioningRequest ::= Ieee1609Dot2Data (WITH COMPO
 })
 
 ---
--- @brief This structure contains ScopedPseudonymCertProvisioningRequest. EE signs this 
+-- @brief This structure contains ScopedEeRaPseudonymCertRequest. EE signs this 
 --        structure using the private key corresponding to its enrollment certificate.
 -- @class SignedPseudonymCertProvisioningRequest
--- @see ScopedPseudonymCertProvisioningRequest 
+-- @see ScopedEeRaPseudonymCertRequest 
 SignedPseudonymCertProvisioningRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedCertificateRequest  (CONTAINING
       SignedCertificateRequest (WITH COMPONENTS {...,
-        tbsRequest (ScopedPseudonymCertProvisioningRequest),
+        tbsRequest (ScopedEeRaPseudonymCertRequest),
         signer (WITH COMPONENTS {
           certificate (SequenceOfCertificate (SIZE(1)))
         })
@@ -1043,10 +1086,10 @@ SignedPseudonymCertProvisioningRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {..
 PseudonymCertProvisioningAckSPDU ::= SignedPseudonymCertProvisioningAck
 
 ---
--- @brief This structure contains ScopedPseudonymCertProvisioningAck. RA signs this  
+-- @brief This structure contains ScopedRaEePseudonymCertAck. RA signs this  
 --        structure using the private key corresponding to its certificate.
 -- @class SignedPseudonymCertProvisioningAck
--- @see ScopedPseudonymCertProvisioningAck
+-- @see ScopedRaEePseudonymCertAck
 SignedPseudonymCertProvisioningAck ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -1054,7 +1097,7 @@ SignedPseudonymCertProvisioningAck ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
         payload (WITH COMPONENTS {...,
           data (WITH COMPONENTS {...,
              content (WITH COMPONENTS {
-                unsecuredData (CONTAINING ScopedPseudonymCertProvisioningAck)
+                unsecuredData (CONTAINING ScopedRaEePseudonymCertAck)
             })
           })
         }),
@@ -1090,15 +1133,15 @@ EncryptedSignedIdCertProvisioningRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {
 })
 
 ---
--- @brief This structure contains ScopedIdCertProvisioningRequest. EE signs this 
+-- @brief This structure contains ScopedEeRaIdCertRequest. EE signs this 
 --        structure using the private key corresponding to its enrollment certificate.
 -- @class SignedIdCertProvisioningRequest
--- @see ScopedIdCertProvisioningRequest 
+-- @see ScopedEeRaIdCertRequest 
 SignedIdCertProvisioningRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedCertificateRequest  (CONTAINING
       SignedCertificateRequest (WITH COMPONENTS {...,
-        tbsRequest (ScopedIdCertProvisioningRequest),
+        tbsRequest (ScopedEeRaIdCertRequest),
         signer (WITH COMPONENTS {
           certificate (SequenceOfCertificate (SIZE(1)))
         })
@@ -1114,10 +1157,10 @@ SignedIdCertProvisioningRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
 IdCertProvisioningAckSPDU ::= SignedIdCertProvisioningAck
 
 ---
--- @brief This structure contains ScopedIdCertProvisioningAck. RA signs this  
+-- @brief This structure contains ScopedRaEeIdCertAck. RA signs this  
 --        structure using the private key corresponding to its certificate. 
 -- @class SignedIdCertProvisioningAck
--- @see ScopedIdCertProvisioningAck
+-- @see ScopedRaEeIdCertAck
 SignedIdCertProvisioningAck ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -1125,7 +1168,7 @@ SignedIdCertProvisioningAck ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
         payload (WITH COMPONENTS {...,
           data (WITH COMPONENTS {...,
              content (WITH COMPONENTS {
-                unsecuredData (CONTAINING ScopedIdCertProvisioningAck)
+                unsecuredData (CONTAINING ScopedRaEeIdCertAck)
             })
           })
         }),
@@ -1161,15 +1204,15 @@ EncryptedSignedAppCertProvisioningRequest ::= Ieee1609Dot2Data (WITH COMPONENTS 
 })
 
 ---
--- @brief This structure contains ScopedAppCertProvisioningRequest. EE signs this 
+-- @brief This structure contains ScopedEeRaAppCertRequest. EE signs this 
 --        structure using the private key corresponding to its enrollment certificate.
 -- @class SignedAppCertProvisioningRequest
--- @see ScopedAppCertProvisioningRequest
+-- @see ScopedEeRaAppCertRequest
 SignedAppCertProvisioningRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedCertificateRequest  (CONTAINING
       SignedCertificateRequest (WITH COMPONENTS {...,
-        tbsRequest (ScopedAppCertProvisioningRequest),
+        tbsRequest (ScopedEeRaAppCertRequest),
         signer (WITH COMPONENTS {
           certificate (SequenceOfCertificate (SIZE(1)))
         })
@@ -1185,10 +1228,10 @@ SignedAppCertProvisioningRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
 AppCertProvisioningAckSPDU ::= SignedAppCertProvisioningAck
 
 ---
--- @brief This structure contains ScopedAppCertProvisioningAck. RA signs this  
+-- @brief This structure contains ScopedRaEeAppCertAck. RA signs this  
 --        structure using the private key corresponding to its certificate.
 -- @class SignedAppCertProvisioningAck
--- @see ScopedAppCertProvisioningAck
+-- @see ScopedRaEeAppCertAck
 SignedAppCertProvisioningAck ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -1196,7 +1239,7 @@ SignedAppCertProvisioningAck ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
         payload (WITH COMPONENTS {...,
           data (WITH COMPONENTS {...,
              content (WITH COMPONENTS {
-                unsecuredData (CONTAINING ScopedAppCertProvisioningAck)
+                unsecuredData (CONTAINING ScopedRaEeAppCertAck)
             })
           })
         }),
@@ -1232,15 +1275,15 @@ EncryptedSignedAuthenticatedDownloadRequest ::= Ieee1609Dot2Data (WITH COMPONENT
 })
 
 ---
--- @brief This structure contains ScopedAuthenticatedDownloadRequest. EE signs this 
+-- @brief This structure contains ScopedEeRaAuthenticatedDownloadRequest. EE signs this 
 --         structure using the private key corresponding to its enrollment certificate. 
 -- @class SignedAuthenticatedDownloadRequest
--- @see ScopedAuthenticatedDownloadRequest
+-- @see ScopedEeRaAuthenticatedDownloadRequest
 SignedAuthenticatedDownloadRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedCertificateRequest  (CONTAINING
       SignedCertificateRequest (WITH COMPONENTS {...,
-        tbsRequest (ScopedAuthenticatedDownloadRequest),
+        tbsRequest (ScopedEeRaAuthenticatedDownloadRequest),
         signer (WITH COMPONENTS {
           certificate (SequenceOfCertificate (SIZE(1)))
         })
@@ -1326,10 +1369,10 @@ EncryptedSignedLIRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
 })
 
 ---
--- @brief This structure contains ScopedLIRequest. MA signs this structure 
+-- @brief This structure contains ScopedMaLaLinkageInfoRequest. MA signs this structure 
 --        using the private key corresponding to its certificate.
 -- @class SignedLIRequest
--- @see ScopedLIRequest
+-- @see ScopedMaLaLinkageInfoRequest
 SignedLIRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -1337,7 +1380,7 @@ SignedLIRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
         payload (WITH COMPONENTS {...,
           data (WITH COMPONENTS {...,
              content (WITH COMPONENTS {
-                unsecuredData (CONTAINING ScopedLIRequest)
+                unsecuredData (CONTAINING ScopedMaLaLinkageInfoRequest)
             })
           })
         }),
@@ -1374,10 +1417,10 @@ EncryptedSignedLIReply ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
 })
 
 ---
--- @brief This structure contains ScopedLIReply. LA signs this structure 
+-- @brief This structure contains ScopedLaMaLinkageInfoResponse. LA signs this structure 
 --        using the private key corresponding to its certificate.
 -- @class SignedLIReply
--- @see ScopedLIReply 
+-- @see ScopedLaMaLinkageInfoResponse 
 SignedLIReply ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -1385,7 +1428,7 @@ SignedLIReply ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
         payload (WITH COMPONENTS {...,
           data (WITH COMPONENTS {...,
              content (WITH COMPONENTS {
-                unsecuredData (CONTAINING ScopedLIReply)
+                unsecuredData (CONTAINING ScopedLaMaLinkageInfoResponse)
             })
           })
         }),
@@ -1421,10 +1464,10 @@ EncryptedSignedLSRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
 })
 
 ---
--- @brief This structure contains ScopedLSRequest. MA signs this structure 
+-- @brief This structure contains ScopedMaLaLinkageSeedRequest. MA signs this structure 
 --        using the private key corresponding to its certificate.
 -- @class SignedLSRequest
--- @see ScopedLSRequest
+-- @see ScopedMaLaLinkageSeedRequest
 SignedLSRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -1432,7 +1475,7 @@ SignedLSRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
         payload (WITH COMPONENTS {...,
           data (WITH COMPONENTS {...,
              content (WITH COMPONENTS {
-                unsecuredData (CONTAINING ScopedLSRequest)
+                unsecuredData (CONTAINING ScopedMaLaLinkageSeedRequest)
             })
           })
         }),
@@ -1469,10 +1512,10 @@ EncryptedSignedLSReply ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
 })
 
 ---
--- @brief This structure contains ScopedLSReply. LA signs this structure 
+-- @brief This structure contains ScopedLaMaLinkageSeedResponse. LA signs this structure 
 --        using the private key corresponding to its certificate.
 -- @class SignedLSReply
--- @see ScopedLSReply
+-- @see ScopedLaMaLinkageSeedResponse
 SignedLSReply ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -1480,7 +1523,7 @@ SignedLSReply ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
         payload (WITH COMPONENTS {...,
           data (WITH COMPONENTS {...,
              content (WITH COMPONENTS {
-                unsecuredData (CONTAINING ScopedLSReply)
+                unsecuredData (CONTAINING ScopedLaMaLinkageSeedResponse)
             })
           })
         }),
@@ -1912,10 +1955,10 @@ EncryptedSignedBlacklistRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
 })
 
 ---
--- @brief This structure contains ScopedBlacklistRequest. MA signs this structure 
+-- @brief This structure contains ScopedMaRaBlacklistRequest. MA signs this structure 
 --        using the private key corresponding to its certificate.
 -- @class SignedBlacklistRequest
--- @see ScopedBlacklistRequest
+-- @see ScopedMaRaBlacklistRequest
 SignedBlacklistRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -1923,7 +1966,7 @@ SignedBlacklistRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
         payload (WITH COMPONENTS {...,
           data (WITH COMPONENTS {...,
              content (WITH COMPONENTS {
-                unsecuredData (CONTAINING ScopedBlacklistRequest)
+                unsecuredData (CONTAINING ScopedMaRaBlacklistRequest)
             })
           })
         }),
@@ -1960,10 +2003,10 @@ EncryptedSignedBlacklistResponse ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
 })
 
 ---
--- @brief This structure contains ScopedBlacklistResponse. RA signs this structure  
+-- @brief This structure contains ScopedRaMaBlacklistResponse. RA signs this structure  
 --        using the private key corresponding to its certificate.
 -- @class SignedBlacklistResponse
--- @see ScopedBlacklistResponse
+-- @see ScopedRaMaBlacklistResponse
 SignedBlacklistResponse ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -1971,7 +2014,7 @@ SignedBlacklistResponse ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
         payload (WITH COMPONENTS {...,
           data (WITH COMPONENTS {...,
              content (WITH COMPONENTS {
-                unsecuredData (CONTAINING ScopedBlacklistResponse)
+                unsecuredData (CONTAINING ScopedRaMaBlacklistResponse)
             })
           })
         }),
@@ -2008,10 +2051,10 @@ EncryptedSignedRseObeIdBlacklistRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {.
 })
 
 ---
--- @brief This structure contains ScopedRseObeIdBlacklistRequest. MA signs this structure 
+-- @brief This structure contains ScopedMaRaIdBlacklistRequest. MA signs this structure 
 --        using the private key corresponding to its certificate.
 -- @class SignedRseObeIdBlacklistRequest
--- @see ScopedRseObeIdBlacklistRequest
+-- @see ScopedMaRaIdBlacklistRequest
 SignedRseObeIdBlacklistRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -2019,7 +2062,7 @@ SignedRseObeIdBlacklistRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
         payload (WITH COMPONENTS {...,
           data (WITH COMPONENTS {...,
              content (WITH COMPONENTS {
-                unsecuredData (CONTAINING ScopedRseObeIdBlacklistRequest)
+                unsecuredData (CONTAINING ScopedMaRaIdBlacklistRequest)
             })
           })
         }),
@@ -2057,10 +2100,10 @@ EncryptedSignedRseObeIdBlacklistResponse ::= Ieee1609Dot2Data (WITH COMPONENTS {
 
 
 ---
--- @brief This structure contains ScopedRseObeIdBlacklistResponse. RA signs this structure  
+-- @brief This structure contains ScopedRaMaIdBlacklistResponse. RA signs this structure  
 --        using the private key corresponding to its certificate.
 -- @class SignedRseObeIdBlacklistResponse
--- @see ScopedRseObeIdBlacklistResponse
+-- @see ScopedRaMaIdBlacklistResponse
 SignedRseObeIdBlacklistResponse ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -2068,7 +2111,7 @@ SignedRseObeIdBlacklistResponse ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
         payload (WITH COMPONENTS {...,
           data (WITH COMPONENTS {...,
              content (WITH COMPONENTS {
-                unsecuredData (CONTAINING ScopedBlacklistResponse)
+                unsecuredData (CONTAINING ScopedRaMaBlacklistResponse)
             })
           })
         }),
@@ -2104,10 +2147,10 @@ EncryptedSignedLCIRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
 })
 
 ---
--- @brief This structure contains ScopedLCIRequest. MA signs this structure using
+-- @brief This structure contains ScopedMaRaLCIRequest. MA signs this structure using
 --        the private key corresponding to its certificate.
 -- @class SignedLCIRequest
--- @see ScopedLCIRequest
+-- @see ScopedMaRaLCIRequest
 SignedLCIRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -2115,7 +2158,7 @@ SignedLCIRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
         payload (WITH COMPONENTS {...,
           data (WITH COMPONENTS {...,
              content (WITH COMPONENTS {
-                unsecuredData (CONTAINING ScopedLCIRequest)
+                unsecuredData (CONTAINING ScopedMaRaLCIRequest)
             })
           })
         }),
@@ -2140,8 +2183,12 @@ SignedLCIRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
 LCIResponseSPDU ::= EncryptedSignedLCIResponse
 
 ---
--- @brief This structure contains SignedLCIResponse. RA encrypts this structure 
---        using the encryptionKey from MA's certificate.
+-- @brief This structure contains an encrypted SignedLCIResponse. The RA encrypts 
+--        the SignedLCIResponse using the encryptionKey from the MA's certificate. 
+--        The RA uses this structure to provide the MA with a linkage chain identifier 
+--        linking one or more pseudonym certificate requests to their linkage chains. 
+--        (The MA will in turn provide this to the identified LA to obtain the linkage 
+--        seed to put on the CRL.)
 -- @class EncryptedSignedLCIResponse
 -- @param content encryptedData decrypts to SignedLCIResponse.
 -- @see SignedLCIResponse
@@ -2152,10 +2199,10 @@ EncryptedSignedLCIResponse ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
 })
 
 ---
--- @brief This structure contains ScopedLCIResponse. RA signs this structure using
+-- @brief This structure contains ScopedRaMaLCIResponse. RA signs this structure using
 --        the private key corresponding to its certificate.
 -- @class SignedLCIResponse
--- @see ScopedLCIResponse
+-- @see ScopedRaMaLCIResponse
 SignedLCIResponse ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -2163,7 +2210,7 @@ SignedLCIResponse ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
         payload (WITH COMPONENTS {...,
           data (WITH COMPONENTS {...,
              content (WITH COMPONENTS {
-                unsecuredData (CONTAINING ScopedLCIResponse)
+                unsecuredData (CONTAINING ScopedRaMaLCIResponse)
             })
           })
         }),
@@ -2181,11 +2228,11 @@ SignedLCIResponse ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   })
 })
 
--- *************************************************************************
+-- ****************************************************************************
 --
 --             PCA-RA
 --
--- *************************************************************************
+-- ****************************************************************************
 
 ---
 -- @brief RA sends this structure to PCA to request certificates.  
@@ -2213,16 +2260,17 @@ SignedRaPcaCertificateRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
 })
 
 ---
--- @brief PCA sends this structure to RA in response to RaPcaCertificateRequestSPDU.  
+-- @brief This structure is the SPDU used to transport a SignedPcaRaCertificateRequestReply. 
+--        It contains the response from the PCA to the RA in response to a pseudonym request.
 -- @class PcaRaCertificateRequestReplySPDU
 -- @see RaPcaCertificateRequestSPDU
 PcaRaCertificateRequestReplySPDU ::= SignedPcaRaCertificateRequestReply
 
 ---
--- @brief This structure contains ScopedPcaRaCertificateRequestReply. PCA signs this structure 
+-- @brief This structure contains ScopedPcaRaCertResponse. PCA signs this structure 
 --        using the private key corresponding to its certificate.
 -- @class SignedPcaRaCertificateRequestReply
--- @see ScopedPcaRaCertificateRequestReply
+-- @see ScopedPcaRaCertResponse
 SignedPcaRaCertificateRequestReply ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
@@ -2230,7 +2278,7 @@ SignedPcaRaCertificateRequestReply ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
         payload (WITH COMPONENTS {...,
           data (WITH COMPONENTS {...,
              content (WITH COMPONENTS {
-                unsecuredData (CONTAINING ScopedPcaRaCertificateRequestReply)
+                unsecuredData (CONTAINING ScopedPcaRaCertResponse)
             })
           })
         }),
@@ -2248,21 +2296,24 @@ SignedPcaRaCertificateRequestReply ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   })
 })
 
--- *************************************************************************
+-- ****************************************************************************
 --
 --             Electors
 --
--- *************************************************************************
-
+-- ****************************************************************************
+--Here!!
 ---
--- @brief Elector issues an endorsement using this structure.  
+-- @brief This structure is the SPDU used to transport a SignedElectorEndorsement. 
+--        It contains an endorsement by a single Elector of a single root CA or 
+--        Elector certificate. 
 -- @class ElectorEndorsementSPDU
 ElectorEndorsementSPDU ::= SignedElectorEndorsement
 
 ---
--- @brief This structure contains ScopedElectorEndorsement. The existing Electors 
---        sign their endorsements using their private keys corresponding to their
---        respective certificates.
+-- @brief This structure contains an endorsement by a single Elector of a single Root CA 
+--        or Elector certificate. For the signature to be valid the signing certificate 
+--        must contain a PSID equal to SecurityMgmtPsid (0x23) and a corresponding 
+--        SSP containing the OER encoding of an ScmsSsp indicating ElectorSsp.
 -- @class SignedElectorEndorsement
 -- @see ScopedElectorEndorsement
 SignedElectorEndorsement ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
@@ -2291,14 +2342,16 @@ SignedElectorEndorsement ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
 })
 
 ---
--- @brief Elector ballots are issued using this structure.  
+-- @brief This structure is the SPDU used to transport a ScopedElectorBallot. 
+--        It contains a specific Root CA or Elector certificate and endorsements 
+--        from one or more Electors for that certificate.  
 -- @class ElectorBallotSPDU
 ElectorBallotSPDU ::= UnsecuredElectorBallot
 
 ---
--- @brief This structure contains ScopedElectorBallot. Even though this is not a
---        signed and/or encrypted structure, the ScopedElectorBallot contains 
---        contents that have been signed.
+-- @brief This is the scoped SCMS structure that contains an Elector ballot. 
+--        The Elector ballot contains a specific root CA or Elector certificate 
+--        and endorsements from one or more Electors for that certificate.
 -- @class UnsecuredElectorBallot
 -- @see ScopedElectorBallot
 UnsecuredElectorBallot ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
