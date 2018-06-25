@@ -833,7 +833,7 @@ ScopedLocalPolicyFile ::=
     })
   })
 
--- Until here for Scoped structure renaming
+
 -- *** Scoped certificate requests   ******************************************
 
 ---
@@ -875,32 +875,32 @@ ScopedCertificateRequest ::= ScmsPDU (
 
 
 
--- *************************************************************************
--- *************************************************************************
+-- ****************************************************************************
+-- ****************************************************************************
 --
 --             SPDUs
 --
--- *************************************************************************
--- *************************************************************************
+-- ****************************************************************************
+-- ****************************************************************************
 
 
--- *************************************************************************
+-- ****************************************************************************
 --
 --             EE-ECA
 --
--- *************************************************************************
+-- ****************************************************************************
 
 ---
 -- @brief EE sends this structure to ECA to request an enrollment certificate. 
--- @class EeEnrollmentCertRequestSPDU
-EeEnrollmentCertRequestSPDU ::= SignedEeEnrollmentCertRequest
+-- @class EeEcaCertRequestSPDU
+EeEcaCertRequestSPDU ::= SignedEeEcaCertRequest
 
 ---
 -- @brief This structure contains ScopedEeEcaCertRequest. EE signs this
 --        structure using its private key generated during bootstrap.
--- @class SignedEeEnrollmentCertRequest
+-- @class SignedEeEcaCertRequest
 -- @see ScopedEeEcaCertRequest
-SignedEeEnrollmentCertRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
+SignedEeEcaCertRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedCertificateRequest  (CONTAINING
       SignedCertificateRequest (WITH COMPONENTS {...,
@@ -914,17 +914,17 @@ SignedEeEnrollmentCertRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
 })
 
 ---
--- @brief ECA sends this structure to EE in response to EeEnrollmentCertRequestSPDU.
--- @class EeEnrollmentCertResponseSPDU
--- @see EeEnrollmentCertRequestSPDU
-EeEnrollmentCertResponseSPDU ::= SignedEeEnrollmentCertResponse
+-- @brief ECA sends this structure to EE in response to EeEcaCertRequestSPDU.
+-- @class EcaEeCertResponseSPDU
+-- @see EeEcaCertRequestSPDU
+EcaEeCertResponseSPDU ::= SignedEcaEeCertResponse
 
 ---
 -- @brief This structure contains ScopedEcaEeCertResponse. ECA signs this
 --        structure using the private key corresponding to its certificate.
--- @class SignedEeEnrollmentCertResponse
+-- @class SignedEcaEeCertResponse
 -- @see ScopedEcaEeCertResponse
-SignedEeEnrollmentCertResponse ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
+SignedEcaEeCertResponse ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
       tbsData (WITH COMPONENTS {...,
@@ -949,24 +949,24 @@ SignedEeEnrollmentCertResponse ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   })
 })
 
--- *************************************************************************
+-- ****************************************************************************
 --
 --             EE-MA
 --
--- *************************************************************************
+-- ****************************************************************************
 
 ---
 -- @brief EE sends misbehavior reports to MA via RA using this structure. 
--- @class MisbehaviorReportSPDU
-MisbehaviorReportSPDU ::= EncryptedSignedMisbehaviorReport
+-- @class EeMaMisbehaviorReportSPDU
+EeMaMisbehaviorReportSPDU ::= EncryptedSignedEeMaMisbehaviorReport
 
 ---
--- @brief This structure contains SignedMisbehaviorReport. EE encrypts this 
+-- @brief This structure contains SignedEeMaMisbehaviorReport. EE encrypts this 
 --        structure using the encryptionKey from MA's certificate.
--- @class EncryptedSignedMisbehaviorReport
--- @param content encryptedData decrypts to SignedMisbehaviorReport.
--- @see SignedMisbehaviorReport
-EncryptedSignedMisbehaviorReport ::= Ieee1609Dot2Data(WITH COMPONENTS {...,
+-- @class EncryptedSignedEeMaMisbehaviorReport
+-- @param content encryptedData decrypts to SignedEeMaMisbehaviorReport.
+-- @see SignedEeMaMisbehaviorReport
+EncryptedSignedEeMaMisbehaviorReport ::= Ieee1609Dot2Data(WITH COMPONENTS {...,
   content(WITH COMPONENTS {...,
     encryptedData 
   })
@@ -975,9 +975,9 @@ EncryptedSignedMisbehaviorReport ::= Ieee1609Dot2Data(WITH COMPONENTS {...,
 ---
 -- @brief This structure contains ScopedEeMaMisbehaviorReport. EE signs this 
 --        structure using the private key corresponding to its certificate.
--- @class SignedMisbehaviorReport
+-- @class SignedEeMaMisbehaviorReport
 -- @see ScopedEeMaMisbehaviorReport
-SignedMisbehaviorReport ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
+SignedEeMaMisbehaviorReport ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
       tbsData (WITH COMPONENTS {...,
@@ -1005,40 +1005,40 @@ SignedMisbehaviorReport ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   })
 })
 
--- *************************************************************************
+-- ****************************************************************************
 --
 --             EE-RA
 --
--- *************************************************************************
+-- ****************************************************************************
 
 ---
 -- @brief EE sends this structure to RA to request RA's currently active certificate.  
--- @class RACertRequestSPDU
-RACertRequestSPDU ::= UnsecuredRACertRequest
+-- @class EeRaCertRequestSPDU
+EeRaCertRequestSPDU ::= UnsecuredEeRaCertRequest
 
 ---
 -- @brief This structure contains the unsecured ScopedEeRaCertRequest. 
--- @class UnsecuredRACertRequest
+-- @class UnsecuredEeRaCertRequest
 -- @param content contains ScopedEeRaCertRequest.
 -- @see ScopedEeRaCertRequest
-UnsecuredRACertRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
+UnsecuredEeRaCertRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     unsecuredData (CONTAINING ScopedEeRaCertRequest)
   })
 })
 
 ---
--- @brief RA sends this structure to EE in response to RACertRequestSPDU.  
--- @class RACertResponseSPDU
--- @see RACertRequestSPDU
-RACertResponseSPDU ::= UnsecuredRACertResponse
+-- @brief RA sends this structure to EE in response to EeRaCertRequestSPDU.  
+-- @class RaEeCertResponseSPDU
+-- @see EeRaCertRequestSPDU
+RaEeCertResponseSPDU ::= UnsecuredRaEeCertResponse
 
 ---
 -- @brief This structure contains the unsecured ScopedRaEeCertResponse.
--- @class UnsecuredRACertResponse
+-- @class UnsecuredRaEeCertResponse
 -- @param content contains ScopedRaEeCertResponse.
 -- @see ScopedRaEeCertResponse 
-UnsecuredRACertResponse ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
+UnsecuredRaEeCertResponse ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     unsecuredData (CONTAINING ScopedRaEeCertResponse)
   })
@@ -1046,16 +1046,16 @@ UnsecuredRACertResponse ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
 
 ---
 -- @brief EE sends this structure to RA to request pseudonym certificates.  
--- @class PseudonymCertProvisioningRequestSPDU
-PseudonymCertProvisioningRequestSPDU ::= EncryptedSignedPseudonymCertProvisioningRequest
+-- @class EeRaPseudonymCertRequestSPDU
+EeRaPseudonymCertRequestSPDU ::= EncryptedSignedEeRaPseudonymCertRequest
 
 ---
--- @brief This structure contains SignedPseudonymCertProvisioningRequest. EE encrypts this 
+-- @brief This structure contains SignedEeRaPseudonymCertRequest. EE encrypts this 
 --        structure using the encryptionKey from RA's certificate. 
--- @class EncryptedSignedPseudonymCertProvisioningRequest
--- @param content encryptedData decrypts to SignedPseudonymCertProvisioningRequest.
--- @see SignedPseudonymCertProvisioningRequest 
-EncryptedSignedPseudonymCertProvisioningRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
+-- @class EncryptedSignedEeRaPseudonymCertRequest
+-- @param content encryptedData decrypts to SignedEeRaPseudonymCertRequest.
+-- @see SignedEeRaPseudonymCertRequest 
+EncryptedSignedEeRaPseudonymCertRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     encryptedData
   })
@@ -1064,9 +1064,9 @@ EncryptedSignedPseudonymCertProvisioningRequest ::= Ieee1609Dot2Data (WITH COMPO
 ---
 -- @brief This structure contains ScopedEeRaPseudonymCertRequest. EE signs this 
 --        structure using the private key corresponding to its enrollment certificate.
--- @class SignedPseudonymCertProvisioningRequest
+-- @class SignedEeRaPseudonymCertRequest
 -- @see ScopedEeRaPseudonymCertRequest 
-SignedPseudonymCertProvisioningRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
+SignedEeRaPseudonymCertRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedCertificateRequest  (CONTAINING
       SignedCertificateRequest (WITH COMPONENTS {...,
@@ -1080,17 +1080,17 @@ SignedPseudonymCertProvisioningRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {..
 })
 
 ---
--- @brief RA sends this structure to EE to acknowledge PseudonymCertProvisioningRequestSPDU.   
--- @class PseudonymCertProvisioningAckSPDU
--- @see PseudonymCertProvisioningRequestSPDU
-PseudonymCertProvisioningAckSPDU ::= SignedPseudonymCertProvisioningAck
+-- @brief RA sends this structure to EE to acknowledge EeRaPseudonymCertRequestSPDU.   
+-- @class RaEePseudonymCertAckSPDU
+-- @see EeRaPseudonymCertRequestSPDU
+RaEePseudonymCertAckSPDU ::= SignedRaEePseudonymCertAck
 
 ---
 -- @brief This structure contains ScopedRaEePseudonymCertAck. RA signs this  
 --        structure using the private key corresponding to its certificate.
--- @class SignedPseudonymCertProvisioningAck
+-- @class SignedRaEePseudonymCertAck
 -- @see ScopedRaEePseudonymCertAck
-SignedPseudonymCertProvisioningAck ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
+SignedRaEePseudonymCertAck ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
       tbsData (WITH COMPONENTS {...,
@@ -1117,16 +1117,16 @@ SignedPseudonymCertProvisioningAck ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
 
 ---
 -- @brief EE sends this structure to RA to request identification certificates.  
--- @class IdCertProvisioningRequestSPDU
-IdCertProvisioningRequestSPDU ::= EncryptedSignedIdCertProvisioningRequest
+-- @class EeRaIdCertRequestSPDU
+EeRaIdCertRequestSPDU ::= EncryptedSignedEeRaIdCertRequest
 
 ---
--- @brief This structure contains SignedIdCertProvisioningRequest. EE encrypts this 
+-- @brief This structure contains SignedEeRaIdCertRequest. EE encrypts this 
 --        structure using the encryptionKey from RA's certificate. 
--- @class EncryptedSignedIdCertProvisioningRequest
--- @param content encryptedData decrypts to SignedIdCertProvisioningRequest.
--- @see SignedIdCertProvisioningRequest 
-EncryptedSignedIdCertProvisioningRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
+-- @class EncryptedSignedEeRaIdCertRequest
+-- @param content encryptedData decrypts to SignedEeRaIdCertRequest.
+-- @see SignedEeRaIdCertRequest 
+EncryptedSignedEeRaIdCertRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     encryptedData 
   })
@@ -1135,9 +1135,9 @@ EncryptedSignedIdCertProvisioningRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {
 ---
 -- @brief This structure contains ScopedEeRaIdCertRequest. EE signs this 
 --        structure using the private key corresponding to its enrollment certificate.
--- @class SignedIdCertProvisioningRequest
+-- @class SignedEeRaIdCertRequest
 -- @see ScopedEeRaIdCertRequest 
-SignedIdCertProvisioningRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
+SignedEeRaIdCertRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedCertificateRequest  (CONTAINING
       SignedCertificateRequest (WITH COMPONENTS {...,
@@ -1151,17 +1151,17 @@ SignedIdCertProvisioningRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
 })
 
 ---
--- @brief RA sends this structure to EE to acknowledge IdCertProvisioningRequestSPDU.   
--- @class IdCertProvisioningAckSPDU
--- @see IdCertProvisioningRequestSPDU
-IdCertProvisioningAckSPDU ::= SignedIdCertProvisioningAck
+-- @brief RA sends this structure to EE to acknowledge EeRaIdCertRequestSPDU.   
+-- @class RaEeIdCertAckSPDU
+-- @see EeRaIdCertRequestSPDU
+RaEeIdCertAckSPDU ::= SignedRaEeIdCertAck
 
 ---
 -- @brief This structure contains ScopedRaEeIdCertAck. RA signs this  
 --        structure using the private key corresponding to its certificate. 
--- @class SignedIdCertProvisioningAck
+-- @class SignedRaEeIdCertAck
 -- @see ScopedRaEeIdCertAck
-SignedIdCertProvisioningAck ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
+SignedRaEeIdCertAck ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
       tbsData (WITH COMPONENTS {...,
@@ -1188,16 +1188,16 @@ SignedIdCertProvisioningAck ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
 
 ---
 -- @brief EE sends this structure to RA to request application certificates.  
--- @class AppCertProvisioningRequestSPDU
-AppCertProvisioningRequestSPDU ::= EncryptedSignedAppCertProvisioningRequest
+-- @class EeRaAppCertRequestSPDU
+EeRaAppCertRequestSPDU ::= EncryptedSignedEeRaAppCertRequest
 
 ---
--- @brief This structure contains SignedAppCertProvisioningRequest. EE encrypts this 
+-- @brief This structure contains SignedEeRaAppCertRequest. EE encrypts this 
 --        structure using the encryptionKey from RA's certificate. 
--- @class EncryptedSignedAppCertProvisioningRequest
--- @param content encryptedData decrypts to SignedAppCertProvisioningRequest.
--- @see SignedAppCertProvisioningRequest 
-EncryptedSignedAppCertProvisioningRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
+-- @class EncryptedSignedEeRaAppCertRequest
+-- @param content encryptedData decrypts to SignedEeRaAppCertRequest.
+-- @see SignedEeRaAppCertRequest 
+EncryptedSignedEeRaAppCertRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     encryptedData 
   })
@@ -1206,9 +1206,9 @@ EncryptedSignedAppCertProvisioningRequest ::= Ieee1609Dot2Data (WITH COMPONENTS 
 ---
 -- @brief This structure contains ScopedEeRaAppCertRequest. EE signs this 
 --        structure using the private key corresponding to its enrollment certificate.
--- @class SignedAppCertProvisioningRequest
+-- @class SignedEeRaAppCertRequest
 -- @see ScopedEeRaAppCertRequest
-SignedAppCertProvisioningRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
+SignedEeRaAppCertRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedCertificateRequest  (CONTAINING
       SignedCertificateRequest (WITH COMPONENTS {...,
@@ -1222,17 +1222,17 @@ SignedAppCertProvisioningRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
 })
 
 ---
--- @brief RA sends this structure to EE to acknowledge AppCertProvisioningRequestSPDU.   
--- @class AppCertProvisioningAckSPDU
--- @see AppCertProvisioningRequestSPDU
-AppCertProvisioningAckSPDU ::= SignedAppCertProvisioningAck
+-- @brief RA sends this structure to EE to acknowledge EeRaAppCertRequestSPDU.   
+-- @class RaEeAppCertAckSPDU
+-- @see EeRaAppCertRequestSPDU
+RaEeAppCertAckSPDU ::= SignedRaEeAppCertAck
 
 ---
 -- @brief This structure contains ScopedRaEeAppCertAck. RA signs this  
 --        structure using the private key corresponding to its certificate.
--- @class SignedAppCertProvisioningAck
+-- @class SignedRaEeAppCertAck
 -- @see ScopedRaEeAppCertAck
-SignedAppCertProvisioningAck ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
+SignedRaEeAppCertAck ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
       tbsData (WITH COMPONENTS {...,
@@ -1259,16 +1259,16 @@ SignedAppCertProvisioningAck ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
 
 ---
 -- @brief EE sends this structure to RA to request download of certificates.  
--- @class AuthenticatedDownloadRequestSPDU
-AuthenticatedDownloadRequestSPDU ::= EncryptedSignedAuthenticatedDownloadRequest
+-- @class EeRaAuthenticatedDownloadRequestSPDU
+EeRaAuthenticatedDownloadRequestSPDU ::= EncryptedSignedEeRaAuthenticatedDownloadRequest
 
 ---
--- @brief This structure contains SignedAuthenticatedDownloadRequest. EE encrypts this 
+-- @brief This structure contains SignedEeRaAuthenticatedDownloadRequest. EE encrypts this 
 --        structure using the encryptionKey from RA's certificate.
--- @class EncryptedSignedAuthenticatedDownloadRequest
--- @param content encryptedData decrypts to SignedAuthenticatedDownloadRequest.
--- @see SignedAuthenticatedDownloadRequest 
-EncryptedSignedAuthenticatedDownloadRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
+-- @class EncryptedSignedEeRaAuthenticatedDownloadRequest
+-- @param content encryptedData decrypts to SignedEeRaAuthenticatedDownloadRequest.
+-- @see SignedEeRaAuthenticatedDownloadRequest 
+EncryptedSignedEeRaAuthenticatedDownloadRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     encryptedData 
   })
@@ -1277,9 +1277,9 @@ EncryptedSignedAuthenticatedDownloadRequest ::= Ieee1609Dot2Data (WITH COMPONENT
 ---
 -- @brief This structure contains ScopedEeRaAuthenticatedDownloadRequest. EE signs this 
 --         structure using the private key corresponding to its enrollment certificate. 
--- @class SignedAuthenticatedDownloadRequest
+-- @class SignedEeRaAuthenticatedDownloadRequest
 -- @see ScopedEeRaAuthenticatedDownloadRequest
-SignedAuthenticatedDownloadRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
+SignedEeRaAuthenticatedDownloadRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedCertificateRequest  (CONTAINING
       SignedCertificateRequest (WITH COMPONENTS {...,
@@ -1345,24 +1345,24 @@ SignedLocalPolicyFile ::= Ieee1609Dot2Data( WITH COMPONENTS{...,
 })
 
 
--- *************************************************************************
+-- ****************************************************************************
 --
 --             LA-MA
 --
--- *************************************************************************
+-- ****************************************************************************
 
 ---
 -- @brief MA sends this structure to LA to request Linkage Information (LI).  
--- @class LIRequestSPDU
-LIRequestSPDU ::= EncryptedSignedLIRequest
+-- @class MaLaLinkageInfoRequestSPDU
+MaLaLinkageInfoRequestSPDU ::= EncryptedSignedMaLaLinkageInfoRequest
 
 ---
--- @brief This structure contains SignedLIRequest. MA encrypts this structure 
+-- @brief This structure contains SignedMaLaLinkageInfoRequest. MA encrypts this structure 
 --        using the encryptionKey from LA's certificate.
--- @class EncryptedSignedLIRequest
--- @param contains encryptedData decrypts to SignedLIRequest.
--- @see SignedLIRequest 
-EncryptedSignedLIRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
+-- @class EncryptedSignedMaLaLinkageInfoRequest
+-- @param contains encryptedData decrypts to SignedMaLaLinkageInfoRequest.
+-- @see SignedMaLaLinkageInfoRequest 
+EncryptedSignedMaLaLinkageInfoRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     encryptedData
   })
@@ -1371,9 +1371,9 @@ EncryptedSignedLIRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
 ---
 -- @brief This structure contains ScopedMaLaLinkageInfoRequest. MA signs this structure 
 --        using the private key corresponding to its certificate.
--- @class SignedLIRequest
+-- @class SignedMaLaLinkageInfoRequest
 -- @see ScopedMaLaLinkageInfoRequest
-SignedLIRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
+SignedMaLaLinkageInfoRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
       tbsData (WITH COMPONENTS {...,
@@ -1399,18 +1399,18 @@ SignedLIRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
 })
 
 ---
--- @brief LA sends this structure to MA in response to LIRequestSPDU.  
--- @class LIReplySPDU
--- @see LIRequestSPDU
-LIReplySPDU ::= EncryptedSignedLIReply
+-- @brief LA sends this structure to MA in response to MaLaLinkageInfoRequestSPDU.  
+-- @class LaMaLinkageInfoResponseSPDU
+-- @see MaLaLinkageInfoRequestSPDU
+LaMaLinkageInfoResponseSPDU ::= EncryptedSignedLaMaLinkageInfoResponse
 
 ---
--- @brief This structure contains SignedLIReply. MA encrypts this structure 
+-- @brief This structure contains SignedLaMaLinkageInfoResponse. MA encrypts this structure 
 --        using the encryptionKey from LA's certificate.
--- @class EncryptedSignedLIRequest
--- @param contains encryptedData decrypts to SignedLIReply.
--- @see SignedLIReply 
-EncryptedSignedLIReply ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
+-- @class EncryptedSignedMaLaLinkageInfoRequest
+-- @param contains encryptedData decrypts to SignedLaMaLinkageInfoResponse.
+-- @see SignedLaMaLinkageInfoResponse 
+EncryptedSignedLaMaLinkageInfoResponse ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     encryptedData
   })
@@ -1419,9 +1419,9 @@ EncryptedSignedLIReply ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
 ---
 -- @brief This structure contains ScopedLaMaLinkageInfoResponse. LA signs this structure 
 --        using the private key corresponding to its certificate.
--- @class SignedLIReply
+-- @class SignedLaMaLinkageInfoResponse
 -- @see ScopedLaMaLinkageInfoResponse 
-SignedLIReply ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
+SignedLaMaLinkageInfoResponse ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
       tbsData (WITH COMPONENTS {...,
@@ -1448,16 +1448,16 @@ SignedLIReply ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
 
 ---
 -- @brief MA sends this structure to LA to request Linkage Seed (LS).  
--- @class LSRequestSPDU
-LSRequestSPDU ::= EncryptedSignedLSRequest
+-- @class MaLaLinkageSeedRequestSPDU
+MaLaLinkageSeedRequestSPDU ::= EncryptedSignedMaLaLinkageSeedRequest
 
 ---
--- @brief This structure contains SignedLSRequest. MA encrypts this structure 
+-- @brief This structure contains SignedMaLaLinkageSeedRequest. MA encrypts this structure 
 --        using the encryptionKey from LA's certificate.
--- @class EncryptedSignedLSRequest
--- @param content encryptedData decrypts to SignedLSRequest.
--- @see SignedLSRequest 
-EncryptedSignedLSRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
+-- @class EncryptedSignedMaLaLinkageSeedRequest
+-- @param content encryptedData decrypts to SignedMaLaLinkageSeedRequest.
+-- @see SignedMaLaLinkageSeedRequest 
+EncryptedSignedMaLaLinkageSeedRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     encryptedData
   })
@@ -1466,9 +1466,9 @@ EncryptedSignedLSRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
 ---
 -- @brief This structure contains ScopedMaLaLinkageSeedRequest. MA signs this structure 
 --        using the private key corresponding to its certificate.
--- @class SignedLSRequest
+-- @class SignedMaLaLinkageSeedRequest
 -- @see ScopedMaLaLinkageSeedRequest
-SignedLSRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
+SignedMaLaLinkageSeedRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
       tbsData (WITH COMPONENTS {...,
@@ -1494,18 +1494,18 @@ SignedLSRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
 })
 
 ---
--- @brief LA sends this structure to MA to in response to LSRequestSPDU.  
--- @class LSReplySPDU
--- @see LSRequestSPDU
-LSReplySPDU ::= EncryptedSignedLSReply
+-- @brief LA sends this structure to MA to in response to MaLaLinkageSeedRequestSPDU.  
+-- @class LaMaLinkageSeedResponseSPDU
+-- @see MaLaLinkageSeedRequestSPDU
+LaMaLinkageSeedResponseSPDU ::= EncryptedSignedLaMaLinkageSeedResponse
 
 ---
--- @brief This structure contains SignedLSReply. MA encrypts this structure 
+-- @brief This structure contains SignedLaMaLinkageSeedResponse. MA encrypts this structure 
 --        using the encryptionKey from LA's certificate.
--- @class EncryptedSignedLSRequest
--- @param content encryptedData decrypts to SignedLSReply.
--- @see SignedLSReply
-EncryptedSignedLSReply ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
+-- @class EncryptedSignedMaLaLinkageSeedRequest
+-- @param content encryptedData decrypts to SignedLaMaLinkageSeedResponse.
+-- @see SignedLaMaLinkageSeedResponse
+EncryptedSignedLaMaLinkageSeedResponse ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     encryptedData
   })
@@ -1514,9 +1514,9 @@ EncryptedSignedLSReply ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
 ---
 -- @brief This structure contains ScopedLaMaLinkageSeedResponse. LA signs this structure 
 --        using the private key corresponding to its certificate.
--- @class SignedLSReply
+-- @class SignedLaMaLinkageSeedResponse
 -- @see ScopedLaMaLinkageSeedResponse
-SignedLSReply ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
+SignedLaMaLinkageSeedResponse ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
       tbsData (WITH COMPONENTS {...,
@@ -1542,11 +1542,11 @@ SignedLSReply ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
 })
 
 
--- *************************************************************************
+-- ****************************************************************************
 --
 --             LA-PCA
 --
--- *************************************************************************
+-- ****************************************************************************
 
 ---
 -- @brief PCA sends this structure to LA to initiate key agreement.  
@@ -1656,11 +1656,11 @@ SignedPcaLaKeyAgreementAck ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
 })
 
 
--- *************************************************************************
+-- ****************************************************************************
 --
 --             LA-RA
 --
--- *************************************************************************
+-- ****************************************************************************
 
 ---
 -- @brief RA sends this structure to LA to request pre-linkage values.  
@@ -1734,11 +1734,11 @@ SignedLaRaPreLinkageValueResponse ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
 })
 
 
--- *************************************************************************
+-- ****************************************************************************
 --
 --             MA-PCA
 --
--- *************************************************************************
+-- ****************************************************************************
 
 ---
 -- @brief MA sends this structure to PCA to request pre-linkage values.  
@@ -1931,24 +1931,24 @@ SignedPcaMaHPCRResponse ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   })
 })
 
--- *************************************************************************
+-- ****************************************************************************
 --
 --             MA-RA
 --
--- *************************************************************************
+-- ****************************************************************************
 
 ---
 -- @brief MA sends this structure to RA for RA to update its Internal Blacklist.  
--- @class BlacklistRequestSPDU
-BlacklistRequestSPDU ::= EncryptedSignedBlacklistRequest
+-- @class MaRaBlacklistRequestSPDU
+MaRaBlacklistRequestSPDU ::= EncryptedSignedMaRaBlacklistRequest
 
 ---
--- @brief This structure contains SignedBlacklistRequest. MA encrypts this structure 
+-- @brief This structure contains SignedMaRaBlacklistRequest. MA encrypts this structure 
 --        using encryptionKey from RA's certificate.
--- @class EncryptedSignedBlacklistRequest
--- @param content encryptedData decrypts to SignedBlacklistRequest.
--- @see SignedBlacklistRequest
-EncryptedSignedBlacklistRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
+-- @class EncryptedSignedMaRaBlacklistRequest
+-- @param content encryptedData decrypts to SignedMaRaBlacklistRequest.
+-- @see SignedMaRaBlacklistRequest
+EncryptedSignedMaRaBlacklistRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     encryptedData
   })
@@ -1957,9 +1957,9 @@ EncryptedSignedBlacklistRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
 ---
 -- @brief This structure contains ScopedMaRaBlacklistRequest. MA signs this structure 
 --        using the private key corresponding to its certificate.
--- @class SignedBlacklistRequest
+-- @class SignedMaRaBlacklistRequest
 -- @see ScopedMaRaBlacklistRequest
-SignedBlacklistRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
+SignedMaRaBlacklistRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
       tbsData (WITH COMPONENTS {...,
@@ -1985,18 +1985,18 @@ SignedBlacklistRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
 })
 
 ---
--- @brief RA sends this structure to MA in response to BlacklistRequestSPDU.  
--- @class BlacklistResponseSPDU
--- @see BlacklistRequestSPDU
-BlacklistResponseSPDU ::= EncryptedSignedBlacklistResponse
+-- @brief RA sends this structure to MA in response to MaRaBlacklistRequestSPDU.  
+-- @class RaMaBlacklistResponseSPDU
+-- @see MaRaBlacklistRequestSPDU
+RaMaBlacklistResponseSPDU ::= EncryptedSignedRaMaBlacklistResponse
 
 ---
--- @brief This structure contains SignedBlacklistResponse. RA encrypts this structure 
+-- @brief This structure contains SignedRaMaBlacklistResponse. RA encrypts this structure 
 --        using the encryptionKey from MA's certificate.
--- @class EncryptedSignedBlacklistResponse
--- @param content encryptedData decrypts to SignedBlacklistResponse.
--- @see SignedBlacklistResponse
-EncryptedSignedBlacklistResponse ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
+-- @class EncryptedSignedRaMaBlacklistResponse
+-- @param content encryptedData decrypts to SignedRaMaBlacklistResponse.
+-- @see SignedRaMaBlacklistResponse
+EncryptedSignedRaMaBlacklistResponse ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     encryptedData
   })
@@ -2005,9 +2005,9 @@ EncryptedSignedBlacklistResponse ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
 ---
 -- @brief This structure contains ScopedRaMaBlacklistResponse. RA signs this structure  
 --        using the private key corresponding to its certificate.
--- @class SignedBlacklistResponse
+-- @class SignedRaMaBlacklistResponse
 -- @see ScopedRaMaBlacklistResponse
-SignedBlacklistResponse ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
+SignedRaMaBlacklistResponse ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
       tbsData (WITH COMPONENTS {...,
@@ -2035,16 +2035,16 @@ SignedBlacklistResponse ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
 ---
 -- @brief MA sends this structure to RA for RA to update its Blacklist for non-pseudonym
 --        certificates.  
--- @class RseObeIdBlacklistRequestSPDU
-RseObeIdBlacklistRequestSPDU ::= EncryptedSignedRseObeIdBlacklistRequest
+-- @class MaRaIdBlacklistRequestSPDU
+MaRaIdBlacklistRequestSPDU ::= EncryptedSignedMaRaIdBlacklistRequest
 
 ---
--- @brief This structure contains SignedRseObeIdBlacklistRequest. MA encrypts this structure 
+-- @brief This structure contains SignedMaRaIdBlacklistRequest. MA encrypts this structure 
 --        using encryptionKey from RA's certificate.
--- @class EncryptedSignedBlacklistRequest
--- @param content encryptedData decrypts to SignedRseObeIdBlacklistRequest.
--- @see SignedRseObeIdBlacklistRequest
-EncryptedSignedRseObeIdBlacklistRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
+-- @class EncryptedSignedMaRaBlacklistRequest
+-- @param content encryptedData decrypts to SignedMaRaIdBlacklistRequest.
+-- @see SignedMaRaIdBlacklistRequest
+EncryptedSignedMaRaIdBlacklistRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     encryptedData
   })
@@ -2053,9 +2053,9 @@ EncryptedSignedRseObeIdBlacklistRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {.
 ---
 -- @brief This structure contains ScopedMaRaIdBlacklistRequest. MA signs this structure 
 --        using the private key corresponding to its certificate.
--- @class SignedRseObeIdBlacklistRequest
+-- @class SignedMaRaIdBlacklistRequest
 -- @see ScopedMaRaIdBlacklistRequest
-SignedRseObeIdBlacklistRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
+SignedMaRaIdBlacklistRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
       tbsData (WITH COMPONENTS {...,
@@ -2081,18 +2081,18 @@ SignedRseObeIdBlacklistRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
 })
 
 ---
--- @brief RA sends this structure to MA in response to RseObeIdBlacklistRequestSPDU.  
--- @class RseObeIdBlacklistResponseSPDU
--- @see RseObeIdBlacklistRequestSPDU
-RseObeIdBlacklistResponseSPDU ::= EncryptedSignedRseObeIdBlacklistResponse
+-- @brief RA sends this structure to MA in response to MaRaIdBlacklistRequestSPDU.  
+-- @class RaMaIdBlacklistResponseSPDU
+-- @see MaRaIdBlacklistRequestSPDU
+RaMaIdBlacklistResponseSPDU ::= EncryptedSignedRaMaIdBlacklistResponse
 
 ---
--- @brief This structure contains SignedRseObeIdBlacklistResponse. RA encrypts this structure 
+-- @brief This structure contains SignedRaMaBlacklistResponse. RA encrypts this structure 
 --        using the encryptionKey from MA's certificate.
--- @class EncryptedSignedRseObeIdBlacklistResponse
--- @param content encryptedData decrypts to SignedRseObeIdBlacklistResponse.
--- @see SignedRseObeIdBlacklistResponse
-EncryptedSignedRseObeIdBlacklistResponse ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
+-- @class EncryptedSignedRaMaBlacklistResponse
+-- @param content encryptedData decrypts to SignedRaMaBlacklistResponse.
+-- @see SignedRaMaIdBlacklistResponse
+EncryptedSignedRaMaIdBlacklistResponse ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     encryptedData
   })
@@ -2102,16 +2102,16 @@ EncryptedSignedRseObeIdBlacklistResponse ::= Ieee1609Dot2Data (WITH COMPONENTS {
 ---
 -- @brief This structure contains ScopedRaMaIdBlacklistResponse. RA signs this structure  
 --        using the private key corresponding to its certificate.
--- @class SignedRseObeIdBlacklistResponse
+-- @class SignedRaMaIdBlacklistResponse
 -- @see ScopedRaMaIdBlacklistResponse
-SignedRseObeIdBlacklistResponse ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
+SignedRaMaIdBlacklistResponse ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
       tbsData (WITH COMPONENTS {...,
         payload (WITH COMPONENTS {...,
           data (WITH COMPONENTS {...,
              content (WITH COMPONENTS {
-                unsecuredData (CONTAINING ScopedRaMaBlacklistResponse)
+                unsecuredData (CONTAINING ScopedRaMaIdBlacklistResponse)
             })
           })
         }),
@@ -2131,16 +2131,16 @@ SignedRseObeIdBlacklistResponse ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
 
 ---
 -- @brief MA sends this structure to RA to request Linkage Chain Identifier (LCI).  
--- @class LCIRequestSPDU
-LCIRequestSPDU ::= EncryptedSignedLCIRequest
+-- @class MaRaLCIRequestSPDU
+MaRaLCIRequestSPDU ::= EncryptedSignedMaRaLCIRequest
 
 ---
--- @brief This structure contains SignedLCIRequest. MA encrypts this structure 
+-- @brief This structure contains SignedMaRaLCIRequest. MA encrypts this structure 
 --        using encryptionKey from RA's certificate.
--- @class EncryptedSignedLCIRequest
--- @param content encryptedData decrypts to SignedLCIRequest.
--- @see SignedLCIRequest
-EncryptedSignedLCIRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
+-- @class EncryptedSignedMaRaLCIRequest
+-- @param content encryptedData decrypts to SignedMaRaLCIRequest.
+-- @see SignedMaRaLCIRequest
+EncryptedSignedMaRaLCIRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     encryptedData  --
   })
@@ -2149,9 +2149,9 @@ EncryptedSignedLCIRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
 ---
 -- @brief This structure contains ScopedMaRaLCIRequest. MA signs this structure using
 --        the private key corresponding to its certificate.
--- @class SignedLCIRequest
+-- @class SignedMaRaLCIRequest
 -- @see ScopedMaRaLCIRequest
-SignedLCIRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
+SignedMaRaLCIRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
       tbsData (WITH COMPONENTS {...,
@@ -2177,22 +2177,22 @@ SignedLCIRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
 })
 
 ---
--- @brief RA sends this structure to MA in response to LCIRequestSPDU.  
--- @class LCIResponseSPDU
--- @see LCIRequestSPDU
-LCIResponseSPDU ::= EncryptedSignedLCIResponse
+-- @brief RA sends this structure to MA in response to MaRaLCIRequestSPDU.  
+-- @class RaMaLCIResponseSPDU
+-- @see MaRaLCIRequestSPDU
+RaMaLCIResponseSPDU ::= EncryptedSignedRaMaLCIResponse
 
 ---
--- @brief This structure contains an encrypted SignedLCIResponse. The RA encrypts 
---        the SignedLCIResponse using the encryptionKey from the MA's certificate. 
+-- @brief This structure contains an encrypted SignedRaMaLCIResponse. The RA encrypts 
+--        the SignedRaMaLCIResponse using the encryptionKey from the MA's certificate. 
 --        The RA uses this structure to provide the MA with a linkage chain identifier 
 --        linking one or more pseudonym certificate requests to their linkage chains. 
 --        (The MA will in turn provide this to the identified LA to obtain the linkage 
 --        seed to put on the CRL.)
--- @class EncryptedSignedLCIResponse
--- @param content encryptedData decrypts to SignedLCIResponse.
--- @see SignedLCIResponse
-EncryptedSignedLCIResponse ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
+-- @class EncryptedSignedRaMaLCIResponse
+-- @param content encryptedData decrypts to SignedRaMaLCIResponse.
+-- @see SignedRaMaLCIResponse
+EncryptedSignedRaMaLCIResponse ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     encryptedData
   })
@@ -2201,9 +2201,9 @@ EncryptedSignedLCIResponse ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
 ---
 -- @brief This structure contains ScopedRaMaLCIResponse. RA signs this structure using
 --        the private key corresponding to its certificate.
--- @class SignedLCIResponse
+-- @class SignedRaMaLCIResponse
 -- @see ScopedRaMaLCIResponse
-SignedLCIResponse ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
+SignedRaMaLCIResponse ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
       tbsData (WITH COMPONENTS {...,
@@ -2260,18 +2260,18 @@ SignedRaPcaCertificateRequest ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
 })
 
 ---
--- @brief This structure is the SPDU used to transport a SignedPcaRaCertificateRequestReply. 
+-- @brief This structure is the SPDU used to transport a SignedPcaRaCertResponse. 
 --        It contains the response from the PCA to the RA in response to a pseudonym request.
--- @class PcaRaCertificateRequestReplySPDU
+-- @class PcaRaCertResponseSPDU
 -- @see RaPcaCertificateRequestSPDU
-PcaRaCertificateRequestReplySPDU ::= SignedPcaRaCertificateRequestReply
+PcaRaCertResponseSPDU ::= SignedPcaRaCertResponse
 
 ---
 -- @brief This structure contains ScopedPcaRaCertResponse. PCA signs this structure 
 --        using the private key corresponding to its certificate.
--- @class SignedPcaRaCertificateRequestReply
+-- @class SignedPcaRaCertResponse
 -- @see ScopedPcaRaCertResponse
-SignedPcaRaCertificateRequestReply ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
+SignedPcaRaCertResponse ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
   content (WITH COMPONENTS {...,
     signedData  (WITH COMPONENTS {...,
       tbsData (WITH COMPONENTS {...,
@@ -2301,7 +2301,7 @@ SignedPcaRaCertificateRequestReply ::= Ieee1609Dot2Data (WITH COMPONENTS {...,
 --             Electors
 --
 -- ****************************************************************************
---Here!!
+
 ---
 -- @brief This structure is the SPDU used to transport a SignedElectorEndorsement. 
 --        It contains an endorsement by a single Elector of a single root CA or 
