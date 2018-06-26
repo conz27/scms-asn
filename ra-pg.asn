@@ -73,11 +73,11 @@ FROM Ieee1609dot2ScmsPolicyTypes {iso(1) identified-organization(3) ieee(111)
 -- @class RaPgInterfacePDU 
 -- @param raPgPolicySignatureRequest      contains the request from RA to
 --                                        obtain policy file from PG.
--- @param raPgPolicySignatureRequestReply contains response from PG to
---                                        RaPgPolicySignatureRequestMsg from RA.
+-- @param pgRaPolicySignatureResponse contains response from PG to
+--                                        RaPgPolicySignatureRequest from RA.
 RaPgInterfacePDU ::= CHOICE {
-    raPgPolicySignatureRequest   RaPgPolicySignatureRequestMsg,
-    raPgPolicySignatureRequestReply  RaPgPolicySignatureRequestReplyMsg,
+    raPgPolicySignatureRequest   RaPgPolicySignatureRequest,
+    pgRaPolicySignatureResponse  PgRaPolicySignatureResponse,
     ...
 }
 
@@ -111,13 +111,13 @@ SignedCustomPolicyFile ::= BasePolicyFile (WITH COMPONENTS {...,
 --        mix of global parameters and local parameters.  The global portion
 --        must be approved and signed by the PG before it can be distributed
 --        to EEs.  
--- @class RaPgPolicySignatureRequestMsg 
+-- @class RaPgPolicySignatureRequest 
 -- @param version contains the current version of the data type. The version 
 --                specified in this document is version 1, represented by the
 --                integer 1.
 -- @param tbs     contains the policy file data that is signed by PG.
 -- @see Uint8
-RaPgPolicySignatureRequestMsg ::= SEQUENCE {
+RaPgPolicySignatureRequest ::= SEQUENCE {
     version    Uint8(1),
     tbs        ToBeSignedCustomPolicyFile,
     ...
@@ -125,9 +125,9 @@ RaPgPolicySignatureRequestMsg ::= SEQUENCE {
 
 
 ---
--- @brief PG uses this data type to respond to RaPgPolicySignatureRequestMsg
+-- @brief PG uses this data type to respond to RaPgPolicySignatureRequest
 --        from RA.
--- @class RaPgPolicySignatureRequestReplyMsg 
+-- @class PgRaPolicySignatureResponse 
 -- @param version    contains the current version of the data type. The version 
 --                   specified in this document is version 1, represented by 
 --                   the integer 1.
@@ -135,7 +135,7 @@ RaPgPolicySignatureRequestMsg ::= SEQUENCE {
 --                   has no errors. Otherwise, an appropriate error code is
 --                   included.
 -- @see Uint8, RaPgError
-RaPgPolicySignatureRequestReplyMsg ::= SEQUENCE {
+PgRaPolicySignatureResponse ::= SEQUENCE {
     version    Uint8(1),
     signedFile   CHOICE {
        success       SignedCustomPolicyFile,

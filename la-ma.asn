@@ -61,24 +61,24 @@ FROM Ieee1609dot2ScmsError {iso(1) identified-organization(3) ieee(111)
 -- @class LaMaInterfacePDU
 -- @param maLaLinkageInfoRequest  contains message to request linkage values
 --                                from LA.
--- @param laMaLinkageInfoResponse contains response to MaLaLinkageInfoRequestMsg
+-- @param laMaLinkageInfoResponse contains response to MaLaLinkageInfoRequest
 --                                with requested linkage values.
 -- @param maLaLinkageSeedRequest  contains message to request linkage seed
 --                                information LA.
 -- @param laMaLinkageSeedResponse contains response to MaLaLinkageSeedRequest
 --                                with requested linkage seed.
 LaMaInterfacePDU::= CHOICE {
-    maLaLinkageInfoRequest  MaLaLinkageInfoRequestMsg,
-    laMaLinkageInfoResponse LaMaLinkageInfoResponseMsg,
-    maLaLinkageSeedRequest  MaLaLinkageSeedRequestMsg,
-    laMaLinkageSeedResponse LaMaLinkageSeedResponseMsg,
+    maLaLinkageInfoRequest  MaLaLinkageInfoRequest,
+    laMaLinkageInfoResponse LaMaLinkageInfoResponse,
+    maLaLinkageSeedRequest  MaLaLinkageSeedRequest,
+    laMaLinkageSeedResponse LaMaLinkageSeedResponse,
     ...
 }
 
 ---
 -- @brief This data type is used by the MA to request linkage information from
 --        LA.
--- @class MaLaLinkageInfoRequestMsg 
+-- @class MaLaLinkageInfoRequest 
 -- @param version    contains the current version of the data type. The version
 --                   specified in this document is version 1,
 -- @param tbs        contains the request with linkage information that is
@@ -88,7 +88,7 @@ LaMaInterfacePDU::= CHOICE {
 --                   when MA creates an initial request to be signed by
 --                   auditors.
 -- @see Uint8, Countersignature
-MaLaLinkageInfoRequestMsg ::= SEQUENCE {
+MaLaLinkageInfoRequest ::= SEQUENCE {
     version     Uint8(1),
     tbs         ToBeSignedLIRequestMsg,
     signatures  SEQUENCE (SIZE (0..MAX)) OF Countersignature
@@ -154,8 +154,8 @@ ExpectedReply ::= ENUMERATED {
 
 ---
 -- @brief This data type is used by the LA to respond to
---        MaLaLinkageInfoRequestMsg from MA for Misbehavior Detection.
--- @class LaMaLinkageInfoResponseMsg 
+--        MaLaLinkageInfoRequest from MA for Misbehavior Detection.
+-- @class LaMaLinkageInfoResponse 
 -- @param version     contains the current version of the data type. The 
 --                    version specified in this document is version 1,
 -- @param requestHash contains the hash of the original request.
@@ -164,7 +164,7 @@ ExpectedReply ::= ENUMERATED {
 --                    responds with the requested linkage information.
 --                    Otherwise, LA responds with a suitable error code.
 -- @see Uint8, HashedId8, LaHostnameId, ScopedLaMaLIError
-LaMaLinkageInfoResponseMsg ::= SEQUENCE {
+LaMaLinkageInfoResponse ::= SEQUENCE {
     version       Uint8(1),
     requestHash   HashedId8,
     laId          LaHostnameId,
@@ -198,7 +198,7 @@ LinkageInformation ::= CHOICE {
 ---
 -- @brief This data type is used by the MA to request a linkage seed from LA
 --        for Revocation purposes.
--- @class MaLaLinkageSeedRequestMsg
+-- @class MaLaLinkageSeedRequest
 -- @param version    contains the current version of the data type. The version
 --                   specified in this document is version 1,
 -- @param tbs        contains the linkage seed information which is signed by
@@ -208,7 +208,7 @@ LinkageInformation ::= CHOICE {
 --                   when MA creates an initial request to be signed by
 --                   auditors.
 -- @see 
-MaLaLinkageSeedRequestMsg ::= SEQUENCE {
+MaLaLinkageSeedRequest ::= SEQUENCE {
     version       Uint8(1),
     tbs           ToBeSignedLSRequestMsg,
     signatures    SEQUENCE (SIZE (0..MAX)) OF Countersignature
@@ -229,16 +229,16 @@ ToBeSignedLSRequestMsg ::= SEQUENCE {
 }
 
 ---
--- @brief This data type is used by LA to respond to MaLaLinkageSeedRequestMsg
+-- @brief This data type is used by LA to respond to MaLaLinkageSeedRequest
 --        from MA for Revocation purposes.
--- @class LaMaLinkageSeedResponseMsg 
+-- @class LaMaLinkageSeedResponse 
 -- @param version     contains the current version of the data type. The 
 --                    version specified in this document is version 1,
 -- @param requestHash contains the hash of the original request.
 -- @param laId        is the unique hostname ID of an LA.
 -- @param lsInfo      contains linkage seed and LCI requested by MA.
 -- @see Uint8, HashedId8, LaHostnameId
-LaMaLinkageSeedResponseMsg ::= SEQUENCE {
+LaMaLinkageSeedResponse ::= SEQUENCE {
     version     Uint8(1),
     requestHash HashedId8,
     laId        LaHostnameId,

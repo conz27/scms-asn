@@ -62,34 +62,28 @@ FROM Ieee1609dot2ScmsError {iso(1) identified-organization(3) ieee(111)
 -- @brief The MaRaInterfacePDU is the parent message type for messages sent
 --        between Misbehavior Authority (MA) and Registration Authority (RA).
 -- @class MaRaInterfacePDU 
--- @param maRaBlacklistRequest          contains request from MA to obtain
---                                      internal blacklist of RA for pseudonym
---                                      certificate.
--- @param raMaBlacklistResponse         contains response from RA to
---                                      MaRaBlacklistRequestMsg from MA. 
--- @param maRaLCIRequest                contains request from MA to obtain
---                                      linkage chain ID from RA. 
--- @param raMaLCIResponse               contains response from RA to
---                                      MaRaLCIRequestMsg from MA. 
--- @param maRaRseObeIdBlacklistRequest  contains request from MA to obtain
---                                      internal blacklist of RA for all
---                                      certificates expect pseudonym
---                                      certificate.
--- @param raMaRseObeIdBlacklistResponse contains response from RA to
---                                      MaRaRseObeIdBlacklistRequest from MA.
--- @param maRaCDVRequest                contains request from MA to obtain
---                                      certificate digest values (CDV) from RA.
--- @param raMaCDVResponse               contains response from RA to
---                                      MaRaCDVRequest from MA.
+-- @param maRaPseudonymBlacklistRequest          contains request from MA to obtain
+--                                               internal blacklist of RA for pseudonym
+--                                               certificate.
+-- @param raMaPseudonymBlacklistResponse         contains response from RA to
+--                                               MaRaPseudonymBlacklistRequest from MA. 
+-- @param maRaPseudonymLCIRequest                contains request from MA to obtain
+--                                               linkage chain ID from RA. 
+-- @param raMaPseudonymLCIResponse               contains response from RA to
+--                                               MaRaPseudonymLCIRequest from MA. 
+-- @param maRaIdBlacklistRequest                 contains request from MA to obtain
+--                                               internal blacklist of RA for all
+--                                               certificates expect pseudonym
+--                                               certificate.
+-- @param raMaIdBlacklistResponse                contains response from RA to
+--                                               MaRaIdBlacklistRequest from MA.
 MaRaInterfacePDU ::= CHOICE {
-    maRaBlacklistRequest   MaRaBlacklistRequestMsg,
-    raMaBlacklistResponse  RaMaBlacklistResponseMsg,
-    maRaLCIRequest         MaRaLCIRequestMsg,
-    raMaLCIResponse        RaMaLCIResponseMsg,
-    maRaRseObeIdBlacklistRequest    MaRaRseObeIdBlacklistRequestMsg,
-    raMaRseObeIdBlacklistResponse   RaMaRseObeIdBlacklistResponseMsg,
-    maRaCDVRequest          MaRaCDVRequestMsg,
-    raMaCDVResponse         RaMaCDVResponseMsg,
+    maRaPseudonymBlacklistRequest   	MaRaPseudonymBlacklistRequest,
+    raMaPseudonymBlacklistResponse  	RaMaPseudonymBlacklistResponse,
+    maRaPseudonymLCIRequest         	MaRaPseudonymLCIRequest,
+    raMaPseudonymLCIResponse        	RaMaPseudonymLCIResponse,
+    maRaIdBlacklistRequest   		MaRaIdBlacklistRequest,
+    raMaIdBlacklistResponse  		RaMaIdBlacklistResponse,
     ...
 }
 
@@ -97,7 +91,7 @@ MaRaInterfacePDU ::= CHOICE {
 -- @brief This data type is used by MA to request internal blacklist of RA.
 --        Note that this is actually signed by the MA at the scms-protocol
 --        level.
--- @class MaRaBlacklistRequestMsg 
+-- @class MaRaPseudonymBlacklistRequest 
 -- @param version    contains the current version of the data type. The version 
 --                   specified in this document is version 1, represented by 
 --                   the integer 1.
@@ -107,7 +101,7 @@ MaRaInterfacePDU ::= CHOICE {
 --                   obtain from Auditors before sending this request. Size 0
 --                   is used when no countersignatures are necessary
 -- @see Uint8, Countersignature
-MaRaBlacklistRequestMsg ::= SEQUENCE {
+MaRaPseudonymBlacklistRequest ::= SEQUENCE {
     version    Uint8(1),
     tbs        ToBeSignedBlacklistingInstructionMsg,
     signatures SEQUENCE SIZE (0..MAX) OF Countersignature
@@ -128,8 +122,8 @@ ToBeSignedBlacklistingInstructionMsg ::= SEQUENCE {
 }
 
 ---
--- @brief RA uses this data type to respond to MaRaBlacklistRequestMsg from MA.
--- @class RaMaBlacklistResponseMsg 
+-- @brief RA uses this data type to respond to MaRaPseudonymBlacklistRequest from MA.
+-- @class RaMaPseudonymBlacklistResponse 
 -- @param version     contains the current version of the data type. The 
 --                    version specified in this document is version 1, 
 --                    represented by the integer 1.
@@ -137,7 +131,7 @@ ToBeSignedBlacklistingInstructionMsg ::= SEQUENCE {
 -- @param raId        is the 256 bit unique hostname ID of RA.
 -- @param status      is the list that tells status of each requested HPCRs.
 -- @see Uint8, HashedId8, RaHostnameId
-RaMaBlacklistResponseMsg ::= SEQUENCE {
+RaMaPseudonymBlacklistResponse ::= SEQUENCE {
     version          Uint8(1),
     requestHash      HashedId8,
     raId             RaHostnameId,
@@ -164,7 +158,7 @@ BlacklistingStatus ::= SEQUENCE {
 -- @brief MA uses this data type to request linkage chain identifiers from RA.
 --        Note that this is actually signed by the MA at the scms-protocol
 --        level.
--- @class MaRaLCIRequestMsg 
+-- @class MaRaPseudonymLCIRequest 
 -- @param version    contains the current version of the data type. The version
 --                   specified in this document is version 1, represented by
 --                   the integer 1.
@@ -174,7 +168,7 @@ BlacklistingStatus ::= SEQUENCE {
 --                   auditors before sending this message. Size 0 is used when
 --                   no countersignatures are necessary.
 -- @see Uint8, Countersignature
-MaRaLCIRequestMsg ::= SEQUENCE {
+MaRaPseudonymLCIRequest ::= SEQUENCE {
     version    Uint8(1),
     tbs        ToBeSignedLCIRequestMsg,
     signatures SEQUENCE SIZE (0..MAX) OF Countersignature
@@ -194,8 +188,8 @@ ToBeSignedLCIRequestMsg ::= SEQUENCE {
 }
 
 ---
--- @brief RA uses this data type to respond to MaRaLCIRequestMsg from MA.
--- @class RaMaLCIResponseMsg 
+-- @brief RA uses this data type to respond to MaRaPseudonymLCIRequest from MA.
+-- @class RaMaPseudonymLCIResponse 
 -- @param version     contains the current version of the data type. The 
 --                    version specified in this document is version 1, 
 --                    represented by the integer 1.
@@ -203,7 +197,7 @@ ToBeSignedLCIRequestMsg ::= SEQUENCE {
 -- @param raId        is the 256 bit unique hostname ID of RA.
 -- @param lciInfo     is the list of mapping between HPCR and their LCIs.
 -- @see Uint8, HashedId8, RaHostnameId
-RaMaLCIResponseMsg ::= SEQUENCE {
+RaMaPseudonymLCIResponse ::= SEQUENCE {
     version          Uint8(1),
     requestHash      HashedId8,
     raId             RaHostnameId,
@@ -235,7 +229,7 @@ HPCR2LCI ::= SEQUENCE {
 --        with certificates other than pseudonym certificates. Revocation is
 --        done using a Revocation Identifier (RIF). MA signs this at scms
 --        protocol level.
--- @class MaRaRseObeIdBlacklistRequestMsg 
+-- @class MaRaIdBlacklistRequest 
 -- @param version    contains the current version of the data type. The 
 --                   version specified in this document is version 1, 
 --                   represented by the integer 1.
@@ -245,7 +239,7 @@ HPCR2LCI ::= SEQUENCE {
 --                   auditors before sending this message. Size 0 is used when
 --                   no countersignatures are necessary.
 -- @see Uint8, Countersignature
-MaRaRseObeIdBlacklistRequestMsg ::= SEQUENCE {
+MaRaIdBlacklistRequest ::= SEQUENCE {
     version    Uint8(1),
     tbs        ToBeSignedRseObeIdBlacklistingInstructionMsg,
     signatures SEQUENCE SIZE (0..MAX) OF Countersignature
@@ -265,9 +259,9 @@ ToBeSignedRseObeIdBlacklistingInstructionMsg ::= SEQUENCE {
 }
 
 ---
--- @brief RA uses this data type to respond to MaRaRseObeIdBlacklistRequestMsg
+-- @brief RA uses this data type to respond to MaRaIdBlacklistRequest
 --        from MA.
--- @class RaMaRseObeIdBlacklistResponseMsg 
+-- @class RaMaIdBlacklistResponse 
 -- @param version     contains the current version of the data type. The 
 --                    version specified in this document is version 1, 
 --                    represented by the integer 1.
@@ -276,7 +270,7 @@ ToBeSignedRseObeIdBlacklistingInstructionMsg ::= SEQUENCE {
 -- @param status      is the list that tells blacklisting status of each
 --                    requested RIFs.
 -- @see Uint8, HashedId8, RaHostnameId
-RaMaRseObeIdBlacklistResponseMsg ::= SEQUENCE {
+RaMaIdBlacklistResponse ::= SEQUENCE {
     version          Uint8(1),
     requestHash      HashedId8,  -- hash of the original request
     raId             RaHostnameId,
@@ -298,73 +292,6 @@ RseObeIdBlacklistingStatus ::= SEQUENCE {
       failure  ScopedMaRaBlacklistError
     }
 }
-
----
--- @brief MA uses this data type to request certificate digest values (CDV) 
---        from RA MA signs this at scms-protocol level.
--- @class MaRaCDVRequestMsg 
--- @param version    contains the current version of the data type. The 
---                   version specified in this document is version 1, 
---                   represented by the integer 1.
--- @param tbs        contains information of MA and requested CDVs. MA signs
---                   this at scms-protocol level.
--- @param signatures is the list of signatures that the MA has to obtain from
---                   auditors before sending this message. Size 0 is used when
---                   no countersignatures are necessary.
--- @see Uint8, Countersignature
-MaRaCDVRequestMsg ::= SEQUENCE {
-    version    Uint8(1),
-    tbs        ToBeSignedCDVRequestMsg,
-    signatures SEQUENCE SIZE (0..MAX) OF Countersignature
-}
-
----
--- @brief This data type is used by MA to enclose its information and the RIFs
---        for which it wants to request the blacklist.
--- @class ToBeSignedCDVRequestMsg 
--- @param maId      is the 256 bit system-wide unique ID of MA.
--- @param rifValues is an 8-byte revocation identifier array in scms-base-types.asn.
--- @see MaHostnameId, RIF
-ToBeSignedCDVRequestMsg ::= SEQUENCE {
-    maId       MaHostnameId,
-    rifValues  SEQUENCE OF RIF,
-    ...
-}
-
----
--- @brief RA uses this data type to respond to MaRaCDVRequestMsg from MA.
--- @class RaMaCDVResponseMsg 
--- @param version     contains the current version of the data type. The 
---                    version specified in this document is version 1, 
---                    represented by the integer 1.
--- @param requestHash is the hash of the original request.
--- @param raId        is the 256 bit unique hostname ID of RA.
--- @param cdvInfo     is the list of mapping between RIFs and their CDVs.
---                    requested RIFs.
--- @see Uint8, HashedId8, RaHostnameId
-RaMaCDVResponseMsg ::= SEQUENCE {
-    version         Uint8(1),
-    requestHash     HashedId8,
-    raId            RaHostnameId,
-    cdvInfo         SEQUENCE OF CdvInfo
-}
-
----
--- @brief RA uses this data type to map RIFs with their CDVs.
--- @class CdvInfo 
--- @param rif  is an 8-byte revocation identifier array in scms-base-types.asn.
--- @param reply contains the CDV for each input in case of no errors in request
---              from MA. Otherwise, an appropriate error code is included.
--- @see RIF, HashedId8, ScopedMaRaBlacklistError
-CdvInfo ::= SEQUENCE {  
-	rif        RIF,
-	reply CHOICE {			
-        -- for each input rif, a list of certificate digests (HashedId8) is returned
-        success  SEQUENCE OF HashedId10,
-        failure  ScopedMaRaBlacklistError
-	}
-}
-
 
 END
 
