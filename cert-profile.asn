@@ -1047,7 +1047,7 @@ PgCertificate ::= ExplicitCertificate (WITH COMPONENTS { ...,
     appPermissions (SequenceOfPsidSsp (SIZE(1)) (CONSTRAINED BY {
       PsidSsp (WITH COMPONENTS {
         psid (SecurityMgmtPsid), -- PSID = 0x23
-        ssp --OER encoding of ScmsSsp indicating PgSsp
+        ssp --OER encoding of ScmsSsp indicating PGSsp
       })
     })),
     certIssuePermissions ABSENT,
