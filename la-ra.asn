@@ -57,12 +57,9 @@ FROM Ieee1609dot2ScmsError {iso(1) identified-organization(3) ieee(111)
 --        between Linkage Authority (LA) and the Registration Authority (RA).
 -- @class LaRaInterfacePDU
 -- @param raLaPreLinkageValueRequest contains the PLV request sent
---                                             by RA to LA.
--- @param raLaGroupPreLinkageValueRequest      contains the group PLV request
---                                             sent by RA to LA.
--- @param laRaPreLinkageValueResponse          contains the response to both
---                                             individual and group PLV
---                                             requests from RA.
+--                                   by RA to LA.
+-- @param laRaPreLinkageValueResponse contains the response to PLV
+--                                    requests from RA.
 LaRaInterfacePDU::= CHOICE {
     raLaPreLinkageValueRequest   RaLaPreLinkageValueRequest,
     laRaPreLinkageValueResponse 	LaRaPreLinkageValueResponse,
