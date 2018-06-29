@@ -2377,7 +2377,7 @@ ScopedGlobalPolicyFile ::= ScmsFile (WITH COMPONENTS {...,
 -- @brief This structure is the 1609.2 signed encapsulation of ScopedGlobalPolicyFile.  
 --        For the signature to be valid the signing certificate must contain a PSID
 --        equal to SecurityMgmtPsid (0x23) and a corresponding SSP containing the OER
---        encoding of an ScmsSsp indicating PgSsp.  
+--        encoding of an ScmsSsp indicating PGSsp.  
 -- @class SignedGlobalPolicyFile
 -- @see ScopedGlobalPolicyFile, GlobalPolicyFile 
 SignedGlobalPolicyFile ::= Ieee1609Dot2Data( WITH COMPONENTS{...,
