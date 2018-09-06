@@ -92,7 +92,7 @@ EcaEndEntityInterfacePDU::= CHOICE {
 --                    represented by the integer 1.
 -- @param currentTime contains the time of creation of EeEcaCertRequest.
 -- @param tbsData     contains the ToBeSignedCertificate data used by the ECA 
---                    to generate the EE’s enrollment certificate. The 
+--                    to generate the EE's enrollment certificate. The 
 --                    ToBeSignedCertificate is specified in Section 6.4.8 of
 --                    IEEE 1609.2-2016.
 -- @see Uint8, Time32, ToBeSignedCertificate
@@ -113,7 +113,7 @@ EeEcaCertRequest ::= SEQUENCE {
 }
 
 ---
--- @brief This data type is used by the ECA to respond to an EE’s enrollment 
+-- @brief This data type is used by the ECA to respond to an EE's enrollment 
 --        certificate request. Additional bootstrapping information including 
 --        the RA's certificate are provided by the DCM in a zipped file.
 -- @class EcaEeCertResponse

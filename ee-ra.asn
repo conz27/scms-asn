@@ -74,11 +74,11 @@ FROM Ieee1609Dot2ScmsComponentCertificateManagement {iso(1)
 -- @brief The EndEntityRaInterfacePDU is the parent message type for messages 
 --        sent between end entities and the Registration Authority.
 -- @class EndEntityRaInterfacePDU
--- @param eeRaCertRequest                      contains a message from an EE 
+-- @param eeRaRaCertRequest                    contains a message from an EE 
 --                                             to the RA to request a copy of
---                                             the RA’s currently valid
+--                                             the RA's currently valid
 --                                             certificate.
--- @param raEeCertResponse                     is a message from the RA to the 
+-- @param raEeRaCertResponse                   is a message from the RA to the 
 --                                             EE as a response to
 --                                             EeRaCertRequest.
 -- @param eeRaPseudonymCertProvisioningRequest is a message from an EE to the 
@@ -87,51 +87,51 @@ FROM Ieee1609Dot2ScmsComponentCertificateManagement {iso(1)
 -- @param raEePseudonymCertProvisioningAck     is a message from the RA to the 
 --                                             EE to acknowledge the receipt
 --                                             of EeRaPseudonymCertProvisioningRequest.
--- @param eeRaIdCertProvisioningRequest        is a message from an EE to the 
+-- @param eeRaIdCertRequest                    is a message from an EE to the 
 --                                             RA to request an identification
 --                                             certificate.
--- @param raEeIdCertProvisioningAck            is a message from the RA to the 
+-- @param raEeIdCertAck                        is a message from the RA to the 
 --                                             EE to acknowledge the receipt
---                                             of EeRaIdCertProvisioningRequest.
--- @param eeRaAppCertProvisioningRequest       is a message from an EE to the 
+--                                             of EeRaIdCertRequest.
+-- @param eeRaAppCertRequest                   is a message from an EE to the 
 --                                             RA to request an application
 --                                             certificate.
--- @param raEeAppCertProvisioningAck           is a message from the RA to the 
+-- @param raEeAppCertAck                       is a message from the RA to the 
 --                                             EE to acknowledge the receipt
---                                             of EeRaAppCertProvisioningRequest.
+--                                             of EeRaAppCertRequest.
 -- @param eeRaAuthenticatedDownloadRequest     is a message from an EE to the 
 --                                             RA to request the download of
 --                                             certificates (once they are ready).
 EndEntityRaInterfacePDU::= CHOICE {
-    eeRaCertRequest                      EeRaCertRequestMsg,
-    raEeCertResponse                     RaEeCertResponseMsg,
+    eeRaRaCertRequest                    EeRaRaCertRequest,
+    raEeRaCertResponse                   RaEeRaCertResponse,
     eeRaPseudonymCertProvisioningRequest EeRaPseudonymCertProvisioningRequest,
     raEePseudonymCertProvisioningAck     RaEePseudonymCertProvisioningAck,
-    eeRaIdCertProvisioningRequest        EeRaIdCertProvisioningRequest,
-    raEeIdCertProvisioningAck            RaEeIdCertProvisioningAck,
-    eeRaAppCertProvisioningRequest       EeRaAppCertProvisioningRequest,
-    raEeAppCertProvisioningAck           RaEeAppCertProvisioningAck,
-    eeRaAuthenticatedDownloadRequest     AuthenticatedDownloadRequest,
+    eeRaIdCertRequest        			EeRaIdCertRequest,
+    raEeIdCertAck            			RaEeIdCertAck,
+    eeRaAppCertRequest       			EeRaAppCertRequest,
+    raEeAppCertAck           			RaEeAppCertAck,
+    eeRaAuthenticatedDownloadRequest     EeRaAuthenticatedDownloadRequest,
     ...
 }
 
 ---
 -- @brief This message is sent from an EE to the RA to request the RAs
 --        currently valid certificate.
--- @class EeRaCertRequestMsg
+-- @class EeRaRaCertRequest
 -- @param version contains the current version of the data type. The version 
 --                specified in this document is version 1, represented by the
 --                integer 1.
 -- @see Uint8
-EeRaCertRequestMsg ::= SEQUENCE {
+EeRaRaCertRequest ::= SEQUENCE {
     version         Uint8(1),
     ...
 }
 
 ---
 -- @brief This message contains an acknowledgement from the RA to an EE's
---        EeRaCertRequestMsg.
--- @class RaEeCertResponseMsg
+--        EeRaRaCertRequest.
+-- @class RaEeRaCertResponse
 -- @param version contains the current version of the data type. The version 
 --                specified in this document is version 1, represented by the
 --                integer 1.
@@ -139,7 +139,7 @@ EeRaCertRequestMsg ::= SEQUENCE {
 --                of the document, only one choice option is supported, namely 
 --                an acknowledgement (ack) of type RaEeCertResponseAck.
 -- @see Uint8
-RaEeCertResponseMsg ::= SEQUENCE {
+RaEeRaCertResponse ::= SEQUENCE {
     version         Uint8(1),
   	reply           CHOICE {
         ack           RaEeCertResponseAck,
@@ -185,7 +185,7 @@ UnsignedButterflyParams ::= SEQUENCE {
 -- @brief Identification certificate provisioning request sent by an EE (OBE) to the RA.
 --        These are signed and encrypted before sending, see scms-protocol.asn. Note that
 --        Identification certificates use Butterfly keys.
--- @class EeRaIdCertProvisioningRequest
+-- @class EeRaIdCertRequest
 -- @param version           contains the current version of the data type. The 
 --                          version specified in this document is version 1.
 -- @param verify-key-info   provides the information for the SCMS to generate 
@@ -207,7 +207,7 @@ UnsignedButterflyParams ::= SEQUENCE {
 --                          certificates.
 -- @param current-time      indicates the time of request generation
 -- @see Uint8, Time32, UnsignedButterflyParams
-EeRaIdCertProvisioningRequest ::= SEQUENCE {
+EeRaIdCertRequest ::= SEQUENCE {
     version                      Uint8(1),
     verify-key-info              UnsignedButterflyParams,
     cert-enc-key-info            UnsignedButterflyParams OPTIONAL,
@@ -221,7 +221,7 @@ EeRaIdCertProvisioningRequest ::= SEQUENCE {
 -- @brief Application certificate provisioning request sent by an EE (RSE) to the RA.
 --        Similar to the EeRaIdCertProvisioningRequest defined above, except that 
 --        butterfly keys are not used in this case.
--- @class EeRaAppCertProvisioningRequest
+-- @class EeRaAppCertRequest
 -- @param version                  contains the current version of the data 
 --                                 type. The version specified in this
 --                                 document is version 1.
@@ -246,7 +246,7 @@ EeRaIdCertProvisioningRequest ::= SEQUENCE {
 --                                 requested certificates to take effect (in terms
 --                                 of validity).
 -- @see Uint8, Time32 PublicVerificationKey, PublicEncryptionKey
-EeRaAppCertProvisioningRequest ::= SEQUENCE {
+EeRaAppCertRequest ::= SEQUENCE {
     version                 Uint8(1),
     verify-key              PublicVerificationKey,
     cert-encryption-key     PublicEncryptionKey OPTIONAL,
@@ -327,25 +327,25 @@ PseudonymCertProvisioningAck ::= SEQUENCE {
 ---
 -- @brief This structure represents the acknowledgement of the RA that it has 
 --        received an EE's identity certificate provisioning request.
--- @class RaEeIdCertProvisioningAck
-RaEeIdCertProvisioningAck ::= RaEePseudonymCertProvisioningAck
+-- @class RaEeIdCertAck
+RaEeIdCertAck ::= RaEePseudonymCertProvisioningAck
 
 ---
 -- @brief This structure represents the acknowledgement of the RA that it has 
 --        received an EE's application certificate provisioning request.
--- @class RaEeAppCertProvisioningAck
-RaEeAppCertProvisioningAck ::= RaEePseudonymCertProvisioningAck
+-- @class RaEeAppCertAck
+RaEeAppCertAck ::= RaEePseudonymCertProvisioningAck
 
 ---
 -- @brief This structure represents the EE’s request for download from the RA. 
 --        The request indicates the time of the download request in addition
 --        to the requested filename.
--- @class AuthenticatedDownloadRequest
+-- @class EeRaAuthenticatedDownloadRequest
 -- @param timestamp contains the time at which the download request for the 
 --                  file (filename) was generated.
 -- @param filename  contains the name of the file to download.
 -- @see Time32
-AuthenticatedDownloadRequest ::= SEQUENCE {
+EeRaAuthenticatedDownloadRequest ::= SEQUENCE {
     timestamp      Time32,
     filename       UTF8String (SIZE(0..255)),
     ...

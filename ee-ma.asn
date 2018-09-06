@@ -35,15 +35,15 @@ DEFINITIONS AUTOMATIC TAGS ::= BEGIN
 
 EXPORTS ALL;
 
-IMPORTS 
+IMPORTS
   Opaque,
   Signature,
   Time32,
   ThreeDLocation,
   Uint8
 FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111)
-  standards-association-numbered-series-standards(2) wave-stds(1609)  
-		dot2(2) base(1) base-types(2) major-version-2(2)}
+     standards-association-numbered-series-standards(2) wave-stds(1609)
+	 dot2(2) base(1) base-types(2) major-version-2(2)}
 
 ;
 
@@ -51,15 +51,15 @@ FROM IEEE1609dot2BaseTypes {iso(1) identified-organization(3) ieee(111)
 -- @brief The EndEntityMaInterfacePDU is the parent message type for messages sent between End
 --        Entities (EE) and the Misbehavior Authority (MA).
 -- @class EndEntityMaInterfacePDU
--- @param misbehaviorReport contains the misbehavior report sent by an end entity to the MA.
+-- @param eeMaMisbehaviorReport contains the misbehavior report sent by an end entity to the MA.
 EndEntityMaInterfacePDU::= CHOICE {
-    misbehaviorReport   MisbehaviorReportContents,
+    eeMaMisbehaviorReport   EeMaMisbehaviorReport,
     ...
 }
 
 ---
 -- @brief This data type contains the structure of a misbehavior report sent by an end entity to the MA.
--- @class MisbehaviorReportContents
+-- @class EeMaMisbehaviorReport
 -- @param version               contains the current version of the data type. The version specified
 --                              in this document is version 1, represented by the integer 1.
 -- @param misbehavingDeviceInfo opaque and currently unused.
@@ -68,9 +68,9 @@ EndEntityMaInterfacePDU::= CHOICE {
 -- @param reporterDeviceBSMs    contains BSMs of the reporting EE in the form of an array of BSMs.
 -- @param sensorInfo            opaque and currently unused.
 -- @see Uint8, Opaque, BasicSafetyMessage
-MisbehaviorReportContents ::= SEQUENCE {
+EeMaMisbehaviorReport ::= SEQUENCE {
     version Uint8(1),
-    misbehavingDeviceInfo Opaque,  -- placeholder
+    misbehavingDeviceInfo Opaque, -- placeholder
     misbehavingDeviceBSMs OCTET STRING OPTIONAL, -- non-OER encoded ASN.1 messages
     reporterDeviceBSMs OCTET STRING OPTIONAL, -- non-OER encoded ASN.1 messages
     sensorInfo Opaque OPTIONAL, -- placeholder: non-V2V related sensor information, if available
@@ -78,3 +78,4 @@ MisbehaviorReportContents ::= SEQUENCE {
 }
 
 END
+

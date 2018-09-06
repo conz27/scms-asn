@@ -115,7 +115,6 @@ CompositeVersion ::= SEQUENCE {
 	raHostname Hostname
 }
 
-
 ---
 -- @brief A certificate store is a list of root and elector endorsements plus
 --        lists of ICA and PCA certificates needed by EEs to validate message.

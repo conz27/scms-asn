@@ -88,10 +88,10 @@ FROM Ieee1609dot2ScmsError {iso(1) identified-organization(3) ieee(111)
 -- @param pcaMaHPCRResponse            contains the response message with
 --                                     requested HPCR, sent from PCA to MA.
 MaPcaInterfacePDU ::= CHOICE {
-    maPcaPreLinkageValueRequest   MaPcaPreLinkageValueRequestMsg,
-    pcaMaPreLinkageValueResponse  PcaMaPreLinkageValueResponseMsg,
-    maPcaHPCRRequest              MaPcaHPCRRequestMsg,
-    pcaMaHPCRResponse             PcaMaHPCRResponseMsg,
+    maPcaPreLinkageValueRequest   MaPcaPreLinkageValueRequest,
+    pcaMaPreLinkageValueResponse  PcaMaPreLinkageValueResponse,
+    maPcaHPCRRequest              MaPcaHPCRRequest,
+    pcaMaHPCRResponse             PcaMaHPCRResponse,
     ...
 }
 
@@ -99,19 +99,17 @@ MaPcaInterfacePDU ::= CHOICE {
 -- @brief MA uses this data type to request pre-linkage value from PCA for
 --        misbehavior detection. Note that this is actually signed by the MA
 --        at the scms-protocol level.
--- @class MaPcaPreLinkageValueRequestMsg 
+-- @class MaPcaPreLinkageValueRequest 
 -- @param version    contains the current version of the data type. The version 
 --                   specified in this document is version 1, represented by 
 --                   the integer 1.
 -- @param tbs        is the request message data that is signed by the MA at
 --                   scms-protocol level.
--- @param signatures is an array of signatures proving that the MA is authorized
---                    to perform this instruction; signatures can either be
---                    a) the signature of the MA
---                    b) the signature of the MA and of multiple Auditors. Size 0 is used
+-- @param signatures contains countersignatures that the MA has to obtain from
+--                   auditors before requesting PLVs from PCA. Size 0 is used
 --                   when no countersignatures are necessary.
 -- @see Uint8, Countersignature
-MaPcaPreLinkageValueRequestMsg ::= SEQUENCE {
+MaPcaPreLinkageValueRequest ::= SEQUENCE {
     version         Uint8(1),
     tbs             ToBeSignedMaPcaPreLinkageValueRequestMsg,
     signatures      SEQUENCE (SIZE (0..MAX)) OF Countersignature
@@ -136,9 +134,9 @@ ToBeSignedMaPcaPreLinkageValueRequestMsg ::= SEQUENCE {
 }
 
 ---
--- @brief PCA uses this data type to respond to MaPcaPreLinkageValueRequestMsg
+-- @brief PCA uses this data type to respond to MaPcaPreLinkageValueRequest
 --        from MA with PLVs for misbehavior detection.
--- @class PcaMaPreLinkageValueResponseMsg 
+-- @class PcaMaPreLinkageValueResponse 
 -- @param version     contains the current version of the data type. The 
 --                    version specified in this document is version 1, 
 --                    represented by the integer 1.
@@ -146,7 +144,7 @@ ToBeSignedMaPcaPreLinkageValueRequestMsg ::= SEQUENCE {
 -- @param pcaId       is the 256 bit unique hostname ID of PCA.
 -- @param plvInfo     is a list of linkage values and their corresponding PLVs.
 -- @see Uint8, HashedId8, PcaHostnameId
-PcaMaPreLinkageValueResponseMsg ::= SEQUENCE {
+PcaMaPreLinkageValueResponse ::= SEQUENCE {
     version         Uint8(1),
     requestHash     HashedId8,
     pcaId           PcaHostnameId,
@@ -155,12 +153,11 @@ PcaMaPreLinkageValueResponseMsg ::= SEQUENCE {
 
 ---
 -- @brief This data type is used by PCA to enclose linkage values and
---        corresponding encrypted PLVs (ePLV) or error codes.
+--        corresponding ePLVs or error codes.
 -- @class Lv2Plv 
 -- @param lv    contains linkage value sent by MA in its request.
--- @param reply contains an encrypted PLV corresponding to the linkage
---              value requested and the LA's hostname when requested by 
---              MA when there is no error in MA request. Otherwise, an
+-- @param reply contains an encrypted PLV information when requested by MA
+--              when there is no error in MA request. Otherwise, an
 --              appropriate error code is sent.
 -- @see LinkageValue, EncryptedPlvAndHostInfo, ScopedMaPcaError
 Lv2Plv ::= SEQUENCE {  
@@ -174,22 +171,19 @@ Lv2Plv ::= SEQUENCE {
 ---
 -- @brief This data type is used by MA to request the hash(
 --        pseudonym_certificate_request_by_RA), HPCR, sent by MA to PCA for
---        revocation purposes. This hash will subsequently be sent to the RA
---        so that it can add the corresponding certificate to its internal 
---        blacklist. Note that this is actually signed by the MA at the scms-protocol level.
--- @class MaPcaHPCRRequestMsg 
+--        revocation purposes. Note that this is actually signed by the MA at
+--        the scms-protocol level.
+-- @class MaPcaHPCRRequest 
 -- @param version    contains the current version of the data type. The 
 --                   version specified in this document is version 1, 
 --                   represented by the integer 1.
 -- @param tbs        is the request message data that is signed by the MA at
 --                   scms-protocol level.
--- @param signatures is an array of signatures proving that the MA is authorized
---                    to perform this instruction; signatures can either be
---                    a) the signature of the MA
---                    b) the signature of the MA and of multiple Auditors. Size 0 is
+-- @param signatures contains counter signatures that the MA has to obtain
+--                   from auditors before requesting HPCR from PCA. Size 0 is
 --                   used when no countersignatures are necessary.
 -- @see Uint8, Countersignature
-MaPcaHPCRRequestMsg ::= SEQUENCE {
+MaPcaHPCRRequest ::= SEQUENCE {
     version         Uint8(1),
     tbs             ToBeSignedMaPcaHPCRRequestMsg,
     signatures      SEQUENCE (SIZE (0..MAX)) OF Countersignature
@@ -211,10 +205,9 @@ ToBeSignedMaPcaHPCRRequestMsg ::= SEQUENCE {
 }
 
 ---
--- @brief PCA uses this data type to respond to a MaPcaHPCRRequestMsg from MA
---        for revocation purposes containing the hash of the pseudonym
--- certificate request, also know as HPCR
--- @class PcaMaHPCRResponseMsg 
+-- @brief PCA uses this data type to respond to a MaPcaHPCRRequest from MA
+--        for revocation purposes.
+-- @class PcaMaHPCRResponse 
 -- @param version     contains the current version of the data type. The 
 --                    version specified in this document is version 1, 
 --                    represented by the integer 1.
@@ -222,7 +215,7 @@ ToBeSignedMaPcaHPCRRequestMsg ::= SEQUENCE {
 -- @param pcaId       is the 256 bit unique hostname ID of PCA.
 -- @param hpcrinfo    contains the HPCRs for the requested linkage values by MA.
 -- @see Uint8, HashedId8, PcaHostnameId
-PcaMaHPCRResponseMsg ::= SEQUENCE {
+PcaMaHPCRResponse ::= SEQUENCE {
     version         Uint8(1),
     requestHash     HashedId8,
     pcaId           PcaHostnameId,

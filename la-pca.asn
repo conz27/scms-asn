@@ -66,15 +66,15 @@ FROM Ieee1609dot2ScmsBaseTypes {iso(1) identified-organization(3) ieee(111)
 -- @param pcaLaKeyAgreementAck      contains the acknowledgement of receipt of
 --                                  response from LA for key agreement.
 LaPcaInterfacePDU::= CHOICE {
-  pcaLaKeyAgreementRequest    PcaLaKeyAgreementRequestMsg,
-  laPcaKeyAgreementResponse   LaPcaKeyAgreementResponseMsg,
-  pcaLaKeyAgreementAck        PcaLaKeyAgreementAckMsg,
+  pcaLaKeyAgreementRequest    PcaLaKeyAgreementRequest,
+  laPcaKeyAgreementResponse   LaPcaKeyAgreementResponse,
+  pcaLaKeyAgreementAck        PcaLaKeyAgreementAck,
   ...
 }
 
 ---
 -- @brief PCA uses this data type to initiate key agreement with an LA.
--- @class PcaLaKeyAgreementRequestMsg 
+-- @class PcaLaKeyAgreementRequest 
 -- @param version        contains the current version of the data type. The 
 --                       version specified in this document is version 1,
 --                       represented by the integer 1.
@@ -95,7 +95,7 @@ LaPcaInterfacePDU::= CHOICE {
 --                       valid.
 -- @param endDate        denotes the end date until which the request in valid.
 -- @see Uint8, PcaHostnameId, Certificate, EncryptedData, Time32
-PcaLaKeyAgreementRequestMsg ::= SEQUENCE {
+PcaLaKeyAgreementRequest ::= SEQUENCE {
   version        Uint8(1),
   pcaId          PcaHostnameId,
   pcaCertificate Certificate OPTIONAL,
@@ -119,8 +119,8 @@ PcaRandomContribution ::= OCTET STRING (SIZE(32))
 
 ---
 -- @brief This data type is used by the LA to respond to a
---        PcaLaKeyAgreementRequestMsg from a PCA.
--- @class LaPcaKeyAgreementResponseMsg 
+--        PcaLaKeyAgreementRequest from a PCA.
+-- @class LaPcaKeyAgreementResponse 
 --- @param version    contains the current version of the data type. The 
 --                    version specified in this document is version 1,
 --                    represented by the integer 1.
@@ -138,7 +138,7 @@ PcaRandomContribution ::= OCTET STRING (SIZE(32))
 --                    error code is sent in the response. 
 -- @see Uint8, HashedId8, LaHostnameId, EncryptedData, FullSizeHash,
 --      ScopedLaPcaError
-LaPcaKeyAgreementResponseMsg ::= SEQUENCE {
+LaPcaKeyAgreementResponse ::= SEQUENCE {
   version       Uint8(1),
   requestHash   HashedId8,  -- hash of the original request
   laId          LaHostnameId,
@@ -165,7 +165,7 @@ LaRandomContribution ::= OCTET STRING (SIZE(32))
 ---
 -- @brief This data type is used by the PCA to acknowledge receipt of key
 --        agreement response sent by LA.
--- @class PcaLaKeyAgreementAckMsg 
+-- @class PcaLaKeyAgreementAck 
 --- @param version    contains the current version of the data type. The 
 --                    version specified in this document is version 1,
 --                    represented by the integer 1.
@@ -179,7 +179,7 @@ LaRandomContribution ::= OCTET STRING (SIZE(32))
 --                    PCA for PLV decryption. In the case of an error, an
 --                    appropriate error code is sent in the acknowledgement.
 -- @see Uint8, HashedId8, PcaHostnameId, FullSizeHash, ScopedLaPcaError
-PcaLaKeyAgreementAckMsg ::= SEQUENCE {
+PcaLaKeyAgreementAck ::= SEQUENCE {
   version       Uint8(1),
   requestHash   HashedId8,  -- hash of the initial request
   pcaId         PcaHostnameId,
